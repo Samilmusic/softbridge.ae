@@ -1477,9 +1477,7 @@ function inSafeZone(x: number, y: number) {
 }
 
 function resolveSide(n: { x: number; y: number; side: "left" | "right" }): "left" | "right" {
-  // If a right-side label would extend into the panel safe zone, flip to left.
-  if (n.side === "right" && (n.x > 58 && n.y < PANEL_SAFE.yMax + 2)) return "left";
-  if (inSafeZone(n.x, n.y)) return "left";
+  // Map area is now clean (no floating overlay panel) — keep designed sides.
   return n.side;
 }
 

@@ -139,18 +139,34 @@ export function PricingOffer({ id = "pricing-offer", onStartSetup }: PricingOffe
                 ))}
               </ul>
 
-              <Link
-                to={t.href}
-                className={[
-                  "mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-all",
-                  t.popular
-                    ? "bg-slate-900 text-white hover:bg-slate-800 shadow-[0_10px_30px_-10px_rgba(15,23,42,0.5)]"
-                    : "bg-white text-slate-900 ring-1 ring-slate-200 hover:ring-violet-400 hover:bg-violet-50",
-                ].join(" ")}
-              >
-                {t.cta}
-                <ArrowRight className="w-4 h-4 transition group-hover:translate-x-0.5" />
-              </Link>
+              {t.cta === "Explore Starter Setup" && onStartSetup ? (
+                <button
+                  type="button"
+                  onClick={onStartSetup}
+                  className={[
+                    "mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-all cursor-pointer",
+                    t.popular
+                      ? "bg-slate-900 text-white hover:bg-slate-800 shadow-[0_10px_30px_-10px_rgba(15,23,42,0.5)]"
+                      : "bg-white text-slate-900 ring-1 ring-slate-200 hover:ring-violet-400 hover:bg-violet-50",
+                  ].join(" ")}
+                >
+                  {t.cta}
+                  <ArrowRight className="w-4 h-4 transition group-hover:translate-x-0.5" />
+                </button>
+              ) : (
+                <Link
+                  to={t.href}
+                  className={[
+                    "mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-all",
+                    t.popular
+                      ? "bg-slate-900 text-white hover:bg-slate-800 shadow-[0_10px_30px_-10px_rgba(15,23,42,0.5)]"
+                      : "bg-white text-slate-900 ring-1 ring-slate-200 hover:ring-violet-400 hover:bg-violet-50",
+                  ].join(" ")}
+                >
+                  {t.cta}
+                  <ArrowRight className="w-4 h-4 transition group-hover:translate-x-0.5" />
+                </Link>
+              )}
             </div>
           ))}
         </div>

@@ -846,6 +846,7 @@ export function UaeMap() {
                           fill={c}
                           fillOpacity={isActive ? 0.97 : 0.82}
                           filter="url(#node-glow-v3)"
+                          initial={{ r }}
                           animate={{ r }}
                           transition={{ type: "spring", stiffness: 240, damping: 18 }}
                         />

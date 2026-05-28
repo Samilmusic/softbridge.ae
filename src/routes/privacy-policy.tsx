@@ -294,7 +294,7 @@ const SECTIONS = [
     content: (
       <div className="space-y-3">
         <p>For privacy-related inquiries, contact:</p>
-        <p><strong>Soft Bridge FZE LLC</strong><br />Email: <a href={`mailto:${SITE.email}`} className="text-gold hover:underline">{SITE.email}</a><br />Website: <a href="/" className="text-gold hover:underline">https://softbridgefze.com</a></p>
+        <p><strong>Soft Bridge FZE LLC</strong><br />Registration No: <span className="tabular-nums">{SITE.registrationNumber}</span><br />Email: <a href={`mailto:${SITE.email}`} className="text-gold hover:underline">{SITE.email}</a><br />Website: <a href="/" className="text-gold hover:underline">{SITE.website}</a></p>
         <a
           href={WA_LINK}
           target="_blank"

@@ -49,15 +49,14 @@ export function Hero() {
           </p>
 
           <div className="mt-9 flex flex-wrap items-center gap-3">
-            <a
-              href={WA_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => setOnboarding(true)}
               className="group relative inline-flex items-center gap-2 rounded-full gold-gradient px-6 py-3.5 text-sm font-semibold text-[oklch(0.15_0.02_260)] hover:opacity-95 transition shadow-[0_20px_60px_-15px_oklch(0.84_0.10_82/0.5)]"
             >
               Start Your Setup
               <ArrowRight className="w-4 h-4 transition group-hover:translate-x-0.5" />
-            </a>
+            </button>
+
             <a
               href={WA_LINK}
               target="_blank"

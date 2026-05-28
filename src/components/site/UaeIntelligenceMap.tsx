@@ -413,7 +413,7 @@ export function UaeIntelligenceMap() {
                 <g filter="url(#flow-glow)" style={{ pointerEvents: "none" }}>
                   {(() => {
                     const H = UAE_CITIES;
-                    const routes: Array<[[number, number], [number, number]]> = [
+                    const routes: Array<[readonly [number, number], readonly [number, number]]> = [
                       [H["Abu Dhabi"], H["Dubai"]],
                       [H["Dubai"], H["Sharjah"]],
                       [H["Sharjah"], H["Ajman"]],

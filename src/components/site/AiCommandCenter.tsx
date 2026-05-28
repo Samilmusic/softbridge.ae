@@ -118,6 +118,7 @@ export function AiCommandCenter() {
   const orderedFeed = [...FEED.slice(feedIdx), ...FEED.slice(0, feedIdx)];
 
   return (
+    <>
     <section
       id="command-center"
       className="relative overflow-hidden py-24 md:py-32"

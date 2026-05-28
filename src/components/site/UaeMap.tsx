@@ -1390,6 +1390,7 @@ function DubaiFocusOverlay({
           const isH = n.id === hoverId;
           const sz = n.tier === "major" ? 14 : 11;
           const fullJ = J.find(j => j.id === n.id);
+          const side = resolveSide(n);
           return (
             <motion.button
               key={n.id}

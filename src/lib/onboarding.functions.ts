@@ -17,9 +17,9 @@ function hashCode(code: string) {
 }
 
 function generateCode() {
-  // 6-digit, leading zeros allowed
-  const n = crypto.randomInt(0, 1_000_000);
-  return n.toString().padStart(6, "0");
+  // 4-digit, leading zeros allowed
+  const n = crypto.randomInt(0, 10_000);
+  return n.toString().padStart(4, "0");
 }
 
 function originFromRequest(): string {

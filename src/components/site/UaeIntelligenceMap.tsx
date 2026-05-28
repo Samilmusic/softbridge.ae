@@ -495,8 +495,10 @@ export function UaeIntelligenceMap() {
               )}
             </div>
           </aside>
+        </div>
 
         {/* Premium horizontal card rail */}
+
         <div className="mt-20 md:mt-28">
 
           <div className="flex items-end justify-between mb-5">

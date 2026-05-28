@@ -141,25 +141,26 @@ export function UaeIntelligenceMap() {
 
       <div className="relative mx-auto px-4 md:px-8" style={{ maxWidth: "1600px" }}>
         {/* Header */}
-        <div className="max-w-4xl mx-auto text-center mb-16 md:mb-20">
+        <div className="max-w-5xl mx-auto text-center mb-20 md:mb-28">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-semibold tracking-[0.18em] uppercase border"
                style={{ borderColor: "var(--surface-border-strong)", background: "var(--surface-tint-strong)", color: "var(--primary)" }}>
             <Sparkles className="size-3.5" /> AI Business Navigation
           </div>
-          <h2 className="font-display mt-7 tracking-[-0.03em] leading-[0.95] text-5xl md:text-7xl lg:text-[88px]">
+          <h2 className="font-display mt-8 tracking-[-0.035em] leading-[0.92] text-6xl md:text-[88px] lg:text-[112px] font-semibold">
             The UAE,<br />
             <span style={{ background: "linear-gradient(135deg, var(--primary), var(--accent))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
               intelligently mapped.
             </span>
           </h2>
-          <p className="text-muted-foreground mt-7 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+          <p className="text-muted-foreground mt-8 text-lg md:text-xl max-w-2xl mx-auto leading-[1.6] font-light">
             Explore every emirate and free zone through a single AI-guided lens —
             tuned to your industry, budget and setup preferences.
           </p>
         </div>
 
-        {/* Main layout — 20 / 55 / 25 */}
-        <div className="grid lg:grid-cols-[280px_minmax(700px,1fr)_400px] gap-6 lg:gap-8 items-start">
+        {/* Main layout — 280 / flex / 400, equal-height columns */}
+        <div className="grid lg:grid-cols-[280px_minmax(700px,1fr)_400px] gap-8 lg:gap-10 items-stretch">
+
 
           {/* LEFT — controls */}
           <aside className="glass-panel rounded-2xl p-5 space-y-5 h-fit">
@@ -276,19 +277,23 @@ export function UaeIntelligenceMap() {
           </aside>
 
           {/* CENTER — map */}
-          <div className="relative order-first lg:order-none">
-            <div className="relative rounded-[28px] overflow-hidden border glass-panel shadow-[0_30px_80px_-30px_var(--glow-primary)]"
-                 style={{ borderColor: "var(--surface-border-strong)", minHeight: "min(78vh, 820px)", aspectRatio: "1000 / 720" }}>
-              {/* Soft gradient floor */}
+          <div className="relative order-first lg:order-none lg:self-stretch">
+            <div className="relative rounded-[28px] overflow-hidden border glass-panel shadow-[0_40px_100px_-40px_var(--glow-primary)] h-full"
+                 style={{ borderColor: "var(--surface-border-strong)", minHeight: "min(82vh, 880px)" }}>
+              {/* Layered atmospheric floor */}
               <div aria-hidden className="absolute inset-0"
-                   style={{ background: "radial-gradient(ellipse at 55% 42%, color-mix(in oklab, var(--primary) 14%, transparent), transparent 62%), radial-gradient(ellipse at 20% 90%, color-mix(in oklab, var(--accent) 12%, transparent), transparent 60%), linear-gradient(180deg, #fff 0%, oklch(0.965 0.014 285) 100%)" }} />
-
+                   style={{ background: "radial-gradient(ellipse at 55% 38%, color-mix(in oklab, var(--primary) 18%, transparent), transparent 60%), radial-gradient(ellipse at 18% 92%, color-mix(in oklab, var(--accent) 16%, transparent), transparent 60%), radial-gradient(ellipse at 88% 12%, color-mix(in oklab, var(--primary) 14%, transparent), transparent 55%), linear-gradient(180deg, #fff 0%, oklch(0.96 0.018 285) 100%)" }} />
+              {/* Inner light reflection */}
+              <div aria-hidden className="absolute inset-x-0 top-0 h-40 pointer-events-none"
+                   style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.85), transparent)" }} />
+              {/* Floating dust inside the map */}
+              <div aria-hidden className="absolute inset-0 uae-dust opacity-70 pointer-events-none" />
 
               {/* Decorative grid */}
-              <svg aria-hidden className="absolute inset-0 w-full h-full opacity-[0.35]">
+              <svg aria-hidden className="absolute inset-0 w-full h-full opacity-[0.32]">
                 <defs>
-                  <pattern id="uae-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                    <path d="M40 0 L0 0 0 40" fill="none" stroke="var(--pattern-line)" strokeWidth="0.5" />
+                  <pattern id="uae-grid" width="44" height="44" patternUnits="userSpaceOnUse">
+                    <path d="M44 0 L0 0 0 44" fill="none" stroke="var(--pattern-line)" strokeWidth="0.5" />
                   </pattern>
                 </defs>
                 <rect width="100%" height="100%" fill="url(#uae-grid)" />
@@ -297,54 +302,89 @@ export function UaeIntelligenceMap() {
               <svg viewBox="0 0 1000 720" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid meet">
                 <defs>
                   <linearGradient id="uae-fill" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%"   stopColor="oklch(0.98 0.01 285)" />
-                    <stop offset="100%" stopColor="oklch(0.92 0.04 285)" />
+                    <stop offset="0%"   stopColor="oklch(0.985 0.012 285)" />
+                    <stop offset="100%" stopColor="oklch(0.90 0.05 285)" />
                   </linearGradient>
                   <linearGradient id="uae-fill-active" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%"   stopColor="color-mix(in oklab, var(--primary) 18%, white)" />
-                    <stop offset="100%" stopColor="color-mix(in oklab, var(--accent) 22%, white)" />
+                    <stop offset="0%"   stopColor="color-mix(in oklab, var(--primary) 22%, white)" />
+                    <stop offset="100%" stopColor="color-mix(in oklab, var(--accent) 28%, white)" />
                   </linearGradient>
                   <radialGradient id="node-glow" cx="0.5" cy="0.5" r="0.5">
-                    <stop offset="0%"   stopColor="var(--primary)" stopOpacity="0.55" />
-                    <stop offset="60%"  stopColor="var(--primary)" stopOpacity="0.12" />
+                    <stop offset="0%"   stopColor="var(--primary)" stopOpacity="0.65" />
+                    <stop offset="55%"  stopColor="var(--primary)" stopOpacity="0.15" />
                     <stop offset="100%" stopColor="var(--primary)" stopOpacity="0" />
                   </radialGradient>
+                  <linearGradient id="conn-grad" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%"   stopColor="var(--primary)" stopOpacity="0" />
+                    <stop offset="50%"  stopColor="var(--primary)" stopOpacity="0.75" />
+                    <stop offset="100%" stopColor="var(--accent)"  stopOpacity="0" />
+                  </linearGradient>
                   <filter id="soft-glow" x="-50%" y="-50%" width="200%" height="200%">
-                    <feGaussianBlur stdDeviation="2.4" />
+                    <feGaussianBlur stdDeviation="3" />
                   </filter>
                 </defs>
 
-                {/* Country shape */}
+                {/* Country shape with outer halo */}
                 <g>
+                  {UAE_PATHS.map((d, i) => (
+                    <path key={"halo-" + i} d={d} fill="none"
+                          stroke="color-mix(in oklab, var(--primary) 30%, transparent)"
+                          strokeWidth={6} filter="url(#soft-glow)" opacity={0.55} />
+                  ))}
                   {UAE_PATHS.map((d, i) => (
                     <path
                       key={i}
                       d={d}
                       fill={filters.emirate !== "All" ? "url(#uae-fill-active)" : "url(#uae-fill)"}
-                      stroke="color-mix(in oklab, var(--primary) 40%, white)"
-                      strokeWidth={1.2}
+                      stroke="color-mix(in oklab, var(--primary) 45%, white)"
+                      strokeWidth={1.3}
                       strokeLinejoin="round"
-                      style={{ transition: "fill 600ms ease" }}
+                      style={{ transition: "fill 700ms ease" }}
                     />
                   ))}
                 </g>
 
-                {/* Infrastructure lines between zones */}
-                <g opacity="0.5">
-                  {ZONES.slice(0, -1).map((z, i) => {
-                    const next = ZONES[i + 1];
-                    return (
-                      <line
-                        key={z.id + "-link"}
-                        x1={z.x} y1={z.y} x2={next.x} y2={next.y}
-                        stroke="color-mix(in oklab, var(--primary) 35%, transparent)"
-                        strokeWidth={0.6}
-                        strokeDasharray="2 4"
-                        className="uae-line"
-                      />
-                    );
-                  })}
+                {/* Smart infrastructure connections. When an emirate is selected,
+                    link its zones to their centroid; otherwise a soft global mesh. */}
+                <g>
+                  {(() => {
+                    if (filters.emirate !== "All") {
+                      const local = ZONES.filter((z) => z.emirate === filters.emirate);
+                      if (local.length < 2) return null;
+                      const cx = local.reduce((s, z) => s + z.x, 0) / local.length;
+                      const cy = local.reduce((s, z) => s + z.y, 0) / local.length;
+                      return (
+                        <>
+                          <circle cx={cx} cy={cy} r={4} fill="var(--primary)" className="uae-pulse-strong" />
+                          {local.map((z) => (
+                            <line key={"c-" + z.id}
+                                  x1={cx} y1={cy} x2={z.x} y2={z.y}
+                                  stroke="url(#conn-grad)" strokeWidth={1.4}
+                                  strokeDasharray="3 5" className="uae-line" />
+                          ))}
+                        </>
+                      );
+                    }
+                    const edges: { a: typeof ZONES[number]; b: typeof ZONES[number] }[] = [];
+                    ZONES.forEach((z) => {
+                      const nearest = [...ZONES]
+                        .filter((o) => o.id !== z.id)
+                        .sort((a, b) => Math.hypot(a.x - z.x, a.y - z.y) - Math.hypot(b.x - z.x, b.y - z.y))
+                        .slice(0, 2);
+                      nearest.forEach((n) => edges.push({ a: z, b: n }));
+                    });
+                    return edges.map((e, i) => (
+                      <line key={"m-" + i}
+                            x1={e.a.x} y1={e.a.y} x2={e.b.x} y2={e.b.y}
+                            stroke="color-mix(in oklab, var(--primary) 26%, transparent)"
+                            strokeWidth={0.6}
+                            strokeDasharray="2 5"
+                            className="uae-line" />
+                    ));
+                  })()}
                 </g>
+
+
 
                 {/* City labels */}
                 {Object.entries(UAE_CITIES).slice(0, 7).map(([name, [x, y]]) => (
@@ -373,29 +413,38 @@ export function UaeIntelligenceMap() {
                       style={{ cursor: "pointer", opacity: dim ? 0.22 : 1, transition: "opacity 300ms ease" }}
                     >
                       {/* Outer halo */}
-                      <circle r={isTop ? 38 : isSelected ? 32 : 22} fill="url(#node-glow)" filter="url(#soft-glow)"
-                              className={isTop ? "uae-pulse-strong" : "uae-pulse"} />
+                      <circle r={isTop ? 46 : isSelected ? 40 : isHover ? 34 : 28}
+                              fill="url(#node-glow)" filter="url(#soft-glow)"
+                              className={isTop ? "uae-pulse-strong" : "uae-pulse"}
+                              style={{ transition: "r 250ms ease" }} />
+                      {/* Ring */}
+                      <circle r={isSelected || isTop ? 14 : isHover ? 11 : 9}
+                              fill="none"
+                              stroke="color-mix(in oklab, var(--primary) 35%, transparent)"
+                              strokeWidth={1} />
                       {/* Core */}
-                      <circle r={isSelected || isTop ? 8 : 5.5}
+                      <circle r={isSelected || isTop ? 9 : isHover ? 7.5 : 6}
                               fill="white"
                               stroke="var(--primary)"
-                              strokeWidth={isSelected || isTop ? 2.5 : 1.6} />
+                              strokeWidth={isSelected || isTop ? 2.6 : 1.8}
+                              style={{ filter: "drop-shadow(0 3px 6px rgba(80,40,160,0.25))", transition: "r 200ms ease" }} />
                       {/* Inner dot */}
-                      <circle r={isSelected || isTop ? 3 : 2} fill="var(--primary)" />
+                      <circle r={isSelected || isTop ? 3.5 : 2.2} fill="var(--primary)" />
 
                       {/* Label on hover/selected */}
                       {(isHover || isSelected || isTop) && (
-                        <g transform="translate(12, -10)">
-                          <rect x="0" y="-10" rx="6" ry="6"
-                                width={z.name.length * 6.5 + 14} height="20"
+                        <g transform="translate(14, -12)">
+                          <rect x="0" y="-11" rx="7" ry="7"
+                                width={z.name.length * 7 + 16} height="22"
                                 fill="white" stroke="var(--surface-border-strong)" strokeWidth="0.8"
-                                style={{ filter: "drop-shadow(0 4px 12px rgba(80,40,160,0.18))" }} />
-                          <text x="7" y="4" fontSize="11" fontWeight={600} fill="var(--foreground)">
+                                style={{ filter: "drop-shadow(0 6px 16px rgba(80,40,160,0.22))" }} />
+                          <text x="8" y="5" fontSize="12" fontWeight={600} fill="var(--foreground)">
                             {z.name}
                           </text>
                         </g>
                       )}
                     </g>
+
                   );
                 })}
               </svg>
@@ -419,18 +468,17 @@ export function UaeIntelligenceMap() {
             </div>
           </div>
 
-          {/* RIGHT — info panel */}
+          {/* RIGHT — info panel (aligned with map height) */}
           <aside className={cn(
-            "glass-panel rounded-[28px] shadow-[0_20px_60px_-25px_var(--glow-primary)]",
-            "lg:block lg:sticky lg:top-24 lg:shrink-0",
-            mobilePanel ? "block" : "hidden",
+            "glass-panel rounded-[28px] shadow-[0_30px_80px_-30px_var(--glow-primary)]",
+            "lg:flex lg:flex-col lg:self-stretch lg:shrink-0",
+            mobilePanel ? "flex flex-col" : "hidden",
           )}
           style={{
             borderColor: "var(--surface-border-strong)",
             minWidth: "340px",
-            maxHeight: "calc(100vh - 8rem)",
           }}>
-            <div className="overflow-y-auto p-7 lg:p-9 uae-panel-scroll" style={{ maxHeight: "calc(100vh - 8rem)" }}>
+            <div className="overflow-y-auto p-8 lg:p-10 uae-panel-scroll flex-1">
               {compareZones.length === 2 ? (
                 <CompareView a={compareZones[0]} b={compareZones[1]} onClose={() => setCompare([])} />
               ) : selected ? (
@@ -449,9 +497,10 @@ export function UaeIntelligenceMap() {
           </aside>
         </div>
 
-
         {/* Premium horizontal card rail */}
-        <div className="mt-16 md:mt-20">
+
+        <div className="mt-20 md:mt-28">
+
           <div className="flex items-end justify-between mb-5">
             <div>
               <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Top matches</div>
@@ -462,14 +511,14 @@ export function UaeIntelligenceMap() {
               <ChevronRight className="size-3.5" />
             </div>
           </div>
-          <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4 uae-rail">
+          <div className="flex gap-5 overflow-x-auto snap-x snap-mandatory pb-6 -mx-4 px-4 uae-rail">
             {ranked.map(({ z, s }) => (
               <button
                 key={z.id}
                 onClick={() => selectZone(z.id)}
                 className={cn(
-                  "group snap-start shrink-0 w-[260px] text-left rounded-2xl p-5 border transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_-20px_var(--glow-primary)]",
-                  selectedId === z.id ? "ring-2 ring-[color:var(--primary)]" : "",
+                  "group snap-start shrink-0 w-[300px] text-left rounded-3xl p-6 border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_30px_70px_-25px_var(--glow-primary)]",
+                  selectedId === z.id ? "ring-2 ring-[color:var(--primary)] shadow-[0_20px_60px_-25px_var(--glow-primary)]" : "shadow-[0_10px_30px_-15px_var(--surface-shadow)]",
                 )}
                 style={{
                   borderColor: "var(--surface-border-strong)",
@@ -477,6 +526,7 @@ export function UaeIntelligenceMap() {
                   backdropFilter: "blur(14px)",
                 }}
               >
+
                 <div className="flex items-start justify-between mb-3">
                   <div className="h-11 w-11 rounded-xl flex items-center justify-center font-display text-base font-semibold text-white shadow-[0_8px_20px_-6px_var(--glow-primary)]"
                        style={{ background: "linear-gradient(135deg, var(--primary), var(--accent))" }}>
@@ -574,18 +624,19 @@ function ScoreBar({ value, max = 5 }: { value: number; max?: number }) {
 
 function ZoneDetail({ z, onCompare, inCompare, aiScore }: { z: Zone; onCompare: () => void; inCompare: boolean; aiScore: number }) {
   return (
-    <div className="space-y-7">
+    <div className="space-y-8">
       {/* Header with logo */}
-      <div className="flex items-start gap-4">
-        <div className="h-14 w-14 rounded-2xl flex items-center justify-center font-display text-lg font-semibold text-white shadow-[0_10px_24px_-6px_var(--glow-primary)] shrink-0"
+      <div className="flex items-start gap-5">
+        <div className="h-16 w-16 rounded-2xl flex items-center justify-center font-display text-xl font-semibold text-white shadow-[0_14px_30px_-8px_var(--glow-primary)] shrink-0"
              style={{ background: "linear-gradient(135deg, var(--primary), var(--accent))" }}>
           {z.name.slice(0, 2).toUpperCase()}
         </div>
         <div className="flex-1 min-w-0">
-          <div className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">{z.emirate}</div>
-          <h3 className="font-display text-[28px] leading-[1.1] tracking-tight mt-0.5">{z.name}</h3>
+          <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{z.emirate}</div>
+          <h3 className="font-display text-[32px] leading-[1.05] tracking-tight mt-1">{z.name}</h3>
         </div>
       </div>
+
 
       {/* AI score band */}
       <div className="flex items-center justify-between rounded-2xl px-4 py-3 border"

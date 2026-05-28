@@ -141,25 +141,26 @@ export function UaeIntelligenceMap() {
 
       <div className="relative mx-auto px-4 md:px-8" style={{ maxWidth: "1600px" }}>
         {/* Header */}
-        <div className="max-w-4xl mx-auto text-center mb-16 md:mb-20">
+        <div className="max-w-5xl mx-auto text-center mb-20 md:mb-28">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-semibold tracking-[0.18em] uppercase border"
                style={{ borderColor: "var(--surface-border-strong)", background: "var(--surface-tint-strong)", color: "var(--primary)" }}>
             <Sparkles className="size-3.5" /> AI Business Navigation
           </div>
-          <h2 className="font-display mt-7 tracking-[-0.03em] leading-[0.95] text-5xl md:text-7xl lg:text-[88px]">
+          <h2 className="font-display mt-8 tracking-[-0.035em] leading-[0.92] text-6xl md:text-[88px] lg:text-[112px] font-semibold">
             The UAE,<br />
             <span style={{ background: "linear-gradient(135deg, var(--primary), var(--accent))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
               intelligently mapped.
             </span>
           </h2>
-          <p className="text-muted-foreground mt-7 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+          <p className="text-muted-foreground mt-8 text-lg md:text-xl max-w-2xl mx-auto leading-[1.6] font-light">
             Explore every emirate and free zone through a single AI-guided lens —
             tuned to your industry, budget and setup preferences.
           </p>
         </div>
 
-        {/* Main layout — 20 / 55 / 25 */}
-        <div className="grid lg:grid-cols-[280px_minmax(700px,1fr)_400px] gap-6 lg:gap-8 items-start">
+        {/* Main layout — 280 / flex / 400, equal-height columns */}
+        <div className="grid lg:grid-cols-[280px_minmax(700px,1fr)_400px] gap-8 lg:gap-10 items-stretch">
+
 
           {/* LEFT — controls */}
           <aside className="glass-panel rounded-2xl p-5 space-y-5 h-fit">

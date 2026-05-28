@@ -176,10 +176,10 @@ export function OnboardingDialog({ open, onOpenChange }: { open: boolean; onOpen
   return (
     <>
       <Dialog open={open} onOpenChange={(v) => { onOpenChange(v); if (!v) setTimeout(resetAll, 250); }}>
-        <DialogContent className="glass-strong border-white/10 max-w-2xl p-0 overflow-hidden gap-0">
+        <DialogContent className="glass-strong border-border max-w-2xl p-0 overflow-hidden gap-0">
           {/* Header / progress */}
-          <div className="relative px-6 pt-6 pb-4 border-b border-white/5">
-            <div aria-hidden className="absolute -top-24 left-1/2 -translate-x-1/2 w-[480px] h-[480px] rounded-full bg-amber-400/10 blur-3xl pointer-events-none" />
+          <div className="relative px-6 pt-6 pb-4 border-b border-border/60">
+            <div aria-hidden className="absolute -top-24 left-1/2 -translate-x-1/2 w-[480px] h-[480px] rounded-full bg-[var(--halo-1)] blur-3xl pointer-events-none" />
             <div className="relative flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
               <Sparkles className="w-3.5 h-3.5 text-gold" />
               Soft Bridge · Client Onboarding
@@ -194,12 +194,12 @@ export function OnboardingDialog({ open, onOpenChange }: { open: boolean; onOpen
                     <div className={`flex items-center gap-2 ${active ? "text-foreground" : done ? "text-gold" : "text-muted-foreground"}`}>
                       <div className={`w-6 h-6 rounded-full grid place-items-center text-[11px] font-semibold border transition ${
                         active ? "bg-gold/15 border-gold/50 text-gold shadow-[0_0_24px_oklch(0.84_0.10_82/0.35)]"
-                        : done ? "bg-gold/10 border-gold/40" : "border-white/15"
+                        : done ? "bg-gold/10 border-gold/40" : "border-border"
                       }`}>{done ? "✓" : n}</div>
                       <span className="hidden sm:inline text-[11px] uppercase tracking-[0.18em]">{label}</span>
                     </div>
                     {i < STEP_LABELS.length - 1 && (
-                      <div className={`h-px flex-1 ${done ? "bg-gold/40" : "bg-white/10"}`} />
+                      <div className={`h-px flex-1 ${done ? "bg-gold/40" : "bg-border"}`} />
                     )}
                   </div>
                 );
@@ -269,7 +269,7 @@ export function OnboardingDialog({ open, onOpenChange }: { open: boolean; onOpen
                     <InputOTP maxLength={4} value={code} onChange={setCode}>
                       <InputOTPGroup>
                         {[0,1,2,3].map((i) => (
-                          <InputOTPSlot key={i} index={i} className="w-11 h-12 text-lg bg-white/[0.03] border-white/15" />
+                          <InputOTPSlot key={i} index={i} className="w-11 h-12 text-lg bg-background/40 border-border" />
                         ))}
                       </InputOTPGroup>
                     </InputOTP>

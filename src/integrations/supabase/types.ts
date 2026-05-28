@@ -14,6 +14,150 @@ export type Database = {
   }
   public: {
     Tables: {
+      activity_logs: {
+        Row: {
+          action_description: string | null
+          action_title: string
+          case_id: string
+          created_at: string
+          created_by: string | null
+          id: string
+          status: string | null
+        }
+        Insert: {
+          action_description?: string | null
+          action_title: string
+          case_id: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          status?: string | null
+        }
+        Update: {
+          action_description?: string | null
+          action_title?: string
+          case_id?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "activity_logs_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "cases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      case_stages: {
+        Row: {
+          case_id: string
+          client_action_required: string | null
+          completed_at: string | null
+          created_at: string
+          id: string
+          internal_note: string | null
+          position: number
+          public_note: string | null
+          stage_key: Database["public"]["Enums"]["case_stage_key"]
+          started_at: string | null
+          status: Database["public"]["Enums"]["stage_status"]
+          updated_at: string
+        }
+        Insert: {
+          case_id: string
+          client_action_required?: string | null
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          internal_note?: string | null
+          position: number
+          public_note?: string | null
+          stage_key: Database["public"]["Enums"]["case_stage_key"]
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["stage_status"]
+          updated_at?: string
+        }
+        Update: {
+          case_id?: string
+          client_action_required?: string | null
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          internal_note?: string | null
+          position?: number
+          public_note?: string | null
+          stage_key?: Database["public"]["Enums"]["case_stage_key"]
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["stage_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "case_stages_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "cases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cases: {
+        Row: {
+          assigned_consultant: string | null
+          business_activity: string | null
+          client_id: string
+          company_name: string
+          created_at: string
+          current_stage: Database["public"]["Enums"]["case_stage_key"]
+          expected_next_step: string | null
+          id: string
+          jurisdiction: string | null
+          progress_percentage: number
+          status: Database["public"]["Enums"]["case_overall_status"]
+          updated_at: string
+        }
+        Insert: {
+          assigned_consultant?: string | null
+          business_activity?: string | null
+          client_id: string
+          company_name?: string
+          created_at?: string
+          current_stage?: Database["public"]["Enums"]["case_stage_key"]
+          expected_next_step?: string | null
+          id?: string
+          jurisdiction?: string | null
+          progress_percentage?: number
+          status?: Database["public"]["Enums"]["case_overall_status"]
+          updated_at?: string
+        }
+        Update: {
+          assigned_consultant?: string | null
+          business_activity?: string | null
+          client_id?: string
+          company_name?: string
+          created_at?: string
+          current_stage?: Database["public"]["Enums"]["case_stage_key"]
+          expected_next_step?: string | null
+          id?: string
+          jurisdiction?: string | null
+          progress_percentage?: number
+          status?: Database["public"]["Enums"]["case_overall_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cases_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       clients: {
         Row: {
           assigned_consultant: string | null
@@ -133,9 +277,56 @@ export type Database = {
           },
         ]
       }
+      documents: {
+        Row: {
+          admin_note: string | null
+          case_id: string
+          created_at: string
+          document_type: string
+          file_url: string | null
+          id: string
+          status: Database["public"]["Enums"]["document_status"]
+          updated_at: string
+          uploaded_at: string | null
+        }
+        Insert: {
+          admin_note?: string | null
+          case_id: string
+          created_at?: string
+          document_type: string
+          file_url?: string | null
+          id?: string
+          status?: Database["public"]["Enums"]["document_status"]
+          updated_at?: string
+          uploaded_at?: string | null
+        }
+        Update: {
+          admin_note?: string | null
+          case_id?: string
+          created_at?: string
+          document_type?: string
+          file_url?: string | null
+          id?: string
+          status?: Database["public"]["Enums"]["document_status"]
+          updated_at?: string
+          uploaded_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documents_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "cases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       email_log: {
         Row: {
+          case_id: string | null
+          client_id: string | null
           created_at: string
+          email_type: string | null
           error: string | null
           id: string
           recipient: string
@@ -145,7 +336,10 @@ export type Database = {
           template: string
         }
         Insert: {
+          case_id?: string | null
+          client_id?: string | null
           created_at?: string
+          email_type?: string | null
           error?: string | null
           id?: string
           recipient: string
@@ -155,7 +349,10 @@ export type Database = {
           template: string
         }
         Update: {
+          case_id?: string | null
+          client_id?: string | null
           created_at?: string
+          email_type?: string | null
           error?: string | null
           id?: string
           recipient?: string
@@ -192,6 +389,163 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      quote_requests: {
+        Row: {
+          business_activity: string | null
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          message: string | null
+          nationality: string | null
+          needs_banking: boolean | null
+          needs_digital: boolean | null
+          needs_residency: string | null
+          needs_tax: boolean | null
+          number_of_visas: number | null
+          office_requirement: string | null
+          preferred_jurisdiction: string | null
+          whatsapp: string | null
+        }
+        Insert: {
+          business_activity?: string | null
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          message?: string | null
+          nationality?: string | null
+          needs_banking?: boolean | null
+          needs_digital?: boolean | null
+          needs_residency?: string | null
+          needs_tax?: boolean | null
+          number_of_visas?: number | null
+          office_requirement?: string | null
+          preferred_jurisdiction?: string | null
+          whatsapp?: string | null
+        }
+        Update: {
+          business_activity?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          message?: string | null
+          nationality?: string | null
+          needs_banking?: boolean | null
+          needs_digital?: boolean | null
+          needs_residency?: string | null
+          needs_tax?: boolean | null
+          number_of_visas?: number | null
+          office_requirement?: string | null
+          preferred_jurisdiction?: string | null
+          whatsapp?: string | null
+        }
+        Relationships: []
+      }
+      quotes: {
+        Row: {
+          case_id: string | null
+          client_id: string | null
+          created_at: string
+          estimated_government_fees_max: number | null
+          estimated_government_fees_min: number | null
+          id: string
+          included_services: Json
+          number_of_visas: number | null
+          optional_addons: Json
+          pdf_url: string | null
+          quote_number: string
+          quote_request_id: string | null
+          recipient_email: string
+          recipient_name: string | null
+          recommended_structure: string | null
+          selected_jurisdiction: string | null
+          service_fees_max: number | null
+          service_fees_min: number | null
+          status: Database["public"]["Enums"]["quote_status"]
+          timeline_days_max: number | null
+          timeline_days_min: number | null
+          total_estimated_cost_max: number | null
+          total_estimated_cost_min: number | null
+          updated_at: string
+        }
+        Insert: {
+          case_id?: string | null
+          client_id?: string | null
+          created_at?: string
+          estimated_government_fees_max?: number | null
+          estimated_government_fees_min?: number | null
+          id?: string
+          included_services?: Json
+          number_of_visas?: number | null
+          optional_addons?: Json
+          pdf_url?: string | null
+          quote_number?: string
+          quote_request_id?: string | null
+          recipient_email: string
+          recipient_name?: string | null
+          recommended_structure?: string | null
+          selected_jurisdiction?: string | null
+          service_fees_max?: number | null
+          service_fees_min?: number | null
+          status?: Database["public"]["Enums"]["quote_status"]
+          timeline_days_max?: number | null
+          timeline_days_min?: number | null
+          total_estimated_cost_max?: number | null
+          total_estimated_cost_min?: number | null
+          updated_at?: string
+        }
+        Update: {
+          case_id?: string | null
+          client_id?: string | null
+          created_at?: string
+          estimated_government_fees_max?: number | null
+          estimated_government_fees_min?: number | null
+          id?: string
+          included_services?: Json
+          number_of_visas?: number | null
+          optional_addons?: Json
+          pdf_url?: string | null
+          quote_number?: string
+          quote_request_id?: string | null
+          recipient_email?: string
+          recipient_name?: string | null
+          recommended_structure?: string | null
+          selected_jurisdiction?: string | null
+          service_fees_max?: number | null
+          service_fees_min?: number | null
+          status?: Database["public"]["Enums"]["quote_status"]
+          timeline_days_max?: number | null
+          timeline_days_min?: number | null
+          total_estimated_cost_max?: number | null
+          total_estimated_cost_min?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quotes_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "cases"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quotes_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quotes_quote_request_id_fkey"
+            columns: ["quote_request_id"]
+            isOneToOne: false
+            referencedRelation: "quote_requests"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       status_updates: {
         Row: {
@@ -261,14 +615,32 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "consultant" | "client"
+      case_overall_status: "active" | "on_hold" | "completed" | "cancelled"
+      case_stage_key:
+        | "consultation"
+        | "initial_approval"
+        | "trade_name"
+        | "ejari"
+        | "license"
+        | "establishment_card"
+        | "residency"
+        | "visa_application"
+        | "medical"
+        | "eid_fingerprint"
+        | "eid_issuance"
+        | "tax_registration"
+        | "banking"
+        | "lifetime_support"
       consultation_status: "pending" | "scheduled" | "completed" | "cancelled"
       doc_request_status: "pending" | "submitted" | "approved" | "rejected"
+      document_status: "pending" | "uploaded" | "approved" | "rejected"
       meeting_method:
         | "whatsapp"
         | "zoom"
         | "google_meet"
         | "in_person"
         | "phone"
+      quote_status: "draft" | "sent" | "accepted" | "expired" | "converted"
       setup_stage:
         | "consultation"
         | "documentation"
@@ -278,6 +650,13 @@ export type Database = {
         | "emirates_id"
         | "banking_preparation"
         | "completed"
+      stage_status:
+        | "not_started"
+        | "in_progress"
+        | "waiting_client"
+        | "under_review"
+        | "completed"
+        | "issue"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -406,9 +785,28 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "consultant", "client"],
+      case_overall_status: ["active", "on_hold", "completed", "cancelled"],
+      case_stage_key: [
+        "consultation",
+        "initial_approval",
+        "trade_name",
+        "ejari",
+        "license",
+        "establishment_card",
+        "residency",
+        "visa_application",
+        "medical",
+        "eid_fingerprint",
+        "eid_issuance",
+        "tax_registration",
+        "banking",
+        "lifetime_support",
+      ],
       consultation_status: ["pending", "scheduled", "completed", "cancelled"],
       doc_request_status: ["pending", "submitted", "approved", "rejected"],
+      document_status: ["pending", "uploaded", "approved", "rejected"],
       meeting_method: ["whatsapp", "zoom", "google_meet", "in_person", "phone"],
+      quote_status: ["draft", "sent", "accepted", "expired", "converted"],
       setup_stage: [
         "consultation",
         "documentation",
@@ -418,6 +816,14 @@ export const Constants = {
         "emirates_id",
         "banking_preparation",
         "completed",
+      ],
+      stage_status: [
+        "not_started",
+        "in_progress",
+        "waiting_client",
+        "under_review",
+        "completed",
+        "issue",
       ],
     },
   },

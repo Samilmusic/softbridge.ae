@@ -228,16 +228,11 @@ export function OnboardingDialog({ open, onOpenChange }: { open: boolean; onOpen
                     <Field label="Email address">
                       <Input type="email" value={s1.email} onChange={(e) => setS1({ ...s1, email: e.target.value })} placeholder="you@example.com" required />
                     </Field>
-                    <Field label="WhatsApp number">
+                    <Field label="WhatsApp number (optional)">
                       <PhoneField floatingLabel={false} label="WhatsApp number" value={s1.whatsapp} onChange={(v) => setS1({ ...s1, whatsapp: v })} />
                     </Field>
                     <Field label="Nationality">
-                      <Select value={s1.nationality} onValueChange={(v) => setS1({ ...s1, nationality: v })}>
-                        <SelectTrigger><SelectValue placeholder="Select nationality" /></SelectTrigger>
-                        <SelectContent className="max-h-72">
-                          {NATIONALITIES.map((n) => <SelectItem key={n} value={n}>{n}</SelectItem>)}
-                        </SelectContent>
-                      </Select>
+                      <NationalityCombobox value={s1.nationality} onChange={(v) => setS1({ ...s1, nationality: v })} />
                     </Field>
                   </div>
                   <div className="flex items-center gap-2 text-[11px] text-muted-foreground pt-1">

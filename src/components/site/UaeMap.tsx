@@ -989,11 +989,11 @@ export function UaeMap() {
                         <button
                           key={em}
                           onClick={() => openEmirateView(em)}
-                          className="text-left rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.05] px-3 py-2.5 transition-all group"
+                          className="text-left rounded-xl border border-border bg-background/40 hover:bg-primary/5 hover:border-primary/30 px-3 py-2.5 transition-all group"
                         >
                           <div className="flex items-center gap-2 mb-1">
                             <span className="w-1.5 h-1.5 rounded-full" style={{ background: c, boxShadow: `0 0 8px ${c}` }} />
-                            <span className="text-[12px] font-medium">{em}</span>
+                            <span className="text-[12px] font-medium text-foreground">{em}</span>
                           </div>
                           <div className="text-[10px] text-muted-foreground">{grouped[em].length} jurisdictions</div>
                         </button>
@@ -1001,7 +1001,7 @@ export function UaeMap() {
                     })}
                   </div>
                   <div className="mt-auto pt-6 text-[11px] text-muted-foreground">
-                    Tip — hover any node on the map for a quick preview.
+                    Tip — tap any node on the map for a quick preview.
                   </div>
                 </motion.div>
               )}

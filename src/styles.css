@@ -159,40 +159,40 @@
 
 
 @layer utilities {
-  /* Dark glass — premium translucent surfaces with cheaper blur radii */
+  /* Theme-aware glass surfaces */
   .glass {
-    background: linear-gradient(180deg, oklch(1 0 0 / 0.06), oklch(1 0 0 / 0.02));
+    background: linear-gradient(180deg, var(--surface-tint-strong), var(--surface-tint-soft));
     backdrop-filter: blur(10px) saturate(140%);
     -webkit-backdrop-filter: blur(10px) saturate(140%);
-    border: 1px solid oklch(1 0 0 / 0.09);
-    box-shadow: 0 1px 0 oklch(1 0 0 / 0.06) inset, 0 16px 40px -28px oklch(0 0 0 / 0.55);
+    border: 1px solid var(--surface-border);
+    box-shadow: 0 1px 0 var(--surface-highlight) inset, 0 16px 40px -28px var(--surface-shadow);
   }
   .glass-strong {
-    background: linear-gradient(180deg, oklch(1 0 0 / 0.09), oklch(1 0 0 / 0.035));
+    background: linear-gradient(180deg, var(--surface-tint-strong), var(--surface-tint-soft));
     backdrop-filter: blur(14px) saturate(150%);
     -webkit-backdrop-filter: blur(14px) saturate(150%);
-    border: 1px solid oklch(0.66 0.22 285 / 0.22);
+    border: 1px solid var(--surface-border-strong);
     box-shadow:
-      0 1px 0 oklch(1 0 0 / 0.10) inset,
-      0 20px 50px -25px oklch(0 0 0 / 0.55);
+      0 1px 0 var(--surface-highlight) inset,
+      0 20px 50px -25px var(--surface-shadow);
   }
   .glass-card {
     background:
-      linear-gradient(180deg, oklch(1 0 0 / 0.075), oklch(1 0 0 / 0.025)),
-      radial-gradient(120% 80% at 0% 0%, oklch(0.66 0.22 285 / 0.10), transparent 60%);
+      linear-gradient(180deg, var(--surface-tint-strong), var(--surface-tint-soft)),
+      radial-gradient(120% 80% at 0% 0%, color-mix(in oklab, var(--primary) 10%, transparent), transparent 60%);
     backdrop-filter: blur(12px) saturate(145%);
     -webkit-backdrop-filter: blur(12px) saturate(145%);
-    border: 1px solid oklch(1 0 0 / 0.10);
+    border: 1px solid var(--surface-border);
     box-shadow:
-      0 1px 0 oklch(1 0 0 / 0.08) inset,
-      0 24px 60px -30px oklch(0 0 0 / 0.6);
+      0 1px 0 var(--surface-highlight) inset,
+      0 24px 60px -30px var(--surface-shadow);
   }
-  /* Optional bright variant for selective light sections */
+  /* Inverse high-contrast surface (always light) */
   .glass-light {
-    background: linear-gradient(180deg, oklch(1 0 0 / 0.85), oklch(1 0 0 / 0.6));
+    background: linear-gradient(180deg, oklch(1 0 0 / 0.92), oklch(1 0 0 / 0.7));
     backdrop-filter: blur(14px) saturate(160%);
     -webkit-backdrop-filter: blur(14px) saturate(160%);
-    border: 1px solid oklch(0.66 0.22 285 / 0.20);
+    border: 1px solid oklch(0.58 0.22 285 / 0.20);
     box-shadow: 0 1px 0 oklch(1 0 0 / 0.7) inset, 0 20px 50px -25px oklch(0.18 0.04 268 / 0.30);
     color: oklch(0.18 0.04 268);
   }
@@ -200,13 +200,13 @@
   .bg-gold { background-color: var(--primary); }
   .border-gold { border-color: var(--primary); }
   .gradient-text {
-    background: linear-gradient(135deg, oklch(0.99 0.005 270) 0%, var(--accent) 60%, var(--primary) 100%);
+    background: linear-gradient(135deg, var(--foreground) 0%, var(--accent) 60%, var(--primary) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
   .gradient-text-cool {
-    background: linear-gradient(135deg, oklch(0.99 0.005 270) 0%, oklch(0.74 0.18 290) 100%);
+    background: linear-gradient(135deg, var(--foreground) 0%, var(--accent) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -214,7 +214,7 @@
   .gold-gradient {
     background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
     color: var(--primary-foreground);
-    box-shadow: 0 10px 30px -10px oklch(0.66 0.22 285 / 0.55), 0 0 0 1px oklch(1 0 0 / 0.08) inset;
+    box-shadow: 0 10px 30px -10px var(--glow-primary), 0 0 0 1px var(--surface-highlight) inset;
   }
   .gold-text-gradient {
     background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 50%, var(--accent) 100%);
@@ -230,15 +230,16 @@
   .reveal.in { opacity: 1; transform: translateY(0); }
   .grid-pattern {
     background-image:
-      linear-gradient(oklch(1 0 0 / 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, oklch(1 0 0 / 0.05) 1px, transparent 1px);
+      linear-gradient(var(--pattern-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--pattern-line) 1px, transparent 1px);
     background-size: 56px 56px;
   }
   .dot-pattern {
-    background-image: radial-gradient(oklch(1 0 0 / 0.10) 1px, transparent 1px);
+    background-image: radial-gradient(var(--pattern-dot) 1px, transparent 1px);
     background-size: 22px 22px;
   }
-  .ring-glow { box-shadow: 0 0 0 1px oklch(0.66 0.22 285 / 0.18), 0 30px 70px -25px oklch(0.66 0.22 285 / 0.45); }
+  .ring-glow { box-shadow: 0 0 0 1px color-mix(in oklab, var(--primary) 18%, transparent), 0 30px 70px -25px var(--glow-primary); }
+
   .hover-lift { transition: transform .35s cubic-bezier(.22,1,.36,1), border-color .3s, box-shadow .35s; }
   .hover-lift:hover { transform: translateY(-3px); }
 

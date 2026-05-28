@@ -600,19 +600,12 @@ function StatCard({ value, label, tone }: { value: string; label: string; tone: 
   const c = TONE_HEX[tone];
   return (
     <div
-      className="group relative rounded-2xl border border-white/10 bg-[oklch(0.13_0.025_280/0.65)] backdrop-blur-xl p-5 overflow-hidden hover-lift"
-      style={{ transition: "all .4s cubic-bezier(.22,1,.36,1)" }}
+      className="group relative rounded-xl border border-white/10 bg-[oklch(0.08_0.025_280/0.85)] backdrop-blur-xl px-3.5 py-2.5 overflow-hidden"
     >
-      <div
-        className="absolute -top-1/2 -right-1/3 w-40 h-40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl"
-        style={{ background: `radial-gradient(circle, ${c}55, transparent 70%)` }}
-      />
-      <div className="relative">
-        <div className="text-3xl md:text-4xl font-display font-semibold" style={{ color: "#fff" }}>
-          {value}
-        </div>
-        <div className="mt-1 text-[12px] tracking-[0.14em] uppercase text-muted-foreground">{label}</div>
+      <div className="text-xl md:text-2xl font-display font-semibold text-white leading-none">
+        {value}
       </div>
+      <div className="mt-1 text-[9.5px] tracking-[0.14em] uppercase text-muted-foreground">{label}</div>
       <div className="absolute bottom-0 left-0 right-0 h-px" style={{ background: `linear-gradient(90deg, transparent, ${c}80, transparent)` }} />
     </div>
   );

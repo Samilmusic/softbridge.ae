@@ -75,7 +75,7 @@ export function RemoteSetupTeaser() {
                     "radial-gradient(ellipse, oklch(0.66 0.22 285 / 0.4) 0%, transparent 70%)",
                 }}
               />
-              <div className="relative grid grid-cols-2 gap-3">
+              <div className="relative grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <PriceTile
                   zone="IFZA"
                   price="13,900"
@@ -87,7 +87,7 @@ export function RemoteSetupTeaser() {
                   price="15,900"
                   badge="Premium"
                 />
-                <div className="col-span-2 glass rounded-2xl p-4 flex items-center gap-3">
+                <div className="sm:col-span-2 glass rounded-2xl p-4 flex items-center gap-3">
                   <span className="w-9 h-9 rounded-xl gold-gradient flex items-center justify-center">
                     <Sparkles className="w-4 h-4" />
                   </span>
@@ -126,11 +126,11 @@ function PriceTile({
         highlight ? "glass-strong" : "glass-card"
       }`}
     >
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2 flex-wrap">
         <span className="text-[10px] uppercase tracking-[0.22em] text-gold font-medium">
           {zone}
         </span>
-        <span className="text-[9px] uppercase tracking-[0.18em] text-muted-foreground glass rounded-full px-2 py-0.5">
+        <span className="text-[9px] uppercase tracking-[0.18em] text-muted-foreground glass rounded-full px-2 py-0.5 whitespace-nowrap">
           {badge}
         </span>
       </div>

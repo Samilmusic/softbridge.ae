@@ -249,7 +249,7 @@
     position: absolute; inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(140deg, oklch(0.66 0.22 285 / 0.65), oklch(1 0 0 / 0.08) 40%, oklch(0.74 0.18 290 / 0.55) 90%);
+    background: linear-gradient(140deg, color-mix(in oklab, var(--primary) 60%, transparent), var(--surface-border) 40%, color-mix(in oklab, var(--accent) 55%, transparent) 90%);
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     -webkit-mask-composite: xor; mask-composite: exclude;
     opacity: 0; transition: opacity .4s;

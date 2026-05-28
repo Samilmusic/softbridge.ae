@@ -269,7 +269,7 @@ export function OnboardingDialog({ open, onOpenChange }: { open: boolean; onOpen
                     <InputOTP maxLength={4} value={code} onChange={setCode}>
                       <InputOTPGroup>
                         {[0,1,2,3].map((i) => (
-                          <InputOTPSlot key={i} index={i} className="w-11 h-12 text-lg bg-white/[0.03] border-white/15" />
+                          <InputOTPSlot key={i} index={i} className="w-11 h-12 text-lg bg-background/40 border-border" />
                         ))}
                       </InputOTPGroup>
                     </InputOTP>

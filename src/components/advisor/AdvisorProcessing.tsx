@@ -25,21 +25,6 @@ export function AdvisorProcessing({ onDone }: { onDone: () => void }) {
       {/* AI background */}
       <div aria-hidden className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,oklch(0.20_0.04_260)_0%,transparent_70%)]" />
-        <svg className="absolute inset-0 w-full h-full opacity-25" preserveAspectRatio="none" viewBox="0 0 1200 800">
-          <defs>
-            <linearGradient id="netLine" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="oklch(0.84 0.10 82)" stopOpacity="0.0" />
-              <stop offset="50%" stopColor="oklch(0.84 0.10 82)" stopOpacity="0.6" />
-              <stop offset="100%" stopColor="oklch(0.55 0.16 250)" stopOpacity="0.0" />
-            </linearGradient>
-          </defs>
-          {Array.from({ length: 14 }).map((_, i) => (
-            <line key={i} x1={0} y1={50 + i * 50} x2={1200} y2={80 + i * 55} stroke="url(#netLine)" strokeWidth="0.6" />
-          ))}
-          {Array.from({ length: 14 }).map((_, i) => (
-            <line key={`v${i}`} x1={80 + i * 80} y1={0} x2={100 + i * 78} y2={800} stroke="url(#netLine)" strokeWidth="0.4" />
-          ))}
-        </svg>
 
         {/* particles */}
         {Array.from({ length: 30 }).map((_, i) => (

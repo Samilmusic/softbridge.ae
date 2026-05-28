@@ -120,7 +120,6 @@ export function AiCommandCenter({ onStartSetup }: AiCommandCenterProps) {
   const orderedFeed = [...FEED.slice(feedIdx), ...FEED.slice(0, feedIdx)];
 
   return (
-    <>
     <section
       id="command-center"
       className="relative overflow-hidden py-24 md:py-32"
@@ -476,7 +475,7 @@ export function AiCommandCenter({ onStartSetup }: AiCommandCenterProps) {
             </div>
             <button
               type="button"
-              onClick={() => setOnboarding(true)}
+              onClick={() => onStartSetup?.()}
               className="mt-2 inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-white text-slate-900 font-semibold hover:bg-violet-50 transition-all"
             >
               Start Your Setup

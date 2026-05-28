@@ -59,14 +59,13 @@ export const submitBooking = createServerFn({ method: "POST" })
         subject: "Your Soft Bridge consultation is confirmed",
         props: {
           name: data.name,
-          date: data.preferredDate || undefined,
+          date: when || undefined,
           method: methodLabels[data.method],
           portalUrl,
         },
       });
     } catch (e) {
       console.error("booking email failed", e);
-      // do not fail the booking on email error
     }
 
     return { ok: true };

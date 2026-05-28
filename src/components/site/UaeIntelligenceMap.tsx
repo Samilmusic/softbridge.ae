@@ -277,19 +277,23 @@ export function UaeIntelligenceMap() {
           </aside>
 
           {/* CENTER — map */}
-          <div className="relative order-first lg:order-none">
-            <div className="relative rounded-[28px] overflow-hidden border glass-panel shadow-[0_30px_80px_-30px_var(--glow-primary)]"
-                 style={{ borderColor: "var(--surface-border-strong)", minHeight: "min(78vh, 820px)", aspectRatio: "1000 / 720" }}>
-              {/* Soft gradient floor */}
+          <div className="relative order-first lg:order-none lg:self-stretch">
+            <div className="relative rounded-[28px] overflow-hidden border glass-panel shadow-[0_40px_100px_-40px_var(--glow-primary)] h-full"
+                 style={{ borderColor: "var(--surface-border-strong)", minHeight: "min(82vh, 880px)" }}>
+              {/* Layered atmospheric floor */}
               <div aria-hidden className="absolute inset-0"
-                   style={{ background: "radial-gradient(ellipse at 55% 42%, color-mix(in oklab, var(--primary) 14%, transparent), transparent 62%), radial-gradient(ellipse at 20% 90%, color-mix(in oklab, var(--accent) 12%, transparent), transparent 60%), linear-gradient(180deg, #fff 0%, oklch(0.965 0.014 285) 100%)" }} />
-
+                   style={{ background: "radial-gradient(ellipse at 55% 38%, color-mix(in oklab, var(--primary) 18%, transparent), transparent 60%), radial-gradient(ellipse at 18% 92%, color-mix(in oklab, var(--accent) 16%, transparent), transparent 60%), radial-gradient(ellipse at 88% 12%, color-mix(in oklab, var(--primary) 14%, transparent), transparent 55%), linear-gradient(180deg, #fff 0%, oklch(0.96 0.018 285) 100%)" }} />
+              {/* Inner light reflection */}
+              <div aria-hidden className="absolute inset-x-0 top-0 h-40 pointer-events-none"
+                   style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.85), transparent)" }} />
+              {/* Floating dust inside the map */}
+              <div aria-hidden className="absolute inset-0 uae-dust opacity-70 pointer-events-none" />
 
               {/* Decorative grid */}
-              <svg aria-hidden className="absolute inset-0 w-full h-full opacity-[0.35]">
+              <svg aria-hidden className="absolute inset-0 w-full h-full opacity-[0.32]">
                 <defs>
-                  <pattern id="uae-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                    <path d="M40 0 L0 0 0 40" fill="none" stroke="var(--pattern-line)" strokeWidth="0.5" />
+                  <pattern id="uae-grid" width="44" height="44" patternUnits="userSpaceOnUse">
+                    <path d="M44 0 L0 0 0 44" fill="none" stroke="var(--pattern-line)" strokeWidth="0.5" />
                   </pattern>
                 </defs>
                 <rect width="100%" height="100%" fill="url(#uae-grid)" />
@@ -298,54 +302,89 @@ export function UaeIntelligenceMap() {
               <svg viewBox="0 0 1000 720" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid meet">
                 <defs>
                   <linearGradient id="uae-fill" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%"   stopColor="oklch(0.98 0.01 285)" />
-                    <stop offset="100%" stopColor="oklch(0.92 0.04 285)" />
+                    <stop offset="0%"   stopColor="oklch(0.985 0.012 285)" />
+                    <stop offset="100%" stopColor="oklch(0.90 0.05 285)" />
                   </linearGradient>
                   <linearGradient id="uae-fill-active" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%"   stopColor="color-mix(in oklab, var(--primary) 18%, white)" />
-                    <stop offset="100%" stopColor="color-mix(in oklab, var(--accent) 22%, white)" />
+                    <stop offset="0%"   stopColor="color-mix(in oklab, var(--primary) 22%, white)" />
+                    <stop offset="100%" stopColor="color-mix(in oklab, var(--accent) 28%, white)" />
                   </linearGradient>
                   <radialGradient id="node-glow" cx="0.5" cy="0.5" r="0.5">
-                    <stop offset="0%"   stopColor="var(--primary)" stopOpacity="0.55" />
-                    <stop offset="60%"  stopColor="var(--primary)" stopOpacity="0.12" />
+                    <stop offset="0%"   stopColor="var(--primary)" stopOpacity="0.65" />
+                    <stop offset="55%"  stopColor="var(--primary)" stopOpacity="0.15" />
                     <stop offset="100%" stopColor="var(--primary)" stopOpacity="0" />
                   </radialGradient>
+                  <linearGradient id="conn-grad" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%"   stopColor="var(--primary)" stopOpacity="0" />
+                    <stop offset="50%"  stopColor="var(--primary)" stopOpacity="0.75" />
+                    <stop offset="100%" stopColor="var(--accent)"  stopOpacity="0" />
+                  </linearGradient>
                   <filter id="soft-glow" x="-50%" y="-50%" width="200%" height="200%">
-                    <feGaussianBlur stdDeviation="2.4" />
+                    <feGaussianBlur stdDeviation="3" />
                   </filter>
                 </defs>
 
-                {/* Country shape */}
+                {/* Country shape with outer halo */}
                 <g>
+                  {UAE_PATHS.map((d, i) => (
+                    <path key={"halo-" + i} d={d} fill="none"
+                          stroke="color-mix(in oklab, var(--primary) 30%, transparent)"
+                          strokeWidth={6} filter="url(#soft-glow)" opacity={0.55} />
+                  ))}
                   {UAE_PATHS.map((d, i) => (
                     <path
                       key={i}
                       d={d}
                       fill={filters.emirate !== "All" ? "url(#uae-fill-active)" : "url(#uae-fill)"}
-                      stroke="color-mix(in oklab, var(--primary) 40%, white)"
-                      strokeWidth={1.2}
+                      stroke="color-mix(in oklab, var(--primary) 45%, white)"
+                      strokeWidth={1.3}
                       strokeLinejoin="round"
-                      style={{ transition: "fill 600ms ease" }}
+                      style={{ transition: "fill 700ms ease" }}
                     />
                   ))}
                 </g>
 
-                {/* Infrastructure lines between zones */}
-                <g opacity="0.5">
-                  {ZONES.slice(0, -1).map((z, i) => {
-                    const next = ZONES[i + 1];
-                    return (
-                      <line
-                        key={z.id + "-link"}
-                        x1={z.x} y1={z.y} x2={next.x} y2={next.y}
-                        stroke="color-mix(in oklab, var(--primary) 35%, transparent)"
-                        strokeWidth={0.6}
-                        strokeDasharray="2 4"
-                        className="uae-line"
-                      />
-                    );
-                  })}
+                {/* Smart infrastructure connections. When an emirate is selected,
+                    link its zones to their centroid; otherwise a soft global mesh. */}
+                <g>
+                  {(() => {
+                    if (filters.emirate !== "All") {
+                      const local = ZONES.filter((z) => z.emirate === filters.emirate);
+                      if (local.length < 2) return null;
+                      const cx = local.reduce((s, z) => s + z.x, 0) / local.length;
+                      const cy = local.reduce((s, z) => s + z.y, 0) / local.length;
+                      return (
+                        <>
+                          <circle cx={cx} cy={cy} r={4} fill="var(--primary)" className="uae-pulse-strong" />
+                          {local.map((z) => (
+                            <line key={"c-" + z.id}
+                                  x1={cx} y1={cy} x2={z.x} y2={z.y}
+                                  stroke="url(#conn-grad)" strokeWidth={1.4}
+                                  strokeDasharray="3 5" className="uae-line" />
+                          ))}
+                        </>
+                      );
+                    }
+                    const edges: { a: typeof ZONES[number]; b: typeof ZONES[number] }[] = [];
+                    ZONES.forEach((z) => {
+                      const nearest = [...ZONES]
+                        .filter((o) => o.id !== z.id)
+                        .sort((a, b) => Math.hypot(a.x - z.x, a.y - z.y) - Math.hypot(b.x - z.x, b.y - z.y))
+                        .slice(0, 2);
+                      nearest.forEach((n) => edges.push({ a: z, b: n }));
+                    });
+                    return edges.map((e, i) => (
+                      <line key={"m-" + i}
+                            x1={e.a.x} y1={e.a.y} x2={e.b.x} y2={e.b.y}
+                            stroke="color-mix(in oklab, var(--primary) 26%, transparent)"
+                            strokeWidth={0.6}
+                            strokeDasharray="2 5"
+                            className="uae-line" />
+                    ));
+                  })()}
                 </g>
+
+
 
                 {/* City labels */}
                 {Object.entries(UAE_CITIES).slice(0, 7).map(([name, [x, y]]) => (

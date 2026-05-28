@@ -423,30 +423,30 @@ export function UaeMap() {
   const resetAll = () => { setMode("federation"); setFocusEmirate(null); setActiveId(null); };
 
   return (
-    <section id="jurisdictions" className="relative py-24 md:py-32 overflow-hidden">
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,oklch(0.22_0.06_280/0.45),transparent_55%)]" />
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_bottom_right,oklch(0.30_0.10_280/0.25),transparent_60%)]" />
-      <div className="absolute inset-0 -z-10 grid-pattern opacity-[0.10]" />
+    <section id="jurisdictions" className="relative py-20 md:py-32 overflow-hidden">
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,color-mix(in_oklab,var(--primary)_14%,transparent),transparent_60%)]" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_bottom_right,color-mix(in_oklab,var(--accent)_10%,transparent),transparent_65%)]" />
+      <div className="absolute inset-0 -z-10 grid-pattern opacity-[0.06]" />
 
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-4 md:px-6">
         {/* Header */}
-        <div className="flex items-start justify-between flex-wrap gap-6 mb-10">
+        <div className="flex items-start justify-between flex-wrap gap-6 mb-8 md:mb-10">
           <div className="max-w-2xl">
-            <div className="flex items-center gap-2 text-[11px] font-medium tracking-[0.28em] text-violet-300/90 uppercase mb-4">
+            <div className="flex items-center gap-2 text-[11px] font-medium tracking-[0.28em] text-primary uppercase mb-4">
               <MapIcon className="w-3.5 h-3.5" />
               UAE Business Intelligence System
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold tracking-tight leading-[1.05]">
-              The UAE, Rendered as a <span className="gold-text-gradient">Living System</span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-semibold tracking-tight leading-[1.05] text-foreground">
+              The UAE, Rendered as a <span className="gradient-text">Living System</span>
             </h2>
             <p className="mt-5 text-muted-foreground text-base md:text-lg leading-relaxed max-w-xl">
-              Click an emirate to zoom in. Click a jurisdiction to open its ecosystem. A cinematic, spatial way to explore 27+ jurisdictions across all 7 emirates.
+              Tap an emirate to zoom in. Tap a jurisdiction to open its ecosystem. A cinematic, spatial way to explore 27+ jurisdictions across all 7 emirates.
             </p>
           </div>
-          <div className="flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase text-muted-foreground">
+          <div className="flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase text-muted-foreground glass rounded-full px-3 py-2">
             <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75 animate-ping" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
             </span>
             Live Data · UAE Business Ecosystem
           </div>

@@ -96,6 +96,8 @@ function toneClasses(tone: string) {
 export function AiCommandCenter() {
   const [feedIdx, setFeedIdx] = useState(0);
   const [bankScore, setBankScore] = useState(0);
+  const [onboarding, setOnboarding] = useState(false);
+
 
   useEffect(() => {
     const id = setInterval(() => setFeedIdx((i) => (i + 1) % FEED.length), 2800);

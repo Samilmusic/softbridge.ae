@@ -464,11 +464,11 @@ export function UaeMap() {
           ))}
         </div>
 
-        {/* Main grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-[290px_1fr_340px] gap-5">
+        {/* Main grid — desktop: 3 cols; tablet: map on top, panels below in 2 cols; mobile: stacked */}
+        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr_340px] gap-4 md:gap-5">
 
           {/* LEFT — emirate accordion */}
-          <aside className="rounded-3xl border border-white/10 bg-[oklch(0.13_0.025_280/0.6)] backdrop-blur-xl p-4 max-h-[760px] overflow-y-auto custom-scroll">
+          <aside className="glass-card rounded-3xl p-3 md:p-4 lg:max-h-[760px] lg:overflow-y-auto custom-scroll order-2 lg:order-1">
             <div className="text-[11px] font-medium tracking-[0.22em] text-muted-foreground uppercase px-2 py-2">
               Browse by Emirate
             </div>
@@ -485,16 +485,16 @@ export function UaeMap() {
                       onClick={() => { openEmirateView(em); }}
                       className={`w-full flex items-center justify-between gap-2 px-3 py-3 rounded-2xl border transition-all ${
                         open || isFocus
-                          ? "bg-white/[0.04] border-white/15"
-                          : "bg-white/[0.015] border-white/[0.06] hover:bg-white/[0.03]"
+                          ? "bg-primary/10 border-primary/30 text-foreground shadow-sm"
+                          : "bg-background/40 border-border hover:bg-primary/5 hover:border-primary/20 text-foreground"
                       }`}
                     >
                       <div className="flex items-center gap-3">
                         <span
-                          className="w-7 h-7 rounded-xl flex items-center justify-center border border-white/10"
+                          className="w-7 h-7 rounded-xl flex items-center justify-center border border-border"
                           style={{
                             background: `radial-gradient(circle, ${c}33, transparent 70%)`,
-                            boxShadow: isFocus ? `0 0 18px ${c}77` : open ? `0 0 12px ${c}44` : "none",
+                            boxShadow: isFocus ? `0 0 18px ${c}55` : open ? `0 0 12px ${c}33` : "none",
                           }}
                         >
                           <span className="w-1.5 h-1.5 rounded-full" style={{ background: c, boxShadow: `0 0 8px ${c}` }} />
@@ -502,13 +502,13 @@ export function UaeMap() {
                         <span className="text-sm font-medium">{em}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] text-muted-foreground">{list.length}</span>
+                        <span className="text-[10px] text-muted-foreground font-medium">{list.length}</span>
                         <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />
                       </div>
                     </button>
 
                     {open && (
-                      <div className="mt-1.5 ml-3 pl-3 border-l border-white/10 space-y-0.5 animate-fade-in">
+                      <div className="mt-1.5 ml-3 pl-3 border-l border-border space-y-0.5 animate-fade-in">
                         {list.map(j => {
                           const isA = j.id === activeId;
                           return (
@@ -517,8 +517,8 @@ export function UaeMap() {
                               onClick={() => openJurisdiction(j)}
                               className={`w-full text-left flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] transition-all ${
                                 isA
-                                  ? "bg-white/[0.06] text-foreground"
-                                  : "text-muted-foreground hover:text-foreground hover:bg-white/[0.02]"
+                                  ? "bg-primary/10 text-foreground font-medium"
+                                  : "text-foreground/70 hover:text-foreground hover:bg-primary/5"
                               }`}
                             >
                               <span
@@ -537,8 +537,10 @@ export function UaeMap() {
             </div>
           </aside>
 
-          {/* CENTER — cinematic map */}
-          <div className="relative rounded-3xl border border-white/10 bg-[oklch(0.10_0.025_280/0.78)] backdrop-blur-xl overflow-hidden min-h-[640px]">
+          {/* CENTER — cinematic map (kept dark inner canvas for contrast) */}
+          <div className="relative rounded-3xl border border-border shadow-[0_30px_80px_-40px_color-mix(in_oklab,var(--primary)_50%,transparent)] bg-[oklch(0.10_0.025_280/0.95)] overflow-hidden min-h-[420px] sm:min-h-[520px] lg:min-h-[680px] order-1 lg:order-2">
+            {/* subtle violet halo around the dark canvas to bridge with light theme */}
+            <div className="pointer-events-none absolute -inset-px rounded-3xl" style={{ boxShadow: "inset 0 0 0 1px color-mix(in oklab, var(--primary) 22%, transparent)" }} />
             {/* atmosphere */}
             <div className="absolute inset-0 grid-pattern opacity-[0.12]" />
             <motion.div

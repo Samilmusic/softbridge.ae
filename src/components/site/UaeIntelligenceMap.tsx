@@ -413,29 +413,38 @@ export function UaeIntelligenceMap() {
                       style={{ cursor: "pointer", opacity: dim ? 0.22 : 1, transition: "opacity 300ms ease" }}
                     >
                       {/* Outer halo */}
-                      <circle r={isTop ? 38 : isSelected ? 32 : 22} fill="url(#node-glow)" filter="url(#soft-glow)"
-                              className={isTop ? "uae-pulse-strong" : "uae-pulse"} />
+                      <circle r={isTop ? 46 : isSelected ? 40 : isHover ? 34 : 28}
+                              fill="url(#node-glow)" filter="url(#soft-glow)"
+                              className={isTop ? "uae-pulse-strong" : "uae-pulse"}
+                              style={{ transition: "r 250ms ease" }} />
+                      {/* Ring */}
+                      <circle r={isSelected || isTop ? 14 : isHover ? 11 : 9}
+                              fill="none"
+                              stroke="color-mix(in oklab, var(--primary) 35%, transparent)"
+                              strokeWidth={1} />
                       {/* Core */}
-                      <circle r={isSelected || isTop ? 8 : 5.5}
+                      <circle r={isSelected || isTop ? 9 : isHover ? 7.5 : 6}
                               fill="white"
                               stroke="var(--primary)"
-                              strokeWidth={isSelected || isTop ? 2.5 : 1.6} />
+                              strokeWidth={isSelected || isTop ? 2.6 : 1.8}
+                              style={{ filter: "drop-shadow(0 3px 6px rgba(80,40,160,0.25))", transition: "r 200ms ease" }} />
                       {/* Inner dot */}
-                      <circle r={isSelected || isTop ? 3 : 2} fill="var(--primary)" />
+                      <circle r={isSelected || isTop ? 3.5 : 2.2} fill="var(--primary)" />
 
                       {/* Label on hover/selected */}
                       {(isHover || isSelected || isTop) && (
-                        <g transform="translate(12, -10)">
-                          <rect x="0" y="-10" rx="6" ry="6"
-                                width={z.name.length * 6.5 + 14} height="20"
+                        <g transform="translate(14, -12)">
+                          <rect x="0" y="-11" rx="7" ry="7"
+                                width={z.name.length * 7 + 16} height="22"
                                 fill="white" stroke="var(--surface-border-strong)" strokeWidth="0.8"
-                                style={{ filter: "drop-shadow(0 4px 12px rgba(80,40,160,0.18))" }} />
-                          <text x="7" y="4" fontSize="11" fontWeight={600} fill="var(--foreground)">
+                                style={{ filter: "drop-shadow(0 6px 16px rgba(80,40,160,0.22))" }} />
+                          <text x="8" y="5" fontSize="12" fontWeight={600} fill="var(--foreground)">
                             {z.name}
                           </text>
                         </g>
                       )}
                     </g>
+
                   );
                 })}
               </svg>

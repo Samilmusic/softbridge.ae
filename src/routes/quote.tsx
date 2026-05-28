@@ -196,9 +196,9 @@ function Field({ label, value, onChange, type = "text", placeholder, required, m
     <label className="block">
       <span className="text-xs uppercase tracking-wider text-muted-foreground">{label}{required && <span className="text-gold"> *</span>}</span>
       {multiline ? (
-        <textarea value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} rows={4} className="mt-1.5 w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-foreground focus:border-gold/50 outline-none" />
+        <textarea value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} rows={4} className="mt-1.5 w-full bg-background/40 border border-border rounded-xl px-4 py-2.5 text-sm text-foreground focus:border-gold/50 outline-none" />
       ) : (
-        <input type={type} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} className="mt-1.5 w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-foreground focus:border-gold/50 outline-none" />
+        <input type={type} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} className="mt-1.5 w-full bg-background/40 border border-border rounded-xl px-4 py-2.5 text-sm text-foreground focus:border-gold/50 outline-none" />
       )}
     </label>
   );
@@ -209,8 +209,8 @@ function SelectField({ label, value, onChange, options }: { label: string; value
   return (
     <label className="block">
       <span className="text-xs uppercase tracking-wider text-muted-foreground">{label}</span>
-      <select value={value} onChange={(e) => onChange(e.target.value)} className="mt-1.5 w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-foreground focus:border-gold/50 outline-none">
-        {options.map((o) => <option key={o} value={o} className="bg-[#141a2b]">{o}</option>)}
+      <select value={value} onChange={(e) => onChange(e.target.value)} className="mt-1.5 w-full bg-background/40 border border-border rounded-xl px-4 py-2.5 text-sm text-foreground focus:border-gold/50 outline-none">
+        {options.map((o) => <option key={o} value={o} className="bg-background text-foreground">{o}</option>)}
       </select>
     </label>
   );
@@ -222,7 +222,7 @@ function ChoiceRow({ label, value, onChange, options }: { label: string; value: 
       <div className="text-xs uppercase tracking-wider text-muted-foreground mb-1.5">{label}</div>
       <div className="flex flex-wrap gap-2">
         {options.map(([v, l]) => (
-          <button key={v} type="button" onClick={() => onChange(v)} className={`px-4 py-2 rounded-full text-sm border transition ${value === v ? "gold-gradient text-[oklch(0.15_0.02_260)] border-gold" : "bg-white/[0.03] border-white/10 text-foreground hover:border-gold/40"}`}>{l}</button>
+          <button key={v} type="button" onClick={() => onChange(v)} className={`px-4 py-2 rounded-full text-sm border transition ${value === v ? "gold-gradient text-[oklch(0.15_0.02_260)] border-gold" : "bg-background/40 border-border text-foreground hover:border-gold/40"}`}>{l}</button>
         ))}
       </div>
     </div>
@@ -231,9 +231,9 @@ function ChoiceRow({ label, value, onChange, options }: { label: string; value: 
 
 function Toggle({ label, value, onChange }: { label: string; value: boolean; onChange: (v: boolean) => void }) {
   return (
-    <button type="button" onClick={() => onChange(!value)} className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm hover:border-gold/40 transition">
+    <button type="button" onClick={() => onChange(!value)} className="flex items-center justify-between rounded-xl border border-border bg-background/40 px-4 py-3 text-sm hover:border-gold/40 transition">
       <span dangerouslySetInnerHTML={{ __html: label }} />
-      <span className={`relative inline-block w-10 h-5 rounded-full transition ${value ? "bg-gold/80" : "bg-white/15"}`}>
+      <span className={`relative inline-block w-10 h-5 rounded-full transition ${value ? "bg-gold/80" : "bg-muted"}`}>
         <span className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white transition-transform ${value ? "translate-x-5" : ""}`} />
       </span>
     </button>

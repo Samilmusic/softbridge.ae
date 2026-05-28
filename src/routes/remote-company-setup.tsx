@@ -257,8 +257,8 @@ function RemoteCompanySetup() {
       </section>
 
       {/* PRICING */}
-      <section className="relative py-20 md:py-28 border-t border-white/5">
-        <div className="mx-auto max-w-6xl px-6">
+      <section className="relative py-20 md:py-28 border-t border-white/5 overflow-x-hidden">
+        <div className="mx-auto max-w-6xl px-5 md:px-6">
           <div className="text-center reveal max-w-2xl mx-auto">
             <div className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-gold mb-5">
               <span className="w-8 h-px bg-gold" /> Pricing
@@ -273,7 +273,7 @@ function RemoteCompanySetup() {
             </p>
           </div>
 
-          <div className="mt-14 grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          <div className="mt-14 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
             <PricingCard
               jurisdiction="IFZA"
               title="IFZA Remote Setup"
@@ -294,6 +294,7 @@ function RemoteCompanySetup() {
               onStart={() => setOnboarding(true)}
             />
           </div>
+
 
           <p className="mt-8 text-center text-[12px] text-muted-foreground/80 max-w-2xl mx-auto">
             Prices in AED. Government fees, visa quotas, and add-on services are

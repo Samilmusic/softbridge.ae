@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MapPin, Phone, Mail, Clock, Send, MessageCircle } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Send, MessageCircle, Sparkles } from "lucide-react";
 import { SITE, WA_LINK } from "@/lib/site";
 import { toast } from "sonner";
 
@@ -13,11 +13,67 @@ const ACTIVITIES = [
   "Other",
 ];
 
+type FieldProps = {
+  id: string;
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  type?: string;
+  textarea?: boolean;
+  rows?: number;
+};
+
+function FloatField({ id, label, value, onChange, type = "text", textarea, rows = 6 }: FieldProps) {
+  const [focused, setFocused] = useState(false);
+  const active = focused || value.length > 0;
+
+  const base =
+    "peer w-full rounded-2xl bg-white/70 backdrop-blur-md border border-violet-200/70 px-5 pt-6 pb-2.5 text-[15px] text-slate-900 placeholder-transparent shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_1px_2px_rgba(91,33,182,0.04)] focus:outline-none focus:border-violet-400 focus:bg-white focus:shadow-[0_0_0_4px_rgba(167,139,250,0.18),0_10px_30px_-12px_rgba(124,58,237,0.25)] hover:border-violet-300 transition-all duration-300";
+
+  return (
+    <div className="relative">
+      {textarea ? (
+        <textarea
+          id={id}
+          rows={rows}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          placeholder={label}
+          className={`${base} resize-y min-h-[140px]`}
+        />
+      ) : (
+        <input
+          id={id}
+          type={type}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          placeholder={label}
+          className={base}
+        />
+      )}
+      <label
+        htmlFor={id}
+        className={`pointer-events-none absolute left-5 transition-all duration-200 ${
+          active
+            ? "top-2 text-[11px] font-medium text-violet-600 tracking-wide uppercase"
+            : "top-1/2 -translate-y-1/2 text-sm text-slate-400"
+        } ${textarea && active ? "top-2 translate-y-0" : ""} ${
+          textarea && !active ? "top-5 -translate-y-0" : ""
+        }`}
+      >
+        {label}
+      </label>
+    </div>
+  );
+}
+
 export function Contact() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", activity: ACTIVITIES[0], message: "" });
-
-  const inputCls =
-    "w-full rounded-xl bg-white/[0.04] border border-white/10 px-4 py-3.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-gold/60 focus:ring-2 focus:ring-gold/20 transition";
+  const [activityFocused, setActivityFocused] = useState(false);
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,26 +92,32 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="relative py-24 md:py-32 border-t border-white/5 overflow-hidden">
-      {/* animated lighting */}
-      <div aria-hidden className="absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-[900px] rounded-full bg-amber-400/8 blur-3xl animate-drift-x" />
-      <div aria-hidden className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-indigo-500/10 blur-3xl" />
+    <section id="contact" className="relative py-24 md:py-32 overflow-hidden">
+      {/* Ambient lighting */}
+      <div aria-hidden className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-violet-50/50 to-white" />
+        <div className="absolute top-0 left-1/3 w-[700px] h-[700px] rounded-full bg-violet-300/20 blur-[140px]" />
+        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] rounded-full bg-fuchsia-300/15 blur-[140px]" />
+      </div>
 
       <div className="relative mx-auto max-w-7xl px-6">
         <div className="text-center max-w-3xl mx-auto reveal">
-          <div className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-gold mb-5">
-            <span className="w-8 h-px bg-gold" /> Contact
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/70 ring-1 ring-violet-200 backdrop-blur-sm text-xs font-medium text-violet-700 mb-6">
+            <Sparkles className="w-3.5 h-3.5" />
+            AI Consultation Intake
           </div>
-          <h2 className="text-3xl md:text-5xl font-semibold leading-[1.05]">
+          <h2 className="font-display text-4xl md:text-6xl font-semibold leading-[1.05] text-slate-900">
             Let's Start with a{" "}
-            <span className="gradient-text">Clear Conversation</span>
+            <span className="bg-gradient-to-r from-violet-600 via-fuchsia-600 to-violet-600 bg-clip-text text-transparent">
+              Clear Conversation
+            </span>
           </h2>
-          <p className="mt-5 text-muted-foreground">
+          <p className="mt-6 text-lg text-slate-600 leading-relaxed">
             We take time to understand your goals before proposing any solution.
           </p>
         </div>
 
-        <div className="mt-14 grid lg:grid-cols-5 gap-6">
+        <div className="mt-16 grid lg:grid-cols-5 gap-8">
           {/* contact panel */}
           <div className="lg:col-span-2 space-y-4 reveal">
             {[
@@ -69,64 +131,92 @@ export function Contact() {
                 href={c.href}
                 target={c.href?.startsWith("http") ? "_blank" : undefined}
                 rel="noopener noreferrer"
-                className="glass-card rounded-2xl p-5 flex items-start gap-4 hover-lift hover:border-gold/30 transition block"
+                className="group block rounded-2xl bg-white/80 backdrop-blur-xl ring-1 ring-violet-100/80 p-5 shadow-[0_10px_40px_-20px_rgba(124,58,237,0.25)] hover:ring-violet-300 hover:shadow-[0_20px_50px_-20px_rgba(124,58,237,0.4)] hover:-translate-y-0.5 transition-all duration-300"
               >
-                <div className="w-11 h-11 rounded-xl glass flex items-center justify-center flex-shrink-0">
-                  <c.icon className="w-5 h-5 text-gold" />
-                </div>
-                <div className="min-w-0">
-                  <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{c.label}</div>
-                  <div className="mt-1 text-sm text-foreground truncate">{c.value}</div>
+                <div className="flex items-start gap-4">
+                  <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center flex-shrink-0 shadow-lg shadow-violet-500/30 group-hover:shadow-violet-500/50 transition-shadow">
+                    <c.icon className="w-5 h-5 text-white" />
+                    <span className="absolute inset-0 rounded-xl bg-violet-400/40 blur-xl opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-[10px] uppercase tracking-[0.2em] font-semibold text-violet-600">
+                      {c.label}
+                    </div>
+                    <div className="mt-1.5 text-sm text-slate-800 font-medium leading-relaxed">
+                      {c.value}
+                    </div>
+                  </div>
                 </div>
               </a>
             ))}
           </div>
 
           {/* form */}
-          <form onSubmit={onSubmit} className="lg:col-span-3 glass-strong rounded-3xl p-6 md:p-9 reveal relative overflow-hidden">
-            <div aria-hidden className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-amber-400/10 blur-3xl" />
-            <div className="relative">
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-xs text-muted-foreground mb-1.5 block">Full Name</label>
-                  <input className={inputCls} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Your full name" />
-                </div>
-                <div>
-                  <label className="text-xs text-muted-foreground mb-1.5 block">Email</label>
-                  <input type="email" className={inputCls} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@email.com" />
-                </div>
-                <div>
-                  <label className="text-xs text-muted-foreground mb-1.5 block">WhatsApp</label>
-                  <input className={inputCls} value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="+971…" />
-                </div>
-                <div>
-                  <label className="text-xs text-muted-foreground mb-1.5 block">Business Activity</label>
-                  <select className={inputCls} value={form.activity} onChange={(e) => setForm({ ...form, activity: e.target.value })}>
-                    {ACTIVITIES.map((s) => <option key={s} className="bg-background">{s}</option>)}
+          <form
+            onSubmit={onSubmit}
+            className="lg:col-span-3 relative rounded-[2rem] bg-white/80 backdrop-blur-2xl ring-1 ring-violet-100/80 shadow-[0_30px_100px_-30px_rgba(124,58,237,0.35)] p-7 md:p-10 reveal overflow-hidden"
+          >
+            <div aria-hidden className="absolute -top-32 -right-32 w-80 h-80 rounded-full bg-violet-300/30 blur-3xl" />
+            <div aria-hidden className="absolute -bottom-32 -left-32 w-80 h-80 rounded-full bg-fuchsia-300/20 blur-3xl" />
+
+            <div className="relative space-y-5">
+              <div className="grid md:grid-cols-2 gap-5">
+                <FloatField id="name" label="Full Name" value={form.name} onChange={(v) => setForm({ ...form, name: v })} />
+                <FloatField id="email" label="Email Address" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} />
+                <FloatField id="phone" label="WhatsApp Number" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
+
+                {/* Select with floating label */}
+                <div className="relative">
+                  <select
+                    id="activity"
+                    value={form.activity}
+                    onFocus={() => setActivityFocused(true)}
+                    onBlur={() => setActivityFocused(false)}
+                    onChange={(e) => setForm({ ...form, activity: e.target.value })}
+                    className="peer w-full rounded-2xl bg-white/70 backdrop-blur-md border border-violet-200/70 px-5 pt-6 pb-2.5 text-[15px] text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_1px_2px_rgba(91,33,182,0.04)] focus:outline-none focus:border-violet-400 focus:bg-white focus:shadow-[0_0_0_4px_rgba(167,139,250,0.18),0_10px_30px_-12px_rgba(124,58,237,0.25)] hover:border-violet-300 transition-all duration-300 appearance-none cursor-pointer"
+                  >
+                    {ACTIVITIES.map((s) => (
+                      <option key={s}>{s}</option>
+                    ))}
                   </select>
+                  <label
+                    htmlFor="activity"
+                    className={`pointer-events-none absolute left-5 top-2 text-[11px] font-medium text-violet-600 tracking-wide uppercase transition-all ${
+                      activityFocused ? "text-violet-700" : ""
+                    }`}
+                  >
+                    Business Activity
+                  </label>
+                  <span className="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2 text-violet-500">
+                    ▾
+                  </span>
                 </div>
               </div>
-              <div className="mt-4">
-                <label className="text-xs text-muted-foreground mb-1.5 block">Message</label>
-                <textarea rows={5} className={inputCls} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} placeholder="Tell us briefly about your business and what you'd like to achieve…" />
-              </div>
-              <div className="mt-6 flex flex-wrap gap-3">
+
+              <FloatField id="message" label="Tell us about your business and goals…" textarea value={form.message} onChange={(v) => setForm({ ...form, message: v })} />
+
+              <div className="pt-2 flex flex-wrap gap-3 items-center">
                 <button
                   type="submit"
-                  className="inline-flex items-center gap-2 rounded-full gold-gradient px-6 py-3.5 text-sm font-semibold text-[oklch(0.15_0.02_260)] hover:opacity-95 transition shadow-[0_20px_60px_-15px_oklch(0.84_0.10_82/0.5)]"
+                  className="group relative inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold text-white bg-gradient-to-r from-violet-600 to-fuchsia-600 shadow-[0_15px_40px_-12px_rgba(124,58,237,0.6)] hover:shadow-[0_20px_50px_-10px_rgba(124,58,237,0.8)] hover:-translate-y-0.5 transition-all overflow-hidden"
                 >
-                  <Send className="w-4 h-4" /> Send Inquiry
+                  <span className="absolute inset-0 bg-gradient-to-r from-fuchsia-600 to-violet-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <Send className="relative w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                  <span className="relative">Send Inquiry</span>
                 </button>
                 <a
                   href={WA_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full glass-strong px-6 py-3.5 text-sm font-semibold text-foreground hover:border-gold/40 transition"
+                  className="group inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold text-slate-900 bg-white/80 backdrop-blur-md ring-1 ring-violet-200 hover:ring-violet-400 hover:bg-white hover:-translate-y-0.5 transition-all shadow-sm hover:shadow-md"
                 >
-                  <MessageCircle className="w-4 h-4 text-gold" /> WhatsApp Direct
+                  <MessageCircle className="w-4 h-4 text-violet-600 group-hover:scale-110 group-hover:rotate-[-8deg] transition-transform" />
+                  WhatsApp Direct
                 </a>
               </div>
-              <p className="mt-3 text-xs text-muted-foreground">Your inquiry opens WhatsApp pre-filled — we typically respond the same business day.</p>
+              <p className="text-xs text-slate-500">
+                Your inquiry opens WhatsApp pre-filled — we typically respond the same business day.
+              </p>
             </div>
           </form>
         </div>

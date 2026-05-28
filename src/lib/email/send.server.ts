@@ -4,7 +4,9 @@ import * as React from "react";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import {
   BookingConfirmation, WelcomeMagicLink, DocumentRequest, StatusUpdate, Invoice,
-  type BookingProps, type WelcomeProps, type DocRequestProps, type StatusUpdateProps, type InvoiceProps,
+  QuoteEmail, InternalQuoteNotice,
+  type BookingProps, type WelcomeProps, type DocRequestProps, type StatusUpdateProps,
+  type InvoiceProps, type QuoteProps, type InternalQuoteProps,
 } from "./templates";
 
 type Tpl =
@@ -12,19 +14,28 @@ type Tpl =
   | { name: "welcome_magic_link"; subject: string; props: WelcomeProps }
   | { name: "document_request"; subject: string; props: DocRequestProps }
   | { name: "status_update"; subject: string; props: StatusUpdateProps }
-  | { name: "invoice"; subject: string; props: InvoiceProps };
+  | { name: "invoice"; subject: string; props: InvoiceProps }
+  | { name: "quote"; subject: string; props: QuoteProps }
+  | { name: "internal_quote_notice"; subject: string; props: InternalQuoteProps };
 
 function renderTemplate(t: Tpl): React.ReactElement {
   switch (t.name) {
     case "booking_confirmation": return React.createElement(BookingConfirmation, t.props);
-    case "welcome_magic_link": return React.createElement(WelcomeMagicLink, t.props);
-    case "document_request": return React.createElement(DocumentRequest, t.props);
-    case "status_update": return React.createElement(StatusUpdate, t.props);
-    case "invoice": return React.createElement(Invoice, t.props);
+    case "welcome_magic_link":   return React.createElement(WelcomeMagicLink, t.props);
+    case "document_request":     return React.createElement(DocumentRequest, t.props);
+    case "status_update":        return React.createElement(StatusUpdate, t.props);
+    case "invoice":              return React.createElement(Invoice, t.props);
+    case "quote":                return React.createElement(QuoteEmail, t.props);
+    case "internal_quote_notice":return React.createElement(InternalQuoteNotice, t.props);
   }
 }
 
-export async function sendEmail(to: string, tpl: Tpl) {
+export interface SendOpts {
+  caseId?: string | null;
+  clientId?: string | null;
+}
+
+export async function sendEmail(to: string, tpl: Tpl, opts: SendOpts = {}) {
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.RESEND_FROM_EMAIL || "Soft Bridge <onboarding@resend.dev>";
   if (!apiKey) throw new Error("RESEND_API_KEY not configured");
@@ -40,10 +51,13 @@ export async function sendEmail(to: string, tpl: Tpl) {
   await supabaseAdmin.from("email_log").insert({
     recipient: to,
     template: tpl.name,
+    email_type: tpl.name,
     subject: tpl.subject,
     status: error ? "failed" : "sent",
     error: error ? error.message : null,
     resend_id: data?.id ?? null,
+    case_id: opts.caseId ?? null,
+    client_id: opts.clientId ?? null,
   });
 
   if (error) throw new Error(error.message);

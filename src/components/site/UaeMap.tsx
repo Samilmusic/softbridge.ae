@@ -776,10 +776,18 @@ export function UaeMap() {
               </motion.g>
             </motion.svg>
 
-            {/* Dedicated Dubai detailed-map focus overlay */}
+            {/* Dedicated detailed-map focus overlays */}
             <AnimatePresence>
               {isDubaiFocus && (
                 <DubaiFocusOverlay
+                  activeId={activeId}
+                  hoverId={hoverId}
+                  onHover={setHoverId}
+                  onSelect={openJurisdiction}
+                />
+              )}
+              {isAbuDhabiFocus && (
+                <AbuDhabiFocusOverlay
                   activeId={activeId}
                   hoverId={hoverId}
                   onHover={setHoverId}

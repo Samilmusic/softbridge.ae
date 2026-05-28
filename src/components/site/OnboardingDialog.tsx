@@ -4,6 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { useServerFn } from "@tanstack/react-start";
@@ -17,22 +19,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { PhoneField } from "@/components/ui/phone-field";
 import {
   ArrowRight, ArrowLeft, Loader2, CheckCircle2, Mail, Sparkles, Shield, Minus, Plus,
-  MessageCircle, LayoutDashboard, CalendarDays,
+  MessageCircle, LayoutDashboard, CalendarDays, ChevronsUpDown, Check,
 } from "lucide-react";
 import { WA_LINK } from "@/lib/site";
 import { Logo } from "@/components/site/Logo";
 import { BookingDialog } from "./BookingDialog";
+import { NATIONALITIES } from "@/lib/nationalities";
 
 type Step = 1 | 2 | 3 | 4 | 5;
-
-const NATIONALITIES = [
-  "Indian", "Pakistani", "Bangladeshi", "Filipino", "Egyptian", "Jordanian",
-  "Lebanese", "Syrian", "Iraqi", "Saudi", "Emirati", "Omani", "Kuwaiti",
-  "British", "American", "Canadian", "Australian", "South African",
-  "French", "German", "Italian", "Spanish", "Russian", "Ukrainian",
-  "Turkish", "Iranian", "Chinese", "Japanese", "Korean", "Singaporean",
-  "Nigerian", "Kenyan", "Other",
-];
 
 const JURISDICTIONS = [
   "Dubai Mainland", "IFZA (Dubai)", "DMCC (Dubai)", "Meydan Free Zone",

@@ -23,10 +23,10 @@ import { Particles } from "@/components/site/Particles";
 import { FloatingActions } from "@/components/site/FloatingActions";
 import { useReveal } from "@/hooks/use-reveal";
 import { SITE, WA_LINK } from "@/lib/site";
-import aliImg from "@/assets/team/ali.png";
-import samilImg from "@/assets/team/samil.png";
-import chaiImg from "@/assets/team/chai.png";
-import mahiImg from "@/assets/team/mahi.png";
+import aliImg from "@/assets/team/ali.webp";
+import samilImg from "@/assets/team/samil.webp";
+import chaiImg from "@/assets/team/chai.webp";
+import mahiImg from "@/assets/team/mahi.webp";
 
 export const Route = createFileRoute("/about")({
   head: () => ({

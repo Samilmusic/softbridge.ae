@@ -471,3 +471,47 @@ function Segmented({
     </div>
   );
 }
+
+function NationalityCombobox({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const [open, setOpen] = React.useState(false);
+  const selected = NATIONALITIES.find((n) => n.label === value);
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <button
+          type="button"
+          role="combobox"
+          aria-expanded={open}
+          className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+        >
+          <span className={`flex items-center gap-2 truncate ${selected ? "" : "text-muted-foreground"}`}>
+            {selected ? <><span className="text-base leading-none">{selected.flag}</span>{selected.label}</> : "Select nationality"}
+          </span>
+          <ChevronsUpDown className="h-4 w-4 opacity-50 flex-shrink-0" />
+        </button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0" align="start">
+        <Command>
+          <CommandInput placeholder="Search nationality…" />
+          <CommandList className="max-h-72">
+            <CommandEmpty>No match.</CommandEmpty>
+            <CommandGroup>
+              {NATIONALITIES.map((n) => (
+                <CommandItem
+                  key={n.code}
+                  value={`${n.label} ${n.code}`}
+                  onSelect={() => { onChange(n.label); setOpen(false); }}
+                  className="flex items-center gap-2"
+                >
+                  <span className="text-base leading-none">{n.flag}</span>
+                  <span className="flex-1">{n.label}</span>
+                  {selected?.code === n.code && <Check className="h-4 w-4 text-gold" />}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  );
+}

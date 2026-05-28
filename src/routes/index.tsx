@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { Header } from "@/components/site/Header";
 import { Hero } from "@/components/site/Hero";
 import { WhatWeDo } from "@/components/site/WhatWeDo";
@@ -18,6 +19,7 @@ import { AiCommandCenter } from "@/components/site/AiCommandCenter";
 import { WhereWeSetUp } from "@/components/site/WhereWeSetUp";
 import { LatestInsights } from "@/components/site/LatestInsights";
 import { PricingOffer } from "@/components/site/PricingOffer";
+import { OnboardingDialog } from "@/components/site/OnboardingDialog";
 
 import { useReveal } from "@/hooks/use-reveal";
 
@@ -33,16 +35,16 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   useReveal();
+  const [onboarding, setOnboarding] = useState(false);
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
       <main>
         <Hero />
-        <PricingOffer id="offer" />
+        <PricingOffer id="offer" onStartSetup={() => setOnboarding(true)} />
         <WhatWeDo />
         <AiAdvisorTeaser />
-        <AiCommandCenter />
-
+        <AiCommandCenter onStartSetup={() => setOnboarding(true)} />
 
         <RemoteSetupTeaser />
         <WhereWeSetUp />
@@ -51,7 +53,7 @@ function Index() {
         <DigitalInfrastructure />
         <Recognition />
         <Packages />
-        <PricingOffer id="offer-repeat" />
+        <PricingOffer id="offer-repeat" onStartSetup={() => setOnboarding(true)} />
         <Testimonials />
         <LatestInsights />
         <FAQ />
@@ -59,6 +61,7 @@ function Index() {
       </main>
       <Footer />
       <FloatingActions />
+      <OnboardingDialog open={onboarding} onOpenChange={setOnboarding} />
     </div>
   );
 }

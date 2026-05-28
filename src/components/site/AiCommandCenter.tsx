@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { OnboardingDialog } from "./OnboardingDialog";
 import {
   CheckCircle2,
   Circle,
@@ -17,6 +16,10 @@ import {
   Zap,
   ArrowRight,
 } from "lucide-react";
+
+interface AiCommandCenterProps {
+  onStartSetup?: () => void;
+}
 
 type StageStatus = "completed" | "in_progress" | "pending" | "review";
 
@@ -93,10 +96,9 @@ function toneClasses(tone: string) {
   }
 }
 
-export function AiCommandCenter() {
+export function AiCommandCenter({ onStartSetup }: AiCommandCenterProps) {
   const [feedIdx, setFeedIdx] = useState(0);
   const [bankScore, setBankScore] = useState(0);
-  const [onboarding, setOnboarding] = useState(false);
 
 
   useEffect(() => {
@@ -118,7 +120,6 @@ export function AiCommandCenter() {
   const orderedFeed = [...FEED.slice(feedIdx), ...FEED.slice(0, feedIdx)];
 
   return (
-    <>
     <section
       id="command-center"
       className="relative overflow-hidden py-24 md:py-32"
@@ -158,7 +159,7 @@ export function AiCommandCenter() {
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <button
               type="button"
-              onClick={() => setOnboarding(true)}
+              onClick={() => onStartSetup?.()}
               className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-slate-900 text-white font-medium shadow-[0_10px_40px_-10px_rgba(124,58,237,0.6)] hover:shadow-[0_15px_50px_-10px_rgba(124,58,237,0.8)] hover:-translate-y-0.5 transition-all"
             >
               Start Your Setup
@@ -474,7 +475,7 @@ export function AiCommandCenter() {
             </div>
             <button
               type="button"
-              onClick={() => setOnboarding(true)}
+              onClick={() => onStartSetup?.()}
               className="mt-2 inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-white text-slate-900 font-semibold hover:bg-violet-50 transition-all"
             >
               Start Your Setup
@@ -494,8 +495,6 @@ export function AiCommandCenter() {
         }
       `}</style>
     </section>
-    <OnboardingDialog open={onboarding} onOpenChange={setOnboarding} />
-    </>
   );
 }
 

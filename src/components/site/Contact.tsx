@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MapPin, Phone, Mail, Clock, Send, MessageCircle, Sparkles } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Send, MessageCircle, Sparkles, Loader2, Check } from "lucide-react";
 import { SITE, WA_LINK } from "@/lib/site";
 import { toast } from "sonner";
 import { PhoneField } from "@/components/ui/phone-field";
@@ -75,21 +75,28 @@ function FloatField({ id, label, value, onChange, type = "text", textarea, rows 
 export function Contact() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", activity: ACTIVITIES[0], message: "" });
   const [activityFocused, setActivityFocused] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (status !== "idle") return;
     if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
       toast.error("Please fill in name, email and message.");
       return;
     }
+    setStatus("sending");
     const text =
       `Hello Soft Bridge,%0A%0AName: ${encodeURIComponent(form.name)}` +
       `%0AEmail: ${encodeURIComponent(form.email)}` +
       `%0AWhatsApp: ${encodeURIComponent(form.phone)}` +
       `%0AActivity: ${encodeURIComponent(form.activity)}` +
       `%0A%0A${encodeURIComponent(form.message)}`;
+    // Small delay so the loading state is visible before WhatsApp opens
+    await new Promise((r) => setTimeout(r, 500));
     window.open(`https://wa.me/${SITE.phoneRaw}?text=${text}`, "_blank");
-    toast.success("Opening WhatsApp to send your inquiry…");
+    setStatus("sent");
+    toast.success("Opening WhatsApp — we'll respond within 1 business day.");
+    setTimeout(() => setStatus("idle"), 4000);
   };
 
   return (
@@ -199,11 +206,21 @@ export function Contact() {
               <div className="pt-2 flex flex-wrap gap-3 items-center">
                 <button
                   type="submit"
-                  className="group relative inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold text-white bg-gradient-to-r from-violet-600 to-fuchsia-600 shadow-[0_15px_40px_-12px_rgba(124,58,237,0.6)] hover:shadow-[0_20px_50px_-10px_rgba(124,58,237,0.8)] hover:-translate-y-0.5 transition-all overflow-hidden"
+                  disabled={status !== "idle"}
+                  aria-busy={status === "sending"}
+                  className="group relative inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold text-white bg-gradient-to-r from-violet-600 to-fuchsia-600 shadow-[0_15px_40px_-12px_rgba(124,58,237,0.6)] hover:shadow-[0_20px_50px_-10px_rgba(124,58,237,0.8)] hover:-translate-y-0.5 transition-all overflow-hidden disabled:opacity-80 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                 >
                   <span className="absolute inset-0 bg-gradient-to-r from-fuchsia-600 to-violet-600 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <Send className="relative w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                  <span className="relative">Send Inquiry</span>
+                  {status === "sending" ? (
+                    <Loader2 className="relative w-4 h-4 animate-spin" />
+                  ) : status === "sent" ? (
+                    <Check className="relative w-4 h-4" />
+                  ) : (
+                    <Send className="relative w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                  )}
+                  <span className="relative">
+                    {status === "sending" ? "Sending…" : status === "sent" ? "Inquiry sent" : "Send Inquiry"}
+                  </span>
                 </button>
                 <a
                   href={WA_LINK}

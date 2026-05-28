@@ -175,7 +175,7 @@ export function OnboardingDialog({ open, onOpenChange }: { open: boolean; onOpen
   return (
     <>
       <Dialog open={open} onOpenChange={(v) => { onOpenChange(v); if (!v) setTimeout(resetAll, 250); }}>
-        <DialogContent className="glass-strong border-border max-w-2xl p-0 overflow-hidden gap-0">
+        <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="glass-strong border-border max-w-2xl p-0 overflow-hidden gap-0">
           {/* Header / progress */}
           <div className="relative px-6 pt-6 pb-4 border-b border-border/60">
             <div aria-hidden className="absolute -top-24 left-1/2 -translate-x-1/2 w-[480px] h-[480px] rounded-full bg-[var(--halo-1)] blur-3xl pointer-events-none" />

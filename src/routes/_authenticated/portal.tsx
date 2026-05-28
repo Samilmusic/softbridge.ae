@@ -8,6 +8,7 @@ import { CaseTimeline } from "@/components/portal/CaseTimeline";
 import { DocumentsPanel } from "@/components/portal/DocumentsPanel";
 import { STAGE_META, type StageKey, type StageStatus } from "@/lib/case-stages";
 import { Building2, LogOut, MessageCircle, ShieldCheck, FileText, CreditCard, Sparkles, ExternalLink, AlertTriangle, Activity, LifeBuoy } from "lucide-react";
+import { PortalAdvisorCard } from "@/components/advisor/PortalAdvisorCard";
 import { Button } from "@/components/ui/button";
 import { WA_LINK, SITE } from "@/lib/site";
 import { toast } from "sonner";

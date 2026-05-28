@@ -30,7 +30,7 @@ export function Hero() {
       <div aria-hidden className="absolute top-32 -left-40 w-[420px] h-[420px] rounded-full bg-amber-400/10 blur-3xl animate-float-slow" />
       <div aria-hidden className="absolute top-60 -right-40 w-[460px] h-[460px] rounded-full bg-indigo-500/10 blur-3xl animate-float-slow" style={{ animationDelay: "3s" }} />
       <Particles count={26} />
-      <Skyline className="absolute inset-x-0 bottom-0 h-[40%] opacity-[0.55]" />
+      <img src={dubaiSkyline} alt="Dubai skyline" aria-hidden className="pointer-events-none select-none absolute inset-x-0 bottom-0 w-full h-[40%] object-cover object-bottom opacity-90" />
       <div aria-hidden className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background to-transparent" />
 
       <div className="relative mx-auto max-w-7xl px-6 grid lg:grid-cols-12 gap-12 items-center">

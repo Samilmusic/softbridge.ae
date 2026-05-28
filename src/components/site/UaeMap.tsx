@@ -423,30 +423,30 @@ export function UaeMap() {
   const resetAll = () => { setMode("federation"); setFocusEmirate(null); setActiveId(null); };
 
   return (
-    <section id="jurisdictions" className="relative py-24 md:py-32 overflow-hidden">
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,oklch(0.22_0.06_280/0.45),transparent_55%)]" />
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_bottom_right,oklch(0.30_0.10_280/0.25),transparent_60%)]" />
-      <div className="absolute inset-0 -z-10 grid-pattern opacity-[0.10]" />
+    <section id="jurisdictions" className="relative py-20 md:py-32 overflow-hidden">
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,color-mix(in_oklab,var(--primary)_14%,transparent),transparent_60%)]" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_bottom_right,color-mix(in_oklab,var(--accent)_10%,transparent),transparent_65%)]" />
+      <div className="absolute inset-0 -z-10 grid-pattern opacity-[0.06]" />
 
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-4 md:px-6">
         {/* Header */}
-        <div className="flex items-start justify-between flex-wrap gap-6 mb-10">
+        <div className="flex items-start justify-between flex-wrap gap-6 mb-8 md:mb-10">
           <div className="max-w-2xl">
-            <div className="flex items-center gap-2 text-[11px] font-medium tracking-[0.28em] text-violet-300/90 uppercase mb-4">
+            <div className="flex items-center gap-2 text-[11px] font-medium tracking-[0.28em] text-primary uppercase mb-4">
               <MapIcon className="w-3.5 h-3.5" />
               UAE Business Intelligence System
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold tracking-tight leading-[1.05]">
-              The UAE, Rendered as a <span className="gold-text-gradient">Living System</span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-semibold tracking-tight leading-[1.05] text-foreground">
+              The UAE, Rendered as a <span className="gradient-text">Living System</span>
             </h2>
             <p className="mt-5 text-muted-foreground text-base md:text-lg leading-relaxed max-w-xl">
-              Click an emirate to zoom in. Click a jurisdiction to open its ecosystem. A cinematic, spatial way to explore 27+ jurisdictions across all 7 emirates.
+              Tap an emirate to zoom in. Tap a jurisdiction to open its ecosystem. A cinematic, spatial way to explore 27+ jurisdictions across all 7 emirates.
             </p>
           </div>
-          <div className="flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase text-muted-foreground">
+          <div className="flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase text-muted-foreground glass rounded-full px-3 py-2">
             <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75 animate-ping" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
             </span>
             Live Data · UAE Business Ecosystem
           </div>
@@ -464,11 +464,11 @@ export function UaeMap() {
           ))}
         </div>
 
-        {/* Main grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-[290px_1fr_340px] gap-5">
+        {/* Main grid — desktop: 3 cols; tablet: map on top, panels below in 2 cols; mobile: stacked */}
+        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr_340px] gap-4 md:gap-5">
 
           {/* LEFT — emirate accordion */}
-          <aside className="rounded-3xl border border-white/10 bg-[oklch(0.13_0.025_280/0.6)] backdrop-blur-xl p-4 max-h-[760px] overflow-y-auto custom-scroll">
+          <aside className="glass-card rounded-3xl p-3 md:p-4 lg:max-h-[760px] lg:overflow-y-auto custom-scroll order-2 lg:order-1">
             <div className="text-[11px] font-medium tracking-[0.22em] text-muted-foreground uppercase px-2 py-2">
               Browse by Emirate
             </div>
@@ -485,16 +485,16 @@ export function UaeMap() {
                       onClick={() => { openEmirateView(em); }}
                       className={`w-full flex items-center justify-between gap-2 px-3 py-3 rounded-2xl border transition-all ${
                         open || isFocus
-                          ? "bg-white/[0.04] border-white/15"
-                          : "bg-white/[0.015] border-white/[0.06] hover:bg-white/[0.03]"
+                          ? "bg-primary/10 border-primary/30 text-foreground shadow-sm"
+                          : "bg-background/40 border-border hover:bg-primary/5 hover:border-primary/20 text-foreground"
                       }`}
                     >
                       <div className="flex items-center gap-3">
                         <span
-                          className="w-7 h-7 rounded-xl flex items-center justify-center border border-white/10"
+                          className="w-7 h-7 rounded-xl flex items-center justify-center border border-border"
                           style={{
                             background: `radial-gradient(circle, ${c}33, transparent 70%)`,
-                            boxShadow: isFocus ? `0 0 18px ${c}77` : open ? `0 0 12px ${c}44` : "none",
+                            boxShadow: isFocus ? `0 0 18px ${c}55` : open ? `0 0 12px ${c}33` : "none",
                           }}
                         >
                           <span className="w-1.5 h-1.5 rounded-full" style={{ background: c, boxShadow: `0 0 8px ${c}` }} />
@@ -502,13 +502,13 @@ export function UaeMap() {
                         <span className="text-sm font-medium">{em}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] text-muted-foreground">{list.length}</span>
+                        <span className="text-[10px] text-muted-foreground font-medium">{list.length}</span>
                         <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />
                       </div>
                     </button>
 
                     {open && (
-                      <div className="mt-1.5 ml-3 pl-3 border-l border-white/10 space-y-0.5 animate-fade-in">
+                      <div className="mt-1.5 ml-3 pl-3 border-l border-border space-y-0.5 animate-fade-in">
                         {list.map(j => {
                           const isA = j.id === activeId;
                           return (
@@ -517,8 +517,8 @@ export function UaeMap() {
                               onClick={() => openJurisdiction(j)}
                               className={`w-full text-left flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] transition-all ${
                                 isA
-                                  ? "bg-white/[0.06] text-foreground"
-                                  : "text-muted-foreground hover:text-foreground hover:bg-white/[0.02]"
+                                  ? "bg-primary/10 text-foreground font-medium"
+                                  : "text-foreground/70 hover:text-foreground hover:bg-primary/5"
                               }`}
                             >
                               <span
@@ -537,8 +537,10 @@ export function UaeMap() {
             </div>
           </aside>
 
-          {/* CENTER — cinematic map */}
-          <div className="relative rounded-3xl border border-white/10 bg-[oklch(0.10_0.025_280/0.78)] backdrop-blur-xl overflow-hidden min-h-[640px]">
+          {/* CENTER — cinematic map (kept dark inner canvas for contrast) */}
+          <div className="relative rounded-3xl border border-border shadow-[0_30px_80px_-40px_color-mix(in_oklab,var(--primary)_50%,transparent)] bg-[oklch(0.10_0.025_280/0.95)] overflow-hidden min-h-[420px] sm:min-h-[520px] lg:min-h-[680px] order-1 lg:order-2">
+            {/* subtle violet halo around the dark canvas to bridge with light theme */}
+            <div className="pointer-events-none absolute -inset-px rounded-3xl" style={{ boxShadow: "inset 0 0 0 1px color-mix(in oklab, var(--primary) 22%, transparent)" }} />
             {/* atmosphere */}
             <div className="absolute inset-0 grid-pattern opacity-[0.12]" />
             <motion.div
@@ -967,7 +969,7 @@ export function UaeMap() {
           </div>
 
           {/* RIGHT — info panel */}
-          <aside className="relative rounded-3xl border border-white/10 bg-[oklch(0.12_0.025_280/0.78)] backdrop-blur-xl overflow-hidden max-h-[760px] flex flex-col">
+          <aside className="relative glass-card rounded-3xl overflow-hidden lg:max-h-[760px] flex flex-col order-3">
             <AnimatePresence mode="wait">
               {!active && !focusEmirate && (
                 <motion.div
@@ -987,11 +989,11 @@ export function UaeMap() {
                         <button
                           key={em}
                           onClick={() => openEmirateView(em)}
-                          className="text-left rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.05] px-3 py-2.5 transition-all group"
+                          className="text-left rounded-xl border border-border bg-background/40 hover:bg-primary/5 hover:border-primary/30 px-3 py-2.5 transition-all group"
                         >
                           <div className="flex items-center gap-2 mb-1">
                             <span className="w-1.5 h-1.5 rounded-full" style={{ background: c, boxShadow: `0 0 8px ${c}` }} />
-                            <span className="text-[12px] font-medium">{em}</span>
+                            <span className="text-[12px] font-medium text-foreground">{em}</span>
                           </div>
                           <div className="text-[10px] text-muted-foreground">{grouped[em].length} jurisdictions</div>
                         </button>
@@ -999,7 +1001,7 @@ export function UaeMap() {
                     })}
                   </div>
                   <div className="mt-auto pt-6 text-[11px] text-muted-foreground">
-                    Tip — hover any node on the map for a quick preview.
+                    Tip — tap any node on the map for a quick preview.
                   </div>
                 </motion.div>
               )}
@@ -1024,7 +1026,7 @@ export function UaeMap() {
                           initial={{ opacity: 0, x: 10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: 0.05 * idx }}
-                          className="w-full text-left rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.05] px-3 py-3 transition-all flex items-center justify-between gap-3"
+                          className="w-full text-left rounded-xl border border-border bg-background/40 hover:bg-primary/5 hover:border-primary/30 px-3 py-3 transition-all flex items-center justify-between gap-3"
                         >
                           <div className="flex items-center gap-2.5 min-w-0">
                             <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: c, boxShadow: `0 0 8px ${c}` }} />
@@ -1049,7 +1051,7 @@ export function UaeMap() {
                 >
                   <button
                     onClick={() => { setActiveId(null); setMode("emirate"); }}
-                    className="absolute top-4 right-4 z-10 w-7 h-7 rounded-full border border-white/10 bg-white/[0.04] flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-white/[0.08]"
+                    className="absolute top-4 right-4 z-10 w-7 h-7 rounded-full border border-border bg-background/60 backdrop-blur flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-primary/10 hover:border-primary/30"
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
@@ -1168,7 +1170,7 @@ export function UaeMap() {
                       </ul>
                     </div>
 
-                    <div className="flex items-center justify-between text-[12px] py-3 border-t border-b border-white/[0.06]">
+                    <div className="flex items-center justify-between text-[12px] py-3 border-t border-b border-border">
                       <span className="text-muted-foreground tracking-[0.12em] uppercase text-[10px]">Business Activities</span>
                       <span className="font-semibold" style={{ color: activeHex }}>{active.activities}</span>
                     </div>
@@ -1200,7 +1202,7 @@ export function UaeMap() {
                     </a>
                     <button
                       onClick={stepBack}
-                      className="w-full inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-medium border border-white/10 bg-white/[0.02] text-foreground/90 hover:bg-white/[0.05] transition-all"
+                      className="w-full inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-medium border border-border bg-background/40 text-foreground/90 hover:bg-primary/5 hover:border-primary/30 transition-all"
                     >
                       <ArrowLeft className="w-4 h-4" /> Back to {active.emirate}
                     </button>
@@ -1334,7 +1336,7 @@ function StatCard({ value, label, tone }: { value: string; label: string; tone: 
   const c = TONE_HEX[tone];
   return (
     <div
-      className="group relative rounded-2xl border border-white/10 bg-[oklch(0.13_0.025_280/0.65)] backdrop-blur-xl p-5 overflow-hidden hover-lift"
+      className="group relative glass-card rounded-2xl p-5 overflow-hidden hover-lift"
       style={{ transition: "all .4s cubic-bezier(.22,1,.36,1)" }}
     >
       <div
@@ -1342,10 +1344,10 @@ function StatCard({ value, label, tone }: { value: string; label: string; tone: 
         style={{ background: `radial-gradient(circle, ${c}55, transparent 70%)` }}
       />
       <div className="relative">
-        <div className="text-3xl md:text-4xl font-display font-semibold" style={{ color: "#fff" }}>
+        <div className="text-3xl md:text-4xl font-display font-semibold text-foreground">
           {value}
         </div>
-        <div className="mt-1 text-[12px] tracking-[0.14em] uppercase text-muted-foreground">{label}</div>
+        <div className="mt-1 text-[12px] tracking-[0.14em] uppercase text-muted-foreground font-medium">{label}</div>
       </div>
       <div className="absolute bottom-0 left-0 right-0 h-px" style={{ background: `linear-gradient(90deg, transparent, ${c}80, transparent)` }} />
     </div>
@@ -1357,20 +1359,20 @@ function FeatureCard({
 }: { tone: Tone; Icon: typeof MapIcon; title: string; text: string }) {
   const c = TONE_HEX[tone];
   return (
-    <div className="group relative rounded-2xl border border-white/10 bg-[oklch(0.13_0.025_280/0.55)] backdrop-blur-xl p-5 overflow-hidden hover-lift">
+    <div className="group relative glass-card rounded-2xl p-5 overflow-hidden hover-lift">
       <div
-        className="absolute -top-10 -right-10 w-32 h-32 rounded-full opacity-40 group-hover:opacity-80 transition-opacity duration-500 blur-2xl"
+        className="absolute -top-10 -right-10 w-32 h-32 rounded-full opacity-30 group-hover:opacity-70 transition-opacity duration-500 blur-2xl"
         style={{ background: `radial-gradient(circle, ${c}55, transparent 70%)` }}
       />
       <div className="relative flex items-start gap-4">
         <div
-          className="w-12 h-12 rounded-2xl flex items-center justify-center border border-white/10 shrink-0"
+          className="w-12 h-12 rounded-2xl flex items-center justify-center border border-border shrink-0 bg-background/40"
           style={{ background: `radial-gradient(circle, ${c}33, transparent 70%)` }}
         >
           <Icon className="w-5 h-5" style={{ color: c }} />
         </div>
         <div>
-          <div className="font-display font-semibold text-base">{title}</div>
+          <div className="font-display font-semibold text-base text-foreground">{title}</div>
           <div className="text-[13px] text-muted-foreground mt-1 leading-relaxed">{text}</div>
         </div>
       </div>

@@ -14,6 +14,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
+import { PhoneField } from "@/components/ui/phone-field";
 import {
   ArrowRight, ArrowLeft, Loader2, CheckCircle2, Mail, Sparkles, Shield, Minus, Plus,
   MessageCircle, LayoutDashboard, CalendarDays,
@@ -229,7 +230,7 @@ export function OnboardingDialog({ open, onOpenChange }: { open: boolean; onOpen
                       <Input type="email" value={s1.email} onChange={(e) => setS1({ ...s1, email: e.target.value })} placeholder="you@example.com" required />
                     </Field>
                     <Field label="WhatsApp number">
-                      <Input value={s1.whatsapp} onChange={(e) => setS1({ ...s1, whatsapp: e.target.value })} placeholder="+971 50 000 0000" required />
+                      <PhoneField floatingLabel={false} label="WhatsApp number" value={s1.whatsapp} onChange={(v) => setS1({ ...s1, whatsapp: v })} />
                     </Field>
                     <Field label="Nationality">
                       <Select value={s1.nationality} onValueChange={(v) => setS1({ ...s1, nationality: v })}>

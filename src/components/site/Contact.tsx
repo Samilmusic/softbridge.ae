@@ -2,6 +2,7 @@ import { useState } from "react";
 import { MapPin, Phone, Mail, Clock, Send, MessageCircle, Sparkles } from "lucide-react";
 import { SITE, WA_LINK } from "@/lib/site";
 import { toast } from "sonner";
+import { PhoneField } from "@/components/ui/phone-field";
 
 const ACTIVITIES = [
   "Company Formation",
@@ -163,7 +164,7 @@ export function Contact() {
               <div className="grid md:grid-cols-2 gap-5">
                 <FloatField id="name" label="Full Name" value={form.name} onChange={(v) => setForm({ ...form, name: v })} />
                 <FloatField id="email" label="Email Address" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} />
-                <FloatField id="phone" label="WhatsApp Number" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
+                <PhoneField label="WhatsApp Number" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
 
                 {/* Select with floating label */}
                 <div className="relative">

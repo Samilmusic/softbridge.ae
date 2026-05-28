@@ -5,6 +5,7 @@ import { bankingLabel, complianceLabel, visaLabel } from "@/lib/advisor";
 import { buildAdvisorPdf } from "@/lib/advisor-pdf";
 import { WA_LINK, SITE } from "@/lib/site";
 import { toast } from "sonner";
+import { PhoneField } from "@/components/ui/phone-field";
 
 interface Props {
   answers: Answers;
@@ -204,7 +205,10 @@ export function AdvisorResults({ answers, recs, onRestart }: Props) {
             <div className="relative grid md:grid-cols-2 gap-4">
               <Input label="Full Name" value={form.name} onChange={(v) => setForm({ ...form, name: v })} placeholder="Your full name" />
               <Input label="Email" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} placeholder="you@email.com" />
-              <Input label="WhatsApp" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} placeholder="+971…" />
+              <div>
+                <label className="text-xs text-muted-foreground mb-1.5 block">WhatsApp</label>
+                <PhoneField floatingLabel={false} label="WhatsApp" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
+              </div>
               <Input label="Business Activity" value={form.activity} onChange={(v) => setForm({ ...form, activity: v })} placeholder="e.g. SaaS, agency, trading" />
             </div>
             <div className="mt-6 flex flex-wrap gap-3">

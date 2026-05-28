@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { CheckCircle2, Loader2, MessageCircle, Video, Phone, MonitorPlay, Sparkles, CalendarDays, Clock, ArrowRight, ArrowLeft, CalendarPlus, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { format, addDays, isBefore, startOfDay } from "date-fns";
+import { PhoneField } from "@/components/ui/phone-field";
 
 type Method = "whatsapp" | "google_meet" | "zoom" | "phone";
 
@@ -262,7 +263,10 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
                 <div className="grid sm:grid-cols-2 gap-4">
                   <Field id="name" label="Full name" required value={form.name} onChange={(v) => setForm({ ...form, name: v })} />
                   <Field id="email" label="Email" type="email" required value={form.email} onChange={(v) => setForm({ ...form, email: v })} />
-                  <Field id="phone" label="WhatsApp number" placeholder="+971…" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
+                  <div>
+                    <Label className="text-xs text-muted-foreground mb-1.5 block">WhatsApp number</Label>
+                    <PhoneField floatingLabel={false} label="WhatsApp number" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
+                  </div>
                   <Field id="nat" label="Nationality" value={form.nationality} onChange={(v) => setForm({ ...form, nationality: v })} />
                   <Field id="act" label="Business activity" placeholder="e.g. consultancy, trading…" value={form.activity} onChange={(v) => setForm({ ...form, activity: v })} />
                   <Field id="jur" label="Preferred jurisdiction" placeholder="Mainland / Free Zone / Offshore" value={form.jurisdiction} onChange={(v) => setForm({ ...form, jurisdiction: v })} />

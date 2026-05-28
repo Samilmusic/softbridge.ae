@@ -64,21 +64,24 @@ export const updateStage = createServerFn({ method: "POST" })
         started_at: data.status === "in_progress" ? new Date().toISOString() : undefined,
       })
       .eq("case_id", data.caseId)
-      .eq("stage_key", data.stageKey);
+      .eq("stage_key", data.stageKey as any);
     if (upErr) throw new Error(upErr.message);
 
     if (data.sendEmail) {
       const { data: cas } = await supabaseAdmin
         .from("cases")
-        .select("id, client_id, current_stage, clients:client_id(user_id), profiles_email:client_id")
+        .select("id, client_id")
         .eq("id", data.caseId)
         .maybeSingle();
 
-      const { data: clientRow } = await supabaseAdmin
-        .from("clients")
-        .select("user_id, company_name")
-        .eq("id", cas?.client_id)
-        .maybeSingle();
+      const { data: clientRow } = cas?.client_id
+        ? await supabaseAdmin
+            .from("clients")
+            .select("user_id, company_name")
+            .eq("id", cas.client_id)
+            .maybeSingle()
+        : { data: null as any };
+
 
       const { data: profile } = clientRow?.user_id
         ? await supabaseAdmin.from("profiles").select("email, full_name").eq("id", clientRow.user_id).maybeSingle()

@@ -191,7 +191,7 @@ function Stepper({ step }: { step: number }) {
   );
 }
 
-function Field({ label, value, onChange, type = "text", placeholder, required, multiline }: any) {
+function Field({ label, value, onChange, type = "text", placeholder, required, multiline }: { label: string; value: string; onChange: (v: string) => void; type?: string; placeholder?: string; required?: boolean; multiline?: boolean }) {
   return (
     <label className="block">
       <span className="text-xs uppercase tracking-wider text-muted-foreground">{label}{required && <span className="text-gold"> *</span>}</span>
@@ -203,6 +203,7 @@ function Field({ label, value, onChange, type = "text", placeholder, required, m
     </label>
   );
 }
+
 
 function SelectField({ label, value, onChange, options }: { label: string; value: string; onChange: (v: string) => void; options: string[] }) {
   return (

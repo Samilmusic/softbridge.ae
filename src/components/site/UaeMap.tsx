@@ -728,8 +728,9 @@ export function UaeMap() {
                     return (
                       <motion.circle
                         cx={hx} cy={hy} r={220}
-                        fill={c} opacity={0}
+                        fill={c}
                         filter="url(#halo-v3)"
+                        initial={{ opacity: 0 }}
                         animate={{ opacity: 0.18 }}
                         transition={{ duration: 0.8 }}
                       />
@@ -826,6 +827,7 @@ export function UaeMap() {
                         onMouseLeave={() => setHoverId(prev => prev === j.id ? null : prev)}
                         onClick={() => openJurisdiction(j)}
                         className="cursor-pointer"
+                        initial={{ opacity: dim }}
                         animate={{ opacity: dim }}
                         transition={{ duration: 0.5 }}
                       >
@@ -845,6 +847,7 @@ export function UaeMap() {
                           fill={c}
                           fillOpacity={isActive ? 0.97 : 0.82}
                           filter="url(#node-glow-v3)"
+                          initial={{ r }}
                           animate={{ r }}
                           transition={{ type: "spring", stiffness: 240, damping: 18 }}
                         />

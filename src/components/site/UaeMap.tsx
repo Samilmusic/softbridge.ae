@@ -12,6 +12,7 @@ import ajmanImg from "@/assets/emirates/ajman.jpg";
 import rakImg from "@/assets/emirates/ras-al-khaimah.jpg";
 import fujairahImg from "@/assets/emirates/fujairah.jpg";
 import uaqImg from "@/assets/emirates/umm-al-quwain.jpg";
+import dubaiDetailMap from "@/assets/emirates/dubai-detailed-map.png";
 
 /* ───────────────────── Types & Data ───────────────────── */
 
@@ -316,14 +317,16 @@ export function UaeMap() {
     return out;
   }, []);
 
+  // Dubai uses a dedicated detailed-map overlay instead of zooming the SVG.
+  const isDubaiFocus = focusEmirate === "Dubai";
+
   // Smart camera — accounts for MAP_TRANSFORM and reserves space for the floating preview panel.
   const camera = useMemo(() => {
-    if (mode === "federation" || !focusEmirate) {
+    if (mode === "federation" || !focusEmirate || isDubaiFocus) {
       return { scale: 1, tx: 0, ty: 0 };
     }
     const list = grouped[focusEmirate];
     const pts = list.map(markerPos);
-    // expand cluster with the emirate hub itself so the connection lines stay in frame
     const [hx, hy] = emCenter(focusEmirate);
     pts.push([hx, hy]);
     const xs = pts.map(p => p[0]);
@@ -331,7 +334,6 @@ export function UaeMap() {
     const minX = Math.min(...xs), maxX = Math.max(...xs);
     const minY = Math.min(...ys), maxY = Math.max(...ys);
 
-    // Convert cluster bbox into post-MAP_TRANSFORM (screen-pre-camera) units
     const pxMinX = MAP_TX + MAP_SX * minX;
     const pxMaxX = MAP_TX + MAP_SX * maxX;
     const pxMinY = MAP_TY + MAP_SY * minY;
@@ -341,22 +343,20 @@ export function UaeMap() {
     const pxW = pxMaxX - pxMinX;
     const pxH = pxMaxY - pxMinY;
 
-    // Reserve room for floating preview panel on desktop (right side) + top breadcrumb
-    const reservePanel = mode === "emirate" ? 340 : 80; // svg-units (matches viewBox)
-    const padX = 140;
-    const padY = 150;
+    const reservePanel = mode === "emirate" ? 340 : 80;
+    const padX = 160;
+    const padY = 170;
     const availW = Math.max(280, VW - reservePanel - padX * 2);
     const availH = Math.max(280, VH - padY * 2);
 
-    const s = Math.min(availW / Math.max(pxW, 1), availH / Math.max(pxH, 1), 2.1);
+    const s = Math.min(availW / Math.max(pxW, 1), availH / Math.max(pxH, 1), 2.0);
 
-    // Center cluster into the available area (shifted left to leave room for panel)
     const centerX = padX + availW / 2;
     const centerY = VH / 2;
     const tx = centerX - s * pxCx;
     const ty = centerY - s * pxCy;
     return { scale: s, tx, ty };
-  }, [mode, focusEmirate, grouped]);
+  }, [mode, focusEmirate, grouped, isDubaiFocus]);
 
 
   const openEmirateView = (em: EmirateKey) => {
@@ -566,7 +566,12 @@ export function UaeMap() {
               </div>
             </div>
 
-            <svg viewBox={`0 0 ${VW} ${VH}`} className="w-full h-full block relative">
+            <motion.svg
+              viewBox={`0 0 ${VW} ${VH}`}
+              className="w-full h-full block relative"
+              animate={{ opacity: isDubaiFocus ? 0.18 : 1, filter: isDubaiFocus ? "blur(2px)" : "blur(0px)" }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            >
               <defs>
                 <linearGradient id="uae-fill-v3" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="oklch(0.30 0.06 280)" stopOpacity="0.65" />
@@ -766,7 +771,19 @@ export function UaeMap() {
                   })}
                 </g>
               </motion.g>
-            </svg>
+            </motion.svg>
+
+            {/* Dedicated Dubai detailed-map focus overlay */}
+            <AnimatePresence>
+              {isDubaiFocus && (
+                <DubaiFocusOverlay
+                  activeId={activeId}
+                  hoverId={hoverId}
+                  onHover={setHoverId}
+                  onSelect={openJurisdiction}
+                />
+              )}
+            </AnimatePresence>
 
             {/* Floating cinematic emirate preview panel */}
             <AnimatePresence>
@@ -1234,5 +1251,205 @@ function Particles() {
         />
       ))}
     </div>
+  );
+}
+
+/* ───────────────────── Dubai Focus Overlay ───────────────────── */
+
+// Hand-tuned coordinates on the Dubai detail map (1536×1024). Percentages of
+// the overlay area so they remain responsive at any container size.
+const DUBAI_NODES: { id: string; name: string; x: number; y: number; side: "left" | "right"; tier: "major" | "secondary" }[] = [
+  { id: "jafza",         name: "JAFZA",                 x: 18,  y: 78, side: "left",  tier: "secondary" },
+  { id: "dubai-south",   name: "Dubai South",           x: 42,  y: 82, side: "right", tier: "secondary" },
+  { id: "dmc",           name: "Dubai Media City",      x: 28,  y: 58, side: "left",  tier: "secondary" },
+  { id: "dic",           name: "Dubai Internet City",   x: 38,  y: 51, side: "left",  tier: "secondary" },
+  { id: "dmcc",          name: "DMCC",                  x: 41,  y: 41, side: "left",  tier: "major" },
+  { id: "ifza",          name: "IFZA",                  x: 56,  y: 47, side: "right", tier: "major" },
+  { id: "meydan",        name: "Meydan Free Zone",      x: 66,  y: 56, side: "right", tier: "secondary" },
+  { id: "dso",           name: "Dubai Silicon Oasis",   x: 73,  y: 70, side: "right", tier: "secondary" },
+  { id: "dubai-mainland",name: "Dubai Mainland",        x: 70,  y: 28, side: "right", tier: "major" },
+  { id: "dafza",         name: "DAFZA",                 x: 82,  y: 36, side: "right", tier: "secondary" },
+];
+
+const DUBAI_HEX = "#A78BFA";
+
+function DubaiFocusOverlay({
+  activeId,
+  hoverId,
+  onHover,
+  onSelect,
+}: {
+  activeId: string | null;
+  hoverId: string | null;
+  onHover: (id: string | null) => void;
+  onSelect: (j: Jurisdiction) => void;
+}) {
+  // Centre roughly on DMCC/JLT — feels like the heart of Dubai
+  const hub = { x: 50, y: 50 };
+
+  return (
+    <motion.div
+      key="dubai-overlay"
+      className="absolute inset-0 z-[5] pointer-events-none"
+      initial={{ opacity: 0, scale: 1.04 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 1.02 }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {/* Background detailed map */}
+      <div className="absolute inset-0 overflow-hidden">
+        <motion.img
+          src={dubaiDetailMap}
+          alt="Detailed Dubai map"
+          className="absolute inset-0 w-full h-full object-cover"
+          initial={{ scale: 1.08 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+          draggable={false}
+        />
+        {/* Tonal wash to keep it premium */}
+        <div className="absolute inset-0" style={{
+          background: "linear-gradient(180deg, oklch(0.10 0.04 285 / 0.55) 0%, oklch(0.08 0.04 285 / 0.20) 35%, oklch(0.06 0.03 285 / 0.55) 100%)"
+        }} />
+        <div className="absolute inset-0" style={{
+          background: "radial-gradient(60% 70% at 55% 50%, transparent 0%, oklch(0.05 0.03 285 / 0.55) 100%)"
+        }} />
+        <div className="absolute inset-0" style={{
+          background: `radial-gradient(40% 50% at 50% 50%, ${DUBAI_HEX}26, transparent 70%)`
+        }} />
+        {/* subtle grid */}
+        <div className="absolute inset-0 grid-pattern opacity-[0.07]" />
+        {/* scan line */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden opacity-30">
+          <div className="absolute inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-violet-300/70 to-transparent animate-scan" />
+        </div>
+      </div>
+
+      {/* SVG layer for arcs + nodes */}
+      <svg
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        className="absolute inset-0 w-full h-full pointer-events-none"
+      >
+        <defs>
+          <filter id="dxb-glow" x="-200%" y="-200%" width="500%" height="500%">
+            <feGaussianBlur stdDeviation="0.6" result="b" />
+            <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+          </filter>
+        </defs>
+
+        {/* Animated connection arcs from each node to the hub */}
+        {DUBAI_NODES.map((n, idx) => {
+          const midX = (n.x + hub.x) / 2;
+          const midY = (n.y + hub.y) / 2 - 6 - (idx % 3) * 1.5;
+          const path = `M ${n.x} ${n.y} Q ${midX} ${midY} ${hub.x} ${hub.y}`;
+          const isA = n.id === activeId;
+          return (
+            <g key={`dxb-arc-${n.id}`}>
+              <motion.path
+                d={path}
+                fill="none"
+                stroke={DUBAI_HEX}
+                strokeOpacity={isA ? 0.9 : 0.32}
+                strokeWidth={isA ? 0.25 : 0.15}
+                vectorEffect="non-scaling-stroke"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{ pathLength: 1, opacity: 1 }}
+                transition={{ duration: 1.0, delay: 0.2 + idx * 0.05, ease: "easeOut" }}
+              />
+              <circle r={0.35} fill="#fff">
+                <animateMotion dur={`${3.2 + (idx % 4) * 0.4}s`} repeatCount="indefinite" path={path} />
+                <animate attributeName="opacity" values="0;1;0" dur={`${3.2 + (idx % 4) * 0.4}s`} repeatCount="indefinite" />
+              </circle>
+            </g>
+          );
+        })}
+
+        {/* Central hub */}
+        <circle cx={hub.x} cy={hub.y} r={0.9} fill={DUBAI_HEX} filter="url(#dxb-glow)">
+          <animate attributeName="r" values="0.8;1.4;0.8" dur="3s" repeatCount="indefinite" />
+        </circle>
+        <circle cx={hub.x} cy={hub.y} r={0.35} fill="#fff" />
+      </svg>
+
+      {/* Node markers as DOM elements so labels are pixel-perfect */}
+      <div className="absolute inset-0 pointer-events-none">
+        {DUBAI_NODES.map((n, idx) => {
+          const isA = n.id === activeId;
+          const isH = n.id === hoverId;
+          const sz = n.tier === "major" ? 14 : 11;
+          const fullJ = J.find(j => j.id === n.id);
+          return (
+            <motion.button
+              key={n.id}
+              onMouseEnter={() => onHover(n.id)}
+              onMouseLeave={() => onHover(null)}
+              onClick={() => fullJ && onSelect(fullJ)}
+              initial={{ opacity: 0, scale: 0.6 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.35 + idx * 0.05, type: "spring", stiffness: 220, damping: 18 }}
+              className="absolute pointer-events-auto cursor-pointer group"
+              style={{
+                left: `${n.x}%`,
+                top: `${n.y}%`,
+                transform: "translate(-50%, -50%)",
+              }}
+            >
+              {/* pulsing halo */}
+              <span
+                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+                style={{
+                  width: sz + 22,
+                  height: sz + 22,
+                  background: `radial-gradient(circle, ${DUBAI_HEX}44, transparent 70%)`,
+                  filter: "blur(6px)",
+                }}
+              />
+              <span
+                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border"
+                style={{
+                  width: sz + 10,
+                  height: sz + 10,
+                  borderColor: `${DUBAI_HEX}88`,
+                  animation: `pulse-ring 2.6s ease-out ${(idx % 5) * 0.2}s infinite`,
+                }}
+              />
+              {/* core dot */}
+              <span
+                className="relative block rounded-full"
+                style={{
+                  width: sz,
+                  height: sz,
+                  background: `radial-gradient(circle at 30% 30%, #fff, ${DUBAI_HEX} 70%)`,
+                  boxShadow: `0 0 ${isA ? 24 : 14}px ${DUBAI_HEX}, 0 0 4px #fff`,
+                  outline: isA ? `2px solid ${DUBAI_HEX}` : "none",
+                  outlineOffset: 3,
+                  transition: "box-shadow .3s",
+                }}
+              />
+              {/* label */}
+              <span
+                className={`absolute top-1/2 -translate-y-1/2 whitespace-nowrap px-2.5 py-1 rounded-md text-[11px] font-medium tracking-wide transition-all ${
+                  isA || isH ? "opacity-100" : "opacity-95"
+                }`}
+                style={{
+                  [n.side === "right" ? "left" : "right"]: sz / 2 + 10,
+                  background: "oklch(0.08 0.03 285 / 0.88)",
+                  color: "#fff",
+                  border: `1px solid ${DUBAI_HEX}55`,
+                  boxShadow: `0 4px 18px -6px ${DUBAI_HEX}66`,
+                  backdropFilter: "blur(8px)",
+                }}
+              >
+                {n.name}
+              </span>
+            </motion.button>
+          );
+        })}
+      </div>
+
+      {/* Subtle vignette/border to feel like a "Dubai layer" */}
+      <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/5 rounded-3xl" />
+    </motion.div>
   );
 }

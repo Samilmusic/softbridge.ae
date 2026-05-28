@@ -8,6 +8,7 @@ import { CaseTimeline } from "@/components/portal/CaseTimeline";
 import { DocumentsPanel } from "@/components/portal/DocumentsPanel";
 import { STAGE_META, type StageKey, type StageStatus } from "@/lib/case-stages";
 import { Building2, LogOut, MessageCircle, ShieldCheck, FileText, CreditCard, Sparkles, ExternalLink, AlertTriangle, Activity, LifeBuoy } from "lucide-react";
+import { PortalAdvisorCard } from "@/components/advisor/PortalAdvisorCard";
 import { Button } from "@/components/ui/button";
 import { WA_LINK, SITE } from "@/lib/site";
 import { toast } from "sonner";
@@ -163,6 +164,9 @@ function PortalPage() {
           </div>
           <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="glass-strong px-4 py-2.5 rounded-full text-sm inline-flex items-center gap-2 hover:border-gold/40 transition self-start"><MessageCircle className="w-4 h-4 text-gold" />Chat with consultant</a>
         </div>
+
+        {/* AI Advisor */}
+        <div className="mb-6"><PortalAdvisorCard /></div>
 
         {/* Overview row */}
         <div className="grid lg:grid-cols-3 gap-4 mb-6">

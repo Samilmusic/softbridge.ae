@@ -955,7 +955,7 @@ export function UaeMap() {
                   ))}
                 </g>
                 {/* viewport rect */}
-                {mode !== "federation" && focusEmirate && (() => {
+                {focusEmirate && (() => {
                   const { scale, tx, ty } = camera;
                   // visible source rect in svg-coords
                   const w = VW / scale;

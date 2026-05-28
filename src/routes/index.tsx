@@ -6,7 +6,6 @@ import { RemoteSetupTeaser } from "@/components/site/RemoteSetupTeaser";
 import { Process } from "@/components/site/Process";
 import { LongTermSupport } from "@/components/site/LongTermSupport";
 import { DigitalInfrastructure } from "@/components/site/DigitalInfrastructure";
-import { FreeZonesEcosystem } from "@/components/site/FreeZonesEcosystem";
 import { Packages } from "@/components/site/Packages";
 import { Recognition } from "@/components/site/Recognition";
 import { Testimonials } from "@/components/site/Testimonials";
@@ -38,7 +37,6 @@ function Index() {
         <AiAdvisorTeaser />
 
         <RemoteSetupTeaser />
-        <FreeZonesEcosystem />
         <Process />
         <LongTermSupport />
         <DigitalInfrastructure />

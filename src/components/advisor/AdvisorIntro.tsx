@@ -13,7 +13,7 @@ export function AdvisorIntro({ onStart }: { onStart: () => void }) {
       <div aria-hidden className="absolute top-40 -left-40 w-[460px] h-[460px] rounded-full bg-amber-400/10 blur-3xl animate-float-slow" />
       <div aria-hidden className="absolute top-60 -right-40 w-[460px] h-[460px] rounded-full bg-indigo-500/10 blur-3xl animate-float-slow" style={{ animationDelay: "3s" }} />
       <Particles count={28} />
-      <Skyline className="absolute inset-x-0 bottom-0 h-[42%] opacity-[0.5]" />
+      
       <div aria-hidden className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background to-transparent" />
 
       <div className="relative mx-auto max-w-4xl px-6 text-center">

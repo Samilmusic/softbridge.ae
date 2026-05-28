@@ -11,6 +11,7 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp
 import { toast } from "sonner";
 import { Loader2, Mail, Sparkles, ShieldCheck } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
+import { Logo } from "@/components/site/Logo";
 
 export const Route = createFileRoute("/login")({ component: LoginPage });
 
@@ -73,7 +74,10 @@ function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-[radial-gradient(circle_at_top,oklch(0.2_0.04_265),oklch(0.135_0.02_260))]">
       <div className="w-full max-w-md glass-strong rounded-3xl p-8 border border-white/10">
-        <Link to="/" className="text-[11px] uppercase tracking-[0.25em] text-gold">Soft Bridge</Link>
+        <Link to="/" className="inline-flex items-center gap-2.5">
+          <Logo size={40} glow />
+          <span className="text-[11px] uppercase tracking-[0.25em] text-gold">Soft Bridge</span>
+        </Link>
         <h1 className="font-display text-2xl text-foreground mt-3">Client portal access</h1>
         <p className="text-sm text-muted-foreground mt-2">
           {step === 1

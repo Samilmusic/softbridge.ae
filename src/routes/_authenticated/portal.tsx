@@ -11,6 +11,7 @@ import { Building2, LogOut, MessageCircle, ShieldCheck, FileText, CreditCard, Sp
 import { PortalAdvisorCard } from "@/components/advisor/PortalAdvisorCard";
 import { Button } from "@/components/ui/button";
 import { WA_LINK, SITE } from "@/lib/site";
+import { Logo } from "@/components/site/Logo";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/portal")({
@@ -99,7 +100,7 @@ function PortalPage() {
         <header className="sticky top-0 z-40 backdrop-blur-xl bg-background/50 border-b border-white/5">
           <div className="max-w-7xl mx-auto px-5 h-14 flex items-center justify-between">
             <Link to="/" className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-lg gold-gradient flex items-center justify-center"><span className="text-[12px] font-bold text-[oklch(0.15_0.02_260)]">SB</span></div>
+              <Logo size={32} />
               <div className="text-[12px] uppercase tracking-[0.22em] text-muted-foreground">Client Portal</div>
             </Link>
             <div className="flex items-center gap-3">
@@ -144,7 +145,7 @@ function PortalPage() {
       <header className="sticky top-0 z-40 backdrop-blur-xl bg-background/50 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-5 h-14 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg gold-gradient flex items-center justify-center"><span className="text-[12px] font-bold text-[oklch(0.15_0.02_260)]">SB</span></div>
+            <Logo size={32} />
             <div className="text-[12px] uppercase tracking-[0.22em] text-muted-foreground">Client Portal</div>
           </Link>
           <div className="flex items-center gap-3">

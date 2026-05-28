@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { listAllCases, updateStage } from "@/lib/case.functions";
 import { STAGE_META, STAGE_LIST, type StageKey, type StageStatus } from "@/lib/case-stages";
 import { LogOut, ShieldCheck, Loader2 } from "lucide-react";
+import { Logo } from "@/components/site/Logo";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -64,7 +65,7 @@ function AdminPage() {
       <header className="sticky top-0 z-40 backdrop-blur-xl bg-background/50 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-5 h-14 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg gold-gradient flex items-center justify-center"><span className="text-[12px] font-bold text-[oklch(0.15_0.02_260)]">SB</span></div>
+            <Logo size={32} />
             <div className="text-[12px] uppercase tracking-[0.22em] text-muted-foreground">Admin</div>
           </Link>
           <button onClick={() => supabase.auth.signOut()} className="text-xs text-muted-foreground inline-flex items-center gap-1.5"><LogOut className="w-3.5 h-3.5" />Sign out</button>

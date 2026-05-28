@@ -103,18 +103,16 @@ function LoginPage() {
         ) : (
           <form onSubmit={verify} className="mt-6 grid gap-4">
             <div className="flex justify-center">
-              <InputOTP maxLength={6} value={code} onChange={setCode}>
+              <InputOTP maxLength={4} value={code} onChange={setCode}>
                 <InputOTPGroup>
                   <InputOTPSlot index={0} />
                   <InputOTPSlot index={1} />
                   <InputOTPSlot index={2} />
                   <InputOTPSlot index={3} />
-                  <InputOTPSlot index={4} />
-                  <InputOTPSlot index={5} />
                 </InputOTPGroup>
               </InputOTP>
             </div>
-            <Button type="submit" disabled={loading || code.length !== 6} className="w-full">
+            <Button type="submit" disabled={loading || code.length !== 4} className="w-full">
               {loading ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Verifying…</> : <><ShieldCheck className="w-4 h-4 mr-2" />Verify & sign in</>}
             </Button>
             <button type="button" onClick={() => { setStep(1); setCode(""); }} className="text-xs text-muted-foreground hover:text-foreground transition">

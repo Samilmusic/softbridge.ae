@@ -14,7 +14,7 @@ import fujairahImg from "@/assets/emirates/fujairah.jpg";
 import uaqImg from "@/assets/emirates/umm-al-quwain.jpg";
 import dubaiDetailMap from "@/assets/emirates/dubai-detailed-map.png";
 import abuDhabiDetailMap from "@/assets/emirates/abu-dhabi-detailed-map.png";
-import federationMap from "@/assets/emirates/uae-federation-map.png";
+import federationMap from "@/assets/uae-federation-light.png";
 
 /* ───────────────────── Types & Data ───────────────────── */
 

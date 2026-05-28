@@ -53,7 +53,6 @@ function Index() {
         <DigitalInfrastructure />
         <Recognition />
         <Packages />
-        <PricingOffer id="offer-repeat" onStartSetup={() => setOnboarding(true)} />
         <Testimonials />
         <LatestInsights />
         <FAQ />

@@ -276,12 +276,13 @@ export function UaeIntelligenceMap() {
           </aside>
 
           {/* CENTER — map */}
-          <div className="relative">
-            <div className="relative rounded-3xl overflow-hidden border glass-panel"
-                 style={{ borderColor: "var(--surface-border)", aspectRatio: "1000 / 720" }}>
+          <div className="relative order-first lg:order-none">
+            <div className="relative rounded-[28px] overflow-hidden border glass-panel shadow-[0_30px_80px_-30px_var(--glow-primary)]"
+                 style={{ borderColor: "var(--surface-border-strong)", minHeight: "min(78vh, 820px)", aspectRatio: "1000 / 720" }}>
               {/* Soft gradient floor */}
               <div aria-hidden className="absolute inset-0"
-                   style={{ background: "radial-gradient(ellipse at 60% 40%, color-mix(in oklab, var(--primary) 8%, transparent), transparent 60%), linear-gradient(180deg, #fff 0%, oklch(0.97 0.012 285) 100%)" }} />
+                   style={{ background: "radial-gradient(ellipse at 55% 42%, color-mix(in oklab, var(--primary) 14%, transparent), transparent 62%), radial-gradient(ellipse at 20% 90%, color-mix(in oklab, var(--accent) 12%, transparent), transparent 60%), linear-gradient(180deg, #fff 0%, oklch(0.965 0.014 285) 100%)" }} />
+
 
               {/* Decorative grid */}
               <svg aria-hidden className="absolute inset-0 w-full h-full opacity-[0.35]">

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Menu, X, LayoutDashboard } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { BookingDialog } from "@/components/site/BookingDialog";
+import { ThemeToggle } from "@/components/site/ThemeToggle";
 import { useAuth } from "@/lib/auth-context";
 
 const NAV = [

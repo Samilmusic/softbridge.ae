@@ -20,7 +20,9 @@ const STATS = [
 export function Hero() {
   const [onboarding, setOnboarding] = useState(false);
   return (
+    <>
     <section id="home" className="relative min-h-[100svh] pt-28 md:pt-36 pb-16 overflow-hidden">
+
 
       {/* layered backgrounds */}
       <div aria-hidden className="absolute inset-0 grid-pattern opacity-[0.18] [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_75%)]" />

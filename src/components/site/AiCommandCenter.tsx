@@ -96,10 +96,9 @@ function toneClasses(tone: string) {
   }
 }
 
-export function AiCommandCenter() {
+export function AiCommandCenter({ onStartSetup }: AiCommandCenterProps) {
   const [feedIdx, setFeedIdx] = useState(0);
   const [bankScore, setBankScore] = useState(0);
-  const [onboarding, setOnboarding] = useState(false);
 
 
   useEffect(() => {

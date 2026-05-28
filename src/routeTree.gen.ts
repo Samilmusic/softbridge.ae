@@ -28,6 +28,7 @@ import { Route as AbuDhabiCompanyFormationRouteImport } from './routes/abu-dhabi
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as InsightsIndexRouteImport } from './routes/insights.index'
 import { Route as ServicesWebAdvertisingRouteImport } from './routes/services.web-advertising'
 import { Route as ServicesUaeCompanyFormationLocationsRouteImport } from './routes/services.uae-company-formation-locations'
 import { Route as ServicesResidencyRelocationRouteImport } from './routes/services.residency-relocation'
@@ -136,6 +137,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InsightsIndexRoute = InsightsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => InsightsRoute,
+} as any)
 const ServicesWebAdvertisingRoute = ServicesWebAdvertisingRouteImport.update({
   id: '/services/web-advertising',
   path: '/services/web-advertising',
@@ -226,6 +232,7 @@ export interface FileRoutesByFullPath {
   '/services/residency-relocation': typeof ServicesResidencyRelocationRoute
   '/services/uae-company-formation-locations': typeof ServicesUaeCompanyFormationLocationsRoute
   '/services/web-advertising': typeof ServicesWebAdvertisingRoute
+  '/insights/': typeof InsightsIndexRoute
   '/api/advisor/chat': typeof ApiAdvisorChatRoute
 }
 export interface FileRoutesByTo {
@@ -237,7 +244,6 @@ export interface FileRoutesByTo {
   '/blog': typeof BlogRoute
   '/dubai-company-formation': typeof DubaiCompanyFormationRoute
   '/fujairah-company-formation': typeof FujairahCompanyFormationRoute
-  '/insights': typeof InsightsRouteWithChildren
   '/login': typeof LoginRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/quote': typeof QuoteRoute
@@ -257,6 +263,7 @@ export interface FileRoutesByTo {
   '/services/residency-relocation': typeof ServicesResidencyRelocationRoute
   '/services/uae-company-formation-locations': typeof ServicesUaeCompanyFormationLocationsRoute
   '/services/web-advertising': typeof ServicesWebAdvertisingRoute
+  '/insights': typeof InsightsIndexRoute
   '/api/advisor/chat': typeof ApiAdvisorChatRoute
 }
 export interface FileRoutesById {
@@ -290,6 +297,7 @@ export interface FileRoutesById {
   '/services/residency-relocation': typeof ServicesResidencyRelocationRoute
   '/services/uae-company-formation-locations': typeof ServicesUaeCompanyFormationLocationsRoute
   '/services/web-advertising': typeof ServicesWebAdvertisingRoute
+  '/insights/': typeof InsightsIndexRoute
   '/api/advisor/chat': typeof ApiAdvisorChatRoute
 }
 export interface FileRouteTypes {
@@ -323,6 +331,7 @@ export interface FileRouteTypes {
     | '/services/residency-relocation'
     | '/services/uae-company-formation-locations'
     | '/services/web-advertising'
+    | '/insights/'
     | '/api/advisor/chat'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -334,7 +343,6 @@ export interface FileRouteTypes {
     | '/blog'
     | '/dubai-company-formation'
     | '/fujairah-company-formation'
-    | '/insights'
     | '/login'
     | '/privacy-policy'
     | '/quote'
@@ -354,6 +362,7 @@ export interface FileRouteTypes {
     | '/services/residency-relocation'
     | '/services/uae-company-formation-locations'
     | '/services/web-advertising'
+    | '/insights'
     | '/api/advisor/chat'
   id:
     | '__root__'
@@ -386,6 +395,7 @@ export interface FileRouteTypes {
     | '/services/residency-relocation'
     | '/services/uae-company-formation-locations'
     | '/services/web-advertising'
+    | '/insights/'
     | '/api/advisor/chat'
   fileRoutesById: FileRoutesById
 }
@@ -554,6 +564,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/insights/': {
+      id: '/insights/'
+      path: '/'
+      fullPath: '/insights/'
+      preLoaderRoute: typeof InsightsIndexRouteImport
+      parentRoute: typeof InsightsRoute
+    }
     '/services/web-advertising': {
       id: '/services/web-advertising'
       path: '/services/web-advertising'
@@ -650,10 +667,12 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 
 interface InsightsRouteChildren {
   InsightsSlugRoute: typeof InsightsSlugRoute
+  InsightsIndexRoute: typeof InsightsIndexRoute
 }
 
 const InsightsRouteChildren: InsightsRouteChildren = {
   InsightsSlugRoute: InsightsSlugRoute,
+  InsightsIndexRoute: InsightsIndexRoute,
 }
 
 const InsightsRouteWithChildren = InsightsRoute._addFileChildren(

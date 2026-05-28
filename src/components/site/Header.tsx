@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
-import { WA_LINK } from "@/lib/site";
+import { Menu, X, LayoutDashboard } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { BookingDialog } from "@/components/site/BookingDialog";
+import { useAuth } from "@/lib/auth-context";
 
 const NAV = [
   { label: "Home", href: "/#home" },
@@ -16,6 +18,8 @@ const NAV = [
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [booking, setBooking] = useState(false);
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -57,14 +61,18 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <a
-              href={WA_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to={isAuthenticated ? "/portal" : "/login"}
+              className="hidden md:inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-[12px] text-muted-foreground hover:text-foreground transition"
+            >
+              <LayoutDashboard className="w-3.5 h-3.5" />{isAuthenticated ? "Portal" : "Sign in"}
+            </Link>
+            <button
+              onClick={() => setBooking(true)}
               className="hidden md:inline-flex items-center justify-center rounded-full glass-strong px-4 py-2 text-[13px] font-medium text-foreground hover:border-gold/40 transition"
             >
               Book Consultation
-            </a>
+            </button>
             <button
               className="lg:hidden p-2 -mr-1 text-foreground"
               onClick={() => setOpen((v) => !v)}
@@ -88,18 +96,18 @@ export function Header() {
                   {n.label}
                 </a>
               ))}
-              <a
-                href={WA_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link to={isAuthenticated ? "/portal" : "/login"} onClick={() => setOpen(false)} className="text-sm py-2.5 px-3 rounded-lg text-muted-foreground hover:text-foreground">{isAuthenticated ? "Client Portal" : "Sign in"}</Link>
+              <button
+                onClick={() => { setOpen(false); setBooking(true); }}
                 className="mt-2 inline-flex items-center justify-center rounded-full gold-gradient px-5 py-3 text-sm font-semibold text-[oklch(0.15_0.02_260)]"
               >
                 Book Consultation
-              </a>
+              </button>
             </nav>
           </div>
         )}
       </header>
+      <BookingDialog open={booking} onOpenChange={setBooking} />
     </div>
   );
 }

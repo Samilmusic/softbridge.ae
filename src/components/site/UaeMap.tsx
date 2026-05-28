@@ -346,7 +346,7 @@ export function UaeMap() {
     const pxW = pxMaxX - pxMinX;
     const pxH = pxMaxY - pxMinY;
 
-    const reservePanel = mode === "emirate" ? 340 : 80;
+    const reservePanel = 80;
     const padX = 160;
     const padY = 170;
     const availW = Math.max(280, VW - reservePanel - padX * 2);
@@ -796,21 +796,9 @@ export function UaeMap() {
               )}
             </AnimatePresence>
 
-            {/* Floating cinematic emirate preview panel */}
-            <AnimatePresence>
-              {focusEmirate && !active && (
-                <motion.div
-                  key={`preview-${focusEmirate}`}
-                  initial={{ opacity: 0, y: -8, scale: 0.96 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -8, scale: 0.97 }}
-                  transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute top-16 right-4 z-20 w-[300px] max-w-[42%] hidden sm:block pointer-events-none"
-                >
-                  <EmiratePreviewCard em={focusEmirate} count={grouped[focusEmirate].length} />
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {/* Emirate preview image now lives only in the right-side panel — map area stays clean */}
+
+
 
 
 
@@ -908,7 +896,7 @@ export function UaeMap() {
                   initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
                   className="p-5 flex flex-col h-full"
                 >
-                  <EmirateHero em={focusEmirate} count={grouped[focusEmirate].length} />
+                  <EmiratePreviewCard em={focusEmirate} count={grouped[focusEmirate].length} />
                   <div className="overflow-y-auto custom-scroll pr-1 mt-4 space-y-2">
                     <div className="text-[10px] tracking-[0.22em] uppercase text-muted-foreground mb-2">
                       Jurisdictions in {focusEmirate}
@@ -1489,9 +1477,7 @@ function inSafeZone(x: number, y: number) {
 }
 
 function resolveSide(n: { x: number; y: number; side: "left" | "right" }): "left" | "right" {
-  // If a right-side label would extend into the panel safe zone, flip to left.
-  if (n.side === "right" && (n.x > 58 && n.y < PANEL_SAFE.yMax + 2)) return "left";
-  if (inSafeZone(n.x, n.y)) return "left";
+  // Map area is now clean (no floating overlay panel) — keep designed sides.
   return n.side;
 }
 

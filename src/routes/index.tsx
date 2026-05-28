@@ -14,7 +14,6 @@ import { Contact } from "@/components/site/Contact";
 import { Footer } from "@/components/site/Footer";
 import { FloatingActions } from "@/components/site/FloatingActions";
 import { AiAdvisorTeaser } from "@/components/site/AiAdvisorTeaser";
-import { UaeIntelligence } from "@/components/site/UaeIntelligence";
 import { useReveal } from "@/hooks/use-reveal";
 
 export const Route = createFileRoute("/")({
@@ -36,7 +35,6 @@ function Index() {
         <Hero />
         <WhatWeDo />
         <AiAdvisorTeaser />
-        <UaeIntelligence />
 
         <RemoteSetupTeaser />
         <Process />

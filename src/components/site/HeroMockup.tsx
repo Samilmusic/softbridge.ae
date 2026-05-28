@@ -68,7 +68,7 @@ export function HeroMockup() {
         </div>
 
         {/* floating sub-card: approval */}
-        <div className="absolute -left-6 md:-left-10 -bottom-8 w-56 glass-strong rounded-xl p-4 shadow-2xl animate-float-soft" style={{ animationDelay: "1.4s" }}>
+        <div className="hidden sm:block absolute -left-16 md:-left-24 lg:-left-32 -bottom-10 w-56 glass-strong rounded-xl p-4 shadow-2xl animate-float-soft" style={{ animationDelay: "1.4s" }}>
           <div className="flex items-center justify-between">
             <div className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Authority Approval</div>
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse-soft" />

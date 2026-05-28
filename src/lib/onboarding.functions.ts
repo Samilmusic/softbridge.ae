@@ -216,7 +216,8 @@ const completeSchema = z.object({
   setupGoals: z.array(z.string().trim().max(80)).max(2).default([]),
 });
 
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+
+
 
 export const completeOnboarding = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])

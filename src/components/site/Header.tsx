@@ -82,6 +82,7 @@ export function Header() {
               Book Consultation
             </button>
 
+            <ThemeToggle className="md:hidden" />
             <button
               className="lg:hidden p-2 -mr-1 text-foreground"
               onClick={() => setOpen((v) => !v)}

@@ -119,6 +119,10 @@ export function OnboardingDialog({ open, onOpenChange }: { open: boolean; onOpen
     setLoading(true);
     try {
       const res = await verifyFn({ data: { email: s1.email, code } });
+      if (!res.ok) {
+        toast.error(res.error);
+        return;
+      }
       if (res.tokenHash) {
         const { error } = await supabase.auth.verifyOtp({ token_hash: res.tokenHash, type: "magiclink" });
         if (error) throw new Error(error.message);

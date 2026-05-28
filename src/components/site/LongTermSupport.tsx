@@ -11,18 +11,19 @@ const CARDS = [
 
 export function LongTermSupport() {
   return (
-    <section className="relative py-24 md:py-32 border-t border-white/5 overflow-hidden">
-      {/* cinematic bg */}
-      <div aria-hidden className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[oklch(0.10_0.02_260)] to-transparent" />
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
-        <svg className="absolute inset-0 w-full h-full opacity-[0.18]" preserveAspectRatio="none" viewBox="0 0 1200 600">
-          <g fill="none" stroke="oklch(0.84 0.10 82)" strokeWidth="0.4">
-            {Array.from({ length: 18 }).map((_, i) => (
-              <path key={i} d={`M0,${i * 36} Q600,${i * 36 - 30} 1200,${i * 36}`} />
-            ))}
-          </g>
-        </svg>
+    <section className="relative py-24 md:py-32 overflow-hidden">
+      {/* soft luxury bg */}
+      <div aria-hidden className="absolute inset-0 pointer-events-none">
+        {/* seamless fade into neighbors */}
+        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-background to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent" />
+        {/* lavender diffusion */}
+        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[1100px] h-[520px] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--primary)_14%,transparent),transparent_70%)] blur-3xl opacity-70" />
+        <div className="absolute -left-40 top-1/3 w-[520px] h-[520px] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--accent)_16%,transparent),transparent_70%)] blur-3xl opacity-60" />
+        <div className="absolute -right-40 bottom-10 w-[560px] h-[560px] rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--primary)_12%,transparent),transparent_70%)] blur-3xl opacity-55" />
+        {/* hairline accents */}
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[color-mix(in_oklab,var(--primary)_35%,transparent)] to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[color-mix(in_oklab,var(--primary)_25%,transparent)] to-transparent" />
       </div>
 
       <div className="relative mx-auto max-w-7xl px-6">

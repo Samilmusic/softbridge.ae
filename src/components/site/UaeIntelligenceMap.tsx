@@ -383,6 +383,44 @@ export function UaeIntelligenceMap() {
                 })}
               </svg>
 
+              {/* HTML tooltip overlay — positioned over map but outside the SVG layer */}
+              {(() => {
+                const tipId = hoverId ?? selectedId;
+                const tip = tipId ? ZONES.find((z) => z.id === tipId) : null;
+                if (!tip) return null;
+                const leftPct = (tip.x / 1000) * 100;
+                const topPct = (tip.y / 720) * 100;
+                const onRight = leftPct < 60;
+                return (
+                  <div
+                    className="absolute pointer-events-none transition-all duration-200 z-10"
+                    style={{
+                      left: `${leftPct}%`,
+                      top: `${topPct}%`,
+                      transform: `translate(${onRight ? "20px" : "calc(-100% - 20px)"}, -50%)`,
+                    }}
+                  >
+                    <div
+                      className="px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap"
+                      style={{
+                        background: "rgba(255,255,255,0.96)",
+                        border: "1px solid rgba(139,108,255,0.30)",
+                        color: "#3D2A8F",
+                        boxShadow: "0 10px 30px -10px rgba(123,92,255,0.30), 0 0 0 1px rgba(255,255,255,0.6) inset",
+                        backdropFilter: "blur(8px)",
+                      }}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="inline-block size-1.5 rounded-full" style={{ background: "#7B5CFF" }} />
+                        {tip.name}
+                        <span className="text-[10px] font-medium opacity-60">· {tip.emirate}</span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
+
+
               {/* Floating compare chip */}
               {compareZones.length > 0 && (
                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3 py-2 rounded-full glass-panel border text-xs"

@@ -12,47 +12,57 @@ import { Button } from "@/components/ui/button";
 import { WA_LINK, SITE } from "@/lib/site";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/_authenticated/portal")({ component: PortalPage });
+export const Route = createFileRoute("/_authenticated/portal")({
+  component: PortalPage,
+  errorComponent: PortalErrorFallback,
+});
+
+function PortalErrorFallback({ error, reset }: { error: Error; reset: () => void }) {
+  return (
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top_right,oklch(0.22_0.04_265),oklch(0.13_0.02_260))] flex items-center justify-center px-4">
+      <div className="glass-strong rounded-3xl p-8 max-w-md text-center border border-white/8">
+        <AlertTriangle className="w-8 h-8 text-amber-300 mx-auto mb-3" />
+        <h1 className="font-display text-xl text-foreground">We couldn't prepare your portal</h1>
+        <p className="text-sm text-muted-foreground mt-2">{error?.message || "Please try again or contact support."}</p>
+        <div className="mt-5 flex justify-center gap-2">
+          <Button onClick={reset} className="rounded-full gold-gradient text-[oklch(0.15_0.02_260)] font-semibold">Try again</Button>
+          <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-4 py-2 rounded-full border border-white/15 text-sm">Contact support</a>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function PortalPage() {
   const { user } = useAuth();
   const fetchCase = useServerFn(getMyCase);
   const [state, setState] = useState<any>(null);
   const [profile, setProfile] = useState<{ full_name: string | null; email: string } | null>(null);
+  const [loaded, setLoaded] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!user) return;
+    let cancelled = false;
     (async () => {
-      const [{ data: p }, res] = await Promise.all([
-        supabase.from("profiles").select("full_name,email").eq("id", user.id).maybeSingle(),
-        fetchCase(),
-      ]);
-      setProfile(p as any);
-      setState(res);
+      try {
+        const [pRes, cRes] = await Promise.all([
+          supabase.from("profiles").select("full_name,email").eq("id", user.id).maybeSingle(),
+          fetchCase(),
+        ]);
+        if (cancelled) return;
+        setProfile((pRes.data as any) ?? { full_name: null, email: user.email ?? "" });
+        setState(cRes);
+      } catch (e: any) {
+        console.error("portal load failed", e);
+        if (!cancelled) setLoadError(e?.message || "We could not prepare your portal. Please try again or contact support.");
+      } finally {
+        if (!cancelled) setLoaded(true);
+      }
     })();
+    return () => { cancelled = true; };
   }, [user, fetchCase]);
 
-  const signOut = async () => { await supabase.auth.signOut(); toast.success("Signed out"); };
-
-  const displayName = profile?.full_name || profile?.email || "Client";
-  const cas = state?.case;
-  const stages = state?.stages ?? [];
-  const docs = state?.documents ?? [];
-  const activity = state?.activity ?? [];
-  const quotes = state?.quotes ?? [];
-
-  const stage = (cas?.current_stage ?? "consultation") as StageKey;
-  const pct = cas?.progress_percentage ?? 0;
-  const meta = STAGE_META[stage];
-
-  const waiting = stages.filter((s: any) => s.status === "waiting_client");
-  const nextStage = stages.find((s: any) => s.status !== "completed");
-  const isLifetime = stage === "lifetime_support" && pct >= 95;
-
-  // SVG ring
-  const ringR = 56;
-  const ringC = 2 * Math.PI * ringR;
-  const ringOffset = ringC - (pct / 100) * ringC;
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top_right,oklch(0.22_0.04_265),oklch(0.13_0.02_260))] text-foreground">

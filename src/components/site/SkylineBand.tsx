@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import dubaiSkyline from "@/assets/dubai-skyline.png";
+import dubaiSkyline from "@/assets/dubai-skyline.webp";
 
 /**
  * Cinematic transition band: Dubai skyline immersed in lavender fog,

@@ -12,9 +12,9 @@ import ajmanImg from "@/assets/emirates/ajman.jpg";
 import rakImg from "@/assets/emirates/ras-al-khaimah.jpg";
 import fujairahImg from "@/assets/emirates/fujairah.jpg";
 import uaqImg from "@/assets/emirates/umm-al-quwain.jpg";
-import dubaiDetailMap from "@/assets/emirates/dubai-detailed-map.png";
-import abuDhabiDetailMap from "@/assets/emirates/abu-dhabi-detailed-map.png";
-import federationMap from "@/assets/uae-federation-light.png";
+import dubaiDetailMap from "@/assets/emirates/dubai-detailed-map.webp";
+import abuDhabiDetailMap from "@/assets/emirates/abu-dhabi-detailed-map.webp";
+import federationMap from "@/assets/uae-federation-light.webp";
 
 /* ───────────────────── Types & Data ───────────────────── */
 

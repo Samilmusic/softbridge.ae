@@ -1,6 +1,6 @@
 import dubaiFreeZonesCover from "@/assets/blog/dubai-free-zones.jpg";
 import bankingDocumentsCover from "@/assets/blog/banking-documents.jpg";
-import dubaiSkylineCover from "@/assets/dubai-skyline.png";
+import dubaiSkylineCover from "@/assets/dubai-skyline.webp";
 import ifzaRecognitionCover from "@/assets/ifza-recognition.jpg";
 import abuDhabiCover from "@/assets/emirates/abu-dhabi.jpg";
 import dubaiCover from "@/assets/emirates/dubai.jpg";

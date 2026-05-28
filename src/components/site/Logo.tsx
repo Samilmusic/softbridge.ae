@@ -1,4 +1,4 @@
-import logoUrl from "@/assets/logo-sb.png";
+import logoUrl from "@/assets/logo-sb.webp";
 
 interface LogoProps {
   size?: number;

@@ -9,12 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UaqCompanyFormationRouteImport } from './routes/uaq-company-formation'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SharjahCompanyFormationRouteImport } from './routes/sharjah-company-formation'
 import { Route as RemoteCompanySetupRouteImport } from './routes/remote-company-setup'
+import { Route as RakCompanyFormationRouteImport } from './routes/rak-company-formation'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as FujairahCompanyFormationRouteImport } from './routes/fujairah-company-formation'
+import { Route as DubaiCompanyFormationRouteImport } from './routes/dubai-company-formation'
+import { Route as AjmanCompanyFormationRouteImport } from './routes/ajman-company-formation'
 import { Route as AdvisorRouteImport } from './routes/advisor'
+import { Route as AbuDhabiCompanyFormationRouteImport } from './routes/abu-dhabi-company-formation'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
@@ -29,14 +36,29 @@ import { Route as AuthenticatedPortalRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ApiAdvisorChatRouteImport } from './routes/api/advisor.chat'
 
+const UaqCompanyFormationRoute = UaqCompanyFormationRouteImport.update({
+  id: '/uaq-company-formation',
+  path: '/uaq-company-formation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SharjahCompanyFormationRoute = SharjahCompanyFormationRouteImport.update({
+  id: '/sharjah-company-formation',
+  path: '/sharjah-company-formation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RemoteCompanySetupRoute = RemoteCompanySetupRouteImport.update({
   id: '/remote-company-setup',
   path: '/remote-company-setup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RakCompanyFormationRoute = RakCompanyFormationRouteImport.update({
+  id: '/rak-company-formation',
+  path: '/rak-company-formation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QuoteRoute = QuoteRouteImport.update({
@@ -54,11 +76,33 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FujairahCompanyFormationRoute =
+  FujairahCompanyFormationRouteImport.update({
+    id: '/fujairah-company-formation',
+    path: '/fujairah-company-formation',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const DubaiCompanyFormationRoute = DubaiCompanyFormationRouteImport.update({
+  id: '/dubai-company-formation',
+  path: '/dubai-company-formation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AjmanCompanyFormationRoute = AjmanCompanyFormationRouteImport.update({
+  id: '/ajman-company-formation',
+  path: '/ajman-company-formation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdvisorRoute = AdvisorRouteImport.update({
   id: '/advisor',
   path: '/advisor',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AbuDhabiCompanyFormationRoute =
+  AbuDhabiCompanyFormationRouteImport.update({
+    id: '/abu-dhabi-company-formation',
+    path: '/abu-dhabi-company-formation',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -132,12 +176,19 @@ const ApiAdvisorChatRoute = ApiAdvisorChatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/abu-dhabi-company-formation': typeof AbuDhabiCompanyFormationRoute
   '/advisor': typeof AdvisorRoute
+  '/ajman-company-formation': typeof AjmanCompanyFormationRoute
+  '/dubai-company-formation': typeof DubaiCompanyFormationRoute
+  '/fujairah-company-formation': typeof FujairahCompanyFormationRoute
   '/login': typeof LoginRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/quote': typeof QuoteRoute
+  '/rak-company-formation': typeof RakCompanyFormationRoute
   '/remote-company-setup': typeof RemoteCompanySetupRoute
+  '/sharjah-company-formation': typeof SharjahCompanyFormationRoute
   '/terms': typeof TermsRoute
+  '/uaq-company-formation': typeof UaqCompanyFormationRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/portal': typeof AuthenticatedPortalRoute
   '/services/aml-compliance': typeof ServicesAmlComplianceRoute
@@ -152,12 +203,19 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/abu-dhabi-company-formation': typeof AbuDhabiCompanyFormationRoute
   '/advisor': typeof AdvisorRoute
+  '/ajman-company-formation': typeof AjmanCompanyFormationRoute
+  '/dubai-company-formation': typeof DubaiCompanyFormationRoute
+  '/fujairah-company-formation': typeof FujairahCompanyFormationRoute
   '/login': typeof LoginRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/quote': typeof QuoteRoute
+  '/rak-company-formation': typeof RakCompanyFormationRoute
   '/remote-company-setup': typeof RemoteCompanySetupRoute
+  '/sharjah-company-formation': typeof SharjahCompanyFormationRoute
   '/terms': typeof TermsRoute
+  '/uaq-company-formation': typeof UaqCompanyFormationRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/portal': typeof AuthenticatedPortalRoute
   '/services/aml-compliance': typeof ServicesAmlComplianceRoute
@@ -174,12 +232,19 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/about': typeof AboutRoute
+  '/abu-dhabi-company-formation': typeof AbuDhabiCompanyFormationRoute
   '/advisor': typeof AdvisorRoute
+  '/ajman-company-formation': typeof AjmanCompanyFormationRoute
+  '/dubai-company-formation': typeof DubaiCompanyFormationRoute
+  '/fujairah-company-formation': typeof FujairahCompanyFormationRoute
   '/login': typeof LoginRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/quote': typeof QuoteRoute
+  '/rak-company-formation': typeof RakCompanyFormationRoute
   '/remote-company-setup': typeof RemoteCompanySetupRoute
+  '/sharjah-company-formation': typeof SharjahCompanyFormationRoute
   '/terms': typeof TermsRoute
+  '/uaq-company-formation': typeof UaqCompanyFormationRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/portal': typeof AuthenticatedPortalRoute
   '/services/aml-compliance': typeof ServicesAmlComplianceRoute
@@ -196,12 +261,19 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/abu-dhabi-company-formation'
     | '/advisor'
+    | '/ajman-company-formation'
+    | '/dubai-company-formation'
+    | '/fujairah-company-formation'
     | '/login'
     | '/privacy-policy'
     | '/quote'
+    | '/rak-company-formation'
     | '/remote-company-setup'
+    | '/sharjah-company-formation'
     | '/terms'
+    | '/uaq-company-formation'
     | '/admin'
     | '/portal'
     | '/services/aml-compliance'
@@ -216,12 +288,19 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/abu-dhabi-company-formation'
     | '/advisor'
+    | '/ajman-company-formation'
+    | '/dubai-company-formation'
+    | '/fujairah-company-formation'
     | '/login'
     | '/privacy-policy'
     | '/quote'
+    | '/rak-company-formation'
     | '/remote-company-setup'
+    | '/sharjah-company-formation'
     | '/terms'
+    | '/uaq-company-formation'
     | '/admin'
     | '/portal'
     | '/services/aml-compliance'
@@ -237,12 +316,19 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/about'
+    | '/abu-dhabi-company-formation'
     | '/advisor'
+    | '/ajman-company-formation'
+    | '/dubai-company-formation'
+    | '/fujairah-company-formation'
     | '/login'
     | '/privacy-policy'
     | '/quote'
+    | '/rak-company-formation'
     | '/remote-company-setup'
+    | '/sharjah-company-formation'
     | '/terms'
+    | '/uaq-company-formation'
     | '/_authenticated/admin'
     | '/_authenticated/portal'
     | '/services/aml-compliance'
@@ -259,12 +345,19 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   AboutRoute: typeof AboutRoute
+  AbuDhabiCompanyFormationRoute: typeof AbuDhabiCompanyFormationRoute
   AdvisorRoute: typeof AdvisorRoute
+  AjmanCompanyFormationRoute: typeof AjmanCompanyFormationRoute
+  DubaiCompanyFormationRoute: typeof DubaiCompanyFormationRoute
+  FujairahCompanyFormationRoute: typeof FujairahCompanyFormationRoute
   LoginRoute: typeof LoginRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   QuoteRoute: typeof QuoteRoute
+  RakCompanyFormationRoute: typeof RakCompanyFormationRoute
   RemoteCompanySetupRoute: typeof RemoteCompanySetupRoute
+  SharjahCompanyFormationRoute: typeof SharjahCompanyFormationRoute
   TermsRoute: typeof TermsRoute
+  UaqCompanyFormationRoute: typeof UaqCompanyFormationRoute
   ServicesAmlComplianceRoute: typeof ServicesAmlComplianceRoute
   ServicesBankingPreparationRoute: typeof ServicesBankingPreparationRoute
   ServicesBusinessFormationRoute: typeof ServicesBusinessFormationRoute
@@ -277,6 +370,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/uaq-company-formation': {
+      id: '/uaq-company-formation'
+      path: '/uaq-company-formation'
+      fullPath: '/uaq-company-formation'
+      preLoaderRoute: typeof UaqCompanyFormationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
@@ -284,11 +384,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sharjah-company-formation': {
+      id: '/sharjah-company-formation'
+      path: '/sharjah-company-formation'
+      fullPath: '/sharjah-company-formation'
+      preLoaderRoute: typeof SharjahCompanyFormationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/remote-company-setup': {
       id: '/remote-company-setup'
       path: '/remote-company-setup'
       fullPath: '/remote-company-setup'
       preLoaderRoute: typeof RemoteCompanySetupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rak-company-formation': {
+      id: '/rak-company-formation'
+      path: '/rak-company-formation'
+      fullPath: '/rak-company-formation'
+      preLoaderRoute: typeof RakCompanyFormationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/quote': {
@@ -312,11 +426,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/fujairah-company-formation': {
+      id: '/fujairah-company-formation'
+      path: '/fujairah-company-formation'
+      fullPath: '/fujairah-company-formation'
+      preLoaderRoute: typeof FujairahCompanyFormationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dubai-company-formation': {
+      id: '/dubai-company-formation'
+      path: '/dubai-company-formation'
+      fullPath: '/dubai-company-formation'
+      preLoaderRoute: typeof DubaiCompanyFormationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ajman-company-formation': {
+      id: '/ajman-company-formation'
+      path: '/ajman-company-formation'
+      fullPath: '/ajman-company-formation'
+      preLoaderRoute: typeof AjmanCompanyFormationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/advisor': {
       id: '/advisor'
       path: '/advisor'
       fullPath: '/advisor'
       preLoaderRoute: typeof AdvisorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/abu-dhabi-company-formation': {
+      id: '/abu-dhabi-company-formation'
+      path: '/abu-dhabi-company-formation'
+      fullPath: '/abu-dhabi-company-formation'
+      preLoaderRoute: typeof AbuDhabiCompanyFormationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -431,12 +573,19 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   AboutRoute: AboutRoute,
+  AbuDhabiCompanyFormationRoute: AbuDhabiCompanyFormationRoute,
   AdvisorRoute: AdvisorRoute,
+  AjmanCompanyFormationRoute: AjmanCompanyFormationRoute,
+  DubaiCompanyFormationRoute: DubaiCompanyFormationRoute,
+  FujairahCompanyFormationRoute: FujairahCompanyFormationRoute,
   LoginRoute: LoginRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   QuoteRoute: QuoteRoute,
+  RakCompanyFormationRoute: RakCompanyFormationRoute,
   RemoteCompanySetupRoute: RemoteCompanySetupRoute,
+  SharjahCompanyFormationRoute: SharjahCompanyFormationRoute,
   TermsRoute: TermsRoute,
+  UaqCompanyFormationRoute: UaqCompanyFormationRoute,
   ServicesAmlComplianceRoute: ServicesAmlComplianceRoute,
   ServicesBankingPreparationRoute: ServicesBankingPreparationRoute,
   ServicesBusinessFormationRoute: ServicesBusinessFormationRoute,
@@ -450,13 +599,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

@@ -1,7 +1,7 @@
-import { ScaleIcon, Hammer, UserCog, Handshake, Award, Layers3, Users } from "lucide-react";
+import { Scale, Hammer, UserCog, Handshake, Award, Layers3, Users } from "lucide-react";
 
 const STRENGTHS = [
-  { icon: ScaleIcon, title: "Regulatory Clarity", text: "Clear guidance aligned with UAE regulations and compliance standards." },
+  { icon: Scale, title: "Regulatory Clarity", text: "Clear guidance aligned with UAE regulations and compliance standards." },
   { icon: Hammer, title: "Practical Execution", text: "Hands-on support focused on real operational needs — not theory." },
   { icon: UserCog, title: "Tailored Business Support", text: "Each solution is adapted to the client's business model, industry, and growth stage." },
   { icon: Handshake, title: "Long-Term Partnership", text: "We support businesses beyond setup, providing continuity and structured growth assistance." },

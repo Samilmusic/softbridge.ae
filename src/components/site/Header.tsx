@@ -4,6 +4,7 @@ import { Link } from "@tanstack/react-router";
 import { BookingDialog } from "@/components/site/BookingDialog";
 import { ThemeToggle } from "@/components/site/ThemeToggle";
 import { useAuth } from "@/lib/auth-context";
+import logoSb from "@/assets/logo-sb.png";
 
 const NAV = [
   { label: "Home", href: "/#home" },
@@ -40,9 +41,7 @@ export function Header() {
       >
         <div className="px-4 md:px-5 h-14 flex items-center justify-between">
           <a href="#home" className="flex items-center gap-2.5 group">
-            <div className="relative w-8 h-8 rounded-lg gold-gradient flex items-center justify-center shadow-lg shadow-amber-500/10">
-              <span className="text-[13px] font-bold text-[oklch(0.15_0.02_260)]">SB</span>
-            </div>
+            <img src={logoSb} alt="Soft Bridge logo" className="w-9 h-9 object-contain drop-shadow-[0_2px_8px_oklch(0.65_0.18_290/0.35)] transition-transform group-hover:scale-105" />
             <div className="leading-tight hidden sm:block">
               <div className="text-[13px] font-semibold tracking-tight text-foreground">Soft Bridge</div>
               <div className="text-[9px] uppercase tracking-[0.22em] text-muted-foreground">FZE LLC</div>

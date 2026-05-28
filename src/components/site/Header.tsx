@@ -11,7 +11,6 @@ const NAV = [
   { label: "About", href: "/about" },
   { label: "Services", href: "/#services" },
   { label: "Remote Setup", href: "/remote-company-setup" },
-  { label: "Process", href: "/#process" },
   { label: "AI Advisor", href: "/advisor" },
   { label: "Insights", href: "/insights" },
   { label: "FAQ", href: "/#faq" },

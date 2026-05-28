@@ -206,11 +206,21 @@ export function Contact() {
               <div className="pt-2 flex flex-wrap gap-3 items-center">
                 <button
                   type="submit"
-                  className="group relative inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold text-white bg-gradient-to-r from-violet-600 to-fuchsia-600 shadow-[0_15px_40px_-12px_rgba(124,58,237,0.6)] hover:shadow-[0_20px_50px_-10px_rgba(124,58,237,0.8)] hover:-translate-y-0.5 transition-all overflow-hidden"
+                  disabled={status !== "idle"}
+                  aria-busy={status === "sending"}
+                  className="group relative inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold text-white bg-gradient-to-r from-violet-600 to-fuchsia-600 shadow-[0_15px_40px_-12px_rgba(124,58,237,0.6)] hover:shadow-[0_20px_50px_-10px_rgba(124,58,237,0.8)] hover:-translate-y-0.5 transition-all overflow-hidden disabled:opacity-80 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                 >
                   <span className="absolute inset-0 bg-gradient-to-r from-fuchsia-600 to-violet-600 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <Send className="relative w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                  <span className="relative">Send Inquiry</span>
+                  {status === "sending" ? (
+                    <Loader2 className="relative w-4 h-4 animate-spin" />
+                  ) : status === "sent" ? (
+                    <Check className="relative w-4 h-4" />
+                  ) : (
+                    <Send className="relative w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                  )}
+                  <span className="relative">
+                    {status === "sending" ? "Sending…" : status === "sent" ? "Inquiry sent" : "Send Inquiry"}
+                  </span>
                 </button>
                 <a
                   href={WA_LINK}

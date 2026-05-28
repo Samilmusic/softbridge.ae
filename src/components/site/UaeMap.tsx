@@ -969,7 +969,7 @@ export function UaeMap() {
           </div>
 
           {/* RIGHT — info panel */}
-          <aside className="relative rounded-3xl border border-white/10 bg-[oklch(0.12_0.025_280/0.78)] backdrop-blur-xl overflow-hidden max-h-[760px] flex flex-col">
+          <aside className="relative glass-card rounded-3xl overflow-hidden lg:max-h-[760px] flex flex-col order-3">
             <AnimatePresence mode="wait">
               {!active && !focusEmirate && (
                 <motion.div

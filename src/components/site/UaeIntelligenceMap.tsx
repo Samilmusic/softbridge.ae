@@ -570,88 +570,115 @@ function ScoreBar({ value, max = 5 }: { value: number; max?: number }) {
 
 function ZoneDetail({ z, onCompare, inCompare, aiScore }: { z: Zone; onCompare: () => void; inCompare: boolean; aiScore: number }) {
   return (
-    <div className="space-y-4">
-      <div className="flex items-start justify-between">
-        <div>
-          <div className="text-[11px] uppercase tracking-wider text-muted-foreground">{z.emirate}</div>
-          <h3 className="font-display text-2xl tracking-tight">{z.name}</h3>
+    <div className="space-y-7">
+      {/* Header with logo */}
+      <div className="flex items-start gap-4">
+        <div className="h-14 w-14 rounded-2xl flex items-center justify-center font-display text-lg font-semibold text-white shadow-[0_10px_24px_-6px_var(--glow-primary)] shrink-0"
+             style={{ background: "linear-gradient(135deg, var(--primary), var(--accent))" }}>
+          {z.name.slice(0, 2).toUpperCase()}
         </div>
-        <div className="text-right">
-          <div className="text-[10px] uppercase tracking-wider text-muted-foreground">AI Score</div>
-          <div className="font-display text-2xl" style={{ color: "var(--primary)" }}>{Math.min(99, Math.round(aiScore))}</div>
+        <div className="flex-1 min-w-0">
+          <div className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">{z.emirate}</div>
+          <h3 className="font-display text-[28px] leading-[1.1] tracking-tight mt-0.5">{z.name}</h3>
         </div>
       </div>
 
-      <p className="text-sm text-muted-foreground leading-relaxed">{z.tagline}</p>
+      {/* AI score band */}
+      <div className="flex items-center justify-between rounded-2xl px-4 py-3 border"
+           style={{ borderColor: "var(--surface-border-strong)", background: "linear-gradient(135deg, color-mix(in oklab, var(--primary) 10%, transparent), color-mix(in oklab, var(--accent) 10%, transparent))" }}>
+        <div className="flex items-center gap-2">
+          <Sparkles className="size-4" style={{ color: "var(--primary)" }} />
+          <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--primary)" }}>AI Recommendation</span>
+        </div>
+        <div className="font-display text-2xl leading-none" style={{ color: "var(--primary)" }}>
+          {Math.min(99, Math.round(aiScore))}<span className="text-xs text-muted-foreground font-sans">/100</span>
+        </div>
+      </div>
+
+      <p className="text-[15px] text-muted-foreground leading-relaxed">{z.tagline}</p>
 
       <div className="flex flex-wrap gap-1.5">
         {z.badges.map((b) => (
-          <span key={b} className="text-[10px] font-medium px-2 py-1 rounded-full border"
+          <span key={b} className="text-[11px] font-medium px-2.5 py-1 rounded-full border"
                 style={{ borderColor: "var(--surface-border-strong)", color: "var(--primary)", background: "color-mix(in oklab, var(--primary) 6%, transparent)" }}>
             {b}
           </span>
         ))}
       </div>
 
+      {/* Premium 2-col metrics */}
       <div className="grid grid-cols-2 gap-3">
-        <Metric icon={<Clock className="size-3.5" />} label="Setup" value={`${z.setupDays} days`} />
-        <Metric icon={<Banknote className="size-3.5" />} label="From"  value={`AED ${z.fromAED.toLocaleString()}`} />
-        <div className="rounded-xl p-3 border" style={{ borderColor: "var(--surface-border)", background: "var(--surface-tint-soft)" }}>
-          <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1.5">Banking</div>
-          <ScoreBar value={z.bankingScore} />
-        </div>
-        <div className="rounded-xl p-3 border" style={{ borderColor: "var(--surface-border)", background: "var(--surface-tint-soft)" }}>
-          <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1.5">Visa flex.</div>
-          <ScoreBar value={z.visaFlex} />
-        </div>
+        <MetricCard icon={<Clock className="size-4" />}    label="Setup"        value={`${z.setupDays}`} unit="days" />
+        <MetricCard icon={<Banknote className="size-4" />} label="From"         value={z.fromAED.toLocaleString()} unit="AED" />
+        <MetricCard icon={<Building2 className="size-4" />} label="Banking"   bars={z.bankingScore} />
+        <MetricCard icon={<Plane className="size-4" />}     label="Visa flex." bars={z.visaFlex} />
       </div>
 
       <div>
-        <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1.5">Best activities</div>
+        <div className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground mb-2">Best activities</div>
         <div className="flex flex-wrap gap-1.5">
           {z.bestFor.map((b) => (
-            <span key={b} className="text-[11px] px-2 py-1 rounded-md border bg-white/70"
+            <span key={b} className="text-xs px-2.5 py-1 rounded-lg border bg-white/80"
                   style={{ borderColor: "var(--surface-border)" }}>{b}</span>
           ))}
         </div>
       </div>
 
       {z.remote && (
-        <div className="flex items-center gap-2 text-xs rounded-xl p-2.5 border"
+        <div className="flex items-center gap-2.5 text-sm rounded-xl px-3.5 py-3 border"
              style={{ borderColor: "var(--surface-border-strong)", background: "color-mix(in oklab, var(--accent) 8%, transparent)" }}>
-          <Zap className="size-3.5" style={{ color: "var(--primary)" }} />
-          <span>Remote formation available — no travel required.</span>
+          <Zap className="size-4 shrink-0" style={{ color: "var(--primary)" }} />
+          <span className="leading-snug">Remote formation available — no travel required.</span>
         </div>
       )}
 
-      <div className="flex gap-2 pt-1">
+      {/* CTA row */}
+      <div className="pt-1 space-y-2.5">
         <a href="#contact"
-           className="flex-1 text-center text-sm font-medium px-4 py-2.5 rounded-xl text-white shadow-[0_8px_24px_-8px_var(--glow-primary)]"
+           className="block w-full text-center text-sm font-semibold px-5 py-3.5 rounded-2xl text-white shadow-[0_12px_30px_-10px_var(--glow-primary)] hover:opacity-95 transition"
            style={{ background: "linear-gradient(135deg, var(--primary), var(--accent))" }}>
           Start with {z.name}
         </a>
         <button onClick={onCompare}
-                className={cn("px-3 py-2.5 rounded-xl border text-sm font-medium transition", inCompare ? "text-white" : "")}
+                className={cn(
+                  "w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl border text-sm font-medium transition",
+                  inCompare ? "text-white" : "hover:bg-white",
+                )}
                 style={inCompare
                   ? { background: "var(--primary)", borderColor: "transparent" }
-                  : { borderColor: "var(--surface-border-strong)", background: "white" }}>
+                  : { borderColor: "var(--surface-border-strong)", background: "var(--surface-tint-soft)" }}>
           <GitCompareArrows className="size-4" />
+          {inCompare ? "In comparison" : "Add to compare"}
         </button>
       </div>
     </div>
   );
 }
 
-function Metric({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
+function MetricCard({ icon, label, value, unit, bars }: { icon: React.ReactNode; label: string; value?: string; unit?: string; bars?: number }) {
   return (
-    <div className="rounded-xl p-3 border" style={{ borderColor: "var(--surface-border)", background: "var(--surface-tint-soft)" }}>
-      <div className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1 flex items-center gap-1">
-        {icon} {label}
+    <div className="rounded-2xl p-4 border min-h-[96px] flex flex-col justify-between"
+         style={{ borderColor: "var(--surface-border-strong)", background: "linear-gradient(160deg, var(--surface-highlight), var(--surface-tint-soft))", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.6)" }}>
+      <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+        <span style={{ color: "var(--primary)" }}>{icon}</span> {label}
       </div>
-      <div className="font-display text-sm">{value}</div>
+      {bars !== undefined ? (
+        <div className="flex gap-1 mt-2">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <span key={i} className="h-2 flex-1 rounded-full"
+                  style={{ background: i < bars ? "linear-gradient(90deg, var(--primary), var(--accent))" : "color-mix(in oklab, var(--primary) 10%, transparent)" }} />
+          ))}
+        </div>
+      ) : (
+        <div className="flex items-baseline gap-1">
+          <span className="font-display text-2xl leading-none tracking-tight">{value}</span>
+          {unit && <span className="text-[11px] text-muted-foreground uppercase tracking-wider">{unit}</span>}
+        </div>
+      )}
     </div>
   );
 }
+
 
 function CompareView({ a, b, onClose }: { a: Zone; b: Zone; onClose: () => void }) {
   const rows: { label: string; av: string; bv: string }[] = [

@@ -5,6 +5,13 @@ import {
   ArrowRight, Building2, Sparkles, MapPin, ChevronDown, X,
   Activity, Scale, Map as MapIcon, Star, ChevronRight, ArrowLeft, Layers,
 } from "lucide-react";
+import dubaiImg from "@/assets/emirates/dubai.jpg";
+import abuDhabiImg from "@/assets/emirates/abu-dhabi.jpg";
+import sharjahImg from "@/assets/emirates/sharjah.jpg";
+import ajmanImg from "@/assets/emirates/ajman.jpg";
+import rakImg from "@/assets/emirates/ras-al-khaimah.jpg";
+import fujairahImg from "@/assets/emirates/fujairah.jpg";
+import uaqImg from "@/assets/emirates/umm-al-quwain.jpg";
 
 /* ───────────────────── Types & Data ───────────────────── */
 
@@ -202,6 +209,10 @@ const EMIRATE_ORDER: EmirateKey[] = [
 ];
 
 const MAP_TRANSFORM = "translate(40 -30) scale(0.92 1.12)";
+const MAP_SX = 0.92;
+const MAP_SY = 1.12;
+const MAP_TX = 40;
+const MAP_TY = -30;
 const VW = 1000;
 const VH = 760;
 
@@ -216,6 +227,73 @@ function markerPos(j: Jurisdiction): [number, number] {
 function emCenter(em: EmirateKey): [number, number] {
   return UAE_CITIES[EMIRATE_ANCHOR[em]] as unknown as [number, number];
 }
+
+type EmirateMeta = {
+  image: string;
+  description: string;
+  strengths: string[];
+  stats: { label: string; value: string }[];
+};
+
+const EMIRATE_META: Record<EmirateKey, EmirateMeta> = {
+  "Dubai": {
+    image: dubaiImg,
+    description: "Global business hub with advanced infrastructure, international connectivity and world-class free zones.",
+    strengths: ["Global Brand", "World-Class Banking", "Tech & Trade Hub"],
+    stats: [
+      { label: "Jurisdictions", value: "10" }, { label: "GDP Rank", value: "#1" }, { label: "Free Zones", value: "30+" },
+    ],
+  },
+  "Abu Dhabi": {
+    image: abuDhabiImg,
+    description: "The federal capital — home to sovereign wealth, energy, finance and government-scale projects.",
+    strengths: ["Capital City", "Government Tenders", "ADGM Financial Centre"],
+    stats: [
+      { label: "Jurisdictions", value: "5" }, { label: "AUM", value: "$1.5T+" }, { label: "GDP Share", value: "55%" },
+    ],
+  },
+  "Sharjah": {
+    image: sharjahImg,
+    description: "Cost-effective industrial and cultural emirate — strong manufacturing, education and creative sectors.",
+    strengths: ["Cost Efficient", "Industrial Strength", "Cultural Capital"],
+    stats: [
+      { label: "Jurisdictions", value: "5" }, { label: "Ports", value: "3" }, { label: "Universities", value: "16+" },
+    ],
+  },
+  "Ajman": {
+    image: ajmanImg,
+    description: "Compact, affordable and fast-moving — ideal for startups and SMEs seeking quick licensing.",
+    strengths: ["Lowest Setup Cost", "Quick Licensing", "SME Friendly"],
+    stats: [
+      { label: "Jurisdictions", value: "2" }, { label: "Setup", value: "2–5 days" }, { label: "From", value: "AED 8.5k" },
+    ],
+  },
+  "Ras Al Khaimah": {
+    image: rakImg,
+    description: "Industry and tourism powerhouse — mountains, manufacturing and the multi-sector RAKEZ ecosystem.",
+    strengths: ["Industrial Land", "Tourism Growth", "Multi-Sector RAKEZ"],
+    stats: [
+      { label: "Jurisdictions", value: "2" }, { label: "From", value: "AED 11.5k" }, { label: "Visitors", value: "1.1M+" },
+    ],
+  },
+  "Fujairah": {
+    image: fujairahImg,
+    description: "Strategic east-coast emirate — the only UAE port outside the Strait of Hormuz, ideal for shipping.",
+    strengths: ["Indian Ocean Port", "Bunkering Hub", "Trade Resilience"],
+    stats: [
+      { label: "Jurisdictions", value: "2" }, { label: "Port Rank", value: "#3 bunker" }, { label: "Coastline", value: "90 km" },
+    ],
+  },
+  "Umm Al Quwain": {
+    image: uaqImg,
+    description: "Quiet coastal emirate with simple licensing — popular with SMEs and lifestyle businesses.",
+    strengths: ["Affordable", "Quiet Coast", "Simple Licensing"],
+    stats: [
+      { label: "Jurisdictions", value: "1" }, { label: "From", value: "AED 9k" }, { label: "Setup", value: "3–7 days" },
+    ],
+  },
+};
+
 
 /* ───────────────────── Component ───────────────────── */
 
@@ -238,27 +316,48 @@ export function UaeMap() {
     return out;
   }, []);
 
-  // compute camera transform
+  // Smart camera — accounts for MAP_TRANSFORM and reserves space for the floating preview panel.
   const camera = useMemo(() => {
     if (mode === "federation" || !focusEmirate) {
       return { scale: 1, tx: 0, ty: 0 };
     }
     const list = grouped[focusEmirate];
     const pts = list.map(markerPos);
+    // expand cluster with the emirate hub itself so the connection lines stay in frame
+    const [hx, hy] = emCenter(focusEmirate);
+    pts.push([hx, hy]);
     const xs = pts.map(p => p[0]);
     const ys = pts.map(p => p[1]);
     const minX = Math.min(...xs), maxX = Math.max(...xs);
     const minY = Math.min(...ys), maxY = Math.max(...ys);
-    const pad = 110;
-    const w = (maxX - minX) + pad * 2;
-    const h = (maxY - minY) + pad * 2;
-    const cx = (minX + maxX) / 2;
-    const cy = (minY + maxY) / 2;
-    const s = Math.min(VW / w, VH / h, 2.6);
-    const tx = VW / 2 - s * cx;
-    const ty = VH / 2 - s * cy;
+
+    // Convert cluster bbox into post-MAP_TRANSFORM (screen-pre-camera) units
+    const pxMinX = MAP_TX + MAP_SX * minX;
+    const pxMaxX = MAP_TX + MAP_SX * maxX;
+    const pxMinY = MAP_TY + MAP_SY * minY;
+    const pxMaxY = MAP_TY + MAP_SY * maxY;
+    const pxCx = (pxMinX + pxMaxX) / 2;
+    const pxCy = (pxMinY + pxMaxY) / 2;
+    const pxW = pxMaxX - pxMinX;
+    const pxH = pxMaxY - pxMinY;
+
+    // Reserve room for floating preview panel on desktop (right side) + top breadcrumb
+    const reservePanel = mode === "emirate" ? 340 : 80; // svg-units (matches viewBox)
+    const padX = 140;
+    const padY = 150;
+    const availW = Math.max(280, VW - reservePanel - padX * 2);
+    const availH = Math.max(280, VH - padY * 2);
+
+    const s = Math.min(availW / Math.max(pxW, 1), availH / Math.max(pxH, 1), 2.1);
+
+    // Center cluster into the available area (shifted left to leave room for panel)
+    const centerX = padX + availW / 2;
+    const centerY = VH / 2;
+    const tx = centerX - s * pxCx;
+    const ty = centerY - s * pxCy;
     return { scale: s, tx, ty };
   }, [mode, focusEmirate, grouped]);
+
 
   const openEmirateView = (em: EmirateKey) => {
     setFocusEmirate(em);
@@ -669,6 +768,24 @@ export function UaeMap() {
               </motion.g>
             </svg>
 
+            {/* Floating cinematic emirate preview panel */}
+            <AnimatePresence>
+              {focusEmirate && !active && (
+                <motion.div
+                  key={`preview-${focusEmirate}`}
+                  initial={{ opacity: 0, y: -8, scale: 0.96 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                  transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute top-16 right-4 z-20 w-[300px] max-w-[42%] hidden sm:block pointer-events-none"
+                >
+                  <EmiratePreviewCard em={focusEmirate} count={grouped[focusEmirate].length} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+
+
             {/* Mini-map */}
             <div className="absolute bottom-4 right-4 z-10 w-[140px] h-[110px] rounded-xl border border-white/10 bg-[oklch(0.08_0.025_280/0.9)] backdrop-blur-md overflow-hidden">
               <svg viewBox={`0 0 ${VW} ${VH}`} className="w-full h-full">
@@ -927,7 +1044,80 @@ export function UaeMap() {
 
 /* ───────────────────── Sub-components ───────────────────── */
 
+function EmiratePreviewCard({ em, count }: { em: EmirateKey; count: number }) {
+  const c = TONE_HEX[TONE_BY_EMIRATE[em]];
+  const meta = EMIRATE_META[em];
+  return (
+    <div
+      className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl"
+      style={{
+        background: "linear-gradient(180deg, oklch(0.10 0.025 280 / 0.85), oklch(0.08 0.025 280 / 0.92))",
+        backdropFilter: "blur(22px) saturate(160%)",
+        boxShadow: `0 30px 80px -30px ${c}55, 0 0 0 1px ${c}22 inset`,
+      }}
+    >
+      {/* image with parallax + glow */}
+      <div className="relative h-36 overflow-hidden">
+        <motion.img
+          src={meta.image}
+          alt={`${em} cinematic skyline`}
+          loading="lazy"
+          width={1280}
+          height={768}
+          className="absolute inset-0 w-full h-full object-cover"
+          initial={{ scale: 1.15, opacity: 0 }}
+          animate={{ scale: 1.02, opacity: 0.9 }}
+          transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+        />
+        <div className="absolute inset-0" style={{ background: `linear-gradient(180deg, transparent 0%, oklch(0.08 0.025 280 / 0.55) 60%, oklch(0.08 0.025 280) 100%)` }} />
+        <div className="absolute inset-0" style={{ background: `radial-gradient(60% 80% at 80% 20%, ${c}38, transparent 70%)` }} />
+        {/* scan line */}
+        <div className="absolute inset-x-0 top-0 h-px" style={{ background: `linear-gradient(90deg, transparent, ${c}aa, transparent)` }} />
+        {/* corner tag */}
+        <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 px-2 py-1 rounded-full text-[9px] tracking-[0.2em] uppercase font-medium"
+             style={{ background: "oklch(0.08 0.025 280 / 0.7)", color: c, border: `1px solid ${c}55` }}>
+          <span className="w-1 h-1 rounded-full animate-pulse" style={{ background: c, boxShadow: `0 0 6px ${c}` }} />
+          Emirate Focus
+        </div>
+        <div className="absolute bottom-2.5 left-3 right-3 flex items-end justify-between">
+          <h3 className="text-lg font-display font-semibold leading-tight drop-shadow-lg">{em}</h3>
+          <div className="text-right">
+            <div className="text-xl font-display font-semibold leading-none" style={{ color: c }}>{count}</div>
+            <div className="text-[8.5px] tracking-[0.18em] uppercase text-white/60">Zones</div>
+          </div>
+        </div>
+      </div>
+      {/* body */}
+      <div className="p-3.5 space-y-3">
+        <p className="text-[11.5px] leading-relaxed text-muted-foreground">{meta.description}</p>
+        <div className="flex flex-wrap gap-1">
+          {meta.strengths.map(s => (
+            <span key={s} className="text-[9.5px] px-2 py-0.5 rounded-md border bg-white/[0.03] text-foreground/85"
+                  style={{ borderColor: `${c}40` }}>
+              {s}
+            </span>
+          ))}
+        </div>
+        <div className="grid grid-cols-3 gap-2 pt-1">
+          {meta.stats.map((s, i) => (
+            <motion.div key={s.label}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 + i * 0.08, duration: 0.5 }}
+              className="rounded-lg border border-white/10 bg-white/[0.025] p-1.5 text-center"
+            >
+              <div className="text-[12px] font-display font-semibold" style={{ color: c }}>{s.value}</div>
+              <div className="text-[8.5px] tracking-[0.14em] uppercase text-muted-foreground mt-0.5">{s.label}</div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function EmirateHero({ em, count }: { em: EmirateKey; count: number }) {
+
   const c = TONE_HEX[TONE_BY_EMIRATE[em]];
   return (
     <div

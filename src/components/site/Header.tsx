@@ -37,57 +37,60 @@ export function Header() {
   return (
     <div className="fixed top-0 inset-x-0 z-50 px-3 md:px-5 pt-3 md:pt-5">
       <header
-        className={`mx-auto max-w-6xl rounded-full transition-all duration-500 ${
+        className={`mx-auto max-w-[1360px] rounded-full transition-all duration-500 ${
           scrolled
             ? "glass-strong shadow-[0_20px_60px_-30px_oklch(0_0_0/0.6)]"
             : "bg-white/[0.025] border border-white/5 backdrop-blur-md"
         }`}
       >
-        <div className="px-4 md:px-5 h-14 flex items-center justify-between gap-2">
-          <a href="#home" className="flex items-center gap-2.5 group min-w-0">
+        <div className="px-5 lg:px-6 h-14 lg:h-16 flex items-center justify-between gap-4">
+          {/* Logo — fixed footprint */}
+          <a href="#home" className="flex items-center gap-2.5 group shrink-0 lg:w-[170px]">
             <div className="relative w-8 h-8 rounded-lg gold-gradient flex items-center justify-center shadow-lg shadow-amber-500/10 shrink-0">
               <span className="text-[13px] font-bold text-[oklch(0.15_0.02_260)]">SB</span>
             </div>
             <div className="leading-tight hidden sm:block min-w-0">
-              <div className="text-[13px] font-semibold tracking-tight text-foreground truncate">Soft Bridge</div>
-              <div className="text-[9px] uppercase tracking-[0.22em] text-muted-foreground">FZE LLC</div>
+              <div className="text-[13px] font-semibold tracking-tight text-foreground whitespace-nowrap">Soft Bridge</div>
+              <div className="text-[9px] uppercase tracking-[0.22em] text-muted-foreground whitespace-nowrap">FZE LLC</div>
             </div>
           </a>
 
-          <nav className="hidden lg:flex items-center gap-1">
+          {/* Center nav — single row, no wrap */}
+          <nav className="hidden lg:flex items-center justify-center gap-1 flex-1 min-w-0">
             {NAV.map((n) => (
               <a
                 key={n.href}
                 href={n.href}
-                className="text-[13px] px-3 py-1.5 rounded-full text-muted-foreground hover:text-foreground hover:bg-white/[0.04] transition"
+                className="text-[13px] px-2.5 xl:px-3 py-1.5 rounded-full text-muted-foreground hover:text-foreground hover:bg-white/[0.04] transition whitespace-nowrap"
               >
                 {n.label}
               </a>
             ))}
           </nav>
 
-          <div className="flex items-center gap-2">
+          {/* Right actions */}
+          <div className="flex items-center gap-1.5 lg:gap-2 shrink-0">
             <Link
               to="/quote"
-              className="hidden md:inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-[12px] text-gold hover:text-foreground transition"
+              className="hidden lg:inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-[12px] text-gold hover:text-foreground transition whitespace-nowrap"
             >
               Get a Quote
             </Link>
             <Link
               to={isAuthenticated ? "/portal" : "/login"}
-              className="hidden md:inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-[12px] text-muted-foreground hover:text-foreground transition"
+              className="hidden lg:inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-[12px] text-muted-foreground hover:text-foreground transition whitespace-nowrap"
             >
               <LayoutDashboard className="w-3.5 h-3.5" />{isAuthenticated ? "Portal" : "Sign in"}
             </Link>
-            <ThemeToggle className="hidden md:inline-flex" />
+            <ThemeToggle className="hidden lg:inline-flex" />
             <button
               onClick={() => setBooking(true)}
-              className="hidden md:inline-flex items-center justify-center rounded-full glass-strong px-4 py-2 text-[13px] font-medium text-foreground hover:border-gold/40 transition"
+              className="hidden lg:inline-flex items-center justify-center rounded-full glass-strong px-4 py-2 text-[13px] font-medium text-foreground hover:border-gold/40 transition whitespace-nowrap"
             >
               Book Consultation
             </button>
 
-            <ThemeToggle className="md:hidden" />
+            <ThemeToggle className="lg:hidden" />
             <button
               className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/70 backdrop-blur ring-1 ring-violet-200 text-slate-900 hover:bg-white transition"
               onClick={() => setOpen(true)}
@@ -98,6 +101,7 @@ export function Header() {
           </div>
         </div>
       </header>
+
 
       {/* Mobile drawer */}
       <div

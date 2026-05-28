@@ -20,6 +20,7 @@ import {
   MessageCircle, LayoutDashboard, CalendarDays,
 } from "lucide-react";
 import { WA_LINK } from "@/lib/site";
+import { Logo } from "@/components/site/Logo";
 import { BookingDialog } from "./BookingDialog";
 
 type Step = 1 | 2 | 3 | 4 | 5;
@@ -180,8 +181,8 @@ export function OnboardingDialog({ open, onOpenChange }: { open: boolean; onOpen
           {/* Header / progress */}
           <div className="relative px-6 pt-6 pb-4 border-b border-border/60">
             <div aria-hidden className="absolute -top-24 left-1/2 -translate-x-1/2 w-[480px] h-[480px] rounded-full bg-[var(--halo-1)] blur-3xl pointer-events-none" />
-            <div className="relative flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
-              <Sparkles className="w-3.5 h-3.5 text-gold" />
+            <div className="relative flex items-center gap-2.5 text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+              <Logo size={22} />
               Soft Bridge · Client Onboarding
             </div>
             <div className="relative mt-4 flex items-center gap-2">
@@ -404,8 +405,8 @@ export function OnboardingDialog({ open, onOpenChange }: { open: boolean; onOpen
                   transition={{ duration: 0.3 }}
                   className="text-center py-4 space-y-5"
                 >
-                  <div className="mx-auto w-16 h-16 rounded-full gold-gradient grid place-items-center shadow-[0_20px_60px_-15px_oklch(0.84_0.10_82/0.6)]">
-                    <CheckCircle2 className="w-8 h-8 text-[oklch(0.15_0.02_260)]" />
+                  <div className="mx-auto relative">
+                    <Logo size={72} glow />
                   </div>
                   <div>
                     <h3 className="font-display text-2xl text-foreground">Your Soft Bridge Client Portal Is Ready</h3>

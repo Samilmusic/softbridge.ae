@@ -1,5 +1,6 @@
 import { SITE, WA_LINK } from "@/lib/site";
 import { Mail, MapPin, Phone, Linkedin, Instagram, MessageCircle } from "lucide-react";
+import { Logo } from "@/components/site/Logo";
 
 const COLS = [
   { title: "Navigation", links: [
@@ -27,10 +28,8 @@ export function Footer() {
       <div aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
       <div className="mx-auto max-w-7xl px-6 py-16 grid md:grid-cols-2 lg:grid-cols-4 gap-10">
         <div className="lg:col-span-2 max-w-md">
-          <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-lg gold-gradient flex items-center justify-center">
-              <span className="text-[15px] font-bold text-[oklch(0.15_0.02_260)]">SB</span>
-            </div>
+          <div className="flex items-center gap-3">
+            <Logo size={44} glow />
             <div className="leading-tight">
               <div className="text-sm font-semibold">Soft Bridge FZE LLC</div>
               <div className="text-[10px] uppercase tracking-[0.22em] text-gold">Bridge To Your Success</div>

@@ -14,16 +14,270 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      clients: {
+        Row: {
+          assigned_consultant: string | null
+          company_name: string
+          created_at: string
+          id: string
+          notes: string | null
+          progress_pct: number
+          stage: Database["public"]["Enums"]["setup_stage"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          assigned_consultant?: string | null
+          company_name?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          progress_pct?: number
+          stage?: Database["public"]["Enums"]["setup_stage"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          assigned_consultant?: string | null
+          company_name?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          progress_pct?: number
+          stage?: Database["public"]["Enums"]["setup_stage"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      consultations: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string | null
+          method: Database["public"]["Enums"]["meeting_method"]
+          name: string
+          phone: string | null
+          preferred_date: string | null
+          status: Database["public"]["Enums"]["consultation_status"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message?: string | null
+          method?: Database["public"]["Enums"]["meeting_method"]
+          name: string
+          phone?: string | null
+          preferred_date?: string | null
+          status?: Database["public"]["Enums"]["consultation_status"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string | null
+          method?: Database["public"]["Enums"]["meeting_method"]
+          name?: string
+          phone?: string | null
+          preferred_date?: string | null
+          status?: Database["public"]["Enums"]["consultation_status"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      document_requests: {
+        Row: {
+          client_id: string
+          completed_at: string | null
+          created_at: string
+          description: string | null
+          doc_type: string
+          id: string
+          requested_at: string
+          status: Database["public"]["Enums"]["doc_request_status"]
+          updated_at: string
+        }
+        Insert: {
+          client_id: string
+          completed_at?: string | null
+          created_at?: string
+          description?: string | null
+          doc_type: string
+          id?: string
+          requested_at?: string
+          status?: Database["public"]["Enums"]["doc_request_status"]
+          updated_at?: string
+        }
+        Update: {
+          client_id?: string
+          completed_at?: string | null
+          created_at?: string
+          description?: string | null
+          doc_type?: string
+          id?: string
+          requested_at?: string
+          status?: Database["public"]["Enums"]["doc_request_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_requests_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      email_log: {
+        Row: {
+          created_at: string
+          error: string | null
+          id: string
+          recipient: string
+          resend_id: string | null
+          status: string
+          subject: string | null
+          template: string
+        }
+        Insert: {
+          created_at?: string
+          error?: string | null
+          id?: string
+          recipient: string
+          resend_id?: string | null
+          status?: string
+          subject?: string | null
+          template: string
+        }
+        Update: {
+          created_at?: string
+          error?: string | null
+          id?: string
+          recipient?: string
+          resend_id?: string | null
+          status?: string
+          subject?: string | null
+          template?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string | null
+          id: string
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name?: string | null
+          id: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      status_updates: {
+        Row: {
+          client_id: string
+          created_at: string
+          id: string
+          note: string | null
+          stage: Database["public"]["Enums"]["setup_stage"]
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          id?: string
+          note?: string | null
+          stage: Database["public"]["Enums"]["setup_stage"]
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          id?: string
+          note?: string | null
+          stage?: Database["public"]["Enums"]["setup_stage"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "status_updates_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "consultant" | "client"
+      consultation_status: "pending" | "scheduled" | "completed" | "cancelled"
+      doc_request_status: "pending" | "submitted" | "approved" | "rejected"
+      meeting_method:
+        | "whatsapp"
+        | "zoom"
+        | "google_meet"
+        | "in_person"
+        | "phone"
+      setup_stage:
+        | "consultation"
+        | "documentation"
+        | "initial_approval"
+        | "license_processing"
+        | "residency"
+        | "emirates_id"
+        | "banking_preparation"
+        | "completed"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +404,21 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "consultant", "client"],
+      consultation_status: ["pending", "scheduled", "completed", "cancelled"],
+      doc_request_status: ["pending", "submitted", "approved", "rejected"],
+      meeting_method: ["whatsapp", "zoom", "google_meet", "in_person", "phone"],
+      setup_stage: [
+        "consultation",
+        "documentation",
+        "initial_approval",
+        "license_processing",
+        "residency",
+        "emirates_id",
+        "banking_preparation",
+        "completed",
+      ],
+    },
   },
 } as const

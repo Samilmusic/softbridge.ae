@@ -529,6 +529,10 @@ export function UaeIntelligenceMap() {
         .uae-line { animation: uae-dash 14s linear infinite; }
         .uae-rail::-webkit-scrollbar { height: 6px; }
         .uae-rail::-webkit-scrollbar-thumb { background: color-mix(in oklab, var(--primary) 30%, transparent); border-radius: 999px; }
+        .uae-panel-scroll::-webkit-scrollbar { width: 6px; }
+        .uae-panel-scroll::-webkit-scrollbar-thumb { background: color-mix(in oklab, var(--primary) 25%, transparent); border-radius: 999px; }
+        .uae-panel-scroll { scrollbar-width: thin; scrollbar-color: color-mix(in oklab, var(--primary) 25%, transparent) transparent; }
+
         .uae-dust {
           background-image:
             radial-gradient(1.5px 1.5px at 12% 18%, color-mix(in oklab, var(--primary) 50%, transparent) 50%, transparent 60%),

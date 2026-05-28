@@ -771,7 +771,19 @@ export function UaeMap() {
                   })}
                 </g>
               </motion.g>
-            </svg>
+            </motion.svg>
+
+            {/* Dedicated Dubai detailed-map focus overlay */}
+            <AnimatePresence>
+              {isDubaiFocus && (
+                <DubaiFocusOverlay
+                  activeId={activeId}
+                  hoverId={hoverId}
+                  onHover={setHoverId}
+                  onSelect={openJurisdiction}
+                />
+              )}
+            </AnimatePresence>
 
             {/* Floating cinematic emirate preview panel */}
             <AnimatePresence>

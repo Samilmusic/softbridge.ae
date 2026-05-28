@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { WA_LINK } from "@/lib/site";
 import {
   Check,
   ArrowRight,

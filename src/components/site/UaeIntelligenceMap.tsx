@@ -159,7 +159,7 @@ export function UaeIntelligenceMap() {
         </div>
 
         {/* Main layout — 20 / 55 / 25 */}
-        <div className="grid lg:grid-cols-[20fr_55fr_25fr] gap-6 lg:gap-8 items-start">
+        <div className="grid lg:grid-cols-[280px_minmax(700px,1fr)_400px] gap-6 lg:gap-8 items-start">
 
           {/* LEFT — controls */}
           <aside className="glass-panel rounded-2xl p-5 space-y-5 h-fit">

@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Hero } from "@/components/site/Hero";
 import { WhatWeDo } from "@/components/site/WhatWeDo";
-import { About } from "@/components/site/About";
+
 import { UaeMap } from "@/components/site/UaeMap";
 import { Process } from "@/components/site/Process";
 import { LongTermSupport } from "@/components/site/LongTermSupport";

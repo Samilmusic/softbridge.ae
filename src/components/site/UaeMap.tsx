@@ -1,8 +1,9 @@
 import { useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { UAE_PATHS, UAE_CITIES } from "@/lib/uae-geo";
 import {
   ArrowRight, Building2, Sparkles, MapPin, ChevronDown, X,
-  Activity, Scale, Map as MapIcon, Star,
+  Activity, Scale, Map as MapIcon, Star, ChevronRight, ArrowLeft, Layers,
 } from "lucide-react";
 
 /* ───────────────────── Types & Data ───────────────────── */
@@ -12,6 +13,7 @@ type EmirateKey =
   | "Ras Al Khaimah" | "Fujairah" | "Umm Al Quwain";
 
 type Tone = "violet" | "gold" | "blue" | "cyan";
+type Mode = "federation" | "emirate" | "jurisdiction";
 
 type Jurisdiction = {
   id: string;
@@ -47,8 +49,17 @@ const TONE_HEX: Record<Tone, string> = {
   cyan: "#67E8F9",
 };
 
+const EMIRATE_ANCHOR: Record<EmirateKey, keyof typeof UAE_CITIES> = {
+  "Dubai": "Dubai",
+  "Abu Dhabi": "Abu Dhabi",
+  "Sharjah": "Sharjah",
+  "Ajman": "Ajman",
+  "Ras Al Khaimah": "Ras Al Khaimah",
+  "Fujairah": "Fujairah",
+  "Umm Al Quwain": "Umm Al Quwain",
+};
+
 const J: Jurisdiction[] = [
-  // DUBAI (violet)
   { id: "dubai-mainland", name: "Dubai Mainland", emirate: "Dubai", anchor: "Dubai", offset: [0, 0], labelSide: "right", tier: "major", popular: true,
     tagline: "The commercial hub of the UAE. Ideal for businesses operating freely across the UAE market with no restrictions.",
     bestFor: ["Trading", "Consulting", "E-Commerce", "Services", "Real Estate", "Startups"],
@@ -99,7 +110,6 @@ const J: Jurisdiction[] = [
     bestFor: ["Manufacturing", "Logistics", "Trading", "Industrial"],
     benefits: ["Port Access", "Industrial Plots", "Global Reach", "Strong Reputation"],
     activities: "2,000+ Activities", cost: "AED 30,000 – 100,000+", setupDays: "7 – 14 Days" },
-  // ABU DHABI (gold)
   { id: "ad-mainland", name: "Abu Dhabi Mainland", emirate: "Abu Dhabi", anchor: "Abu Dhabi", offset: [0, 0], labelSide: "left", tier: "major",
     tagline: "Operate freely in the capital with access to government contracts and large-scale projects.",
     bestFor: ["Contracting", "Energy", "Consulting", "Local Services"],
@@ -125,7 +135,6 @@ const J: Jurisdiction[] = [
     bestFor: ["Media", "Gaming", "Production", "Creative"],
     benefits: ["Production Incentives", "Creative Cluster", "Talent Access", "Premium Brand"],
     activities: "400+ Activities", cost: "AED 15,000 – 40,000", setupDays: "5 – 10 Days" },
-  // SHARJAH (blue)
   { id: "sharjah-mainland", name: "Sharjah Mainland", emirate: "Sharjah", anchor: "Sharjah", offset: [-44, -34], labelSide: "left", tier: "major",
     tagline: "Cost-effective mainland alternative to Dubai with strong industrial and commercial sectors.",
     bestFor: ["Trading", "Industrial", "Services", "Retail"],
@@ -151,7 +160,6 @@ const J: Jurisdiction[] = [
     bestFor: ["Trading", "Logistics", "Light Industry", "Distribution"],
     benefits: ["Airport Access", "24/7 Operations", "Cost Efficient", "Trade Friendly"],
     activities: "800+ Activities", cost: "AED 14,000 – 35,000", setupDays: "5 – 10 Days" },
-  // AJMAN (cyan)
   { id: "ajman-fz", name: "Ajman Free Zone", emirate: "Ajman", anchor: "Ajman", offset: [60, -28], labelSide: "right", tier: "secondary",
     tagline: "One of the most affordable free zones in the UAE — ideal for startups.",
     bestFor: ["Startups", "Trading", "Services", "E-Commerce"],
@@ -162,7 +170,6 @@ const J: Jurisdiction[] = [
     bestFor: ["Retail", "Services", "Contracting", "Trading"],
     benefits: ["Cost Efficient", "Growing Market", "Quick Licensing", "Local Access"],
     activities: "900+ Activities", cost: "AED 10,000 – 25,000", setupDays: "3 – 7 Days" },
-  // RAS AL KHAIMAH (cyan)
   { id: "rakez", name: "RAKEZ", emirate: "Ras Al Khaimah", anchor: "Ras Al Khaimah", offset: [0, 0], labelSide: "right", tier: "major",
     tagline: "Large multi-sector economic zone with industrial, commercial and educational ecosystems.",
     bestFor: ["Industrial", "Trading", "Education", "Manufacturing"],
@@ -173,7 +180,6 @@ const J: Jurisdiction[] = [
     bestFor: ["Tourism", "Industry", "Trading", "Services"],
     benefits: ["Low Cost", "Growth Market", "Tourism Sector", "Stable Economy"],
     activities: "800+ Activities", cost: "AED 12,000 – 28,000", setupDays: "5 – 10 Days" },
-  // FUJAIRAH (cyan)
   { id: "fcc", name: "Fujairah Creative City", emirate: "Fujairah", anchor: "Fujairah", offset: [0, 0], labelSide: "right", tier: "secondary",
     tagline: "Media-focused free zone on the east coast — fast setup, low cost.",
     bestFor: ["Consulting", "Media", "Education", "Freelancers"],
@@ -184,7 +190,6 @@ const J: Jurisdiction[] = [
     bestFor: ["Shipping", "Trading", "Logistics", "Industrial"],
     benefits: ["Port Access", "Strategic Location", "Cost Efficient", "Trade Friendly"],
     activities: "700+ Activities", cost: "AED 13,000 – 35,000", setupDays: "5 – 10 Days" },
-  // UAQ (cyan)
   { id: "uaq", name: "UAQ Free Trade Zone", emirate: "Umm Al Quwain", anchor: "Umm Al Quwain", offset: [0, 0], labelSide: "right", tier: "secondary",
     tagline: "Compact and affordable free zone with quick licensing — popular for SMEs.",
     bestFor: ["SMEs", "Consulting", "Trading", "Services"],
@@ -197,6 +202,8 @@ const EMIRATE_ORDER: EmirateKey[] = [
 ];
 
 const MAP_TRANSFORM = "translate(40 -30) scale(0.92 1.12)";
+const VW = 1000;
+const VH = 760;
 
 function anchorPos(j: Jurisdiction): [number, number] {
   return UAE_CITIES[j.anchor] as unknown as [number, number];
@@ -206,21 +213,22 @@ function markerPos(j: Jurisdiction): [number, number] {
   const [ox, oy] = j.offset ?? [0, 0];
   return [cx + ox, cy + oy];
 }
+function emCenter(em: EmirateKey): [number, number] {
+  return UAE_CITIES[EMIRATE_ANCHOR[em]] as unknown as [number, number];
+}
 
 /* ───────────────────── Component ───────────────────── */
 
 export function UaeMap() {
-  const [activeId, setActiveId] = useState<string>("dubai-mainland");
+  const [mode, setMode] = useState<Mode>("federation");
+  const [focusEmirate, setFocusEmirate] = useState<EmirateKey | null>(null);
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [hoverId, setHoverId] = useState<string | null>(null);
   const [openEmirate, setOpenEmirate] = useState<EmirateKey | null>("Dubai");
-  const [panelOpen, setPanelOpen] = useState(true);
 
-  const active = J.find(j => j.id === activeId) ?? J[0];
-  const activeTone = TONE_BY_EMIRATE[active.emirate];
-  const activeHex = TONE_HEX[activeTone];
-  const [ax, ay] = markerPos(active);
-  const [aax, aay] = anchorPos(active);
+  const active = activeId ? J.find(j => j.id === activeId) ?? null : null;
+  const activeHex = active ? TONE_HEX[TONE_BY_EMIRATE[active.emirate]] : TONE_HEX.violet;
 
-  // group by emirate
   const grouped = useMemo(() => {
     const out: Record<EmirateKey, Jurisdiction[]> = {
       "Dubai": [], "Abu Dhabi": [], "Sharjah": [], "Ajman": [],
@@ -230,9 +238,48 @@ export function UaeMap() {
     return out;
   }, []);
 
+  // compute camera transform
+  const camera = useMemo(() => {
+    if (mode === "federation" || !focusEmirate) {
+      return { scale: 1, tx: 0, ty: 0 };
+    }
+    const list = grouped[focusEmirate];
+    const pts = list.map(markerPos);
+    const xs = pts.map(p => p[0]);
+    const ys = pts.map(p => p[1]);
+    const minX = Math.min(...xs), maxX = Math.max(...xs);
+    const minY = Math.min(...ys), maxY = Math.max(...ys);
+    const pad = 110;
+    const w = (maxX - minX) + pad * 2;
+    const h = (maxY - minY) + pad * 2;
+    const cx = (minX + maxX) / 2;
+    const cy = (minY + maxY) / 2;
+    const s = Math.min(VW / w, VH / h, 2.6);
+    const tx = VW / 2 - s * cx;
+    const ty = VH / 2 - s * cy;
+    return { scale: s, tx, ty };
+  }, [mode, focusEmirate, grouped]);
+
+  const openEmirateView = (em: EmirateKey) => {
+    setFocusEmirate(em);
+    setMode("emirate");
+    setOpenEmirate(em);
+    setActiveId(null);
+  };
+  const openJurisdiction = (j: Jurisdiction) => {
+    setFocusEmirate(j.emirate);
+    setOpenEmirate(j.emirate);
+    setActiveId(j.id);
+    setMode("jurisdiction");
+  };
+  const stepBack = () => {
+    if (mode === "jurisdiction") { setMode("emirate"); setActiveId(null); }
+    else if (mode === "emirate") { setMode("federation"); setFocusEmirate(null); }
+  };
+  const resetAll = () => { setMode("federation"); setFocusEmirate(null); setActiveId(null); };
+
   return (
     <section id="jurisdictions" className="relative py-24 md:py-32 overflow-hidden">
-      {/* Atmospheric background */}
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,oklch(0.22_0.06_280/0.45),transparent_55%)]" />
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_bottom_right,oklch(0.30_0.10_280/0.25),transparent_60%)]" />
       <div className="absolute inset-0 -z-10 grid-pattern opacity-[0.10]" />
@@ -243,13 +290,13 @@ export function UaeMap() {
           <div className="max-w-2xl">
             <div className="flex items-center gap-2 text-[11px] font-medium tracking-[0.28em] text-violet-300/90 uppercase mb-4">
               <MapIcon className="w-3.5 h-3.5" />
-              UAE Jurisdiction Explorer
+              UAE Business Intelligence System
             </div>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold tracking-tight leading-[1.05]">
-              Explore All UAE Business <span className="gold-text-gradient">Jurisdictions</span>
+              The UAE, Rendered as a <span className="gold-text-gradient">Living System</span>
             </h2>
             <p className="mt-5 text-muted-foreground text-base md:text-lg leading-relaxed max-w-xl">
-              Discover and compare 27+ jurisdictions across all 7 emirates. Explore setup advantages, free zones, operational flexibility and strategic opportunities.
+              Click an emirate to zoom in. Click a jurisdiction to open its ecosystem. A cinematic, spatial way to explore 27+ jurisdictions across all 7 emirates.
             </p>
           </div>
           <div className="flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase text-muted-foreground">
@@ -287,13 +334,13 @@ export function UaeMap() {
                 const c = TONE_HEX[tone];
                 const list = grouped[em];
                 const open = openEmirate === em;
-                const hasActive = list.some(j => j.id === activeId);
+                const isFocus = focusEmirate === em;
                 return (
                   <div key={em}>
                     <button
-                      onClick={() => setOpenEmirate(open ? null : em)}
+                      onClick={() => { openEmirateView(em); }}
                       className={`w-full flex items-center justify-between gap-2 px-3 py-3 rounded-2xl border transition-all ${
-                        open || hasActive
+                        open || isFocus
                           ? "bg-white/[0.04] border-white/15"
                           : "bg-white/[0.015] border-white/[0.06] hover:bg-white/[0.03]"
                       }`}
@@ -303,7 +350,7 @@ export function UaeMap() {
                           className="w-7 h-7 rounded-xl flex items-center justify-center border border-white/10"
                           style={{
                             background: `radial-gradient(circle, ${c}33, transparent 70%)`,
-                            boxShadow: open ? `0 0 18px ${c}55` : "none",
+                            boxShadow: isFocus ? `0 0 18px ${c}77` : open ? `0 0 12px ${c}44` : "none",
                           }}
                         >
                           <span className="w-1.5 h-1.5 rounded-full" style={{ background: c, boxShadow: `0 0 8px ${c}` }} />
@@ -311,7 +358,7 @@ export function UaeMap() {
                         <span className="text-sm font-medium">{em}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] text-muted-foreground">{list.length} Jurisdictions</span>
+                        <span className="text-[10px] text-muted-foreground">{list.length}</span>
                         <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />
                       </div>
                     </button>
@@ -323,10 +370,10 @@ export function UaeMap() {
                           return (
                             <button
                               key={j.id}
-                              onClick={() => setActiveId(j.id)}
+                              onClick={() => openJurisdiction(j)}
                               className={`w-full text-left flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] transition-all ${
                                 isA
-                                  ? "bg-white/[0.05] text-foreground"
+                                  ? "bg-white/[0.06] text-foreground"
                                   : "text-muted-foreground hover:text-foreground hover:bg-white/[0.02]"
                               }`}
                             >
@@ -346,12 +393,22 @@ export function UaeMap() {
             </div>
           </aside>
 
-          {/* CENTER — map */}
-          <div className="relative rounded-3xl border border-white/10 bg-[oklch(0.11_0.025_280/0.7)] backdrop-blur-xl overflow-hidden min-h-[620px]">
+          {/* CENTER — cinematic map */}
+          <div className="relative rounded-3xl border border-white/10 bg-[oklch(0.10_0.025_280/0.78)] backdrop-blur-xl overflow-hidden min-h-[640px]">
             {/* atmosphere */}
-            <div className="absolute inset-0 grid-pattern opacity-[0.14]" />
-            <div className="absolute -top-1/3 -left-1/4 w-[60%] aspect-square rounded-full bg-[radial-gradient(circle,oklch(0.55_0.22_290/0.18),transparent_70%)] blur-3xl animate-float-slow" />
-            <div className="absolute -bottom-1/3 -right-1/4 w-[55%] aspect-square rounded-full bg-[radial-gradient(circle,oklch(0.70_0.14_220/0.12),transparent_70%)] blur-3xl animate-float-slow" style={{ animationDelay: "3s" }} />
+            <div className="absolute inset-0 grid-pattern opacity-[0.12]" />
+            <motion.div
+              className="absolute -top-1/3 -left-1/4 w-[60%] aspect-square rounded-full blur-3xl"
+              style={{ background: "radial-gradient(circle, oklch(0.55 0.22 290 / 0.20), transparent 70%)" }}
+              animate={{ x: [0, 30, -10, 0], y: [0, -20, 10, 0] }}
+              transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div
+              className="absolute -bottom-1/3 -right-1/4 w-[55%] aspect-square rounded-full blur-3xl"
+              style={{ background: "radial-gradient(circle, oklch(0.70 0.14 220 / 0.16), transparent 70%)" }}
+              animate={{ x: [0, -25, 15, 0], y: [0, 18, -12, 0] }}
+              transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
+            />
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
 
             {/* scanning beam */}
@@ -359,135 +416,289 @@ export function UaeMap() {
               <div className="absolute inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-violet-400/60 to-transparent animate-scan" />
             </div>
 
-            {/* floating particles */}
             <Particles />
 
-            {/* corner badges */}
-            <div className="absolute top-5 left-5 flex items-center gap-2 text-[10px] tracking-[0.22em] uppercase text-muted-foreground z-10">
-              <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
-              Federation Map · Realtime
-            </div>
-            <div className="absolute top-5 right-5 flex items-center gap-2 text-[10px] tracking-[0.22em] uppercase text-muted-foreground z-10">
-              v2.4 · {J.length} Nodes
+            {/* breadcrumb / top hud */}
+            <div className="absolute top-4 left-4 right-4 z-20 flex items-start justify-between gap-3">
+              <div className="flex items-center gap-2 text-[10.5px] tracking-[0.22em] uppercase">
+                <button
+                  onClick={resetAll}
+                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border transition-all ${
+                    mode === "federation"
+                      ? "border-violet-400/40 bg-violet-400/10 text-violet-200"
+                      : "border-white/10 bg-white/[0.03] text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <Layers className="w-3 h-3" /> Federation
+                </button>
+                {focusEmirate && (
+                  <>
+                    <ChevronRight className="w-3 h-3 text-muted-foreground/60" />
+                    <button
+                      onClick={() => { setMode("emirate"); setActiveId(null); }}
+                      className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-white/10 bg-white/[0.04] text-foreground/90 hover:bg-white/[0.07] transition-all normal-case tracking-normal"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full" style={{ background: TONE_HEX[TONE_BY_EMIRATE[focusEmirate]], boxShadow: `0 0 8px ${TONE_HEX[TONE_BY_EMIRATE[focusEmirate]]}` }} />
+                      {focusEmirate}
+                    </button>
+                  </>
+                )}
+                {active && (
+                  <>
+                    <ChevronRight className="w-3 h-3 text-muted-foreground/60" />
+                    <span className="px-2.5 py-1.5 rounded-full border border-white/15 bg-white/[0.06] text-foreground normal-case tracking-normal">
+                      {active.name}
+                    </span>
+                  </>
+                )}
+              </div>
+              <div className="flex items-center gap-2">
+                {mode !== "federation" && (
+                  <button
+                    onClick={stepBack}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.04] text-[11px] text-foreground/90 hover:bg-white/[0.08] transition-all"
+                  >
+                    <ArrowLeft className="w-3 h-3" /> Back
+                  </button>
+                )}
+                <div className="hidden md:flex items-center gap-2 text-[10px] tracking-[0.22em] uppercase text-muted-foreground px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.03]">
+                  v2.6 · {J.length} Nodes
+                </div>
+              </div>
             </div>
 
-            <svg viewBox="0 0 1000 760" className="w-full h-full block relative">
+            <svg viewBox={`0 0 ${VW} ${VH}`} className="w-full h-full block relative">
               <defs>
-                <linearGradient id="uae-fill-v2" x1="0" y1="0" x2="0" y2="1">
+                <linearGradient id="uae-fill-v3" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="oklch(0.30 0.06 280)" stopOpacity="0.65" />
                   <stop offset="100%" stopColor="oklch(0.14 0.03 280)" stopOpacity="0.55" />
                 </linearGradient>
-                <linearGradient id="uae-stroke-v2" x1="0" y1="0" x2="1" y2="1">
+                <linearGradient id="uae-stroke-v3" x1="0" y1="0" x2="1" y2="1">
                   <stop offset="0%" stopColor="#A78BFA" stopOpacity="0.9" />
                   <stop offset="50%" stopColor="#67E8F9" stopOpacity="0.75" />
                   <stop offset="100%" stopColor="#E6B663" stopOpacity="0.7" />
                 </linearGradient>
-                <filter id="node-glow" x="-100%" y="-100%" width="300%" height="300%">
+                <filter id="node-glow-v3" x="-100%" y="-100%" width="300%" height="300%">
                   <feGaussianBlur stdDeviation="2.2" result="b" />
                   <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
                 </filter>
-                <filter id="halo" x="-200%" y="-200%" width="500%" height="500%">
-                  <feGaussianBlur stdDeviation="18" />
+                <filter id="halo-v3" x="-200%" y="-200%" width="500%" height="500%">
+                  <feGaussianBlur stdDeviation="20" />
                 </filter>
-                <radialGradient id="active-halo-v2" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor={activeHex} stopOpacity="0.28" />
+                <radialGradient id="focus-halo" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor={activeHex} stopOpacity="0.32" />
                   <stop offset="100%" stopColor={activeHex} stopOpacity="0" />
                 </radialGradient>
               </defs>
 
-              <g transform={MAP_TRANSFORM}>
-                {/* shadow */}
-                {UAE_PATHS.map((d, i) => (
-                  <path key={`s-${i}`} d={d} fill="oklch(0.05 0.02 280)" transform="translate(0,10)" opacity="0.55" />
-                ))}
+              {/* CAMERA */}
+              <motion.g
+                animate={{ x: camera.tx, y: camera.ty, scale: camera.scale }}
+                transition={{ type: "spring", stiffness: 80, damping: 22, mass: 0.9 }}
+                style={{ transformOrigin: "0 0" }}
+              >
+                <g transform={MAP_TRANSFORM}>
+                  {/* country shadow */}
+                  {UAE_PATHS.map((d, i) => (
+                    <path key={`s-${i}`} d={d} fill="oklch(0.05 0.02 280)" transform="translate(0,10)" opacity="0.55" />
+                  ))}
 
-                {/* ambient halo */}
-                <circle cx={ax} cy={ay} r="180" fill="url(#active-halo-v2)" filter="url(#halo)" className="transition-all duration-700" />
+                  {/* ambient halos */}
+                  {focusEmirate && (() => {
+                    const [hx, hy] = emCenter(focusEmirate);
+                    const c = TONE_HEX[TONE_BY_EMIRATE[focusEmirate]];
+                    return (
+                      <motion.circle
+                        cx={hx} cy={hy} r={220}
+                        fill={c} opacity={0}
+                        filter="url(#halo-v3)"
+                        animate={{ opacity: 0.18 }}
+                        transition={{ duration: 0.8 }}
+                      />
+                    );
+                  })()}
+                  {active && (
+                    <motion.circle
+                      cx={markerPos(active)[0]} cy={markerPos(active)[1]} r={120}
+                      fill="url(#focus-halo)" filter="url(#halo-v3)"
+                      initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                    />
+                  )}
 
-                {/* country */}
-                {UAE_PATHS.map((d, i) => (
-                  <path key={`f-${i}`} d={d}
-                    fill="url(#uae-fill-v2)"
-                    stroke="url(#uae-stroke-v2)"
-                    strokeWidth="1.2" strokeLinejoin="round" />
-                ))}
-                {/* inner hairline */}
-                {UAE_PATHS.map((d, i) => (
-                  <path key={`i-${i}`} d={d} fill="none" stroke="#A78BFA" strokeOpacity="0.12" strokeWidth="0.4" />
-                ))}
+                  {/* country fill */}
+                  {UAE_PATHS.map((d, i) => (
+                    <path key={`f-${i}`} d={d}
+                      fill="url(#uae-fill-v3)"
+                      stroke="url(#uae-stroke-v3)"
+                      strokeWidth={mode === "federation" ? 1.2 : 0.9}
+                      strokeLinejoin="round"
+                      style={{ transition: "stroke-width 0.6s" }} />
+                  ))}
+                  {/* inner hairline */}
+                  {UAE_PATHS.map((d, i) => (
+                    <path key={`i-${i}`} d={d} fill="none" stroke="#A78BFA" strokeOpacity="0.12" strokeWidth="0.4" />
+                  ))}
 
-                {/* connection arc from active anchor to marker */}
-                {(ax !== aax || ay !== aay) && (
-                  <g>
-                    <line x1={aax} y1={aay} x2={ax} y2={ay}
-                      stroke={activeHex} strokeOpacity="0.55" strokeWidth="0.9"
-                      strokeDasharray="3 4">
-                      <animate attributeName="stroke-dashoffset" from="0" to="-14" dur="1.6s" repeatCount="indefinite" />
-                    </line>
-                  </g>
-                )}
+                  {/* connection lines — emirate mode draws arcs from emirate centre to each jurisdiction */}
+                  {focusEmirate && (() => {
+                    const [hx, hy] = emCenter(focusEmirate);
+                    const c = TONE_HEX[TONE_BY_EMIRATE[focusEmirate]];
+                    return (
+                      <g>
+                        {grouped[focusEmirate].map((j, idx) => {
+                          const [mx, my] = markerPos(j);
+                          const midX = (hx + mx) / 2;
+                          const midY = (hy + my) / 2 - 18 - (idx % 3) * 6;
+                          const path = `M ${hx} ${hy} Q ${midX} ${midY} ${mx} ${my}`;
+                          const isA = j.id === activeId;
+                          return (
+                            <g key={`arc-${j.id}`}>
+                              <motion.path
+                                d={path}
+                                fill="none"
+                                stroke={c}
+                                strokeOpacity={isA ? 0.85 : 0.4}
+                                strokeWidth={isA ? 1.1 : 0.7}
+                                initial={{ pathLength: 0, opacity: 0 }}
+                                animate={{ pathLength: 1, opacity: 1 }}
+                                transition={{ duration: 0.9, delay: 0.15 + idx * 0.04, ease: "easeOut" }}
+                              />
+                              <circle r={1.6} fill={c}>
+                                <animateMotion dur={`${3.2 + (idx % 4) * 0.4}s`} repeatCount="indefinite" path={path} />
+                                <animate attributeName="opacity" values="0;1;0" dur={`${3.2 + (idx % 4) * 0.4}s`} repeatCount="indefinite" />
+                              </circle>
+                            </g>
+                          );
+                        })}
+                        {/* emirate centre node */}
+                        <circle cx={hx} cy={hy} r={4} fill={c} filter="url(#node-glow-v3)" />
+                        <circle cx={hx} cy={hy} r={1.6} fill="#fff" />
+                      </g>
+                    );
+                  })()}
 
-                {/* anchor city dots */}
-                {Object.entries(UAE_CITIES).map(([k, [cx, cy]]) => (
-                  <circle key={`a-${k}`} cx={cx} cy={cy} r={1.4} fill="#fff" opacity="0.35" />
-                ))}
+                  {/* anchor city dots (only in federation) */}
+                  {mode === "federation" && Object.entries(UAE_CITIES).map(([k, [cx, cy]]) => (
+                    <circle key={`a-${k}`} cx={cx} cy={cy} r={1.4} fill="#fff" opacity="0.3" />
+                  ))}
 
-                {/* markers */}
-                {J.map(j => {
-                  const [x, y] = markerPos(j);
-                  const isActive = j.id === activeId;
-                  const tone = TONE_BY_EMIRATE[j.emirate];
-                  const c = TONE_HEX[tone];
-                  const isMajor = j.tier === "major";
-                  const baseR = isMajor ? 5.4 : 3.6;
-                  const r = isActive ? baseR + 2.2 : baseR;
-                  const dim = isActive ? 1 : 0.85;
-                  const labelOnRight = (j.labelSide ?? "right") === "right";
-                  const labelW = j.name.length * 6.6 + 16;
-                  const labelX = labelOnRight ? x + 11 : x - 11 - labelW;
+                  {/* markers */}
+                  {J.map((j) => {
+                    const [x, y] = markerPos(j);
+                    const isActive = j.id === activeId;
+                    const isHover = j.id === hoverId;
+                    const inFocus = !focusEmirate || j.emirate === focusEmirate;
+                    const tone = TONE_BY_EMIRATE[j.emirate];
+                    const c = TONE_HEX[tone];
+                    const isMajor = j.tier === "major";
+                    const baseR = isMajor ? 5.2 : 3.6;
+                    const r = isActive ? baseR + 2.4 : (isHover ? baseR + 1.4 : baseR);
+                    const dim = inFocus ? (isActive ? 1 : 0.95) : 0.18;
+                    const showLabel = inFocus && (isMajor || isActive || isHover || mode === "emirate");
+                    const labelOnRight = (j.labelSide ?? "right") === "right";
+                    // counter-scale labels so they stay legible while camera zooms
+                    const labelScale = 1 / Math.max(camera.scale, 1);
+                    const labelW = j.name.length * 6.6 + 16;
+                    const labelOffsetX = labelOnRight ? 11 : -11 - labelW * labelScale;
 
-                  return (
-                    <g key={j.id}
-                       onMouseEnter={() => setActiveId(j.id)}
-                       onClick={() => setActiveId(j.id)}
-                       className="cursor-pointer"
-                       style={{ opacity: dim }}>
-                      {/* outer pulsing ring (always for major, intensified for active) */}
-                      {(isMajor || isActive) && (
-                        <>
-                          <circle cx={x} cy={y} r={r + 5} fill="none" stroke={c} strokeOpacity="0.35" strokeWidth="0.6">
-                            <animate attributeName="r" values={`${r + 4};${r + 16};${r + 4}`} dur="3s" repeatCount="indefinite" />
-                            <animate attributeName="stroke-opacity" values="0.45;0;0.45" dur="3s" repeatCount="indefinite" />
-                          </circle>
-                          <circle cx={x} cy={y} r={r + 10} fill={c} opacity="0.06" filter="url(#node-glow)">
-                            <animate attributeName="opacity" values="0.10;0.02;0.10" dur="3.4s" repeatCount="indefinite" />
-                          </circle>
-                        </>
-                      )}
-                      {/* core */}
-                      <circle cx={x} cy={y} r={r} fill={c} fillOpacity={isActive ? 0.95 : 0.78} filter="url(#node-glow)" />
-                      <circle cx={x} cy={y} r={isMajor ? 1.8 : 1.3} fill="#fff" />
+                    return (
+                      <motion.g
+                        key={j.id}
+                        onMouseEnter={() => setHoverId(j.id)}
+                        onMouseLeave={() => setHoverId(prev => prev === j.id ? null : prev)}
+                        onClick={() => openJurisdiction(j)}
+                        className="cursor-pointer"
+                        animate={{ opacity: dim }}
+                        transition={{ duration: 0.5 }}
+                      >
+                        {(isMajor || isActive || (isHover && inFocus)) && (
+                          <>
+                            <circle cx={x} cy={y} r={r + 5} fill="none" stroke={c} strokeOpacity="0.45" strokeWidth="0.6">
+                              <animate attributeName="r" values={`${r + 4};${r + 18};${r + 4}`} dur="3s" repeatCount="indefinite" />
+                              <animate attributeName="stroke-opacity" values="0.5;0;0.5" dur="3s" repeatCount="indefinite" />
+                            </circle>
+                            <circle cx={x} cy={y} r={r + 10} fill={c} opacity="0.08" filter="url(#node-glow-v3)">
+                              <animate attributeName="opacity" values="0.12;0.02;0.12" dur="3.4s" repeatCount="indefinite" />
+                            </circle>
+                          </>
+                        )}
+                        <motion.circle
+                          cx={x} cy={y}
+                          fill={c}
+                          fillOpacity={isActive ? 0.97 : 0.82}
+                          filter="url(#node-glow-v3)"
+                          animate={{ r }}
+                          transition={{ type: "spring", stiffness: 240, damping: 18 }}
+                        />
+                        <circle cx={x} cy={y} r={isMajor ? 1.8 : 1.3} fill="#fff" />
 
-                      {(isMajor || isActive) && (
-                        <g>
-                          <rect x={labelX} y={y - 11} rx="5" ry="5"
-                                width={labelW} height="20"
-                                fill="oklch(0.08 0.025 280 / 0.88)"
-                                stroke={c} strokeOpacity={isActive ? 0.65 : 0.28} strokeWidth="0.7" />
-                          <text x={labelX + labelW / 2} y={y + 3} textAnchor="middle"
-                                fill={isActive ? "#fff" : "rgba(255,255,255,0.85)"}
-                                fontSize="10.5" fontWeight="600"
-                                letterSpacing="0.02em"
-                                fontFamily="Inter, sans-serif">
-                            {j.name}
-                          </text>
-                        </g>
-                      )}
-                    </g>
-                  );
-                })}
-              </g>
+                        {showLabel && (
+                          <g transform={`translate(${x + labelOffsetX} ${y - 11 * labelScale}) scale(${labelScale})`}>
+                            <rect x={0} y={0} rx="5" ry="5"
+                                  width={labelW} height="20"
+                                  fill="oklch(0.08 0.025 280 / 0.9)"
+                                  stroke={c} strokeOpacity={isActive ? 0.7 : 0.32} strokeWidth="0.8" />
+                            <text x={labelW / 2} y={14} textAnchor="middle"
+                                  fill={isActive ? "#fff" : "rgba(255,255,255,0.88)"}
+                                  fontSize="11" fontWeight="600"
+                                  letterSpacing="0.02em"
+                                  fontFamily="Inter, sans-serif">
+                              {j.name}
+                            </text>
+                          </g>
+                        )}
+
+                        {/* hover quick-tooltip */}
+                        {isHover && !isActive && inFocus && (
+                          <g transform={`translate(${x + 14} ${y + 10}) scale(${labelScale})`}>
+                            <rect x={0} y={0} rx="6" ry="6" width="150" height="36"
+                                  fill="oklch(0.07 0.025 280 / 0.95)"
+                                  stroke={c} strokeOpacity="0.5" strokeWidth="0.8" />
+                            <text x={10} y={15} fill="#fff" fontSize="10.5" fontWeight="600" fontFamily="Inter, sans-serif">
+                              {j.name}
+                            </text>
+                            <text x={10} y={28} fill="rgba(255,255,255,0.6)" fontSize="9" fontFamily="Inter, sans-serif">
+                              {j.activities} · {j.setupDays}
+                            </text>
+                          </g>
+                        )}
+                      </motion.g>
+                    );
+                  })}
+                </g>
+              </motion.g>
             </svg>
+
+            {/* Mini-map */}
+            <div className="absolute bottom-4 right-4 z-10 w-[140px] h-[110px] rounded-xl border border-white/10 bg-[oklch(0.08_0.025_280/0.9)] backdrop-blur-md overflow-hidden">
+              <svg viewBox={`0 0 ${VW} ${VH}`} className="w-full h-full">
+                <g transform={MAP_TRANSFORM}>
+                  {UAE_PATHS.map((d, i) => (
+                    <path key={`mm-${i}`} d={d} fill="oklch(0.20 0.04 280 / 0.7)" stroke="#A78BFA" strokeOpacity="0.4" strokeWidth="2" />
+                  ))}
+                </g>
+                {/* viewport rect */}
+                {mode !== "federation" && focusEmirate && (() => {
+                  const { scale, tx, ty } = camera;
+                  // visible source rect in svg-coords
+                  const w = VW / scale;
+                  const h = VH / scale;
+                  const x = -tx / scale;
+                  const y = -ty / scale;
+                  return (
+                    <motion.rect
+                      animate={{ x, y, width: w, height: h }}
+                      transition={{ type: "spring", stiffness: 80, damping: 22 }}
+                      fill="none"
+                      stroke={TONE_HEX[TONE_BY_EMIRATE[focusEmirate]]}
+                      strokeWidth="6"
+                      strokeOpacity="0.85"
+                    />
+                  );
+                })()}
+              </svg>
+              <div className="absolute top-1 left-2 text-[9px] tracking-[0.18em] uppercase text-muted-foreground">Mini-Map</div>
+            </div>
 
             {/* Legend */}
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-5 px-5 py-2.5 rounded-full border border-white/10 bg-[oklch(0.10_0.025_280/0.85)] backdrop-blur-xl text-[11px]">
@@ -495,7 +706,7 @@ export function UaeMap() {
                 ["Dubai", "violet"],
                 ["Abu Dhabi", "gold"],
                 ["Sharjah", "blue"],
-                ["Northern Emirates", "cyan"],
+                ["Northern", "cyan"],
               ] as const).map(([label, tone]) => (
                 <div key={label} className="flex items-center gap-2">
                   <span
@@ -509,138 +720,205 @@ export function UaeMap() {
           </div>
 
           {/* RIGHT — info panel */}
-          {panelOpen && (
-            <aside
-              key={active.id}
-              className="relative rounded-3xl border border-white/10 bg-[oklch(0.12_0.025_280/0.75)] backdrop-blur-xl p-5 overflow-hidden animate-fade-in max-h-[760px] flex flex-col"
-            >
-              {/* close */}
-              <button
-                onClick={() => setPanelOpen(false)}
-                className="absolute top-4 right-4 z-10 w-7 h-7 rounded-full border border-white/10 bg-white/[0.04] flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-white/[0.08]"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
+          <aside className="relative rounded-3xl border border-white/10 bg-[oklch(0.12_0.025_280/0.78)] backdrop-blur-xl overflow-hidden max-h-[760px] flex flex-col">
+            <AnimatePresence mode="wait">
+              {!active && !focusEmirate && (
+                <motion.div
+                  key="federation"
+                  initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+                  className="p-6 flex flex-col h-full"
+                >
+                  <div className="text-[10px] tracking-[0.22em] uppercase text-muted-foreground mb-3">Federation Overview</div>
+                  <h3 className="text-2xl font-display font-semibold leading-tight">United Arab Emirates</h3>
+                  <p className="mt-3 text-[13px] text-muted-foreground leading-relaxed">
+                    Seven emirates. 27+ jurisdictions. Click any emirate on the map — or in the list — to zoom in and explore its ecosystem.
+                  </p>
+                  <div className="mt-6 grid grid-cols-2 gap-3">
+                    {EMIRATE_ORDER.map(em => {
+                      const c = TONE_HEX[TONE_BY_EMIRATE[em]];
+                      return (
+                        <button
+                          key={em}
+                          onClick={() => openEmirateView(em)}
+                          className="text-left rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.05] px-3 py-2.5 transition-all group"
+                        >
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="w-1.5 h-1.5 rounded-full" style={{ background: c, boxShadow: `0 0 8px ${c}` }} />
+                            <span className="text-[12px] font-medium">{em}</span>
+                          </div>
+                          <div className="text-[10px] text-muted-foreground">{grouped[em].length} jurisdictions</div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <div className="mt-auto pt-6 text-[11px] text-muted-foreground">
+                    Tip — hover any node on the map for a quick preview.
+                  </div>
+                </motion.div>
+              )}
 
-              {/* banner */}
-              <div
-                className="relative h-28 rounded-2xl overflow-hidden border border-white/10 shrink-0"
-                style={{
-                  background:
-                    `linear-gradient(135deg, ${activeHex}26, transparent 60%),` +
-                    `linear-gradient(180deg, oklch(0.18 0.04 280), oklch(0.10 0.02 280))`,
-                }}
-              >
-                <div className="absolute inset-0 grid-pattern opacity-30" />
-                <div
-                  className="absolute -inset-10 opacity-50"
-                  style={{ background: `radial-gradient(circle at 70% 30%, ${activeHex}55, transparent 60%)` }}
-                />
-                <div className="absolute bottom-3 left-4 right-4 flex items-end justify-between">
-                  <div>
-                    <h3 className="text-xl font-display font-semibold leading-tight">{active.name}</h3>
-                    <div className="flex items-center gap-1.5 mt-1 text-[11px] text-muted-foreground">
-                      <MapPin className="w-3 h-3" style={{ color: activeHex }} />
-                      {active.emirate}, UAE
+              {focusEmirate && !active && (
+                <motion.div
+                  key={`em-${focusEmirate}`}
+                  initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+                  className="p-5 flex flex-col h-full"
+                >
+                  <EmirateHero em={focusEmirate} count={grouped[focusEmirate].length} />
+                  <div className="overflow-y-auto custom-scroll pr-1 mt-4 space-y-2">
+                    <div className="text-[10px] tracking-[0.22em] uppercase text-muted-foreground mb-2">
+                      Jurisdictions in {focusEmirate}
+                    </div>
+                    {grouped[focusEmirate].map((j, idx) => {
+                      const c = TONE_HEX[TONE_BY_EMIRATE[j.emirate]];
+                      return (
+                        <motion.button
+                          key={j.id}
+                          onClick={() => openJurisdiction(j)}
+                          initial={{ opacity: 0, x: 10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.05 * idx }}
+                          className="w-full text-left rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.05] px-3 py-3 transition-all flex items-center justify-between gap-3"
+                        >
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: c, boxShadow: `0 0 8px ${c}` }} />
+                            <div className="min-w-0">
+                              <div className="text-[13px] font-medium truncate">{j.name}</div>
+                              <div className="text-[10.5px] text-muted-foreground truncate">{j.activities} · {j.setupDays}</div>
+                            </div>
+                          </div>
+                          <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0" />
+                        </motion.button>
+                      );
+                    })}
+                  </div>
+                </motion.div>
+              )}
+
+              {active && (
+                <motion.div
+                  key={active.id}
+                  initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+                  className="p-5 flex flex-col h-full"
+                >
+                  <button
+                    onClick={() => { setActiveId(null); setMode("emirate"); }}
+                    className="absolute top-4 right-4 z-10 w-7 h-7 rounded-full border border-white/10 bg-white/[0.04] flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-white/[0.08]"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+
+                  <div
+                    className="relative h-28 rounded-2xl overflow-hidden border border-white/10 shrink-0"
+                    style={{
+                      background:
+                        `linear-gradient(135deg, ${activeHex}26, transparent 60%),` +
+                        `linear-gradient(180deg, oklch(0.18 0.04 280), oklch(0.10 0.02 280))`,
+                    }}
+                  >
+                    <div className="absolute inset-0 grid-pattern opacity-30" />
+                    <div className="absolute -inset-10 opacity-50"
+                         style={{ background: `radial-gradient(circle at 70% 30%, ${activeHex}55, transparent 60%)` }} />
+                    <div className="absolute bottom-3 left-4 right-4 flex items-end justify-between">
+                      <div>
+                        <h3 className="text-xl font-display font-semibold leading-tight">{active.name}</h3>
+                        <div className="flex items-center gap-1.5 mt-1 text-[11px] text-muted-foreground">
+                          <MapPin className="w-3 h-3" style={{ color: activeHex }} />
+                          {active.emirate}, UAE
+                        </div>
+                      </div>
+                      <Building2 className="w-7 h-7 opacity-50" style={{ color: activeHex }} />
                     </div>
                   </div>
-                  <Building2 className="w-7 h-7 opacity-50" style={{ color: activeHex }} />
-                </div>
-              </div>
 
-              <div className="overflow-y-auto custom-scroll pr-1 mt-4 space-y-5">
-                {active.popular && (
-                  <div className="inline-flex items-center gap-1.5 text-[10px] tracking-[0.18em] uppercase font-semibold px-2.5 py-1 rounded-full"
-                       style={{ background: `${activeHex}1f`, color: activeHex, border: `1px solid ${activeHex}55` }}>
-                    <Star className="w-3 h-3 fill-current" /> Most Popular
+                  <div className="overflow-y-auto custom-scroll pr-1 mt-4 space-y-5">
+                    {active.popular && (
+                      <div className="inline-flex items-center gap-1.5 text-[10px] tracking-[0.18em] uppercase font-semibold px-2.5 py-1 rounded-full"
+                           style={{ background: `${activeHex}1f`, color: activeHex, border: `1px solid ${activeHex}55` }}>
+                        <Star className="w-3 h-3 fill-current" /> Most Popular
+                      </div>
+                    )}
+
+                    <p className="text-[13px] text-muted-foreground leading-relaxed">{active.tagline}</p>
+
+                    <div>
+                      <div className="text-[10px] tracking-[0.22em] uppercase text-muted-foreground mb-2.5">Best For</div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {active.bestFor.map(t => (
+                          <span key={t}
+                                className="text-[11px] px-2.5 py-1 rounded-lg border bg-white/[0.03] text-foreground/85"
+                                style={{ borderColor: `${activeHex}40` }}>
+                            <span className="inline-block w-1 h-1 rounded-full mr-1.5 align-middle" style={{ background: activeHex }} />
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="text-[10px] tracking-[0.22em] uppercase text-muted-foreground mb-2.5">Key Benefits</div>
+                      <ul className="space-y-1.5">
+                        {active.benefits.map(b => (
+                          <li key={b} className="flex items-center gap-2 text-[13px] text-foreground/90">
+                            <CheckIcon color={activeHex} />
+                            {b}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="flex items-center justify-between text-[12px] py-3 border-t border-b border-white/[0.06]">
+                      <span className="text-muted-foreground tracking-[0.12em] uppercase text-[10px]">Business Activities</span>
+                      <span className="font-semibold" style={{ color: activeHex }}>{active.activities}</span>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <div className="text-[10px] tracking-[0.22em] uppercase text-muted-foreground mb-1">Cost</div>
+                        <div className="text-base font-display font-semibold">{active.cost}</div>
+                      </div>
+                      <div>
+                        <div className="text-[10px] tracking-[0.22em] uppercase text-muted-foreground mb-1">Setup</div>
+                        <div className="text-base font-display font-semibold">{active.setupDays}</div>
+                      </div>
+                    </div>
                   </div>
-                )}
 
-                <p className="text-[13px] text-muted-foreground leading-relaxed">{active.tagline}</p>
-
-                {/* Best for tags */}
-                <div>
-                  <div className="text-[10px] tracking-[0.22em] uppercase text-muted-foreground mb-2.5">Best For</div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {active.bestFor.map(t => (
-                      <span
-                        key={t}
-                        className="text-[11px] px-2.5 py-1 rounded-lg border bg-white/[0.03] text-foreground/85"
-                        style={{ borderColor: `${activeHex}40` }}
-                      >
-                        <span className="inline-block w-1 h-1 rounded-full mr-1.5 align-middle" style={{ background: activeHex }} />
-                        {t}
-                      </span>
-                    ))}
+                  <div className="mt-4 space-y-2 shrink-0">
+                    <a
+                      href={`https://wa.me/971502429035?text=${encodeURIComponent(`Hi Soft Bridge, I'd like to explore ${active.name} for my UAE business setup.`)}`}
+                      target="_blank" rel="noreferrer"
+                      className="group w-full inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-medium text-white transition-all hover:brightness-110 shadow-lg"
+                      style={{
+                        background: `linear-gradient(135deg, ${activeHex}, oklch(0.55 0.18 290))`,
+                        boxShadow: `0 12px 30px -10px ${activeHex}80`,
+                      }}
+                    >
+                      Explore {active.name}
+                      <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                    </a>
+                    <button
+                      onClick={stepBack}
+                      className="w-full inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-medium border border-white/10 bg-white/[0.02] text-foreground/90 hover:bg-white/[0.05] transition-all"
+                    >
+                      <ArrowLeft className="w-4 h-4" /> Back to {active.emirate}
+                    </button>
                   </div>
-                </div>
-
-                {/* Key benefits */}
-                <div>
-                  <div className="text-[10px] tracking-[0.22em] uppercase text-muted-foreground mb-2.5">Key Benefits</div>
-                  <ul className="space-y-1.5">
-                    {active.benefits.map(b => (
-                      <li key={b} className="flex items-center gap-2 text-[13px] text-foreground/90">
-                        <CheckIcon color={activeHex} />
-                        {b}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Activities */}
-                <div className="flex items-center justify-between text-[12px] py-3 border-t border-b border-white/[0.06]">
-                  <span className="text-muted-foreground tracking-[0.12em] uppercase text-[10px]">Business Activities</span>
-                  <span className="font-semibold" style={{ color: activeHex }}>{active.activities}</span>
-                </div>
-
-                {/* Cost & Setup */}
-                <div className="space-y-3">
-                  <div>
-                    <div className="text-[10px] tracking-[0.22em] uppercase text-muted-foreground mb-1">Estimated Cost</div>
-                    <div className="text-lg font-display font-semibold">{active.cost}</div>
-                    <div className="text-[11px] text-muted-foreground">Setup Cost Range</div>
-                  </div>
-                  <div>
-                    <div className="text-[10px] tracking-[0.22em] uppercase text-muted-foreground mb-1">Setup Time</div>
-                    <div className="text-lg font-display font-semibold">{active.setupDays}</div>
-                    <div className="text-[11px] text-muted-foreground">Estimated</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* CTA */}
-              <div className="mt-4 space-y-2 shrink-0">
-                <a
-                  href={`https://wa.me/971502429035?text=${encodeURIComponent(`Hi Soft Bridge, I'd like to explore ${active.name} for my UAE business setup.`)}`}
-                  target="_blank" rel="noreferrer"
-                  className="group w-full inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-medium text-white transition-all hover:brightness-110 shadow-lg"
-                  style={{
-                    background: `linear-gradient(135deg, ${activeHex}, oklch(0.55 0.18 290))`,
-                    boxShadow: `0 12px 30px -10px ${activeHex}80`,
-                  }}
-                >
-                  Explore {active.name}
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-                </a>
-                <button className="w-full inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-medium border border-white/10 bg-white/[0.02] text-foreground/90 hover:bg-white/[0.05] transition-all">
-                  Compare Jurisdictions
-                </button>
-              </div>
-            </aside>
-          )}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </aside>
         </div>
 
         {/* Bottom feature cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-10">
-          <FeatureCard tone="violet" Icon={MapIcon} title="Interactive Map"
-            text="Click any jurisdiction to view detailed information and benefits." />
-          <FeatureCard tone="blue" Icon={Activity} title="Real-Time Data"
-            text="Live updates on regulations, costs, and business opportunities." />
+          <FeatureCard tone="violet" Icon={MapIcon} title="Cinematic Zoom"
+            text="Click any emirate — the camera smoothly flies in, revealing the full jurisdiction network." />
+          <FeatureCard tone="blue" Icon={Activity} title="Live Connections"
+            text="Animated paths light up the ecosystem connecting each jurisdiction to its emirate hub." />
           <FeatureCard tone="cyan" Icon={Scale} title="Smart Comparison"
-            text="Compare jurisdictions side-by-side to find your perfect match." />
-          <FeatureCard tone="gold" Icon={Sparkles} title="AI Recommendations"
-            text="Get AI-powered recommendations based on your business needs." />
+            text="Compare cost, setup time and business focus across 27+ jurisdictions side-by-side." />
+          <FeatureCard tone="gold" Icon={Sparkles} title="AI Guidance"
+            text="Get matched to the right jurisdiction based on your business, banking and visa needs." />
         </div>
       </div>
     </section>
@@ -648,6 +926,34 @@ export function UaeMap() {
 }
 
 /* ───────────────────── Sub-components ───────────────────── */
+
+function EmirateHero({ em, count }: { em: EmirateKey; count: number }) {
+  const c = TONE_HEX[TONE_BY_EMIRATE[em]];
+  return (
+    <div
+      className="relative h-28 rounded-2xl overflow-hidden border border-white/10 shrink-0"
+      style={{
+        background:
+          `linear-gradient(135deg, ${c}26, transparent 60%),` +
+          `linear-gradient(180deg, oklch(0.18 0.04 280), oklch(0.10 0.02 280))`,
+      }}
+    >
+      <div className="absolute inset-0 grid-pattern opacity-30" />
+      <div className="absolute -inset-10 opacity-50"
+           style={{ background: `radial-gradient(circle at 70% 30%, ${c}55, transparent 60%)` }} />
+      <div className="absolute bottom-3 left-4 right-4 flex items-end justify-between">
+        <div>
+          <div className="text-[10px] tracking-[0.22em] uppercase text-muted-foreground">Emirate Focus</div>
+          <h3 className="text-xl font-display font-semibold leading-tight mt-0.5">{em}</h3>
+        </div>
+        <div className="text-right">
+          <div className="text-2xl font-display font-semibold" style={{ color: c }}>{count}</div>
+          <div className="text-[10px] tracking-[0.18em] uppercase text-muted-foreground">Jurisdictions</div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function StatCard({ value, label, tone }: { value: string; label: string; tone: Tone }) {
   const c = TONE_HEX[tone];
@@ -711,8 +1017,7 @@ function CheckIcon({ color }: { color: string }) {
 }
 
 function Particles() {
-  // deterministic seeded positions
-  const dots = Array.from({ length: 22 }, (_, i) => {
+  const dots = Array.from({ length: 26 }, (_, i) => {
     const x = (i * 73) % 100;
     const y = (i * 131) % 100;
     const d = 6 + ((i * 17) % 8);

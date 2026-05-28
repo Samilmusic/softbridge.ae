@@ -78,8 +78,8 @@ function LoginPage() {
         <h1 className="font-display text-2xl text-foreground mt-3">Client portal access</h1>
         <p className="text-sm text-muted-foreground mt-2">
           {step === 1
-            ? "Enter your email and we'll send a 6-digit secure login code."
-            : `We sent a 6-digit code to ${email}.`}
+            ? "Enter your email and we'll send a 4-digit secure login code."
+            : `We sent a 4-digit code to ${email}.`}
         </p>
 
         {step === 1 ? (

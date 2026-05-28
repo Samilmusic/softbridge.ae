@@ -3,7 +3,7 @@ export const SITE = {
   tagline: "Bridge to Your Success",
   phone: "+971 50 242 9035",
   phoneRaw: "971502429035",
-  email: "noreply@softbridge.ae",
+  email: "info@softbridge.ae",
   website: "https://softbridge.ae",
   address: "26, Amber Gem Tower, Ajman, UAE",
   hours: "Mon–Fri: 9:00am–7:00pm",

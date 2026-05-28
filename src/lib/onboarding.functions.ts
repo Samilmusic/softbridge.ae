@@ -38,7 +38,7 @@ const step1Schema = z.object({
   nationality: z.string().trim().min(1).max(100),
 });
 
-const internalEmail = "noreply@softbridge.ae";
+const internalEmail = "info@softbridge.ae";
 
 async function issueOtp(email: string, name: string) {
   const since = new Date(Date.now() - 60 * 60 * 1000).toISOString();

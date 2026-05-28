@@ -125,7 +125,7 @@ function LoginPage() {
         )}
 
         <p className="text-[11px] text-muted-foreground text-center mt-6">
-          Emails are sent from <span className="text-foreground/70">noreply@softbridge.ae</span> · <Link to="/" className="text-foreground/70 hover:text-foreground">Back to site</Link>
+          Emails are sent from <span className="text-foreground/70">info@softbridge.ae</span> · <Link to="/" className="text-foreground/70 hover:text-foreground">Back to site</Link>
         </p>
       </div>
     </div>

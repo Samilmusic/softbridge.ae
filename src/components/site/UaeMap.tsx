@@ -59,6 +59,47 @@ const TONE_HEX: Record<Tone, string> = {
   cyan: "#67E8F9",
 };
 
+/* Per-jurisdiction brand accents & monogram (premium typographic marks).
+   `accent` overrides the emirate tone; `mono` is the short brand letters. */
+const BRAND: Record<string, { mono: string; accent: string; accent2: string; full: string }> = {
+  "ifza":            { mono: "IFZA",  accent: "#E6B663", accent2: "#A78BFA", full: "IFZA" },
+  "dmcc":            { mono: "DMCC",  accent: "#5BA8FF", accent2: "#C9D3DE", full: "DMCC" },
+  "meydan":          { mono: "MFZ",   accent: "#C49A4B", accent2: "#1E2A4A", full: "Meydan FZ" },
+  "dafza":           { mono: "DAFZA", accent: "#4FB6FF", accent2: "#0E2A55", full: "DAFZA" },
+  "dubai-south":     { mono: "DS",    accent: "#9CB3FF", accent2: "#5BA8FF", full: "Dubai South" },
+  "dubai-mainland":  { mono: "DED",   accent: "#A78BFA", accent2: "#5BA8FF", full: "Dubai Economy" },
+  "dic":             { mono: "DIC",   accent: "#67E8F9", accent2: "#A78BFA", full: "Dubai Internet City" },
+  "dmc":             { mono: "DMC",   accent: "#F472B6", accent2: "#A78BFA", full: "Dubai Media City" },
+  "dso":             { mono: "DSO",   accent: "#67E8F9", accent2: "#5BA8FF", full: "Dubai Silicon Oasis" },
+  "jafza":           { mono: "JAFZA", accent: "#5BA8FF", accent2: "#0E2A55", full: "JAFZA" },
+  "ad-mainland":     { mono: "ADDED", accent: "#E6B663", accent2: "#1E2A4A", full: "Abu Dhabi Economy" },
+  "adgm":            { mono: "ADGM",  accent: "#E6B663", accent2: "#FFFFFF", full: "ADGM" },
+  "masdar":          { mono: "MC",    accent: "#86EFAC", accent2: "#67E8F9", full: "Masdar City" },
+  "kizad":           { mono: "KZ",    accent: "#E6B663", accent2: "#5BA8FF", full: "KEZAD" },
+  "twofour54":       { mono: "247",   accent: "#F472B6", accent2: "#A78BFA", full: "twofour54" },
+  "sharjah-mainland":{ mono: "SHJ",   accent: "#5BA8FF", accent2: "#E6B663", full: "Sharjah Economy" },
+  "shams":           { mono: "SHAMS", accent: "#67E8F9", accent2: "#A78BFA", full: "SHAMS" },
+  "smc":             { mono: "SMC",   accent: "#F472B6", accent2: "#67E8F9", full: "Sharjah Media City" },
+  "hamriyah":        { mono: "HFZA",  accent: "#5BA8FF", accent2: "#E6B663", full: "Hamriyah FZ" },
+  "saif":            { mono: "SAIF",  accent: "#E6B663", accent2: "#5BA8FF", full: "SAIF Zone" },
+  "ajman-fz":        { mono: "AFZ",   accent: "#67E8F9", accent2: "#5BA8FF", full: "Ajman Free Zone" },
+  "ajman-mainland":  { mono: "AJM",   accent: "#67E8F9", accent2: "#A78BFA", full: "Ajman DED" },
+  "rakez":           { mono: "RAKEZ", accent: "#2DD4BF", accent2: "#67E8F9", full: "RAKEZ" },
+  "rak-mainland":    { mono: "RAK",   accent: "#2DD4BF", accent2: "#A78BFA", full: "RAK DED" },
+  "fcc":             { mono: "FCC",   accent: "#67E8F9", accent2: "#F472B6", full: "Fujairah Creative City" },
+  "fujairah-fz":     { mono: "FFZ",   accent: "#5BA8FF", accent2: "#67E8F9", full: "Fujairah FZ" },
+  "uaq":             { mono: "UAQ",   accent: "#67E8F9", accent2: "#A78BFA", full: "UAQ FTZ" },
+};
+
+function brandFor(id: string, fallbackAccent: string) {
+  return BRAND[id] ?? {
+    mono: id.slice(0, 3).toUpperCase(),
+    accent: fallbackAccent,
+    accent2: fallbackAccent,
+    full: "",
+  };
+}
+
 const EMIRATE_ANCHOR: Record<EmirateKey, keyof typeof UAE_CITIES> = {
   "Dubai": "Dubai",
   "Abu Dhabi": "Abu Dhabi",

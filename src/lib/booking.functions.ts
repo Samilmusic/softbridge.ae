@@ -9,6 +9,11 @@ const bookingSchema = z.object({
   email: z.string().trim().email().max(320),
   phone: z.string().trim().max(40).optional().or(z.literal("")),
   preferredDate: z.string().trim().max(120).optional().or(z.literal("")),
+  preferredTime: z.string().trim().max(40).optional().or(z.literal("")),
+  nationality: z.string().trim().max(120).optional().or(z.literal("")),
+  activity: z.string().trim().max(200).optional().or(z.literal("")),
+  jurisdiction: z.string().trim().max(120).optional().or(z.literal("")),
+  tags: z.array(z.string().trim().max(60)).max(12).optional(),
   method: z.enum(["whatsapp", "zoom", "google_meet", "in_person", "phone"]).default("whatsapp"),
   message: z.string().trim().max(4000).optional().or(z.literal("")),
 });
@@ -24,13 +29,23 @@ const methodLabels: Record<string, string> = {
 export const submitBooking = createServerFn({ method: "POST" })
   .inputValidator((data) => bookingSchema.parse(data))
   .handler(async ({ data }) => {
+    const when = [data.preferredDate, data.preferredTime].filter(Boolean).join(" · ");
+    const details = [
+      when ? `Preferred: ${when} (GST)` : null,
+      data.nationality ? `Nationality: ${data.nationality}` : null,
+      data.activity ? `Activity: ${data.activity}` : null,
+      data.jurisdiction ? `Jurisdiction: ${data.jurisdiction}` : null,
+      data.tags && data.tags.length ? `Focus: ${data.tags.join(", ")}` : null,
+      data.message || null,
+    ].filter(Boolean).join("\n\n") || null;
+
     const { error: insErr } = await supabaseAdmin.from("consultations").insert({
       name: data.name,
       email: data.email,
       phone: data.phone || null,
-      preferred_date: data.preferredDate ? null : null, // store as text only via message for now
+      preferred_date: null,
       method: data.method,
-      message: [data.preferredDate ? `Preferred: ${data.preferredDate}` : null, data.message || null].filter(Boolean).join("\n\n") || null,
+      message: details,
     });
     if (insErr) throw new Error(insErr.message);
 
@@ -44,14 +59,13 @@ export const submitBooking = createServerFn({ method: "POST" })
         subject: "Your Soft Bridge consultation is confirmed",
         props: {
           name: data.name,
-          date: data.preferredDate || undefined,
+          date: when || undefined,
           method: methodLabels[data.method],
           portalUrl,
         },
       });
     } catch (e) {
       console.error("booking email failed", e);
-      // do not fail the booking on email error
     }
 
     return { ok: true };

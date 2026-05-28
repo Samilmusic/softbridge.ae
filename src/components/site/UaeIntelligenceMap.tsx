@@ -511,14 +511,14 @@ export function UaeIntelligenceMap() {
               <ChevronRight className="size-3.5" />
             </div>
           </div>
-          <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4 uae-rail">
+          <div className="flex gap-5 overflow-x-auto snap-x snap-mandatory pb-6 -mx-4 px-4 uae-rail">
             {ranked.map(({ z, s }) => (
               <button
                 key={z.id}
                 onClick={() => selectZone(z.id)}
                 className={cn(
-                  "group snap-start shrink-0 w-[260px] text-left rounded-2xl p-5 border transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_-20px_var(--glow-primary)]",
-                  selectedId === z.id ? "ring-2 ring-[color:var(--primary)]" : "",
+                  "group snap-start shrink-0 w-[300px] text-left rounded-3xl p-6 border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_30px_70px_-25px_var(--glow-primary)]",
+                  selectedId === z.id ? "ring-2 ring-[color:var(--primary)] shadow-[0_20px_60px_-25px_var(--glow-primary)]" : "shadow-[0_10px_30px_-15px_var(--surface-shadow)]",
                 )}
                 style={{
                   borderColor: "var(--surface-border-strong)",
@@ -526,6 +526,7 @@ export function UaeIntelligenceMap() {
                   backdropFilter: "blur(14px)",
                 }}
               >
+
                 <div className="flex items-start justify-between mb-3">
                   <div className="h-11 w-11 rounded-xl flex items-center justify-center font-display text-base font-semibold text-white shadow-[0_8px_20px_-6px_var(--glow-primary)]"
                        style={{ background: "linear-gradient(135deg, var(--primary), var(--accent))" }}>

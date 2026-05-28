@@ -1,27 +1,29 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { Header } from "@/components/site/Header";
 import { Hero } from "@/components/site/Hero";
+import { PricingOffer } from "@/components/site/PricingOffer";
 import { WhatWeDo } from "@/components/site/WhatWeDo";
-import { RemoteSetupTeaser } from "@/components/site/RemoteSetupTeaser";
-import { Process } from "@/components/site/Process";
-import { LongTermSupport } from "@/components/site/LongTermSupport";
-import { DigitalInfrastructure } from "@/components/site/DigitalInfrastructure";
-import { Packages } from "@/components/site/Packages";
-import { Recognition } from "@/components/site/Recognition";
-import { Testimonials } from "@/components/site/Testimonials";
-import { FAQ } from "@/components/site/FAQ";
-import { Contact } from "@/components/site/Contact";
 import { Footer } from "@/components/site/Footer";
 import { FloatingActions } from "@/components/site/FloatingActions";
-import { AiAdvisorTeaser } from "@/components/site/AiAdvisorTeaser";
-import { AiCommandCenter } from "@/components/site/AiCommandCenter";
-import { WhereWeSetUp } from "@/components/site/WhereWeSetUp";
-import { LatestInsights } from "@/components/site/LatestInsights";
-import { PricingOffer } from "@/components/site/PricingOffer";
-import { OnboardingDialog } from "@/components/site/OnboardingDialog";
-
 import { useReveal } from "@/hooks/use-reveal";
+
+// Below-the-fold sections are code-split to shrink the initial bundle
+// and speed up LCP / TTI on the homepage.
+const AiAdvisorTeaser = lazy(() => import("@/components/site/AiAdvisorTeaser").then(m => ({ default: m.AiAdvisorTeaser })));
+const AiCommandCenter = lazy(() => import("@/components/site/AiCommandCenter").then(m => ({ default: m.AiCommandCenter })));
+const RemoteSetupTeaser = lazy(() => import("@/components/site/RemoteSetupTeaser").then(m => ({ default: m.RemoteSetupTeaser })));
+const WhereWeSetUp = lazy(() => import("@/components/site/WhereWeSetUp").then(m => ({ default: m.WhereWeSetUp })));
+const Process = lazy(() => import("@/components/site/Process").then(m => ({ default: m.Process })));
+const LongTermSupport = lazy(() => import("@/components/site/LongTermSupport").then(m => ({ default: m.LongTermSupport })));
+const DigitalInfrastructure = lazy(() => import("@/components/site/DigitalInfrastructure").then(m => ({ default: m.DigitalInfrastructure })));
+const Recognition = lazy(() => import("@/components/site/Recognition").then(m => ({ default: m.Recognition })));
+const Packages = lazy(() => import("@/components/site/Packages").then(m => ({ default: m.Packages })));
+const Testimonials = lazy(() => import("@/components/site/Testimonials").then(m => ({ default: m.Testimonials })));
+const LatestInsights = lazy(() => import("@/components/site/LatestInsights").then(m => ({ default: m.LatestInsights })));
+const FAQ = lazy(() => import("@/components/site/FAQ").then(m => ({ default: m.FAQ })));
+const Contact = lazy(() => import("@/components/site/Contact").then(m => ({ default: m.Contact })));
+const OnboardingDialog = lazy(() => import("@/components/site/OnboardingDialog").then(m => ({ default: m.OnboardingDialog })));
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -33,6 +35,8 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+const SectionFallback = () => <div className="min-h-[200px]" aria-hidden />;
+
 function Index() {
   useReveal();
   const [onboarding, setOnboarding] = useState(false);
@@ -43,24 +47,29 @@ function Index() {
         <Hero />
         <PricingOffer id="offer" onStartSetup={() => setOnboarding(true)} />
         <WhatWeDo />
-        <AiAdvisorTeaser />
-        <AiCommandCenter onStartSetup={() => setOnboarding(true)} />
-
-        <RemoteSetupTeaser />
-        <WhereWeSetUp />
-        <Process />
-        <LongTermSupport />
-        <DigitalInfrastructure />
-        <Recognition />
-        <Packages />
-        <Testimonials />
-        <LatestInsights />
-        <FAQ />
-        <Contact />
+        <Suspense fallback={<SectionFallback />}>
+          <AiAdvisorTeaser />
+          <AiCommandCenter onStartSetup={() => setOnboarding(true)} />
+          <RemoteSetupTeaser />
+          <WhereWeSetUp />
+          <Process />
+          <LongTermSupport />
+          <DigitalInfrastructure />
+          <Recognition />
+          <Packages />
+          <Testimonials />
+          <LatestInsights />
+          <FAQ />
+          <Contact />
+        </Suspense>
       </main>
       <Footer />
       <FloatingActions />
-      <OnboardingDialog open={onboarding} onOpenChange={setOnboarding} />
+      {onboarding && (
+        <Suspense fallback={null}>
+          <OnboardingDialog open={onboarding} onOpenChange={setOnboarding} />
+        </Suspense>
+      )}
     </div>
   );
 }

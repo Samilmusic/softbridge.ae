@@ -495,8 +495,7 @@ export function AiCommandCenter({ onStartSetup }: AiCommandCenterProps) {
         }
       `}</style>
     </section>
-    <OnboardingDialog open={onboarding} onOpenChange={setOnboarding} />
-    </>
+  );
   );
 }
 

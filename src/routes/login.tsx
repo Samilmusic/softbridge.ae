@@ -89,7 +89,7 @@ function LoginPage() {
           <form onSubmit={send} className="mt-6 grid gap-3">
             <div>
               <Label htmlFor="em">Email</Label>
-              <Input id="em" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@company.com" />
+              <Input id="em" type="email" autoComplete="email" inputMode="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@company.com" />
             </div>
             <Button type="submit" disabled={loading} className="w-full">
               {loading ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Sending…</> : <><Sparkles className="w-4 h-4 mr-2" />Send secure code</>}

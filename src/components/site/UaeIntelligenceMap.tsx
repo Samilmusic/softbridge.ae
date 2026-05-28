@@ -302,107 +302,55 @@ export function UaeIntelligenceMap() {
               <svg viewBox="0 0 1000 720" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid meet">
                 <defs>
                   <linearGradient id="uae-fill" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%"   stopColor="oklch(0.985 0.012 285)" />
-                    <stop offset="100%" stopColor="oklch(0.90 0.05 285)" />
+                    <stop offset="0%"   stopColor="#F4F0FF" />
+                    <stop offset="100%" stopColor="#E6DCFF" />
                   </linearGradient>
                   <linearGradient id="uae-fill-active" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%"   stopColor="color-mix(in oklab, var(--primary) 22%, white)" />
-                    <stop offset="100%" stopColor="color-mix(in oklab, var(--accent) 28%, white)" />
+                    <stop offset="0%"   stopColor="#EDE4FF" />
+                    <stop offset="100%" stopColor="#D7C6FF" />
                   </linearGradient>
                   <radialGradient id="node-glow" cx="0.5" cy="0.5" r="0.5">
-                    <stop offset="0%"   stopColor="var(--primary)" stopOpacity="0.65" />
-                    <stop offset="55%"  stopColor="var(--primary)" stopOpacity="0.15" />
-                    <stop offset="100%" stopColor="var(--primary)" stopOpacity="0" />
+                    <stop offset="0%"   stopColor="#8B6CFF" stopOpacity="0.55" />
+                    <stop offset="55%"  stopColor="#8B6CFF" stopOpacity="0.12" />
+                    <stop offset="100%" stopColor="#8B6CFF" stopOpacity="0" />
                   </radialGradient>
                   <linearGradient id="conn-grad" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%"   stopColor="var(--primary)" stopOpacity="0" />
-                    <stop offset="50%"  stopColor="var(--primary)" stopOpacity="0.75" />
-                    <stop offset="100%" stopColor="var(--accent)"  stopOpacity="0" />
+                    <stop offset="0%"   stopColor="#8B6CFF" stopOpacity="0" />
+                    <stop offset="50%"  stopColor="#7B5CFF" stopOpacity="0.7" />
+                    <stop offset="100%" stopColor="#8B6CFF" stopOpacity="0" />
                   </linearGradient>
                   <filter id="soft-glow" x="-50%" y="-50%" width="200%" height="200%">
                     <feGaussianBlur stdDeviation="3" />
                   </filter>
+                  <filter id="map-shadow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="0" dy="10" stdDeviation="14" floodColor="#7B5CFF" floodOpacity="0.18" />
+                  </filter>
                 </defs>
 
-                {/* Country shape with outer halo */}
-                <g>
-                  {UAE_PATHS.map((d, i) => (
-                    <path key={"halo-" + i} d={d} fill="none"
-                          stroke="color-mix(in oklab, var(--primary) 30%, transparent)"
-                          strokeWidth={6} filter="url(#soft-glow)" opacity={0.55} />
-                  ))}
+                {/* Clean UAE country shape — no labels, no halo strokes */}
+                <g filter="url(#map-shadow)">
                   {UAE_PATHS.map((d, i) => (
                     <path
                       key={i}
                       d={d}
                       fill={filters.emirate !== "All" ? "url(#uae-fill-active)" : "url(#uae-fill)"}
-                      stroke="color-mix(in oklab, var(--primary) 45%, white)"
-                      strokeWidth={1.3}
+                      stroke="#8B6CFF"
+                      strokeWidth={1.4}
                       strokeLinejoin="round"
+                      strokeLinecap="round"
                       style={{ transition: "fill 700ms ease" }}
                     />
                   ))}
                 </g>
-
-                {/* Smart infrastructure connections. When an emirate is selected,
-                    link its zones to their centroid; otherwise a soft global mesh. */}
-                <g>
-                  {(() => {
-                    if (filters.emirate !== "All") {
-                      const local = ZONES.filter((z) => z.emirate === filters.emirate);
-                      if (local.length < 2) return null;
-                      const cx = local.reduce((s, z) => s + z.x, 0) / local.length;
-                      const cy = local.reduce((s, z) => s + z.y, 0) / local.length;
-                      return (
-                        <>
-                          <circle cx={cx} cy={cy} r={4} fill="var(--primary)" className="uae-pulse-strong" />
-                          {local.map((z) => (
-                            <line key={"c-" + z.id}
-                                  x1={cx} y1={cy} x2={z.x} y2={z.y}
-                                  stroke="url(#conn-grad)" strokeWidth={1.4}
-                                  strokeDasharray="3 5" className="uae-line" />
-                          ))}
-                        </>
-                      );
-                    }
-                    const edges: { a: typeof ZONES[number]; b: typeof ZONES[number] }[] = [];
-                    ZONES.forEach((z) => {
-                      const nearest = [...ZONES]
-                        .filter((o) => o.id !== z.id)
-                        .sort((a, b) => Math.hypot(a.x - z.x, a.y - z.y) - Math.hypot(b.x - z.x, b.y - z.y))
-                        .slice(0, 2);
-                      nearest.forEach((n) => edges.push({ a: z, b: n }));
-                    });
-                    return edges.map((e, i) => (
-                      <line key={"m-" + i}
-                            x1={e.a.x} y1={e.a.y} x2={e.b.x} y2={e.b.y}
-                            stroke="color-mix(in oklab, var(--primary) 26%, transparent)"
-                            strokeWidth={0.6}
-                            strokeDasharray="2 5"
-                            className="uae-line" />
-                    ));
-                  })()}
-                </g>
-
-
-
-                {/* City labels */}
-                {Object.entries(UAE_CITIES).slice(0, 7).map(([name, [x, y]]) => (
-                  <text key={name} x={x} y={y - 14} textAnchor="middle"
-                        fontSize="11" fontWeight={500}
-                        fill="color-mix(in oklab, var(--foreground) 55%, transparent)"
-                        style={{ letterSpacing: "0.04em", textTransform: "uppercase", pointerEvents: "none" }}>
-                    {name}
-                  </text>
-                ))}
-
-                {/* Zone nodes */}
+...
+                {/* Zone nodes — pure shapes, no embedded text */}
                 {ZONES.map((z) => {
                   const isVisible = visible.some((v) => v.id === z.id);
                   const isSelected = selectedId === z.id;
                   const isTop = topId === z.id;
                   const isHover = hoverId === z.id;
                   const dim = !isVisible;
+                  const active = isSelected || isTop;
                   return (
                     <g
                       key={z.id}
@@ -410,41 +358,27 @@ export function UaeIntelligenceMap() {
                       onMouseEnter={() => setHoverId(z.id)}
                       onMouseLeave={() => setHoverId(null)}
                       onClick={() => selectZone(z.id)}
-                      style={{ cursor: "pointer", opacity: dim ? 0.22 : 1, transition: "opacity 300ms ease" }}
+                      style={{ cursor: "pointer", opacity: dim ? 0.35 : 1, transition: "opacity 300ms ease" }}
                     >
                       {/* Outer halo */}
-                      <circle r={isTop ? 46 : isSelected ? 40 : isHover ? 34 : 28}
-                              fill="url(#node-glow)" filter="url(#soft-glow)"
+                      <circle r={isTop ? 44 : isSelected ? 38 : isHover ? 32 : 24}
+                              fill="url(#node-glow)"
                               className={isTop ? "uae-pulse-strong" : "uae-pulse"}
                               style={{ transition: "r 250ms ease" }} />
                       {/* Ring */}
-                      <circle r={isSelected || isTop ? 14 : isHover ? 11 : 9}
+                      <circle r={active ? 13 : isHover ? 10 : 8}
                               fill="none"
-                              stroke="color-mix(in oklab, var(--primary) 35%, transparent)"
-                              strokeWidth={1} />
+                              stroke={active ? "#7B5CFF" : "rgba(123,92,255,0.25)"}
+                              strokeWidth={1.2} />
                       {/* Core */}
-                      <circle r={isSelected || isTop ? 9 : isHover ? 7.5 : 6}
-                              fill="white"
-                              stroke="var(--primary)"
-                              strokeWidth={isSelected || isTop ? 2.6 : 1.8}
-                              style={{ filter: "drop-shadow(0 3px 6px rgba(80,40,160,0.25))", transition: "r 200ms ease" }} />
+                      <circle r={active ? 8 : isHover ? 6.5 : 5.5}
+                              fill="#ffffff"
+                              stroke={active ? "#7B5CFF" : "#8B6CFF"}
+                              strokeWidth={active ? 2.4 : 1.6}
+                              style={{ filter: "drop-shadow(0 2px 4px rgba(123,92,255,0.30))", transition: "r 200ms ease" }} />
                       {/* Inner dot */}
-                      <circle r={isSelected || isTop ? 3.5 : 2.2} fill="var(--primary)" />
-
-                      {/* Label on hover/selected */}
-                      {(isHover || isSelected || isTop) && (
-                        <g transform="translate(14, -12)">
-                          <rect x="0" y="-11" rx="7" ry="7"
-                                width={z.name.length * 7 + 16} height="22"
-                                fill="white" stroke="var(--surface-border-strong)" strokeWidth="0.8"
-                                style={{ filter: "drop-shadow(0 6px 16px rgba(80,40,160,0.22))" }} />
-                          <text x="8" y="5" fontSize="12" fontWeight={600} fill="var(--foreground)">
-                            {z.name}
-                          </text>
-                        </g>
-                      )}
+                      <circle r={active ? 3.2 : 2} fill={active ? "#7B5CFF" : "rgba(123,92,255,0.55)"} />
                     </g>
-
                   );
                 })}
               </svg>

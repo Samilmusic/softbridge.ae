@@ -1026,7 +1026,7 @@ export function UaeMap() {
                           initial={{ opacity: 0, x: 10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: 0.05 * idx }}
-                          className="w-full text-left rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.05] px-3 py-3 transition-all flex items-center justify-between gap-3"
+                          className="w-full text-left rounded-xl border border-border bg-background/40 hover:bg-primary/5 hover:border-primary/30 px-3 py-3 transition-all flex items-center justify-between gap-3"
                         >
                           <div className="flex items-center gap-2.5 min-w-0">
                             <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: c, boxShadow: `0 0 8px ${c}` }} />

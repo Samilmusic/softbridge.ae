@@ -14,6 +14,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
+import { PhoneField } from "@/components/ui/phone-field";
 import {
   ArrowRight, ArrowLeft, Loader2, CheckCircle2, Mail, Sparkles, Shield, Minus, Plus,
   MessageCircle, LayoutDashboard, CalendarDays,

@@ -262,12 +262,12 @@ export function OnboardingDialog({ open, onOpenChange }: { open: boolean; onOpen
                   <div className="mx-auto w-12 h-12 rounded-full glass-strong grid place-items-center"><Mail className="w-5 h-5 text-gold" /></div>
                   <div>
                     <h3 className="font-display text-2xl text-foreground">Verify your email</h3>
-                    <p className="text-sm text-muted-foreground mt-1">We sent a 6-digit code to <span className="text-foreground">{s1.email}</span>.</p>
+                    <p className="text-sm text-muted-foreground mt-1">We sent a 4-digit code to <span className="text-foreground">{s1.email}</span>.</p>
                   </div>
                   <div className="flex justify-center">
-                    <InputOTP maxLength={6} value={code} onChange={setCode}>
+                    <InputOTP maxLength={4} value={code} onChange={setCode}>
                       <InputOTPGroup>
-                        {[0,1,2,3,4,5].map((i) => (
+                        {[0,1,2,3].map((i) => (
                           <InputOTPSlot key={i} index={i} className="w-11 h-12 text-lg bg-white/[0.03] border-white/15" />
                         ))}
                       </InputOTPGroup>
@@ -282,7 +282,7 @@ export function OnboardingDialog({ open, onOpenChange }: { open: boolean; onOpen
                   </div>
                   <FooterRow>
                     <Button variant="ghost" onClick={() => setStep(1)} className="rounded-full"><ArrowLeft className="w-4 h-4 mr-1" /> Back</Button>
-                    <Button onClick={submitStep2} disabled={code.length !== 6 || loading} className="rounded-full gold-gradient text-[oklch(0.15_0.02_260)] font-semibold">
+                    <Button onClick={submitStep2} disabled={code.length !== 4 || loading} className="rounded-full gold-gradient text-[oklch(0.15_0.02_260)] font-semibold">
                       {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <>Verify <ArrowRight className="w-4 h-4 ml-1" /></>}
                     </Button>
                   </FooterRow>

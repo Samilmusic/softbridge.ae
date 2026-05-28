@@ -359,7 +359,7 @@ export function UaeMap() {
     const tx = centerX - s * pxCx;
     const ty = centerY - s * pxCy;
     return { scale: s, tx, ty };
-  }, [mode, focusEmirate, grouped, isDubaiFocus]);
+  }, [mode, focusEmirate, grouped, isDetailOverlay]);
 
 
   const openEmirateView = (em: EmirateKey) => {

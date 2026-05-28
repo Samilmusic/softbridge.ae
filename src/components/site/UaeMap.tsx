@@ -5,6 +5,13 @@ import {
   ArrowRight, Building2, Sparkles, MapPin, ChevronDown, X,
   Activity, Scale, Map as MapIcon, Star, ChevronRight, ArrowLeft, Layers,
 } from "lucide-react";
+import dubaiImg from "@/assets/emirates/dubai.jpg";
+import abuDhabiImg from "@/assets/emirates/abu-dhabi.jpg";
+import sharjahImg from "@/assets/emirates/sharjah.jpg";
+import ajmanImg from "@/assets/emirates/ajman.jpg";
+import rakImg from "@/assets/emirates/ras-al-khaimah.jpg";
+import fujairahImg from "@/assets/emirates/fujairah.jpg";
+import uaqImg from "@/assets/emirates/umm-al-quwain.jpg";
 
 /* ───────────────────── Types & Data ───────────────────── */
 

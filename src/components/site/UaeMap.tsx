@@ -318,12 +318,14 @@ export function UaeMap() {
     return out;
   }, []);
 
-  // Dubai uses a dedicated detailed-map overlay instead of zooming the SVG.
+  // Dedicated detail-map overlays for select emirates instead of zooming the SVG.
   const isDubaiFocus = focusEmirate === "Dubai";
+  const isAbuDhabiFocus = focusEmirate === "Abu Dhabi";
+  const isDetailOverlay = isDubaiFocus || isAbuDhabiFocus;
 
   // Smart camera — accounts for MAP_TRANSFORM and reserves space for the floating preview panel.
   const camera = useMemo(() => {
-    if (mode === "federation" || !focusEmirate || isDubaiFocus) {
+    if (mode === "federation" || !focusEmirate || isDetailOverlay) {
       return { scale: 1, tx: 0, ty: 0 };
     }
     const list = grouped[focusEmirate];

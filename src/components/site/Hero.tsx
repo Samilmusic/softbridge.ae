@@ -1,11 +1,14 @@
+import { useState } from "react";
 import { ArrowRight, MessageCircle, Sparkles } from "lucide-react";
 import { WA_LINK } from "@/lib/site";
 import { Counter } from "./Counter";
 import { Skyline } from "./Skyline";
 import { Particles } from "./Particles";
 import { HeroMockup } from "./HeroMockup";
+import { OnboardingDialog } from "./OnboardingDialog";
 
 const TRUST = ["UAE-Based", "Long-Term Support", "Compliance Focused", "International Clients"];
+
 
 const STATS = [
   { value: 5, suffix: "+", label: "Years of Regional Experience" },

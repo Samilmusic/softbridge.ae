@@ -304,7 +304,7 @@ function RemoteCompanySetup() {
       </section>
 
       {/* FREE WEBSITE BONUS */}
-      <section className="relative py-20 md:py-28 border-t border-white/5 overflow-hidden">
+      <section className="relative py-20 md:py-28 border-t border-white/5 overflow-x-hidden">
         <div
           aria-hidden
           className="absolute inset-0 opacity-25 pointer-events-none"
@@ -313,7 +313,8 @@ function RemoteCompanySetup() {
               "radial-gradient(ellipse at 70% 50%, oklch(0.66 0.22 285 / 0.5) 0%, transparent 65%)",
           }}
         />
-        <div className="relative mx-auto max-w-6xl px-6">
+        <div className="relative mx-auto max-w-6xl px-5 md:px-6">
+
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="reveal">
               <div className="inline-flex items-center gap-2 glass rounded-full px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-gold mb-5">

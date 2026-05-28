@@ -17,6 +17,12 @@ import { Route as AdvisorRouteImport } from './routes/advisor'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ServicesWebAdvertisingRouteImport } from './routes/services.web-advertising'
+import { Route as ServicesResidencyRelocationRouteImport } from './routes/services.residency-relocation'
+import { Route as ServicesOperationalSupportRouteImport } from './routes/services.operational-support'
+import { Route as ServicesBusinessFormationRouteImport } from './routes/services.business-formation'
+import { Route as ServicesBankingPreparationRouteImport } from './routes/services.banking-preparation'
+import { Route as ServicesAmlComplianceRouteImport } from './routes/services.aml-compliance'
 import { Route as AuthenticatedPortalRouteImport } from './routes/_authenticated/portal'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 
@@ -59,6 +65,40 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicesWebAdvertisingRoute = ServicesWebAdvertisingRouteImport.update({
+  id: '/services/web-advertising',
+  path: '/services/web-advertising',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesResidencyRelocationRoute =
+  ServicesResidencyRelocationRouteImport.update({
+    id: '/services/residency-relocation',
+    path: '/services/residency-relocation',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ServicesOperationalSupportRoute =
+  ServicesOperationalSupportRouteImport.update({
+    id: '/services/operational-support',
+    path: '/services/operational-support',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ServicesBusinessFormationRoute =
+  ServicesBusinessFormationRouteImport.update({
+    id: '/services/business-formation',
+    path: '/services/business-formation',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ServicesBankingPreparationRoute =
+  ServicesBankingPreparationRouteImport.update({
+    id: '/services/banking-preparation',
+    path: '/services/banking-preparation',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ServicesAmlComplianceRoute = ServicesAmlComplianceRouteImport.update({
+  id: '/services/aml-compliance',
+  path: '/services/aml-compliance',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedPortalRoute = AuthenticatedPortalRouteImport.update({
   id: '/portal',
   path: '/portal',
@@ -80,6 +120,12 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/portal': typeof AuthenticatedPortalRoute
+  '/services/aml-compliance': typeof ServicesAmlComplianceRoute
+  '/services/banking-preparation': typeof ServicesBankingPreparationRoute
+  '/services/business-formation': typeof ServicesBusinessFormationRoute
+  '/services/operational-support': typeof ServicesOperationalSupportRoute
+  '/services/residency-relocation': typeof ServicesResidencyRelocationRoute
+  '/services/web-advertising': typeof ServicesWebAdvertisingRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -91,6 +137,12 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/portal': typeof AuthenticatedPortalRoute
+  '/services/aml-compliance': typeof ServicesAmlComplianceRoute
+  '/services/banking-preparation': typeof ServicesBankingPreparationRoute
+  '/services/business-formation': typeof ServicesBusinessFormationRoute
+  '/services/operational-support': typeof ServicesOperationalSupportRoute
+  '/services/residency-relocation': typeof ServicesResidencyRelocationRoute
+  '/services/web-advertising': typeof ServicesWebAdvertisingRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -104,6 +156,12 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/portal': typeof AuthenticatedPortalRoute
+  '/services/aml-compliance': typeof ServicesAmlComplianceRoute
+  '/services/banking-preparation': typeof ServicesBankingPreparationRoute
+  '/services/business-formation': typeof ServicesBusinessFormationRoute
+  '/services/operational-support': typeof ServicesOperationalSupportRoute
+  '/services/residency-relocation': typeof ServicesResidencyRelocationRoute
+  '/services/web-advertising': typeof ServicesWebAdvertisingRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -117,6 +175,12 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin'
     | '/portal'
+    | '/services/aml-compliance'
+    | '/services/banking-preparation'
+    | '/services/business-formation'
+    | '/services/operational-support'
+    | '/services/residency-relocation'
+    | '/services/web-advertising'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -128,6 +192,12 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin'
     | '/portal'
+    | '/services/aml-compliance'
+    | '/services/banking-preparation'
+    | '/services/business-formation'
+    | '/services/operational-support'
+    | '/services/residency-relocation'
+    | '/services/web-advertising'
   id:
     | '__root__'
     | '/'
@@ -140,6 +210,12 @@ export interface FileRouteTypes {
     | '/terms'
     | '/_authenticated/admin'
     | '/_authenticated/portal'
+    | '/services/aml-compliance'
+    | '/services/banking-preparation'
+    | '/services/business-formation'
+    | '/services/operational-support'
+    | '/services/residency-relocation'
+    | '/services/web-advertising'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -151,6 +227,12 @@ export interface RootRouteChildren {
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   QuoteRoute: typeof QuoteRoute
   TermsRoute: typeof TermsRoute
+  ServicesAmlComplianceRoute: typeof ServicesAmlComplianceRoute
+  ServicesBankingPreparationRoute: typeof ServicesBankingPreparationRoute
+  ServicesBusinessFormationRoute: typeof ServicesBusinessFormationRoute
+  ServicesOperationalSupportRoute: typeof ServicesOperationalSupportRoute
+  ServicesResidencyRelocationRoute: typeof ServicesResidencyRelocationRoute
+  ServicesWebAdvertisingRoute: typeof ServicesWebAdvertisingRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -211,6 +293,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/services/web-advertising': {
+      id: '/services/web-advertising'
+      path: '/services/web-advertising'
+      fullPath: '/services/web-advertising'
+      preLoaderRoute: typeof ServicesWebAdvertisingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/residency-relocation': {
+      id: '/services/residency-relocation'
+      path: '/services/residency-relocation'
+      fullPath: '/services/residency-relocation'
+      preLoaderRoute: typeof ServicesResidencyRelocationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/operational-support': {
+      id: '/services/operational-support'
+      path: '/services/operational-support'
+      fullPath: '/services/operational-support'
+      preLoaderRoute: typeof ServicesOperationalSupportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/business-formation': {
+      id: '/services/business-formation'
+      path: '/services/business-formation'
+      fullPath: '/services/business-formation'
+      preLoaderRoute: typeof ServicesBusinessFormationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/banking-preparation': {
+      id: '/services/banking-preparation'
+      path: '/services/banking-preparation'
+      fullPath: '/services/banking-preparation'
+      preLoaderRoute: typeof ServicesBankingPreparationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/aml-compliance': {
+      id: '/services/aml-compliance'
+      path: '/services/aml-compliance'
+      fullPath: '/services/aml-compliance'
+      preLoaderRoute: typeof ServicesAmlComplianceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/portal': {
       id: '/_authenticated/portal'
       path: '/portal'
@@ -251,7 +375,23 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   QuoteRoute: QuoteRoute,
   TermsRoute: TermsRoute,
+  ServicesAmlComplianceRoute: ServicesAmlComplianceRoute,
+  ServicesBankingPreparationRoute: ServicesBankingPreparationRoute,
+  ServicesBusinessFormationRoute: ServicesBusinessFormationRoute,
+  ServicesOperationalSupportRoute: ServicesOperationalSupportRoute,
+  ServicesResidencyRelocationRoute: ServicesResidencyRelocationRoute,
+  ServicesWebAdvertisingRoute: ServicesWebAdvertisingRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

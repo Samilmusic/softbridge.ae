@@ -768,6 +768,24 @@ export function UaeMap() {
               </motion.g>
             </svg>
 
+            {/* Floating cinematic emirate preview panel */}
+            <AnimatePresence>
+              {focusEmirate && !active && (
+                <motion.div
+                  key={`preview-${focusEmirate}`}
+                  initial={{ opacity: 0, y: -8, scale: 0.96 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                  transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute top-16 right-4 z-20 w-[300px] max-w-[42%] hidden sm:block pointer-events-none"
+                >
+                  <EmiratePreviewCard em={focusEmirate} count={grouped[focusEmirate].length} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+
+
             {/* Mini-map */}
             <div className="absolute bottom-4 right-4 z-10 w-[140px] h-[110px] rounded-xl border border-white/10 bg-[oklch(0.08_0.025_280/0.9)] backdrop-blur-md overflow-hidden">
               <svg viewBox={`0 0 ${VW} ${VH}`} className="w-full h-full">

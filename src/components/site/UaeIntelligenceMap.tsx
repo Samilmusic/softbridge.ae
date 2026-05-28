@@ -126,35 +126,41 @@ export function UaeIntelligenceMap() {
   }
 
   return (
-    <section id="uae-intelligence" className="relative py-20 md:py-28 overflow-hidden">
+    <section id="uae-intelligence" className="relative py-28 md:py-40 overflow-hidden">
       {/* Atmospheric background */}
       <div aria-hidden className="absolute inset-0 pointer-events-none">
-        <div className="absolute -top-32 left-1/2 -translate-x-1/2 h-[520px] w-[900px] rounded-full blur-3xl opacity-60"
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[720px] w-[1200px] rounded-full blur-3xl opacity-70"
              style={{ background: "radial-gradient(circle, var(--halo-1), transparent 70%)" }} />
-        <div className="absolute top-1/3 -left-40 h-[420px] w-[420px] rounded-full blur-3xl opacity-50"
+        <div className="absolute top-1/3 -left-56 h-[560px] w-[560px] rounded-full blur-3xl opacity-55"
              style={{ background: "radial-gradient(circle, var(--halo-2), transparent 70%)" }} />
-        <div className="absolute bottom-0 -right-40 h-[460px] w-[460px] rounded-full blur-3xl opacity-50"
+        <div className="absolute bottom-0 -right-56 h-[600px] w-[600px] rounded-full blur-3xl opacity-55"
              style={{ background: "radial-gradient(circle, var(--halo-1), transparent 70%)" }} />
+        {/* floating dust */}
+        <div className="absolute inset-0 uae-dust" />
       </div>
 
-      <div className="container relative">
+      <div className="relative mx-auto px-4 md:px-8" style={{ maxWidth: "1600px" }}>
         {/* Header */}
-        <div className="max-w-3xl mx-auto text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wide uppercase border"
+        <div className="max-w-4xl mx-auto text-center mb-16 md:mb-20">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-semibold tracking-[0.18em] uppercase border"
                style={{ borderColor: "var(--surface-border-strong)", background: "var(--surface-tint-strong)", color: "var(--primary)" }}>
             <Sparkles className="size-3.5" /> AI Business Navigation
           </div>
-          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl mt-5 tracking-tight">
-            The UAE, intelligently mapped.
+          <h2 className="font-display mt-7 tracking-[-0.03em] leading-[0.95] text-5xl md:text-7xl lg:text-[88px]">
+            The UAE,<br />
+            <span style={{ background: "linear-gradient(135deg, var(--primary), var(--accent))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
+              intelligently mapped.
+            </span>
           </h2>
-          <p className="text-muted-foreground mt-4 text-base md:text-lg">
+          <p className="text-muted-foreground mt-7 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
             Explore every emirate and free zone through a single AI-guided lens —
             tuned to your industry, budget and setup preferences.
           </p>
         </div>
 
-        {/* Main layout */}
-        <div className="grid lg:grid-cols-[300px_1fr_340px] gap-6">
+        {/* Main layout — 20 / 55 / 25 */}
+        <div className="grid lg:grid-cols-[20fr_55fr_25fr] gap-6 lg:gap-8 items-start">
+
           {/* LEFT — controls */}
           <aside className="glass-panel rounded-2xl p-5 space-y-5 h-fit">
             <div>

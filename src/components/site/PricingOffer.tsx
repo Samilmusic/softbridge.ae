@@ -51,7 +51,7 @@ const TIERS = [
   },
 ] as const;
 
-export function PricingOffer({ id = "pricing-offer" }: { id?: string }) {
+export function PricingOffer({ id = "pricing-offer", onStartSetup }: PricingOfferProps) {
   return (
     <section
       id={id}

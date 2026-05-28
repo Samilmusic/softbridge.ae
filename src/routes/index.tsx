@@ -38,6 +38,7 @@ function Index() {
         <AiAdvisorTeaser />
 
         <RemoteSetupTeaser />
+        <FreeZonesEcosystem />
         <Process />
         <LongTermSupport />
         <DigitalInfrastructure />

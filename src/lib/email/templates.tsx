@@ -6,8 +6,8 @@ import {
 const BRAND = "Soft Bridge FZE LLC";
 const REG_NO = "262524808888";
 const ADDRESS = "Amber Gem Tower, Ajman, UAE";
-const SUPPORT_EMAIL = "info@softbridgefze.com";
-const WEBSITE = "https://softbridgefze.com";
+const SUPPORT_EMAIL = "noreply@softbridge.ae";
+const WEBSITE = "https://softbridge.ae";
 const WA = "https://wa.me/971502429035";
 
 const main: React.CSSProperties = { backgroundColor: "#0b0f1a", fontFamily: "Inter, Arial, sans-serif", color: "#e9ecf3" };
@@ -37,7 +37,7 @@ function Shell({ preview, children }: { preview: string; children: React.ReactNo
           <Text style={meta}>
             <strong style={{ color: "#cdd3e0" }}>{BRAND}</strong><br />
             Registration No: {REG_NO}<br />
-            {ADDRESS} · <Link href={`mailto:${SUPPORT_EMAIL}`} style={{ color: "#d6b46a" }}>{SUPPORT_EMAIL}</Link> · <Link href={WEBSITE} style={{ color: "#d6b46a" }}>softbridgefze.com</Link><br />
+            {ADDRESS} · <Link href={`mailto:${SUPPORT_EMAIL}`} style={{ color: "#d6b46a" }}>{SUPPORT_EMAIL}</Link> · <Link href={WEBSITE} style={{ color: "#d6b46a" }}>softbridge.ae</Link><br />
             <Link href={WA} style={{ color: "#d6b46a" }}>WhatsApp +971 50 242 9035</Link>
           </Text>
         </Container>

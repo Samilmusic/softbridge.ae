@@ -84,7 +84,7 @@ export const submitQuoteRequest = createServerFn({ method: "POST" })
     // 3. Send emails
     let host = "";
     try { host = getRequestHost(); } catch { /* noop */ }
-    const origin = host ? `https://${host}` : "https://softbridgefze.com";
+    const origin = host ? `https://${host}` : "https://softbridge.ae";
     const dashboardUrl = `${origin}/login`;
     const bookingUrl = `${origin}/#contact`;
 

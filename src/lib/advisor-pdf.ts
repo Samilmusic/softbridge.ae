@@ -39,7 +39,7 @@ function footer(doc: jsPDF, page: number, total: number) {
   doc.setFontSize(8);
   doc.setTextColor(...MUTED);
   doc.text(`Soft Bridge FZE LLC  ·  Registration No: 262524808888`, 40, 808);
-  doc.text(`${SITE.address}  ·  ${SITE.email}  ·  ${SITE.website ?? "softbridgefze.com"}`, 40, 820);
+  doc.text(`${SITE.address}  ·  ${SITE.email}  ·  ${SITE.website ?? "softbridge.ae"}`, 40, 820);
   doc.text(`Page ${page} / ${total}`, 555, 820, { align: "right" });
 }
 

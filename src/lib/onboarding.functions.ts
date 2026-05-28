@@ -133,21 +133,21 @@ export const verifyOnboardingOtp = createServerFn({ method: "POST" })
       .limit(1)
       .maybeSingle();
 
-    if (error) throw new Error(error.message);
-    if (!row) throw new Error("No verification code on file. Please request a new one.");
-    if (row.used_at) throw new Error("This code has already been used. Request a new one.");
+    if (error) return { ok: false as const, error: error.message };
+    if (!row) return { ok: false as const, error: "No verification code on file. Please request a new one." };
+    if (row.used_at) return { ok: false as const, error: "This code has already been used. Request a new one." };
     if (new Date(row.expires_at).getTime() < Date.now()) {
-      throw new Error("This code has expired. Request a new one.");
+      return { ok: false as const, error: "This code has expired. Request a new one." };
     }
     if (row.attempts >= OTP_MAX_ATTEMPTS) {
-      throw new Error("Too many failed attempts. Request a new code.");
+      return { ok: false as const, error: "Too many failed attempts. Request a new code." };
     }
 
     const expected = row.code_hash;
     const got = hashCode(data.code);
     if (got !== expected) {
       await supabaseAdmin.from("otp_codes").update({ attempts: row.attempts + 1 }).eq("id", row.id);
-      throw new Error(`Incorrect code. ${OTP_MAX_ATTEMPTS - (row.attempts + 1)} attempts remaining.`);
+      return { ok: false as const, error: `Incorrect code. ${OTP_MAX_ATTEMPTS - (row.attempts + 1)} attempts remaining.` };
     }
 
     // Mark used

@@ -3,20 +3,20 @@ import { Mail, MapPin, Phone, Linkedin, Instagram, MessageCircle } from "lucide-
 
 const COLS = [
   { title: "Navigation", links: [
-    { l: "Home", h: "#home" },
-    { l: "About", h: "#about" },
-    { l: "Services", h: "#services" },
-    { l: "Process", h: "#process" },
-    { l: "Solutions", h: "#solutions" },
-    { l: "Contact", h: "#contact" },
+    { l: "Home", h: "/#home" },
+    { l: "About", h: "/about" },
+    { l: "Services", h: "/#services" },
+    { l: "Process", h: "/#process" },
+    { l: "Solutions", h: "/#solutions" },
+    { l: "Contact", h: "/#contact" },
   ]},
   { title: "Services", links: [
-    { l: "Business Formation", h: "#services" },
-    { l: "Residency & Relocation", h: "#services" },
-    { l: "Banking Preparation", h: "#services" },
-    { l: "AML & Compliance", h: "#services" },
-    { l: "Web & Advertising", h: "#services" },
-    { l: "Operational Support", h: "#services" },
+    { l: "Business Formation", h: "/services/business-formation" },
+    { l: "Residency & Relocation", h: "/services/residency-relocation" },
+    { l: "Banking Preparation", h: "/services/banking-preparation" },
+    { l: "AML & Compliance", h: "/services/aml-compliance" },
+    { l: "Web & Advertising", h: "/services/web-advertising" },
+    { l: "Operational Support", h: "/services/operational-support" },
   ]},
 ];
 

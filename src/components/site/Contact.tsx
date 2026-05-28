@@ -2,6 +2,7 @@ import { useState } from "react";
 import { MapPin, Phone, Mail, Clock, Send, MessageCircle, Sparkles } from "lucide-react";
 import { SITE, WA_LINK } from "@/lib/site";
 import { toast } from "sonner";
+import { PhoneField } from "@/components/ui/phone-field";
 
 const ACTIVITIES = [
   "Company Formation",

@@ -38,6 +38,7 @@ function Index() {
       <Header />
       <main>
         <Hero />
+        <PricingOffer id="offer" />
         <WhatWeDo />
         <AiAdvisorTeaser />
         <AiCommandCenter />
@@ -50,6 +51,7 @@ function Index() {
         <DigitalInfrastructure />
         <Recognition />
         <Packages />
+        <PricingOffer id="offer-repeat" />
         <Testimonials />
         <LatestInsights />
         <FAQ />

@@ -168,7 +168,7 @@ export function OnboardingDialog({ open, onOpenChange }: { open: boolean; onOpen
     );
   };
 
-  const step1Valid = s1.fullName && /.+@.+\..+/.test(s1.email) && s1.whatsapp.length >= 4 && s1.nationality;
+  const step1Valid = s1.fullName && /.+@.+\..+/.test(s1.email) && s1.nationality;
   const resendIn = Math.max(0, Math.ceil((resendAt - now) / 1000));
   const waLinkWithName = `${WA_LINK}%0A%0AName: ${encodeURIComponent(s1.fullName)}`;
 

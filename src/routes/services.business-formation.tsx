@@ -92,9 +92,9 @@ export const Route = createFileRoute("/services/business-formation")({
       { name: "description", content: "Premium UAE company formation: Mainland and Free Zone setup, jurisdiction selection, trade license, Ejari, establishment card. Cinematic client portal with real-time tracking." },
       { property: "og:title", content: "UAE Business Formation — Soft Bridge FZE LLC" },
       { property: "og:description", content: "End-to-end UAE company setup engineered for banking, residency, and long-term operations." },
-      { property: "og:url", content: "https://bridge-to-success-web.lovable.app/services/business-formation" },
+      { property: "og:url", content: "https://softbridge.ae/services/business-formation" },
     ],
-    links: [{ rel: "canonical", href: "https://bridge-to-success-web.lovable.app/services/business-formation" }],
+    links: [{ rel: "canonical", href: "https://softbridge.ae/services/business-formation" }],
   }),
   component: () => <ServicePageLayout config={config} />,
 });

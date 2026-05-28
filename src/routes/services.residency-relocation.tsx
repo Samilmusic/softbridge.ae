@@ -89,9 +89,9 @@ export const Route = createFileRoute("/services/residency-relocation")({
       { name: "description", content: "End-to-end UAE residency: investor visa, medical, Emirates ID, family sponsorship, Golden Visa, and full relocation guidance with digital tracking." },
       { property: "og:title", content: "UAE Residency & Relocation — Soft Bridge" },
       { property: "og:description", content: "Premium residency coordination for founders and families relocating to the UAE." },
-      { property: "og:url", content: "https://bridge-to-success-web.lovable.app/services/residency-relocation" },
+      { property: "og:url", content: "https://softbridge.ae/services/residency-relocation" },
     ],
-    links: [{ rel: "canonical", href: "https://bridge-to-success-web.lovable.app/services/residency-relocation" }],
+    links: [{ rel: "canonical", href: "https://softbridge.ae/services/residency-relocation" }],
   }),
   component: () => <ServicePageLayout config={config} />,
 });

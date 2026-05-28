@@ -91,9 +91,9 @@ export const Route = createFileRoute("/services/banking-preparation")({
       { name: "description", content: "Premium UAE banking preparation: KYC, source of funds, business profile, and direct bank introductions. Higher acceptance through compliance-first preparation." },
       { property: "og:title", content: "UAE Banking Preparation — Soft Bridge" },
       { property: "og:description", content: "Bank-ready preparation for UAE business accounts. Note: approval is always subject to bank review." },
-      { property: "og:url", content: "https://bridge-to-success-web.lovable.app/services/banking-preparation" },
+      { property: "og:url", content: "https://softbridge.ae/services/banking-preparation" },
     ],
-    links: [{ rel: "canonical", href: "https://bridge-to-success-web.lovable.app/services/banking-preparation" }],
+    links: [{ rel: "canonical", href: "https://softbridge.ae/services/banking-preparation" }],
   }),
   component: () => <ServicePageLayout config={config} />,
 });

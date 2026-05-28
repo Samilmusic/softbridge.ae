@@ -75,7 +75,7 @@ export function RemoteSetupTeaser() {
                     "radial-gradient(ellipse, oklch(0.66 0.22 285 / 0.4) 0%, transparent 70%)",
                 }}
               />
-              <div className="relative grid grid-cols-2 gap-3">
+              <div className="relative grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <PriceTile
                   zone="IFZA"
                   price="13,900"
@@ -87,7 +87,7 @@ export function RemoteSetupTeaser() {
                   price="15,900"
                   badge="Premium"
                 />
-                <div className="col-span-2 glass rounded-2xl p-4 flex items-center gap-3">
+                <div className="sm:col-span-2 glass rounded-2xl p-4 flex items-center gap-3">
                   <span className="w-9 h-9 rounded-xl gold-gradient flex items-center justify-center">
                     <Sparkles className="w-4 h-4" />
                   </span>

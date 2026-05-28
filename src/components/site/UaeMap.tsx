@@ -945,7 +945,8 @@ export function UaeMap() {
 
 
 
-            {/* Mini-map */}
+            {/* Mini-map (hidden in federation overview) */}
+            {mode !== "federation" && (
             <div className="absolute bottom-4 right-4 z-10 w-[140px] h-[110px] rounded-xl border border-white/10 bg-[oklch(0.08_0.025_280/0.9)] backdrop-blur-md overflow-hidden">
               <svg viewBox={`0 0 ${VW} ${VH}`} className="w-full h-full">
                 <g transform={MAP_TRANSFORM}>

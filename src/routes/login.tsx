@@ -50,7 +50,6 @@ function LoginPage() {
       if (!res.tokenHash) throw new Error("Invalid session token.");
       const { error } = await supabase.auth.verifyOtp({
         type: "magiclink",
-        email,
         token_hash: res.tokenHash,
       });
       if (error) throw error;

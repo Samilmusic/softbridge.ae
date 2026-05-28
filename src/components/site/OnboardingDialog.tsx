@@ -4,6 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { useServerFn } from "@tanstack/react-start";
@@ -17,22 +19,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { PhoneField } from "@/components/ui/phone-field";
 import {
   ArrowRight, ArrowLeft, Loader2, CheckCircle2, Mail, Sparkles, Shield, Minus, Plus,
-  MessageCircle, LayoutDashboard, CalendarDays,
+  MessageCircle, LayoutDashboard, CalendarDays, ChevronsUpDown, Check,
 } from "lucide-react";
 import { WA_LINK } from "@/lib/site";
 import { Logo } from "@/components/site/Logo";
 import { BookingDialog } from "./BookingDialog";
+import { NATIONALITIES } from "@/lib/nationalities";
 
 type Step = 1 | 2 | 3 | 4 | 5;
-
-const NATIONALITIES = [
-  "Indian", "Pakistani", "Bangladeshi", "Filipino", "Egyptian", "Jordanian",
-  "Lebanese", "Syrian", "Iraqi", "Saudi", "Emirati", "Omani", "Kuwaiti",
-  "British", "American", "Canadian", "Australian", "South African",
-  "French", "German", "Italian", "Spanish", "Russian", "Ukrainian",
-  "Turkish", "Iranian", "Chinese", "Japanese", "Korean", "Singaporean",
-  "Nigerian", "Kenyan", "Other",
-];
 
 const JURISDICTIONS = [
   "Dubai Mainland", "IFZA (Dubai)", "DMCC (Dubai)", "Meydan Free Zone",
@@ -174,7 +168,7 @@ export function OnboardingDialog({ open, onOpenChange }: { open: boolean; onOpen
     );
   };
 
-  const step1Valid = s1.fullName && /.+@.+\..+/.test(s1.email) && s1.whatsapp.length >= 4 && s1.nationality;
+  const step1Valid = s1.fullName && /.+@.+\..+/.test(s1.email) && s1.nationality;
   const resendIn = Math.max(0, Math.ceil((resendAt - now) / 1000));
   const waLinkWithName = `${WA_LINK}%0A%0AName: ${encodeURIComponent(s1.fullName)}`;
 
@@ -234,16 +228,11 @@ export function OnboardingDialog({ open, onOpenChange }: { open: boolean; onOpen
                     <Field label="Email address">
                       <Input type="email" value={s1.email} onChange={(e) => setS1({ ...s1, email: e.target.value })} placeholder="you@example.com" required />
                     </Field>
-                    <Field label="WhatsApp number">
+                    <Field label="WhatsApp number (optional)">
                       <PhoneField floatingLabel={false} label="WhatsApp number" value={s1.whatsapp} onChange={(v) => setS1({ ...s1, whatsapp: v })} />
                     </Field>
                     <Field label="Nationality">
-                      <Select value={s1.nationality} onValueChange={(v) => setS1({ ...s1, nationality: v })}>
-                        <SelectTrigger><SelectValue placeholder="Select nationality" /></SelectTrigger>
-                        <SelectContent className="max-h-72">
-                          {NATIONALITIES.map((n) => <SelectItem key={n} value={n}>{n}</SelectItem>)}
-                        </SelectContent>
-                      </Select>
+                      <NationalityCombobox value={s1.nationality} onChange={(v) => setS1({ ...s1, nationality: v })} />
                     </Field>
                   </div>
                   <div className="flex items-center gap-2 text-[11px] text-muted-foreground pt-1">
@@ -480,5 +469,49 @@ function Segmented({
         })}
       </div>
     </div>
+  );
+}
+
+function NationalityCombobox({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const [open, setOpen] = React.useState(false);
+  const selected = NATIONALITIES.find((n) => n.label === value);
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <button
+          type="button"
+          role="combobox"
+          aria-expanded={open}
+          className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+        >
+          <span className={`flex items-center gap-2 truncate ${selected ? "" : "text-muted-foreground"}`}>
+            {selected ? <><span className="text-base leading-none">{selected.flag}</span>{selected.label}</> : "Select nationality"}
+          </span>
+          <ChevronsUpDown className="h-4 w-4 opacity-50 flex-shrink-0" />
+        </button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0" align="start">
+        <Command>
+          <CommandInput placeholder="Search nationality…" />
+          <CommandList className="max-h-72">
+            <CommandEmpty>No match.</CommandEmpty>
+            <CommandGroup>
+              {NATIONALITIES.map((n) => (
+                <CommandItem
+                  key={n.code}
+                  value={`${n.label} ${n.code}`}
+                  onSelect={() => { onChange(n.label); setOpen(false); }}
+                  className="flex items-center gap-2"
+                >
+                  <span className="text-base leading-none">{n.flag}</span>
+                  <span className="flex-1">{n.label}</span>
+                  {selected?.code === n.code && <Check className="h-4 w-4 text-gold" />}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
   );
 }

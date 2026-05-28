@@ -34,7 +34,7 @@ function originFromRequest(): string {
 const step1Schema = z.object({
   fullName: z.string().trim().min(1).max(200),
   email: z.string().trim().email().max(320).transform((v) => v.toLowerCase()),
-  whatsapp: z.string().trim().min(4).max(40),
+  whatsapp: z.string().trim().max(40).optional().or(z.literal("")),
   nationality: z.string().trim().min(1).max(100),
 });
 
@@ -89,7 +89,7 @@ export const startOnboarding = createServerFn({ method: "POST" })
         {
           email: data.email,
           full_name: data.fullName,
-          whatsapp: data.whatsapp,
+          whatsapp: data.whatsapp || null,
           nationality: data.nationality,
           status: "draft",
         },

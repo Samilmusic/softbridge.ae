@@ -66,7 +66,7 @@ function QuotePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,oklch(0.22_0.04_265),oklch(0.13_0.02_260))]">
+    <div className="min-h-screen bg-background text-foreground">
       <Header />
       <main className="pt-28 pb-20 px-5">
         <div className="max-w-5xl mx-auto">
@@ -80,7 +80,7 @@ function QuotePage() {
             <SuccessCard result={result} name={form.fullName} email={form.email} />
           ) : (
             <div className="grid lg:grid-cols-[1fr_360px] gap-6">
-              <div className="glass-strong rounded-3xl p-6 md:p-8 border border-white/8">
+              <div className="glass-strong rounded-3xl p-6 md:p-8 border border-border">
                 <Stepper step={step} />
 
                 {step === 1 && (
@@ -144,7 +144,7 @@ function QuotePage() {
               </div>
 
               {/* Live preview */}
-              <aside className="glass-strong rounded-3xl p-6 border border-white/8 h-fit lg:sticky lg:top-24">
+              <aside className="glass-strong rounded-3xl p-6 border border-border h-fit lg:sticky lg:top-24">
                 <div className="text-[10px] uppercase tracking-[0.22em] text-gold">Live estimate</div>
                 <div className="font-display text-xl text-foreground mt-2">{livePreview.recommendedStructure}</div>
                 <div className="text-xs text-muted-foreground">{livePreview.selectedJurisdiction} · {livePreview.timelineDays.min}–{livePreview.timelineDays.max} days</div>
@@ -179,11 +179,11 @@ function Stepper({ step }: { step: number }) {
         const n = i + 1; const active = n === step; const done = n < step;
         return (
           <div key={l} className="flex items-center gap-2 flex-1">
-            <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-semibold border ${done ? "bg-gold/20 border-gold/40 text-gold" : active ? "gold-gradient text-[oklch(0.15_0.02_260)] border-gold" : "bg-white/[0.03] border-white/10 text-muted-foreground"}`}>
+            <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-semibold border ${done ? "bg-gold/20 border-gold/40 text-gold" : active ? "gold-gradient text-[oklch(0.15_0.02_260)] border-gold" : "bg-background/40 border-border text-muted-foreground"}`}>
               {done ? <Check className="w-3.5 h-3.5" /> : n}
             </div>
             <div className={`text-xs ${active ? "text-foreground" : "text-muted-foreground"}`}>{l}</div>
-            {i < labels.length - 1 && <div className="flex-1 h-px bg-white/8" />}
+            {i < labels.length - 1 && <div className="flex-1 h-px bg-border" />}
           </div>
         );
       })}

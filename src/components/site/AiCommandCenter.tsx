@@ -160,7 +160,7 @@ export function AiCommandCenter({ onStartSetup }: AiCommandCenterProps) {
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <button
               type="button"
-              onClick={() => setOnboarding(true)}
+              onClick={() => onStartSetup?.()}
               className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-slate-900 text-white font-medium shadow-[0_10px_40px_-10px_rgba(124,58,237,0.6)] hover:shadow-[0_15px_50px_-10px_rgba(124,58,237,0.8)] hover:-translate-y-0.5 transition-all"
             >
               Start Your Setup

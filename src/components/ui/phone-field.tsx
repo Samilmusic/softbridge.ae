@@ -140,7 +140,7 @@ export function PhoneField({
             <div className="relative p-3 border-b border-violet-100">
               <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-violet-400" />
               <input
-                autoFocus
+                
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search country or code…"

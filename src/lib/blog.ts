@@ -1,3 +1,12 @@
+import dubaiFreeZonesCover from "@/assets/blog/dubai-free-zones.jpg";
+import bankingDocumentsCover from "@/assets/blog/banking-documents.jpg";
+import dubaiSkylineCover from "@/assets/dubai-skyline.png";
+import ifzaRecognitionCover from "@/assets/ifza-recognition.jpg";
+import abuDhabiCover from "@/assets/emirates/abu-dhabi.jpg";
+import dubaiCover from "@/assets/emirates/dubai.jpg";
+import rakCover from "@/assets/emirates/ras-al-khaimah.jpg";
+import sharjahCover from "@/assets/emirates/sharjah.jpg";
+
 export type BlogCategory =
   | "UAE Company Formation"
   | "Banking & Compliance"
@@ -24,6 +33,7 @@ export const BLOG_CATEGORIES: BlogCategory[] = [
 ];
 
 export type ArticleBlock =
+  | { type: "h3"; text: string }
   | { type: "p"; text: string }
   | { type: "ul"; items: string[] }
   | { type: "quote"; text: string };
@@ -53,7 +63,7 @@ export type Article = {
 const img = (id: string) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=2000&q=80`;
 
-export const ARTICLES: Article[] = [
+const BASE_ARTICLES: Article[] = [
   {
     slug: "best-free-zones-in-dubai-for-startups",
     title: "Best Free Zones in Dubai for Startups in 2026",
@@ -64,7 +74,7 @@ export const ARTICLES: Article[] = [
     author: { name: "Soft Bridge Editorial", role: "UAE Formation Desk" },
     publishedAt: "2026-04-12",
     readingMinutes: 8,
-    cover: img("photo-1512453979798-5ea266f8880c"),
+    cover: dubaiFreeZonesCover,
     featured: true,
     trending: true,
     seo: {
@@ -576,11 +586,51 @@ export const ARTICLES: Article[] = [
   },
 ];
 
+const ARTICLE_SLUGS: Record<string, string> = {
+  "best-free-zones-in-dubai-for-startups": "best-free-zones-dubai-startups-2026",
+  "ifza-vs-meydan": "ifza-vs-meydan-dubai-free-zone",
+  "uae-remote-company-setup": "open-uae-company-remotely-2026",
+  "uae-corporate-bank-account": "uae-corporate-bank-account-guide",
+  "mainland-vs-free-zone": "uae-mainland-vs-free-zone",
+  "best-uae-setup-for-ecommerce": "best-uae-setup-ecommerce",
+  "banking-compliance-uae": "uae-banking-compliance-guide",
+};
+
+const ARTICLE_COVERS: Record<string, string> = {
+  "best-free-zones-dubai-startups-2026": dubaiFreeZonesCover,
+  "ifza-vs-meydan-dubai-free-zone": ifzaRecognitionCover,
+  "open-uae-company-remotely-2026": dubaiSkylineCover,
+  "uae-corporate-bank-account-guide": bankingDocumentsCover,
+  "uae-mainland-vs-free-zone": abuDhabiCover,
+  "best-uae-setup-ecommerce": dubaiCover,
+  "uae-business-setup-costs-2026": bankingDocumentsCover,
+  "uae-visa-process-explained": sharjahCover,
+  "uae-banking-compliance-guide": bankingDocumentsCover,
+  "best-free-zones-for-ai-tech-startups": rakCover,
+};
+
+export const ARTICLES: Article[] = BASE_ARTICLES.map((article) => {
+  const slug = ARTICLE_SLUGS[article.slug] ?? article.slug;
+  return {
+    ...article,
+    slug,
+    cover: ARTICLE_COVERS[slug] ?? article.cover,
+    author: { name: "Soft Bridge Insights", role: article.author.role },
+  };
+});
+
+const LEGACY_SLUGS = Object.fromEntries(
+  Object.entries(ARTICLE_SLUGS).map(([oldSlug, newSlug]) => [newSlug, oldSlug]),
+);
+
 export const FEATURED_ARTICLES = ARTICLES.filter((a) => a.featured);
 export const TRENDING_ARTICLES = ARTICLES.filter((a) => a.trending);
 
 export function getArticle(slug: string): Article | undefined {
-  return ARTICLES.find((a) => a.slug === slug);
+  return (
+    ARTICLES.find((a) => a.slug === slug) ??
+    ARTICLES.find((a) => LEGACY_SLUGS[a.slug] === slug)
+  );
 }
 
 export function getRelatedArticles(slug: string, count = 3): Article[] {

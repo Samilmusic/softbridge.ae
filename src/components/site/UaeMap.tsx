@@ -728,8 +728,9 @@ export function UaeMap() {
                     return (
                       <motion.circle
                         cx={hx} cy={hy} r={220}
-                        fill={c} opacity={0}
+                        fill={c}
                         filter="url(#halo-v3)"
+                        initial={{ opacity: 0 }}
                         animate={{ opacity: 0.18 }}
                         transition={{ duration: 0.8 }}
                       />

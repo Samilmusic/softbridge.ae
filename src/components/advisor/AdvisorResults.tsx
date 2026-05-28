@@ -5,6 +5,7 @@ import { bankingLabel, complianceLabel, visaLabel } from "@/lib/advisor";
 import { buildAdvisorPdf } from "@/lib/advisor-pdf";
 import { WA_LINK, SITE } from "@/lib/site";
 import { toast } from "sonner";
+import { PhoneField } from "@/components/ui/phone-field";
 
 interface Props {
   answers: Answers;

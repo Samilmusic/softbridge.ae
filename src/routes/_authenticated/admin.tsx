@@ -61,7 +61,7 @@ function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top_right,oklch(0.22_0.04_265),oklch(0.13_0.02_260))] text-foreground">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top_right,oklch(0.98_0.015_290),oklch(0.96_0.02_285))] dark:bg-[radial-gradient(circle_at_top_right,oklch(0.22_0.04_265),oklch(0.13_0.02_260))] text-foreground">
       <header className="sticky top-0 z-40 backdrop-blur-xl bg-background/50 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-5 h-14 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5">

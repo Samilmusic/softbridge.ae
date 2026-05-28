@@ -280,174 +280,70 @@ export function UaeIntelligenceMap() {
           <div className="relative order-first lg:order-none lg:self-stretch">
             <div className="relative rounded-[28px] overflow-hidden border glass-panel shadow-[0_40px_100px_-40px_var(--glow-primary)] h-full"
                  style={{ borderColor: "var(--surface-border-strong)", minHeight: "min(82vh, 880px)" }}>
-              {/* Cinematic atmospheric floor — deep violet bloom */}
+              {/* Layered atmospheric floor */}
               <div aria-hidden className="absolute inset-0"
-                   style={{
-                     background: [
-                       "radial-gradient(60% 50% at 62% 40%, rgba(139,108,255,0.28), transparent 70%)",
-                       "radial-gradient(45% 40% at 22% 78%, rgba(167,139,250,0.22), transparent 70%)",
-                       "radial-gradient(40% 35% at 88% 18%, rgba(123,92,255,0.20), transparent 70%)",
-                       "radial-gradient(80% 60% at 50% 110%, rgba(91,33,182,0.18), transparent 70%)",
-                       "linear-gradient(160deg, #FBFAFF 0%, #F1ECFF 55%, #E4D9FF 100%)",
-                     ].join(", "),
-                   }} />
-              {/* Top sheen */}
-              <div aria-hidden className="absolute inset-x-0 top-0 h-56 pointer-events-none"
-                   style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.7), transparent)" }} />
-              {/* Vignette */}
-              <div aria-hidden className="absolute inset-0 pointer-events-none"
-                   style={{ background: "radial-gradient(120% 90% at 50% 50%, transparent 55%, rgba(67,30,140,0.10) 100%)" }} />
-              {/* Floating dust */}
-              <div aria-hidden className="absolute inset-0 uae-dust opacity-90 pointer-events-none" />
+                   style={{ background: "radial-gradient(ellipse at 55% 38%, color-mix(in oklab, var(--primary) 18%, transparent), transparent 60%), radial-gradient(ellipse at 18% 92%, color-mix(in oklab, var(--accent) 16%, transparent), transparent 60%), radial-gradient(ellipse at 88% 12%, color-mix(in oklab, var(--primary) 14%, transparent), transparent 55%), linear-gradient(180deg, #fff 0%, oklch(0.96 0.018 285) 100%)" }} />
+              {/* Inner light reflection */}
+              <div aria-hidden className="absolute inset-x-0 top-0 h-40 pointer-events-none"
+                   style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.85), transparent)" }} />
+              {/* Floating dust inside the map */}
+              <div aria-hidden className="absolute inset-0 uae-dust opacity-70 pointer-events-none" />
 
               {/* Decorative grid */}
-              <svg aria-hidden className="absolute inset-0 w-full h-full opacity-[0.22]">
+              <svg aria-hidden className="absolute inset-0 w-full h-full opacity-[0.32]">
                 <defs>
-                  <pattern id="uae-grid" width="52" height="52" patternUnits="userSpaceOnUse">
-                    <path d="M52 0 L0 0 0 52" fill="none" stroke="rgba(123,92,255,0.18)" strokeWidth="0.5" />
+                  <pattern id="uae-grid" width="44" height="44" patternUnits="userSpaceOnUse">
+                    <path d="M44 0 L0 0 0 44" fill="none" stroke="var(--pattern-line)" strokeWidth="0.5" />
                   </pattern>
-                  <radialGradient id="grid-mask" cx="0.5" cy="0.5" r="0.6">
-                    <stop offset="0%" stopColor="#000" stopOpacity="1" />
-                    <stop offset="100%" stopColor="#000" stopOpacity="0" />
-                  </radialGradient>
-                  <mask id="grid-fade">
-                    <rect width="100%" height="100%" fill="url(#grid-mask)" />
-                  </mask>
                 </defs>
-                <rect width="100%" height="100%" fill="url(#uae-grid)" mask="url(#grid-fade)" />
+                <rect width="100%" height="100%" fill="url(#uae-grid)" />
               </svg>
 
-              {/* Main map SVG — viewBox tightened so UAE fills the frame */}
-              <svg viewBox="20 0 940 700" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid meet">
+              <svg viewBox="0 0 1000 720" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid meet">
                 <defs>
-                  {/* Top glass surface */}
-                  <linearGradient id="uae-fill" x1="0.2" y1="0" x2="0.8" y2="1">
-                    <stop offset="0%"   stopColor="#FFFFFF" stopOpacity="0.95" />
-                    <stop offset="45%"  stopColor="#E9DFFF" stopOpacity="0.95" />
-                    <stop offset="100%" stopColor="#C9B5FF" stopOpacity="0.95" />
+                  <linearGradient id="uae-fill" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%"   stopColor="#F4F0FF" />
+                    <stop offset="100%" stopColor="#E6DCFF" />
                   </linearGradient>
-                  <linearGradient id="uae-fill-active" x1="0.2" y1="0" x2="0.8" y2="1">
-                    <stop offset="0%"   stopColor="#F2E9FF" />
-                    <stop offset="50%"  stopColor="#D5BFFF" />
-                    <stop offset="100%" stopColor="#A98BFF" />
+                  <linearGradient id="uae-fill-active" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%"   stopColor="#EDE4FF" />
+                    <stop offset="100%" stopColor="#D7C6FF" />
                   </linearGradient>
-                  {/* Edge highlight */}
-                  <linearGradient id="uae-rim" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%"   stopColor="#FFFFFF" stopOpacity="0.9" />
-                    <stop offset="100%" stopColor="#7B5CFF" stopOpacity="0.6" />
-                  </linearGradient>
-                  {/* Internal radial highlight (specular) */}
-                  <radialGradient id="uae-spec" cx="0.42" cy="0.32" r="0.55">
-                    <stop offset="0%"   stopColor="#FFFFFF" stopOpacity="0.55" />
-                    <stop offset="60%"  stopColor="#FFFFFF" stopOpacity="0.05" />
-                    <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
-                  </radialGradient>
-                  {/* Node halo */}
                   <radialGradient id="node-glow" cx="0.5" cy="0.5" r="0.5">
-                    <stop offset="0%"   stopColor="#8B6CFF" stopOpacity="0.7" />
-                    <stop offset="55%"  stopColor="#8B6CFF" stopOpacity="0.18" />
+                    <stop offset="0%"   stopColor="#8B6CFF" stopOpacity="0.55" />
+                    <stop offset="55%"  stopColor="#8B6CFF" stopOpacity="0.12" />
                     <stop offset="100%" stopColor="#8B6CFF" stopOpacity="0" />
                   </radialGradient>
-                  {/* Infrastructure flow */}
-                  <linearGradient id="flow-grad" x1="0" y1="0" x2="1" y2="0">
+                  <linearGradient id="conn-grad" x1="0" y1="0" x2="1" y2="0">
                     <stop offset="0%"   stopColor="#8B6CFF" stopOpacity="0" />
-                    <stop offset="50%"  stopColor="#7B5CFF" stopOpacity="0.95" />
-                    <stop offset="100%" stopColor="#A98BFF" stopOpacity="0" />
+                    <stop offset="50%"  stopColor="#7B5CFF" stopOpacity="0.7" />
+                    <stop offset="100%" stopColor="#8B6CFF" stopOpacity="0" />
                   </linearGradient>
                   <filter id="soft-glow" x="-50%" y="-50%" width="200%" height="200%">
-                    <feGaussianBlur stdDeviation="4" />
+                    <feGaussianBlur stdDeviation="3" />
                   </filter>
                   <filter id="map-shadow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feDropShadow dx="0" dy="22" stdDeviation="26" floodColor="#4C1D95" floodOpacity="0.28" />
-                  </filter>
-                  <filter id="flow-glow" x="-50%" y="-50%" width="200%" height="200%">
-                    <feGaussianBlur stdDeviation="2.5" />
+                    <feDropShadow dx="0" dy="10" stdDeviation="14" floodColor="#7B5CFF" floodOpacity="0.18" />
                   </filter>
                 </defs>
 
-                {/* Ambient bloom under the country */}
-                <ellipse cx="500" cy="380" rx="380" ry="220"
-                         fill="rgba(139,108,255,0.30)" filter="url(#soft-glow)" />
-
-                {/* 3D EXTRUSION — 5 stacked layers, darker at bottom for depth */}
+                {/* Clean UAE country shape — no labels, no halo strokes */}
                 <g filter="url(#map-shadow)">
-                  {[24, 18, 13, 8, 4].map((dy, layer) => {
-                    const shade = ["#3B1F8A", "#5B2EB0", "#7044D0", "#8B6CFF", "#A98BFF"][layer];
-                    const op = [0.55, 0.65, 0.75, 0.85, 1][layer];
-                    return (
-                      <g key={layer} transform={`translate(0 ${dy})`} opacity={op}>
-                        {UAE_PATHS.map((d, i) => (
-                          <path key={i} d={d} fill={shade} stroke="none" />
-                        ))}
-                      </g>
-                    );
-                  })}
-
-                  {/* Glass top surface */}
                   {UAE_PATHS.map((d, i) => (
                     <path
-                      key={"top-" + i}
+                      key={i}
                       d={d}
                       fill={filters.emirate !== "All" ? "url(#uae-fill-active)" : "url(#uae-fill)"}
-                      stroke="url(#uae-rim)"
-                      strokeWidth={1.6}
+                      stroke="#8B6CFF"
+                      strokeWidth={1.4}
                       strokeLinejoin="round"
                       strokeLinecap="round"
                       style={{ transition: "fill 700ms ease" }}
                     />
                   ))}
-                  {/* Internal specular highlight */}
-                  {UAE_PATHS.map((d, i) => (
-                    <path key={"spec-" + i} d={d} fill="url(#uae-spec)" stroke="none" style={{ mixBlendMode: "screen" }} />
-                  ))}
-                  {/* Crisp top edge highlight */}
-                  {UAE_PATHS.map((d, i) => (
-                    <path key={"edge-" + i} d={d} fill="none"
-                          stroke="rgba(255,255,255,0.65)" strokeWidth={0.8}
-                          transform="translate(0 -0.6)"
-                          style={{ mixBlendMode: "screen" }} />
-                  ))}
                 </g>
-
-                {/* INFRASTRUCTURE FLOW — animated curved paths between emirate hubs */}
-                <g filter="url(#flow-glow)" style={{ pointerEvents: "none" }}>
-                  {(() => {
-                    const H = UAE_CITIES;
-                    const routes: Array<[readonly [number, number], readonly [number, number]]> = [
-                      [H["Abu Dhabi"], H["Dubai"]],
-                      [H["Dubai"], H["Sharjah"]],
-                      [H["Sharjah"], H["Ajman"]],
-                      [H["Ajman"], H["Umm Al Quwain"]],
-                      [H["Umm Al Quwain"], H["Ras Al Khaimah"]],
-                      [H["Ras Al Khaimah"], H["Fujairah"]],
-                      [H["Dubai"], H["Fujairah"]],
-                      [H["Abu Dhabi"], H["Sharjah"]],
-                    ];
-                    return routes.map(([a, b], i) => {
-                      const mx = (a[0] + b[0]) / 2;
-                      const my = (a[1] + b[1]) / 2;
-                      // Curve outward perpendicular to the line
-                      const dx = b[0] - a[0], dy = b[1] - a[1];
-                      const len = Math.hypot(dx, dy);
-                      const nx = -dy / len, ny = dx / len;
-                      const k = Math.min(80, len * 0.18);
-                      const cx = mx + nx * k, cy = my + ny * k;
-                      const path = `M ${a[0]} ${a[1]} Q ${cx} ${cy} ${b[0]} ${b[1]}`;
-                      return (
-                        <g key={i}>
-                          {/* base soft line */}
-                          <path d={path} fill="none" stroke="rgba(123,92,255,0.18)" strokeWidth={1.5} />
-                          {/* animated flowing dash */}
-                          <path d={path} fill="none" stroke="url(#flow-grad)"
-                                strokeWidth={1.8} strokeDasharray="3 10"
-                                className="uae-flow" style={{ animationDelay: `${i * 0.7}s` }} />
-                        </g>
-                      );
-                    });
-                  })()}
-                </g>
-
-                {/* Zone nodes — premium 3-layer pulse */}
+...
+                {/* Zone nodes — pure shapes, no embedded text */}
                 {ZONES.map((z) => {
                   const isVisible = visible.some((v) => v.id === z.id);
                   const isSelected = selectedId === z.id;
@@ -462,32 +358,26 @@ export function UaeIntelligenceMap() {
                       onMouseEnter={() => setHoverId(z.id)}
                       onMouseLeave={() => setHoverId(null)}
                       onClick={() => selectZone(z.id)}
-                      style={{ cursor: "pointer", opacity: dim ? 0.3 : 1, transition: "opacity 300ms ease" }}
+                      style={{ cursor: "pointer", opacity: dim ? 0.35 : 1, transition: "opacity 300ms ease" }}
                     >
-                      {/* Wide ambient bloom */}
-                      <circle r={isTop ? 60 : isSelected ? 52 : isHover ? 42 : 32}
-                              fill="url(#node-glow)" filter="url(#soft-glow)"
-                              className={active ? "uae-pulse-strong" : "uae-pulse"}
-                              style={{ transition: "r 300ms ease" }} />
-                      {/* Outer ring */}
-                      <circle r={active ? 16 : isHover ? 13 : 10}
+                      {/* Outer halo */}
+                      <circle r={isTop ? 44 : isSelected ? 38 : isHover ? 32 : 24}
+                              fill="url(#node-glow)"
+                              className={isTop ? "uae-pulse-strong" : "uae-pulse"}
+                              style={{ transition: "r 250ms ease" }} />
+                      {/* Ring */}
+                      <circle r={active ? 13 : isHover ? 10 : 8}
                               fill="none"
-                              stroke={active ? "#7B5CFF" : "rgba(123,92,255,0.30)"}
+                              stroke={active ? "#7B5CFF" : "rgba(123,92,255,0.25)"}
                               strokeWidth={1.2} />
-                      {/* Mid ring */}
-                      <circle r={active ? 11 : isHover ? 9 : 7.5}
-                              fill="none"
-                              stroke="rgba(123,92,255,0.45)"
-                              strokeWidth={0.8} />
-                      {/* Glass core */}
-                      <circle r={active ? 8.5 : isHover ? 7 : 6}
+                      {/* Core */}
+                      <circle r={active ? 8 : isHover ? 6.5 : 5.5}
                               fill="#ffffff"
                               stroke={active ? "#7B5CFF" : "#8B6CFF"}
-                              strokeWidth={active ? 2.6 : 1.8}
-                              style={{ filter: "drop-shadow(0 3px 8px rgba(91,33,182,0.45))", transition: "r 200ms ease" }} />
+                              strokeWidth={active ? 2.4 : 1.6}
+                              style={{ filter: "drop-shadow(0 2px 4px rgba(123,92,255,0.30))", transition: "r 200ms ease" }} />
                       {/* Inner dot */}
-                      <circle r={active ? 3.6 : 2.2}
-                              fill={active ? "#7B5CFF" : "rgba(123,92,255,0.65)"} />
+                      <circle r={active ? 3.2 : 2} fill={active ? "#7B5CFF" : "rgba(123,92,255,0.55)"} />
                     </g>
                   );
                 })}
@@ -659,8 +549,6 @@ export function UaeIntelligenceMap() {
         .uae-pulse-strong{ transform-origin: center; transform-box: fill-box; animation: uae-pulse 2.2s ease-in-out infinite; }
         @keyframes uae-dash { to { stroke-dashoffset: -120; } }
         .uae-line { animation: uae-dash 14s linear infinite; }
-        @keyframes uae-flow { to { stroke-dashoffset: -260; } }
-        .uae-flow { animation: uae-flow 6s linear infinite; }
         .uae-rail::-webkit-scrollbar { height: 6px; }
         .uae-rail::-webkit-scrollbar-thumb { background: color-mix(in oklab, var(--primary) 30%, transparent); border-radius: 999px; }
         .uae-panel-scroll::-webkit-scrollbar { width: 6px; }

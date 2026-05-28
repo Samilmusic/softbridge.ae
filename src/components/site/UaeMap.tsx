@@ -1044,7 +1044,80 @@ export function UaeMap() {
 
 /* ───────────────────── Sub-components ───────────────────── */
 
+function EmiratePreviewCard({ em, count }: { em: EmirateKey; count: number }) {
+  const c = TONE_HEX[TONE_BY_EMIRATE[em]];
+  const meta = EMIRATE_META[em];
+  return (
+    <div
+      className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl"
+      style={{
+        background: "linear-gradient(180deg, oklch(0.10 0.025 280 / 0.85), oklch(0.08 0.025 280 / 0.92))",
+        backdropFilter: "blur(22px) saturate(160%)",
+        boxShadow: `0 30px 80px -30px ${c}55, 0 0 0 1px ${c}22 inset`,
+      }}
+    >
+      {/* image with parallax + glow */}
+      <div className="relative h-36 overflow-hidden">
+        <motion.img
+          src={meta.image}
+          alt={`${em} cinematic skyline`}
+          loading="lazy"
+          width={1280}
+          height={768}
+          className="absolute inset-0 w-full h-full object-cover"
+          initial={{ scale: 1.15, opacity: 0 }}
+          animate={{ scale: 1.02, opacity: 0.9 }}
+          transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+        />
+        <div className="absolute inset-0" style={{ background: `linear-gradient(180deg, transparent 0%, oklch(0.08 0.025 280 / 0.55) 60%, oklch(0.08 0.025 280) 100%)` }} />
+        <div className="absolute inset-0" style={{ background: `radial-gradient(60% 80% at 80% 20%, ${c}38, transparent 70%)` }} />
+        {/* scan line */}
+        <div className="absolute inset-x-0 top-0 h-px" style={{ background: `linear-gradient(90deg, transparent, ${c}aa, transparent)` }} />
+        {/* corner tag */}
+        <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5 px-2 py-1 rounded-full text-[9px] tracking-[0.2em] uppercase font-medium"
+             style={{ background: "oklch(0.08 0.025 280 / 0.7)", color: c, border: `1px solid ${c}55` }}>
+          <span className="w-1 h-1 rounded-full animate-pulse" style={{ background: c, boxShadow: `0 0 6px ${c}` }} />
+          Emirate Focus
+        </div>
+        <div className="absolute bottom-2.5 left-3 right-3 flex items-end justify-between">
+          <h3 className="text-lg font-display font-semibold leading-tight drop-shadow-lg">{em}</h3>
+          <div className="text-right">
+            <div className="text-xl font-display font-semibold leading-none" style={{ color: c }}>{count}</div>
+            <div className="text-[8.5px] tracking-[0.18em] uppercase text-white/60">Zones</div>
+          </div>
+        </div>
+      </div>
+      {/* body */}
+      <div className="p-3.5 space-y-3">
+        <p className="text-[11.5px] leading-relaxed text-muted-foreground">{meta.description}</p>
+        <div className="flex flex-wrap gap-1">
+          {meta.strengths.map(s => (
+            <span key={s} className="text-[9.5px] px-2 py-0.5 rounded-md border bg-white/[0.03] text-foreground/85"
+                  style={{ borderColor: `${c}40` }}>
+              {s}
+            </span>
+          ))}
+        </div>
+        <div className="grid grid-cols-3 gap-2 pt-1">
+          {meta.stats.map((s, i) => (
+            <motion.div key={s.label}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 + i * 0.08, duration: 0.5 }}
+              className="rounded-lg border border-white/10 bg-white/[0.025] p-1.5 text-center"
+            >
+              <div className="text-[12px] font-display font-semibold" style={{ color: c }}>{s.value}</div>
+              <div className="text-[8.5px] tracking-[0.14em] uppercase text-muted-foreground mt-0.5">{s.label}</div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function EmirateHero({ em, count }: { em: EmirateKey; count: number }) {
+
   const c = TONE_HEX[TONE_BY_EMIRATE[em]];
   return (
     <div

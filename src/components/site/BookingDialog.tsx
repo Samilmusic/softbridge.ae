@@ -112,72 +112,70 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="glass-strong border-white/10 max-w-3xl p-0 overflow-hidden">
-        {/* Ambient gradient */}
+      <DialogContent className="bg-white/95 backdrop-blur-2xl border border-violet-100 max-w-3xl p-0 overflow-hidden shadow-[0_40px_120px_-30px_rgba(124,58,237,0.45)] rounded-3xl">
+        {/* Ambient lavender atmosphere */}
         <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute -top-32 -left-20 h-72 w-72 rounded-full bg-primary/25 blur-[120px]" />
-          <div className="absolute -bottom-24 -right-16 h-64 w-64 rounded-full bg-accent/20 blur-[120px]" />
+          <div className="absolute -top-32 -left-20 h-72 w-72 rounded-full bg-violet-300/30 blur-[120px]" />
+          <div className="absolute -bottom-24 -right-16 h-64 w-64 rounded-full bg-fuchsia-300/25 blur-[120px]" />
         </div>
 
         {done ? (
           <div className="p-10 text-center">
-            <div className="mx-auto w-16 h-16 rounded-full bg-primary/15 border border-primary/30 flex items-center justify-center mb-5 animate-in zoom-in-50 duration-500">
-              <CheckCircle2 className="w-8 h-8 text-primary" />
+            <div className="mx-auto w-16 h-16 rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center mb-5 animate-in zoom-in-50 duration-500 shadow-lg shadow-violet-500/40">
+              <CheckCircle2 className="w-8 h-8 text-white" />
             </div>
-            <h3 className="font-display text-2xl text-foreground">Your consultation has been scheduled.</h3>
-            <p className="text-sm text-muted-foreground mt-2">A confirmation has been sent to <span className="text-foreground">{form.email}</span>.</p>
+            <h3 className="font-display text-2xl text-slate-900">Your consultation has been scheduled.</h3>
+            <p className="text-sm text-slate-600 mt-2">A confirmation has been sent to <span className="text-slate-900 font-medium">{form.email}</span>.</p>
 
             <div className="mt-6 grid sm:grid-cols-3 gap-3 max-w-xl mx-auto">
-              <div className="glass rounded-xl p-4 text-left">
-                <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Date</div>
-                <div className="text-sm text-foreground mt-1">{date && format(date, "EEE, d MMM")}</div>
-              </div>
-              <div className="glass rounded-xl p-4 text-left">
-                <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Time</div>
-                <div className="text-sm text-foreground mt-1">{time && formatSlot(time)} GST</div>
-              </div>
-              <div className="glass rounded-xl p-4 text-left">
-                <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Method</div>
-                <div className="text-sm text-foreground mt-1">{methodLabel}</div>
-              </div>
+              {[
+                { label: "Date", value: date && format(date, "EEE, d MMM") },
+                { label: "Time", value: time ? `${formatSlot(time)} GST` : "" },
+                { label: "Method", value: methodLabel },
+              ].map((it) => (
+                <div key={it.label} className="rounded-xl bg-white ring-1 ring-violet-100 p-4 text-left shadow-sm">
+                  <div className="text-[10px] uppercase tracking-[0.2em] text-violet-600 font-semibold">{it.label}</div>
+                  <div className="text-sm text-slate-900 mt-1">{it.value}</div>
+                </div>
+              ))}
             </div>
 
             <div className="mt-6 flex flex-wrap gap-3 justify-center">
               {date && time && (
-                <Button asChild variant="outline" className="border-white/15">
+                <Button asChild variant="outline" className="border-violet-200 bg-white hover:bg-violet-50 text-slate-800">
                   <a href={buildCalendarUrl({ date, time, method: methodLabel, name: form.name })} target="_blank" rel="noreferrer">
                     <CalendarPlus className="w-4 h-4" /> Add to Calendar
                   </a>
                 </Button>
               )}
-              <Button asChild>
+              <Button asChild className="bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:opacity-95 text-white">
                 <a href="/portal"><ExternalLink className="w-4 h-4" /> Open Client Portal</a>
               </Button>
             </div>
           </div>
         ) : (
-          <div className="p-8 sm:p-10">
+          <div className="p-8 sm:p-10 max-h-[90vh] overflow-y-auto">
             {/* Header */}
             <div className="flex items-start justify-between gap-4 mb-6">
               <div>
-                <div className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.28em] text-primary/90 mb-2">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-50 ring-1 ring-violet-200 text-[10px] uppercase tracking-[0.22em] text-violet-700 font-semibold mb-3">
                   <Sparkles className="w-3 h-3" /> Premium scheduling
                 </div>
-                <h2 className="font-display text-2xl sm:text-3xl text-foreground leading-tight">Book a private consultation</h2>
-                <p className="text-sm text-muted-foreground mt-1.5">A 30–45 minute session with a senior UAE setup advisor.</p>
+                <h2 className="font-display text-2xl sm:text-3xl text-slate-900 leading-tight">Book a private consultation</h2>
+                <p className="text-sm text-slate-600 mt-1.5">A 30–45 minute session with a senior UAE setup advisor.</p>
               </div>
               {/* Stepper */}
-              <div className="hidden sm:flex items-center gap-2 text-xs text-muted-foreground">
-                <span className={cn("h-1.5 w-8 rounded-full transition-colors", step === 1 ? "bg-primary" : "bg-primary/40")} />
-                <span className={cn("h-1.5 w-8 rounded-full transition-colors", step === 2 ? "bg-primary" : "bg-white/10")} />
+              <div className="hidden sm:flex items-center gap-2">
+                <span className={cn("h-1.5 w-8 rounded-full transition-colors", step === 1 ? "bg-gradient-to-r from-violet-500 to-fuchsia-500" : "bg-violet-200")} />
+                <span className={cn("h-1.5 w-8 rounded-full transition-colors", step === 2 ? "bg-gradient-to-r from-violet-500 to-fuchsia-500" : "bg-violet-100")} />
               </div>
             </div>
 
             {step === 1 && (
               <div className="grid md:grid-cols-2 gap-6 animate-in fade-in-50 duration-300">
                 {/* Calendar */}
-                <div className="glass rounded-2xl p-4">
-                  <div className="flex items-center gap-2 px-2 pb-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                <div className="rounded-2xl bg-white ring-1 ring-violet-100 shadow-[0_10px_30px_-15px_rgba(124,58,237,0.2)] p-4">
+                  <div className="flex items-center gap-2 px-2 pb-2 text-[10px] uppercase tracking-[0.22em] text-violet-600 font-semibold">
                     <CalendarDays className="w-3.5 h-3.5" /> Pick a date
                   </div>
                   <Calendar
@@ -191,9 +189,9 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
                 </div>
 
                 {/* Time slots */}
-                <div className="glass rounded-2xl p-5 flex flex-col">
-                  <div className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                    <Clock className="w-3.5 h-3.5" /> Choose a time {date && <span className="normal-case tracking-normal text-foreground/70 ml-1">· {format(date, "EEE, d MMM")} (GST)</span>}
+                <div className="rounded-2xl bg-white ring-1 ring-violet-100 shadow-[0_10px_30px_-15px_rgba(124,58,237,0.2)] p-5 flex flex-col">
+                  <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-violet-600 font-semibold">
+                    <Clock className="w-3.5 h-3.5" /> Choose a time {date && <span className="normal-case tracking-normal text-slate-500 ml-1">· {format(date, "EEE, d MMM")} (GST)</span>}
                   </div>
                   <div className="mt-4 grid grid-cols-3 gap-2 flex-1 content-start">
                     {SLOTS.map((s) => {
@@ -208,8 +206,8 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
                             "h-10 rounded-full text-xs font-medium border transition-all duration-200",
                             "disabled:opacity-40 disabled:cursor-not-allowed",
                             active
-                              ? "bg-primary text-primary-foreground border-primary shadow-[0_0_24px_oklch(0.66_0.22_285_/_0.55)]"
-                              : "bg-white/5 text-foreground border-white/10 hover:border-primary/50 hover:bg-primary/10",
+                              ? "bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white border-violet-500 shadow-[0_8px_24px_-6px_rgba(124,58,237,0.5)]"
+                              : "bg-white text-slate-700 border-violet-100 hover:border-violet-300 hover:bg-violet-50",
                           )}
                         >
                           {formatSlot(s)}
@@ -217,12 +215,12 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
                       );
                     })}
                   </div>
-                  <p className="text-[11px] text-muted-foreground mt-4">Times shown in Gulf Standard Time (GMT+4). We confirm final slot within one business hour.</p>
+                  <p className="text-[11px] text-slate-500 mt-4">Times shown in Gulf Standard Time (GMT+4). We confirm final slot within one business hour.</p>
                 </div>
 
                 <div className="md:col-span-2 flex items-center justify-between pt-2">
-                  <p className="text-xs text-muted-foreground">Step 1 of 2 — Schedule</p>
-                  <Button onClick={() => setStep(2)} disabled={!canContinue}>
+                  <p className="text-xs text-slate-500">Step 1 of 2 — Schedule</p>
+                  <Button onClick={() => setStep(2)} disabled={!canContinue} className="bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:opacity-95 text-white shadow-[0_10px_30px_-10px_rgba(124,58,237,0.5)]">
                     Continue <ArrowRight className="w-4 h-4" />
                   </Button>
                 </div>
@@ -233,7 +231,7 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
               <form onSubmit={onSubmit} className="grid gap-6 animate-in fade-in-50 duration-300">
                 {/* Method */}
                 <div>
-                  <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">Meeting method</div>
+                  <div className="text-[10px] uppercase tracking-[0.22em] text-violet-600 font-semibold mb-3">Meeting method</div>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                     {METHODS.map((m) => {
                       const Icon = m.icon;
@@ -244,15 +242,15 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
                           type="button"
                           onClick={() => setMethod(m.id)}
                           className={cn(
-                            "group relative rounded-xl p-3.5 text-left border transition-all duration-200",
+                            "group relative rounded-2xl p-4 text-left border transition-all duration-200",
                             active
-                              ? "bg-primary/15 border-primary/60 shadow-[0_0_28px_oklch(0.66_0.22_285_/_0.35)]"
-                              : "bg-white/5 border-white/10 hover:border-primary/40 hover:bg-white/10",
+                              ? "bg-gradient-to-br from-violet-50 to-fuchsia-50 border-violet-400 shadow-[0_15px_40px_-15px_rgba(124,58,237,0.4)] -translate-y-0.5"
+                              : "bg-white border-violet-100 hover:border-violet-300 hover:shadow-[0_10px_30px_-15px_rgba(124,58,237,0.25)] hover:-translate-y-0.5",
                           )}
                         >
-                          <Icon className={cn("w-5 h-5 mb-2 transition-colors", active ? "text-primary" : "text-foreground/80 group-hover:text-primary")} />
-                          <div className="text-sm font-medium text-foreground">{m.label}</div>
-                          <div className="text-[11px] text-muted-foreground mt-0.5">{m.hint}</div>
+                          <Icon className={cn("w-5 h-5 mb-2 transition-colors", active ? "text-violet-600" : "text-slate-600 group-hover:text-violet-600")} />
+                          <div className="text-sm font-medium text-slate-900">{m.label}</div>
+                          <div className="text-[11px] text-slate-500 mt-0.5">{m.hint}</div>
                         </button>
                       );
                     })}
@@ -264,7 +262,7 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
                   <Field id="name" label="Full name" required value={form.name} onChange={(v) => setForm({ ...form, name: v })} />
                   <Field id="email" label="Email" type="email" required value={form.email} onChange={(v) => setForm({ ...form, email: v })} />
                   <div>
-                    <Label className="text-xs text-muted-foreground mb-1.5 block">WhatsApp number</Label>
+                    <Label className="text-[10px] uppercase tracking-[0.22em] text-violet-600 font-semibold mb-1.5 block">WhatsApp number</Label>
                     <PhoneField floatingLabel={false} label="WhatsApp number" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
                   </div>
                   <Field id="nat" label="Nationality" value={form.nationality} onChange={(v) => setForm({ ...form, nationality: v })} />
@@ -273,14 +271,14 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
                 </div>
 
                 {/* AI assist */}
-                <div className="glass rounded-2xl p-5">
+                <div className="rounded-2xl bg-gradient-to-br from-violet-50/70 to-fuchsia-50/50 ring-1 ring-violet-100 p-5">
                   <div className="flex items-start gap-3">
-                    <div className="shrink-0 w-9 h-9 rounded-lg bg-primary/15 border border-primary/30 flex items-center justify-center">
-                      <Sparkles className="w-4 h-4 text-primary" />
+                    <div className="shrink-0 w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center shadow-md shadow-violet-500/30">
+                      <Sparkles className="w-4 h-4 text-white" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm text-foreground">Our system will help match you with the most suitable UAE setup structure before your consultation.</p>
-                      <p className="text-[11px] text-muted-foreground mt-1">Select what matters most — your advisor will tailor the call.</p>
+                      <p className="text-sm text-slate-800 font-medium">Our system will help match you with the most suitable UAE setup structure before your consultation.</p>
+                      <p className="text-[11px] text-slate-500 mt-1">Select what matters most — your advisor will tailor the call.</p>
                       <div className="flex flex-wrap gap-2 mt-3">
                         {TAGS.map((t) => {
                           const active = tags.includes(t);
@@ -292,8 +290,8 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
                               className={cn(
                                 "px-3 py-1.5 rounded-full text-xs border transition-all duration-200",
                                 active
-                                  ? "bg-primary/20 border-primary/60 text-foreground shadow-[0_0_16px_oklch(0.66_0.22_285_/_0.4)]"
-                                  : "bg-white/5 border-white/10 text-muted-foreground hover:text-foreground hover:border-primary/40",
+                                  ? "bg-gradient-to-r from-violet-600 to-fuchsia-600 border-violet-500 text-white shadow-[0_6px_18px_-6px_rgba(124,58,237,0.5)]"
+                                  : "bg-white border-violet-200 text-slate-700 hover:border-violet-400 hover:bg-violet-50",
                               )}
                             >
                               {t}
@@ -306,22 +304,29 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
                 </div>
 
                 <div>
-                  <Label htmlFor="message" className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Additional notes</Label>
-                  <Textarea id="message" rows={3} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} placeholder="Timeline, residency need, banking goals…" className="mt-2 bg-white/5 border-white/10 focus-visible:ring-primary/60" />
+                  <Label htmlFor="message" className="text-[10px] uppercase tracking-[0.22em] text-violet-600 font-semibold">Additional notes</Label>
+                  <Textarea
+                    id="message"
+                    rows={3}
+                    value={form.message}
+                    onChange={(e) => setForm({ ...form, message: e.target.value })}
+                    placeholder="Timeline, residency need, banking goals…"
+                    className="mt-2 bg-white border-violet-200 text-slate-900 placeholder:text-slate-400 focus-visible:ring-violet-400/30 focus-visible:border-violet-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]"
+                  />
                 </div>
 
                 {/* Summary + actions */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2 border-t border-white/5">
-                  <div className="text-xs text-muted-foreground">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-4 border-t border-violet-100">
+                  <div className="text-xs text-slate-500">
                     {date && time ? (
-                      <>Scheduled for <span className="text-foreground">{format(date, "EEE, d MMM")} · {formatSlot(time)} GST</span> · {methodLabel}</>
+                      <>Scheduled for <span className="text-slate-900 font-medium">{format(date, "EEE, d MMM")} · {formatSlot(time)} GST</span> · {methodLabel}</>
                     ) : "Step 2 of 2"}
                   </div>
                   <div className="flex gap-2">
-                    <Button type="button" variant="outline" className="border-white/15" onClick={() => setStep(1)}>
+                    <Button type="button" variant="outline" className="border-violet-200 bg-white hover:bg-violet-50 text-slate-800" onClick={() => setStep(1)}>
                       <ArrowLeft className="w-4 h-4" /> Back
                     </Button>
-                    <Button type="submit" disabled={loading}>
+                    <Button type="submit" disabled={loading} className="bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:opacity-95 text-white shadow-[0_10px_30px_-10px_rgba(124,58,237,0.5)]">
                       {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Confirming…</> : <>Confirm booking <ArrowRight className="w-4 h-4" /></>}
                     </Button>
                   </div>
@@ -341,7 +346,9 @@ function Field({ id, label, value, onChange, type = "text", required, placeholde
 }) {
   return (
     <div>
-      <Label htmlFor={id} className="text-xs uppercase tracking-[0.18em] text-muted-foreground">{label}{required && <span className="text-primary/80"> *</span>}</Label>
+      <Label htmlFor={id} className="text-[10px] uppercase tracking-[0.22em] text-violet-600 font-semibold">
+        {label}{required && <span className="text-fuchsia-500"> *</span>}
+      </Label>
       <Input
         id={id}
         type={type}
@@ -349,8 +356,9 @@ function Field({ id, label, value, onChange, type = "text", required, placeholde
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="mt-2 h-11 bg-white/5 border-white/10 focus-visible:ring-primary/60 focus-visible:border-primary/50 transition-colors"
+        className="mt-2 h-12 bg-white border-violet-200 text-slate-900 placeholder:text-slate-400 focus-visible:ring-violet-400/30 focus-visible:ring-4 focus-visible:border-violet-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] transition-all rounded-xl"
       />
     </div>
   );
 }
+

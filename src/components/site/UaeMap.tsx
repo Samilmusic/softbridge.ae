@@ -14,6 +14,7 @@ import fujairahImg from "@/assets/emirates/fujairah.jpg";
 import uaqImg from "@/assets/emirates/umm-al-quwain.jpg";
 import dubaiDetailMap from "@/assets/emirates/dubai-detailed-map.png";
 import abuDhabiDetailMap from "@/assets/emirates/abu-dhabi-detailed-map.png";
+import federationMap from "@/assets/emirates/uae-federation-map.png";
 
 /* ───────────────────── Types & Data ───────────────────── */
 
@@ -519,6 +520,75 @@ export function UaeMap() {
             </div>
 
             <Particles />
+
+            {/* FEDERATION HERO — cinematic uploaded UAE map */}
+            <AnimatePresence>
+              {mode === "federation" && (
+                <motion.div
+                  key="federation-hero"
+                  className="absolute inset-0 z-10"
+                  initial={{ opacity: 0, scale: 1.04 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.06, filter: "blur(8px)" }}
+                  transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  {/* image */}
+                  <motion.img
+                    src={federationMap}
+                    alt="UAE federation intelligence map"
+                    className="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none"
+                    draggable={false}
+                    animate={{ scale: [1, 1.015, 1] }}
+                    transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+                  />
+                  {/* ambient breathing glow */}
+                  <motion.div
+                    className="absolute inset-0 pointer-events-none mix-blend-screen"
+                    style={{ background: "radial-gradient(60% 50% at 70% 40%, oklch(0.65 0.22 290 / 0.18), transparent 70%)" }}
+                    animate={{ opacity: [0.5, 0.85, 0.5] }}
+                    transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+                  />
+                  <motion.div
+                    className="absolute inset-0 pointer-events-none mix-blend-screen"
+                    style={{ background: "radial-gradient(50% 45% at 35% 70%, oklch(0.78 0.16 75 / 0.14), transparent 70%)" }}
+                    animate={{ opacity: [0.45, 0.75, 0.45] }}
+                    transition={{ duration: 9, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
+                  />
+                  {/* interactive hotspots aligned to uploaded image */}
+                  {([
+                    { key: "Ras Al Khaimah", x: 76,  y: 19.5, tone: "violet" as Tone },
+                    { key: "Umm Al Quwain",  x: 70,  y: 27,   tone: "cyan"   as Tone },
+                    { key: "Ajman",          x: 67,  y: 32,   tone: "blue"   as Tone },
+                    { key: "Fujairah",       x: 82,  y: 35,   tone: "gold"   as Tone },
+                    { key: "Sharjah",        x: 73,  y: 43,   tone: "blue"   as Tone },
+                    { key: "Dubai",          x: 63.5,y: 49.5, tone: "violet" as Tone },
+                    { key: "Abu Dhabi",      x: 44,  y: 62,   tone: "gold"   as Tone },
+                  ] as { key: EmirateKey; x: number; y: number; tone: Tone }[]).map((h, i) => {
+                    const c = TONE_HEX[h.tone];
+                    return (
+                      <button
+                        key={h.key}
+                        onClick={() => { setFocusEmirate(h.key); setMode("emirate"); setActiveId(null); }}
+                        className="group absolute -translate-x-1/2 -translate-y-1/2 outline-none"
+                        style={{ left: `${h.x}%`, top: `${h.y}%` }}
+                        aria-label={`Open ${h.key}`}
+                      >
+                        <span className="relative flex items-center justify-center w-3 h-3">
+                          <motion.span
+                            className="absolute inset-0 rounded-full"
+                            style={{ background: c, boxShadow: `0 0 22px ${c}, 0 0 6px ${c}` }}
+                            animate={{ scale: [1, 1.8, 1], opacity: [0.85, 0.15, 0.85] }}
+                            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut", delay: i * 0.18 }}
+                          />
+                          <span className="relative w-2 h-2 rounded-full bg-white" style={{ boxShadow: `0 0 10px ${c}` }} />
+                        </span>
+                      </button>
+                    );
+                  })}
+                </motion.div>
+              )}
+            </AnimatePresence>
+
 
             {/* breadcrumb / top hud */}
             <div className="absolute top-4 left-4 right-4 z-20 flex items-start justify-between gap-3">

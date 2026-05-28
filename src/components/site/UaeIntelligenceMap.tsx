@@ -496,27 +496,9 @@ export function UaeIntelligenceMap() {
             </div>
           </aside>
 
-              {compareZones.length === 2 ? (
-                <CompareView a={compareZones[0]} b={compareZones[1]} onClose={() => setCompare([])} />
-              ) : selected ? (
-                <ZoneDetail
-                  z={selected}
-                  onCompare={() => toggleCompare(selected.id)}
-                  inCompare={compare.includes(selected.id)}
-                  aiScore={scoreZone(selected, filters)}
-                />
-              ) : (
-                <div className="text-sm text-muted-foreground py-16 text-center">
-                  Tap any glowing node on the map to open its intelligence card.
-                </div>
-              )}
-            </div>
-          </aside>
-        </div>
-
-
         {/* Premium horizontal card rail */}
-        <div className="mt-16 md:mt-20">
+        <div className="mt-20 md:mt-28">
+
           <div className="flex items-end justify-between mb-5">
             <div>
               <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Top matches</div>

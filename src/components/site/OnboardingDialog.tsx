@@ -176,10 +176,10 @@ export function OnboardingDialog({ open, onOpenChange }: { open: boolean; onOpen
   return (
     <>
       <Dialog open={open} onOpenChange={(v) => { onOpenChange(v); if (!v) setTimeout(resetAll, 250); }}>
-        <DialogContent className="glass-strong border-white/10 max-w-2xl p-0 overflow-hidden gap-0">
+        <DialogContent className="glass-strong border-border max-w-2xl p-0 overflow-hidden gap-0">
           {/* Header / progress */}
-          <div className="relative px-6 pt-6 pb-4 border-b border-white/5">
-            <div aria-hidden className="absolute -top-24 left-1/2 -translate-x-1/2 w-[480px] h-[480px] rounded-full bg-amber-400/10 blur-3xl pointer-events-none" />
+          <div className="relative px-6 pt-6 pb-4 border-b border-border/60">
+            <div aria-hidden className="absolute -top-24 left-1/2 -translate-x-1/2 w-[480px] h-[480px] rounded-full bg-[var(--halo-1)] blur-3xl pointer-events-none" />
             <div className="relative flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
               <Sparkles className="w-3.5 h-3.5 text-gold" />
               Soft Bridge · Client Onboarding

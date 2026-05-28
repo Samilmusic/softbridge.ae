@@ -13,7 +13,6 @@ function getInitialTheme(): Theme {
     const saved = window.localStorage.getItem(STORAGE_KEY) as Theme | null;
     if (saved === "light" || saved === "dark") return saved;
   } catch {}
-  if (window.matchMedia?.("(prefers-color-scheme: dark)").matches) return "dark";
   return "light";
 }
 
@@ -43,22 +42,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setTheme(theme === "dark" ? "light" : "dark");
   }, [theme, setTheme]);
 
-  // Follow system changes only when user hasn't set a preference
-  React.useEffect(() => {
-    const mq = window.matchMedia?.("(prefers-color-scheme: dark)");
-    if (!mq) return;
-    const onChange = (e: MediaQueryListEvent) => {
-      try {
-        if (localStorage.getItem(STORAGE_KEY)) return; // respect explicit choice
-      } catch {}
-      const next: Theme = e.matches ? "dark" : "light";
-      setThemeState(next);
-      applyTheme(next);
-    };
-    mq.addEventListener?.("change", onChange);
-    return () => mq.removeEventListener?.("change", onChange);
-  }, []);
-
   return (
     <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
       {children}
@@ -76,4 +59,4 @@ export function useTheme(): Ctx {
  * Inline script that applies the theme before paint to avoid FOUC.
  * Embed inside <head>.
  */
-export const themeInitScript = `(()=>{try{var s=localStorage.getItem('${STORAGE_KEY}');var t=(s==='dark'||s==='light')?s:(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');var r=document.documentElement;if(t==='dark')r.classList.add('dark');else r.classList.remove('dark');r.style.colorScheme=t;}catch(e){}})();`;
+export const themeInitScript = `(()=>{try{var s=localStorage.getItem('${STORAGE_KEY}');var t=(s==='dark'||s==='light')?s:'light';var r=document.documentElement;if(t==='dark')r.classList.add('dark');else r.classList.remove('dark');r.style.colorScheme=t;}catch(e){}})();`;

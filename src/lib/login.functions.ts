@@ -102,15 +102,25 @@ export const verifyLoginOtp = createServerFn({ method: "POST" })
       .maybeSingle();
     if (error) throw new Error(error.message);
     if (!row) throw new Error("No login code on file. Please request a new one.");
-    if (row.used_at) throw new Error("This code has already been used.");
     if (new Date(row.expires_at).getTime() < Date.now()) throw new Error("This code has expired.");
     if (row.attempts >= OTP_MAX_ATTEMPTS) throw new Error("Too many failed attempts. Request a new code.");
 
-    if (hashCode(data.code) !== row.code_hash) {
-      await supabaseAdmin.from("otp_codes").update({ attempts: row.attempts + 1 }).eq("id", row.id);
-      throw new Error(`Incorrect code. ${OTP_MAX_ATTEMPTS - (row.attempts + 1)} attempts remaining.`);
+    const codeMatches = hashCode(data.code) === row.code_hash;
+
+    // Idempotent: if already used recently with the same code, allow re-issuing the magic link.
+    // This handles double-submits / StrictMode double-invocations gracefully.
+    if (row.used_at) {
+      const usedAgeMs = Date.now() - new Date(row.used_at).getTime();
+      if (!codeMatches || usedAgeMs > 2 * 60 * 1000) {
+        throw new Error("This code has already been used. Please request a new one.");
+      }
+    } else {
+      if (!codeMatches) {
+        await supabaseAdmin.from("otp_codes").update({ attempts: row.attempts + 1 }).eq("id", row.id);
+        throw new Error(`Incorrect code. ${OTP_MAX_ATTEMPTS - (row.attempts + 1)} attempts remaining.`);
+      }
+      await supabaseAdmin.from("otp_codes").update({ used_at: new Date().toISOString() }).eq("id", row.id);
     }
-    await supabaseAdmin.from("otp_codes").update({ used_at: new Date().toISOString() }).eq("id", row.id);
 
     const link = await supabaseAdmin.auth.admin.generateLink({
       type: "magiclink",

@@ -26,6 +26,7 @@ import { Route as ServicesBankingPreparationRouteImport } from './routes/service
 import { Route as ServicesAmlComplianceRouteImport } from './routes/services.aml-compliance'
 import { Route as AuthenticatedPortalRouteImport } from './routes/_authenticated/portal'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as ApiAdvisorChatRouteImport } from './routes/api/advisor.chat'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -115,6 +116,11 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const ApiAdvisorChatRoute = ApiAdvisorChatRouteImport.update({
+  id: '/api/advisor/chat',
+  path: '/api/advisor/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -133,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/services/operational-support': typeof ServicesOperationalSupportRoute
   '/services/residency-relocation': typeof ServicesResidencyRelocationRoute
   '/services/web-advertising': typeof ServicesWebAdvertisingRoute
+  '/api/advisor/chat': typeof ApiAdvisorChatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -151,6 +158,7 @@ export interface FileRoutesByTo {
   '/services/operational-support': typeof ServicesOperationalSupportRoute
   '/services/residency-relocation': typeof ServicesResidencyRelocationRoute
   '/services/web-advertising': typeof ServicesWebAdvertisingRoute
+  '/api/advisor/chat': typeof ApiAdvisorChatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -171,6 +179,7 @@ export interface FileRoutesById {
   '/services/operational-support': typeof ServicesOperationalSupportRoute
   '/services/residency-relocation': typeof ServicesResidencyRelocationRoute
   '/services/web-advertising': typeof ServicesWebAdvertisingRoute
+  '/api/advisor/chat': typeof ApiAdvisorChatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -191,6 +200,7 @@ export interface FileRouteTypes {
     | '/services/operational-support'
     | '/services/residency-relocation'
     | '/services/web-advertising'
+    | '/api/advisor/chat'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -209,6 +219,7 @@ export interface FileRouteTypes {
     | '/services/operational-support'
     | '/services/residency-relocation'
     | '/services/web-advertising'
+    | '/api/advisor/chat'
   id:
     | '__root__'
     | '/'
@@ -228,6 +239,7 @@ export interface FileRouteTypes {
     | '/services/operational-support'
     | '/services/residency-relocation'
     | '/services/web-advertising'
+    | '/api/advisor/chat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -246,6 +258,7 @@ export interface RootRouteChildren {
   ServicesOperationalSupportRoute: typeof ServicesOperationalSupportRoute
   ServicesResidencyRelocationRoute: typeof ServicesResidencyRelocationRoute
   ServicesWebAdvertisingRoute: typeof ServicesWebAdvertisingRoute
+  ApiAdvisorChatRoute: typeof ApiAdvisorChatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -369,6 +382,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/api/advisor/chat': {
+      id: '/api/advisor/chat'
+      path: '/api/advisor/chat'
+      fullPath: '/api/advisor/chat'
+      preLoaderRoute: typeof ApiAdvisorChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -402,7 +422,18 @@ const rootRouteChildren: RootRouteChildren = {
   ServicesOperationalSupportRoute: ServicesOperationalSupportRoute,
   ServicesResidencyRelocationRoute: ServicesResidencyRelocationRoute,
   ServicesWebAdvertisingRoute: ServicesWebAdvertisingRoute,
+  ApiAdvisorChatRoute: ApiAdvisorChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

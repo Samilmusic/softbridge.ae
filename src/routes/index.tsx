@@ -36,6 +36,7 @@ function Index() {
       <Header />
       <main>
         <Hero />
+        <SkylineBand />
         <WhatWeDo />
         <AiAdvisorTeaser />
 

@@ -1,5 +1,6 @@
 import { SITE, WA_LINK } from "@/lib/site";
 import { Mail, MapPin, Phone, Linkedin, Instagram, MessageCircle } from "lucide-react";
+import { Logo } from "@/components/site/Logo";
 
 const COLS = [
   { title: "Navigation", links: [

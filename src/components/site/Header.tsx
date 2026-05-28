@@ -3,6 +3,7 @@ import { Menu, X, LayoutDashboard, Calendar, FileText, Sparkles, ArrowRight } fr
 import { Link } from "@tanstack/react-router";
 import { BookingDialog } from "@/components/site/BookingDialog";
 import { ThemeToggle } from "@/components/site/ThemeToggle";
+import { Logo } from "@/components/site/Logo";
 import { useAuth } from "@/lib/auth-context";
 
 const NAV = [
@@ -46,9 +47,7 @@ export function Header() {
         <div className="px-5 lg:px-6 h-14 lg:h-16 flex items-center justify-between gap-4">
           {/* Logo — fixed footprint */}
           <a href="#home" className="flex items-center gap-2.5 group shrink-0 lg:w-[170px]">
-            <div className="relative w-8 h-8 rounded-lg gold-gradient flex items-center justify-center shadow-lg shadow-amber-500/10 shrink-0">
-              <span className="text-[13px] font-bold text-[oklch(0.15_0.02_260)]">SB</span>
-            </div>
+            <Logo size={36} glow />
             <div className="leading-tight hidden sm:block min-w-0">
               <div className="text-[13px] font-semibold tracking-tight text-foreground whitespace-nowrap">Soft Bridge</div>
               <div className="text-[9px] uppercase tracking-[0.22em] text-muted-foreground whitespace-nowrap">FZE LLC</div>
@@ -132,9 +131,7 @@ export function Header() {
           {/* Header */}
           <div className="relative flex items-center justify-between px-5 py-4 border-b border-violet-100/70">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-violet-500/30">
-                <span className="text-[13px] font-bold text-white">SB</span>
-              </div>
+              <Logo size={38} />
               <div className="leading-tight">
                 <div className="text-sm font-semibold text-slate-900">Soft Bridge</div>
                 <div className="text-[9px] uppercase tracking-[0.22em] text-violet-600">FZE LLC</div>

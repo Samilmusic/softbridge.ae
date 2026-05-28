@@ -113,7 +113,7 @@ export function OnboardingDialog({ open, onOpenChange }: { open: boolean; onOpen
   };
 
   const submitStep2 = async () => {
-    if (code.length !== 6) return;
+    if (code.length !== 4) return;
     setLoading(true);
     try {
       const res = await verifyFn({ data: { email: s1.email, code } });

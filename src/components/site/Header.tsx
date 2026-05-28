@@ -130,13 +130,13 @@ export function Header() {
 
           {/* Header */}
           <div className="relative flex items-center justify-between px-5 py-4 border-b border-violet-100/70">
-            <div className="flex items-center gap-2.5">
+            <Link to="/" onClick={() => setOpen(false)} className="flex items-center gap-2.5">
               <Logo size={38} />
               <div className="leading-tight">
                 <div className="text-sm font-semibold text-slate-900">Soft Bridge</div>
                 <div className="text-[9px] uppercase tracking-[0.22em] text-violet-600">FZE LLC</div>
               </div>
-            </div>
+            </Link>
             <button
               onClick={() => setOpen(false)}
               className="w-10 h-10 rounded-full bg-violet-50 hover:bg-violet-100 ring-1 ring-violet-200 flex items-center justify-center text-slate-700 transition"

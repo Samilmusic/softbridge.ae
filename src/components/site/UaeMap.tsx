@@ -708,7 +708,11 @@ export function UaeMap() {
             <motion.svg
               viewBox={`0 0 ${VW} ${VH}`}
               className="w-full h-full block relative"
-              animate={{ opacity: isDetailOverlay ? 0.18 : 1, filter: isDetailOverlay ? "blur(2px)" : "blur(0px)" }}
+              animate={{
+                opacity: mode === "federation" ? 0 : (isDetailOverlay ? 0.18 : 1),
+                filter: isDetailOverlay ? "blur(2px)" : "blur(0px)",
+              }}
+              style={{ pointerEvents: mode === "federation" ? "none" : "auto" }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             >
               <defs>

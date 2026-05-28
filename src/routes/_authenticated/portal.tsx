@@ -63,6 +63,80 @@ function PortalPage() {
     return () => { cancelled = true; };
   }, [user, fetchCase]);
 
+  const signOut = async () => { await supabase.auth.signOut(); toast.success("Signed out"); };
+
+  const displayName = profile?.full_name || profile?.email || "Client";
+  const cas = state?.case;
+  const stages = state?.stages ?? [];
+  const docs = state?.documents ?? [];
+  const activity = state?.activity ?? [];
+  const quotes = state?.quotes ?? [];
+
+  const stage = (cas?.current_stage ?? "consultation") as StageKey;
+  const pct = cas?.progress_percentage ?? 0;
+  const meta = STAGE_META[stage] ?? STAGE_META.consultation;
+
+  const waiting = stages.filter((s: any) => s.status === "waiting_client");
+  const nextStage = stages.find((s: any) => s.status !== "completed");
+  const isLifetime = stage === "lifetime_support" && pct >= 95;
+
+  const ringR = 56;
+  const ringC = 2 * Math.PI * ringR;
+  const ringOffset = ringC - (pct / 100) * ringC;
+
+  if (!loaded) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[radial-gradient(circle_at_top_right,oklch(0.22_0.04_265),oklch(0.13_0.02_260))]">
+        <div className="text-xs uppercase tracking-[0.22em] text-muted-foreground">Loading your portal…</div>
+      </div>
+    );
+  }
+
+  if (loadError || !cas) {
+    return (
+      <div className="min-h-screen bg-[radial-gradient(circle_at_top_right,oklch(0.22_0.04_265),oklch(0.13_0.02_260))] text-foreground">
+        <header className="sticky top-0 z-40 backdrop-blur-xl bg-background/50 border-b border-white/5">
+          <div className="max-w-7xl mx-auto px-5 h-14 flex items-center justify-between">
+            <Link to="/" className="flex items-center gap-2.5">
+              <div className="w-7 h-7 rounded-lg gold-gradient flex items-center justify-center"><span className="text-[12px] font-bold text-[oklch(0.15_0.02_260)]">SB</span></div>
+              <div className="text-[12px] uppercase tracking-[0.22em] text-muted-foreground">Client Portal</div>
+            </Link>
+            <div className="flex items-center gap-3">
+              <span className="hidden md:inline text-xs text-muted-foreground">{profile?.email}</span>
+              <Button variant="outline" size="sm" onClick={signOut} className="border-white/15"><LogOut className="w-3.5 h-3.5 mr-1.5" />Sign out</Button>
+            </div>
+          </div>
+        </header>
+        <main className="max-w-3xl mx-auto px-5 py-16">
+          <div className="text-center">
+            <div className="text-[11px] uppercase tracking-[0.22em] text-gold">Welcome, {displayName}</div>
+            <h1 className="font-display text-3xl md:text-4xl text-foreground mt-2">Your Soft Bridge portal is ready.</h1>
+            <p className="text-sm text-muted-foreground mt-3 max-w-lg mx-auto">
+              {loadError ?? "Choose how you'd like to start — complete onboarding, request a quote, or speak with a consultant."}
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-3 mt-10">
+            <Link to="/quote" className="glass-strong rounded-2xl p-5 border border-white/8 hover:border-gold/40 transition">
+              <div className="flex items-center gap-3"><Sparkles className="w-5 h-5 text-gold" /><div className="font-medium">Complete onboarding</div></div>
+              <p className="text-xs text-muted-foreground mt-1.5">Tell us about your business so we can prepare your setup plan.</p>
+            </Link>
+            <Link to="/quote" className="glass-strong rounded-2xl p-5 border border-white/8 hover:border-gold/40 transition">
+              <div className="flex items-center gap-3"><CreditCard className="w-5 h-5 text-gold" /><div className="font-medium">Request a quotation</div></div>
+              <p className="text-xs text-muted-foreground mt-1.5">Get an instant cost & timeline estimate.</p>
+            </Link>
+            <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="glass-strong rounded-2xl p-5 border border-white/8 hover:border-gold/40 transition">
+              <div className="flex items-center gap-3"><MessageCircle className="w-5 h-5 text-gold" /><div className="font-medium">Book a consultation</div></div>
+              <p className="text-xs text-muted-foreground mt-1.5">Talk to a senior advisor on WhatsApp.</p>
+            </a>
+            <div className="glass-strong rounded-2xl p-5 border border-white/8 opacity-80">
+              <div className="flex items-center gap-3"><FileText className="w-5 h-5 text-gold" /><div className="font-medium">Upload documents later</div></div>
+              <p className="text-xs text-muted-foreground mt-1.5">We'll request what we need as your case progresses.</p>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top_right,oklch(0.22_0.04_265),oklch(0.13_0.02_260))] text-foreground">

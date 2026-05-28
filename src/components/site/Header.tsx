@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Menu, X, LayoutDashboard } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { BookingDialog } from "@/components/site/BookingDialog";
+import { ThemeToggle } from "@/components/site/ThemeToggle";
 import { useAuth } from "@/lib/auth-context";
 
 const NAV = [
@@ -73,6 +74,7 @@ export function Header() {
             >
               <LayoutDashboard className="w-3.5 h-3.5" />{isAuthenticated ? "Portal" : "Sign in"}
             </Link>
+            <ThemeToggle className="hidden md:inline-flex" />
             <button
               onClick={() => setBooking(true)}
               className="hidden md:inline-flex items-center justify-center rounded-full glass-strong px-4 py-2 text-[13px] font-medium text-foreground hover:border-gold/40 transition"
@@ -80,6 +82,7 @@ export function Header() {
               Book Consultation
             </button>
 
+            <ThemeToggle className="md:hidden" />
             <button
               className="lg:hidden p-2 -mr-1 text-foreground"
               onClick={() => setOpen((v) => !v)}

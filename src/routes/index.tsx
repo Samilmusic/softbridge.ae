@@ -36,7 +36,6 @@ function Index() {
         <WhatWeDo />
         <AiAdvisorTeaser />
 
-        <UaeMap />
         <RemoteSetupTeaser />
         <Process />
         <LongTermSupport />

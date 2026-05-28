@@ -34,7 +34,12 @@ function Shell({ preview, children }: { preview: string; children: React.ReactNo
         <Container style={container}>
           <Text style={logo}>{BRAND}</Text>
           <Section style={card}>{children}</Section>
-          <Text style={meta}>{BRAND} · Amber Gem Tower, Ajman, UAE · <Link href={WA} style={{ color: "#d6b46a" }}>WhatsApp +971 50 242 9035</Link></Text>
+          <Text style={meta}>
+            <strong style={{ color: "#cdd3e0" }}>{BRAND}</strong><br />
+            Registration No: {REG_NO}<br />
+            {ADDRESS} · <Link href={`mailto:${SUPPORT_EMAIL}`} style={{ color: "#d6b46a" }}>{SUPPORT_EMAIL}</Link> · <Link href={WEBSITE} style={{ color: "#d6b46a" }}>softbridgefze.com</Link><br />
+            <Link href={WA} style={{ color: "#d6b46a" }}>WhatsApp +971 50 242 9035</Link>
+          </Text>
         </Container>
       </Body>
     </Html>

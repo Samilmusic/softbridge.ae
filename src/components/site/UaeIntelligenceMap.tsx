@@ -421,27 +421,34 @@ export function UaeIntelligenceMap() {
 
           {/* RIGHT — info panel */}
           <aside className={cn(
-            "glass-panel rounded-3xl p-7 lg:p-8 shadow-[0_20px_60px_-25px_var(--glow-primary)]",
-            "lg:block lg:sticky lg:top-24",
+            "glass-panel rounded-[28px] shadow-[0_20px_60px_-25px_var(--glow-primary)]",
+            "lg:block lg:sticky lg:top-24 lg:shrink-0",
             mobilePanel ? "block" : "hidden",
           )}
-          style={{ borderColor: "var(--surface-border-strong)" }}>
-            {compareZones.length === 2 ? (
-              <CompareView a={compareZones[0]} b={compareZones[1]} onClose={() => setCompare([])} />
-            ) : selected ? (
-              <ZoneDetail
-                z={selected}
-                onCompare={() => toggleCompare(selected.id)}
-                inCompare={compare.includes(selected.id)}
-                aiScore={scoreZone(selected, filters)}
-              />
-            ) : (
-              <div className="text-sm text-muted-foreground py-16 text-center">
-                Tap any glowing node on the map to open its intelligence card.
-              </div>
-            )}
+          style={{
+            borderColor: "var(--surface-border-strong)",
+            minWidth: "340px",
+            maxHeight: "calc(100vh - 8rem)",
+          }}>
+            <div className="overflow-y-auto p-7 lg:p-9 uae-panel-scroll" style={{ maxHeight: "calc(100vh - 8rem)" }}>
+              {compareZones.length === 2 ? (
+                <CompareView a={compareZones[0]} b={compareZones[1]} onClose={() => setCompare([])} />
+              ) : selected ? (
+                <ZoneDetail
+                  z={selected}
+                  onCompare={() => toggleCompare(selected.id)}
+                  inCompare={compare.includes(selected.id)}
+                  aiScore={scoreZone(selected, filters)}
+                />
+              ) : (
+                <div className="text-sm text-muted-foreground py-16 text-center">
+                  Tap any glowing node on the map to open its intelligence card.
+                </div>
+              )}
+            </div>
           </aside>
         </div>
+
 
         {/* Premium horizontal card rail */}
         <div className="mt-16 md:mt-20">

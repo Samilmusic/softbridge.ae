@@ -88,7 +88,7 @@ export const verifyLoginOtp = createServerFn({ method: "POST" })
   .inputValidator((data) =>
     z.object({
       email: z.string().trim().email().max(320).transform((v) => v.toLowerCase()),
-      code: z.string().trim().regex(/^\d{6}$/),
+      code: z.string().trim().regex(/^\d{4}$/),
     }).parse(data),
   )
   .handler(async ({ data }) => {

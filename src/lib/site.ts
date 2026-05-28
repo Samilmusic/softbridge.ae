@@ -4,8 +4,10 @@ export const SITE = {
   phone: "+971 50 242 9035",
   phoneRaw: "971502429035",
   email: "info@softbridgefze.com",
+  website: "https://softbridgefze.com",
   address: "26, Amber Gem Tower, Ajman, UAE",
   hours: "Mon–Fri: 9:00am–7:00pm",
+  registrationNumber: "262524808888",
 };
 
 export const WA_MESSAGE = encodeURIComponent(

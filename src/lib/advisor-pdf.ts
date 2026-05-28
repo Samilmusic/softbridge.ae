@@ -35,11 +35,12 @@ function header(doc: jsPDF) {
 
 function footer(doc: jsPDF, page: number, total: number) {
   doc.setDrawColor(...LINE);
-  doc.line(40, 800, 555, 800);
+  doc.line(40, 795, 555, 795);
   doc.setFontSize(8);
   doc.setTextColor(...MUTED);
-  doc.text(`Soft Bridge FZE LLC  ·  ${SITE.email}  ·  ${SITE.phone}`, 40, 815);
-  doc.text(`Page ${page} / ${total}`, 555, 815, { align: "right" });
+  doc.text(`Soft Bridge FZE LLC  ·  Registration No: 262524808888`, 40, 808);
+  doc.text(`${SITE.address}  ·  ${SITE.email}  ·  ${SITE.website ?? "softbridgefze.com"}`, 40, 820);
+  doc.text(`Page ${page} / ${total}`, 555, 820, { align: "right" });
 }
 
 function sectionTitle(doc: jsPDF, y: number, text: string) {

@@ -21,8 +21,9 @@ const SECTIONS = [
     content: (
       <div className="space-y-3">
         <p><strong>Soft Bridge FZE LLC</strong><br />United Arab Emirates</p>
+        <p className="text-muted-foreground text-sm">Registration No: <span className="tabular-nums text-foreground/80">{SITE.registrationNumber}</span></p>
         <p>Email: <a href={`mailto:${SITE.email}`} className="text-gold hover:underline">{SITE.email}</a></p>
-        <p>Website: <a href="/" className="text-gold hover:underline">https://softbridgefze.com</a></p>
+        <p>Website: <a href="/" className="text-gold hover:underline">{SITE.website}</a></p>
         <p className="text-muted-foreground italic text-sm">Soft Bridge FZE LLC is an independent private consultancy and is not affiliated with, endorsed by, or representing any UAE government authority or immigration department.</p>
       </div>
     ),
@@ -293,7 +294,7 @@ const SECTIONS = [
     content: (
       <div className="space-y-3">
         <p>For privacy-related inquiries, contact:</p>
-        <p><strong>Soft Bridge FZE LLC</strong><br />Email: <a href={`mailto:${SITE.email}`} className="text-gold hover:underline">{SITE.email}</a><br />Website: <a href="/" className="text-gold hover:underline">https://softbridgefze.com</a></p>
+        <p><strong>Soft Bridge FZE LLC</strong><br />Registration No: <span className="tabular-nums">{SITE.registrationNumber}</span><br />Email: <a href={`mailto:${SITE.email}`} className="text-gold hover:underline">{SITE.email}</a><br />Website: <a href="/" className="text-gold hover:underline">{SITE.website}</a></p>
         <a
           href={WA_LINK}
           target="_blank"

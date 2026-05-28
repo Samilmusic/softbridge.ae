@@ -204,6 +204,10 @@ function PortalPage() {
             </div>
           </div>
         </div>
+        <footer className="mt-12 pt-6 border-t border-white/5 text-[11px] text-muted-foreground/70 leading-relaxed text-center">
+          <div>{SITE.name} · Registration No: <span className="tabular-nums">{SITE.registrationNumber}</span></div>
+          <div>{SITE.address} · <a href={`mailto:${SITE.email}`} className="hover:text-foreground/80">{SITE.email}</a></div>
+        </footer>
       </main>
     </div>
   );

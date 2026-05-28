@@ -21,7 +21,7 @@ export const Route = createFileRoute("/_authenticated/portal")({
 
 function PortalErrorFallback({ error, reset }: { error: Error; reset: () => void }) {
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top_right,oklch(0.22_0.04_265),oklch(0.13_0.02_260))] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top_right,oklch(0.98_0.015_290),oklch(0.96_0.02_285))] dark:bg-[radial-gradient(circle_at_top_right,oklch(0.22_0.04_265),oklch(0.13_0.02_260))] flex items-center justify-center px-4">
       <div className="glass-strong rounded-3xl p-8 max-w-md text-center border border-white/8">
         <AlertTriangle className="w-8 h-8 text-amber-300 mx-auto mb-3" />
         <h1 className="font-display text-xl text-foreground">We couldn't prepare your portal</h1>
@@ -88,7 +88,7 @@ function PortalPage() {
 
   if (!loaded) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[radial-gradient(circle_at_top_right,oklch(0.22_0.04_265),oklch(0.13_0.02_260))]">
+      <div className="min-h-screen flex items-center justify-center bg-[radial-gradient(circle_at_top_right,oklch(0.98_0.015_290),oklch(0.96_0.02_285))] dark:bg-[radial-gradient(circle_at_top_right,oklch(0.22_0.04_265),oklch(0.13_0.02_260))]">
         <div className="text-xs uppercase tracking-[0.22em] text-muted-foreground">Loading your portal…</div>
       </div>
     );
@@ -96,7 +96,7 @@ function PortalPage() {
 
   if (loadError || !cas) {
     return (
-      <div className="min-h-screen bg-[radial-gradient(circle_at_top_right,oklch(0.22_0.04_265),oklch(0.13_0.02_260))] text-foreground">
+      <div className="min-h-screen bg-[radial-gradient(circle_at_top_right,oklch(0.98_0.015_290),oklch(0.96_0.02_285))] dark:bg-[radial-gradient(circle_at_top_right,oklch(0.22_0.04_265),oklch(0.13_0.02_260))] text-foreground">
         <header className="sticky top-0 z-40 backdrop-blur-xl bg-background/50 border-b border-white/5">
           <div className="max-w-7xl mx-auto px-5 h-14 flex items-center justify-between">
             <Link to="/" className="flex items-center gap-2.5">
@@ -141,7 +141,7 @@ function PortalPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top_right,oklch(0.22_0.04_265),oklch(0.13_0.02_260))] text-foreground">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top_right,oklch(0.98_0.015_290),oklch(0.96_0.02_285))] dark:bg-[radial-gradient(circle_at_top_right,oklch(0.22_0.04_265),oklch(0.13_0.02_260))] text-foreground">
       <header className="sticky top-0 z-40 backdrop-blur-xl bg-background/50 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-5 h-14 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5">

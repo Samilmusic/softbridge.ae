@@ -498,6 +498,32 @@ export function UaeMap() {
 
           {/* CENTER — cinematic map */}
           <div className="relative rounded-3xl border border-white/10 bg-[oklch(0.10_0.025_280/0.78)] backdrop-blur-xl overflow-hidden min-h-[640px]">
+            {/* cinematic satellite backdrop (federation view) */}
+            <AnimatePresence>
+              {mode === "federation" && (
+                <motion.div
+                  key="fed-backdrop"
+                  className="absolute inset-0 z-0 pointer-events-none"
+                  initial={{ opacity: 0, scale: 1.06 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <img
+                    src={uaeFederationMap}
+                    alt="UAE satellite backdrop"
+                    className="absolute inset-0 w-full h-full object-cover"
+                    draggable={false}
+                  />
+                  <div className="absolute inset-0" style={{
+                    background: "linear-gradient(180deg, oklch(0.08 0.04 285 / 0.65) 0%, oklch(0.07 0.03 285 / 0.45) 40%, oklch(0.06 0.03 285 / 0.75) 100%)"
+                  }} />
+                  <div className="absolute inset-0" style={{
+                    background: "radial-gradient(70% 70% at 50% 50%, transparent 0%, oklch(0.05 0.03 285 / 0.6) 100%)"
+                  }} />
+                </motion.div>
+              )}
+            </AnimatePresence>
             {/* atmosphere */}
             <div className="absolute inset-0 grid-pattern opacity-[0.12]" />
             <motion.div

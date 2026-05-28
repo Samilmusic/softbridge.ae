@@ -17,9 +17,9 @@ function hashCode(code: string) {
 }
 
 function generateCode() {
-  // 6-digit, leading zeros allowed
-  const n = crypto.randomInt(0, 1_000_000);
-  return n.toString().padStart(6, "0");
+  // 4-digit, leading zeros allowed
+  const n = crypto.randomInt(0, 10_000);
+  return n.toString().padStart(4, "0");
 }
 
 function originFromRequest(): string {
@@ -118,7 +118,7 @@ export const resendOnboardingOtp = createServerFn({ method: "POST" })
 // 3. Verify OTP — creates auth user (idempotent), returns magic-link tokens
 const verifySchema = z.object({
   email: z.string().trim().email().max(320).transform((v) => v.toLowerCase()),
-  code: z.string().trim().regex(/^\d{6}$/),
+  code: z.string().trim().regex(/^\d{4}$/),
 });
 
 export const verifyOnboardingOtp = createServerFn({ method: "POST" })

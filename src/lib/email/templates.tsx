@@ -207,29 +207,39 @@ export const InternalQuoteNotice = (q: InternalQuoteProps) => (
 
 // 8. OTP verification
 export interface OtpProps { name: string; code: string; expiresMinutes: number; }
-const otpBox: React.CSSProperties = {
-  fontFamily: "'JetBrains Mono', 'Courier New', monospace",
-  fontSize: 34,
-  letterSpacing: "0.5em",
-  fontWeight: 700,
-  color: "#ffffff",
+const otpWrap: React.CSSProperties = {
   textAlign: "center",
-  background: "linear-gradient(135deg, rgba(214,180,106,0.18), rgba(214,180,106,0.04))",
-  border: "1px solid rgba(214,180,106,0.45)",
+  margin: "28px 0",
+};
+const otpBox: React.CSSProperties = {
+  display: "inline-block",
+  fontFamily: "'JetBrains Mono', 'Courier New', monospace",
+  fontSize: 48,
+  lineHeight: "1.1",
+  letterSpacing: "0.35em",
+  fontWeight: 800,
+  color: "#0b1a3a",
+  textAlign: "center",
+  backgroundColor: "#ffffff",
+  border: "2px solid #6d28d9",
   borderRadius: 14,
-  padding: "22px 14px",
-  margin: "18px 0",
+  padding: "22px 28px 22px 40px",
+  margin: "0 auto",
+  boxShadow: "0 6px 18px rgba(109,40,217,0.18)",
+  minWidth: 220,
 };
 export const OtpEmail = ({ name, code, expiresMinutes }: OtpProps) => (
   <Shell preview="Your Soft Bridge verification code">
     <Heading style={h1}>Verify your email, {name}.</Heading>
     <Text style={sub}>Use this verification code to continue setting up your Soft Bridge client portal.</Text>
-    <Text style={otpBox}>{code}</Text>
-    <Text style={{ ...p, color: "#9aa3b6", fontSize: 12, textAlign: "center" }}>
+    <div style={otpWrap}>
+      <span style={otpBox}>{code}</span>
+    </div>
+    <Text style={{ ...p, color: "#6b7280", fontSize: 12, textAlign: "center" }}>
       This code expires in {expiresMinutes} minutes and can be used only once.
     </Text>
-    <Hr style={{ borderColor: "rgba(255,255,255,0.08)", margin: "18px 0" }} />
-    <Text style={{ ...p, color: "#7c8499", fontSize: 12 }}>
+    <Hr style={{ borderColor: "rgba(0,0,0,0.08)", margin: "18px 0" }} />
+    <Text style={{ ...p, color: "#6b7280", fontSize: 12 }}>
       For your security, never share this code with anyone — not even a Soft Bridge representative.
       If you didn't request this, you can safely ignore this email.
     </Text>

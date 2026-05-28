@@ -14,7 +14,7 @@ function hashCode(code: string) {
   return crypto.createHash("sha256").update(code).digest("hex");
 }
 function generateCode() {
-  return crypto.randomInt(0, 1_000_000).toString().padStart(6, "0");
+  return crypto.randomInt(0, 10_000).toString().padStart(4, "0");
 }
 function origin(): string {
   try {
@@ -88,7 +88,7 @@ export const verifyLoginOtp = createServerFn({ method: "POST" })
   .inputValidator((data) =>
     z.object({
       email: z.string().trim().email().max(320).transform((v) => v.toLowerCase()),
-      code: z.string().trim().regex(/^\d{6}$/),
+      code: z.string().trim().regex(/^\d{4}$/),
     }).parse(data),
   )
   .handler(async ({ data }) => {

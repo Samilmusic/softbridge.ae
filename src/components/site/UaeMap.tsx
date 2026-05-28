@@ -1445,7 +1445,7 @@ function DubaiFocusOverlay({
                   isA || isH ? "opacity-100" : "opacity-95"
                 }`}
                 style={{
-                  [n.side === "right" ? "left" : "right"]: sz / 2 + 10,
+                  [side === "right" ? "left" : "right"]: sz / 2 + 10,
                   background: "oklch(0.08 0.03 285 / 0.88)",
                   color: "#fff",
                   border: `1px solid ${DUBAI_HEX}55`,

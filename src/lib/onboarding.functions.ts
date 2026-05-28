@@ -118,7 +118,7 @@ export const resendOnboardingOtp = createServerFn({ method: "POST" })
 // 3. Verify OTP — creates auth user (idempotent), returns magic-link tokens
 const verifySchema = z.object({
   email: z.string().trim().email().max(320).transform((v) => v.toLowerCase()),
-  code: z.string().trim().regex(/^\d{6}$/),
+  code: z.string().trim().regex(/^\d{4}$/),
 });
 
 export const verifyOnboardingOtp = createServerFn({ method: "POST" })

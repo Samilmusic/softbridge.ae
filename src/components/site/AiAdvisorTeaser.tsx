@@ -44,7 +44,7 @@ export function AiAdvisorTeaser() {
                 <div className="text-[10px] uppercase tracking-[0.22em] text-primary/90 flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Advisor online
                 </div>
-                <div className="font-display text-2xl text-foreground mt-2">Welcome back, Samil.</div>
+                <div className="font-display text-2xl text-foreground mt-2">Your AI advisor is online.</div>
                 <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
                   Your <span className="text-foreground">IFZA application</span> is currently in <span className="text-foreground">Initial Approval review</span>. Estimated processing time is <span className="text-foreground">2–4 business days</span>. Want me to prepare your banking shortlist now?
                 </p>

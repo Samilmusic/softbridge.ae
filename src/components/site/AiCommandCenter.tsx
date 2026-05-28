@@ -40,7 +40,7 @@ const FEED = [
   { t: "12m", text: "Initial approval submitted", tone: "violet" },
   { t: "1h", text: "Banking preparation started", tone: "sky" },
   { t: "3h", text: "Website workspace prepared", tone: "violet" },
-  { t: "Today", text: "Consultant note added by Samil", tone: "amber" },
+  { t: "Today", text: "Consultant note added", tone: "amber" },
 ];
 
 const DOCS = [
@@ -421,10 +421,10 @@ export function AiCommandCenter() {
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center text-white font-semibold text-sm">
-                      S
+                      SB
                     </div>
                     <div className="flex-1">
-                      <div className="text-sm font-medium text-slate-900">Samil — Manager</div>
+                      <div className="text-sm font-medium text-slate-900">Soft Bridge Consultant</div>
                       <div className="flex items-center gap-1.5 text-[11px] text-emerald-600">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                         Online · Reviewing setup

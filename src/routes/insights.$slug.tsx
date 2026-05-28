@@ -23,7 +23,7 @@ import {
   getArticle,
   getRelatedArticles,
   formatDate,
-  ARTICLES,
+  type Article,
 } from "@/lib/blog";
 
 export const Route = createFileRoute("/insights/$slug")({
@@ -82,7 +82,7 @@ export const Route = createFileRoute("/insights/$slug")({
 
 function ArticlePage() {
   useReveal();
-  const { article } = Route.useLoaderData();
+  const { article } = Route.useLoaderData() as { article: Article };
   const related = getRelatedArticles(article.slug, 3);
   const [activeId, setActiveId] = useState<string>(article.sections[0]?.id);
   const [copied, setCopied] = useState(false);

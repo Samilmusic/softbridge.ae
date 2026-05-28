@@ -312,7 +312,7 @@ export function PricingOffer({ id = "pricing-offer", onStartSetup }: PricingOffe
                   Book Consultation
                 </Link>
                 <a
-                  href="https://wa.me/message/YOUR_WHATSAPP_NUMBER"
+                  href={WA_LINK}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 w-full sm:w-auto rounded-full bg-emerald-50 text-emerald-700 px-7 py-3.5 text-sm font-semibold ring-1 ring-emerald-200 hover:bg-emerald-100 transition-all"

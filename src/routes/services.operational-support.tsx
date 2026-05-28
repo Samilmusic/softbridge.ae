@@ -90,9 +90,9 @@ export const Route = createFileRoute("/services/operational-support")({
       { name: "description", content: "Lifetime UAE business support: license renewals, document coordination, visa management, compliance reminders, and growth infrastructure — all in one digital portal." },
       { property: "og:title", content: "UAE Operational Support — Soft Bridge" },
       { property: "og:description", content: "Long-term operational support for UAE businesses: renewals, compliance, visas, and growth — built around a lifetime partnership." },
-      { property: "og:url", content: "https://bridge-to-success-web.lovable.app/services/operational-support" },
+      { property: "og:url", content: "https://softbridge.ae/services/operational-support" },
     ],
-    links: [{ rel: "canonical", href: "https://bridge-to-success-web.lovable.app/services/operational-support" }],
+    links: [{ rel: "canonical", href: "https://softbridge.ae/services/operational-support" }],
   }),
   component: () => <ServicePageLayout config={config} />,
 });

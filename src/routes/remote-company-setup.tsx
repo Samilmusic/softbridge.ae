@@ -30,7 +30,7 @@ import { OnboardingDialog } from "@/components/site/OnboardingDialog";
 import { BookingDialog } from "@/components/site/BookingDialog";
 import { useReveal } from "@/hooks/use-reveal";
 
-const CANONICAL = "https://bridge-to-success-web.lovable.app/remote-company-setup";
+const CANONICAL = "https://softbridge.ae/remote-company-setup";
 const TITLE = "Remote UAE Company Setup + Corporate Bank Account — Soft Bridge";
 const DESC =
   "Incorporate your UAE company remotely with IFZA or Meydan and receive corporate banking assistance — no physical UAE visit required. Built for global founders.";

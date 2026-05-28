@@ -89,9 +89,9 @@ export const Route = createFileRoute("/services/aml-compliance")({
       { name: "description", content: "UAE AML registration, corporate tax, UBO, ESR, KYC frameworks, and ongoing compliance — engineered into your operations with full digital tracking." },
       { property: "og:title", content: "UAE AML & Compliance — Soft Bridge" },
       { property: "og:description", content: "Complete UAE regulatory readiness: AML, corporate tax, UBO, ESR, and KYC built into your business." },
-      { property: "og:url", content: "https://bridge-to-success-web.lovable.app/services/aml-compliance" },
+      { property: "og:url", content: "https://softbridge.ae/services/aml-compliance" },
     ],
-    links: [{ rel: "canonical", href: "https://bridge-to-success-web.lovable.app/services/aml-compliance" }],
+    links: [{ rel: "canonical", href: "https://softbridge.ae/services/aml-compliance" }],
   }),
   component: () => <ServicePageLayout config={config} />,
 });

@@ -90,9 +90,9 @@ export const Route = createFileRoute("/services/web-advertising")({
       { name: "description", content: "Websites, SaaS systems, AI integrations, automation, branding, and digital advertising — Soft Bridge combines UAE business setup with modern technology infrastructure." },
       { property: "og:title", content: "Web, AI & Advertising — Soft Bridge" },
       { property: "og:description", content: "Modern digital infrastructure: web, AI, automation, and full-funnel advertising for UAE businesses." },
-      { property: "og:url", content: "https://bridge-to-success-web.lovable.app/services/web-advertising" },
+      { property: "og:url", content: "https://softbridge.ae/services/web-advertising" },
     ],
-    links: [{ rel: "canonical", href: "https://bridge-to-success-web.lovable.app/services/web-advertising" }],
+    links: [{ rel: "canonical", href: "https://softbridge.ae/services/web-advertising" }],
   }),
   component: () => <ServicePageLayout config={config} />,
 });

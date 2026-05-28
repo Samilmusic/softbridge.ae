@@ -36,7 +36,7 @@ export const submitBooking = createServerFn({ method: "POST" })
 
     let host = "";
     try { host = getRequestHost(); } catch { /* noop */ }
-    const portalUrl = host ? `https://${host}/login` : "https://softbridgefze.com/login";
+    const portalUrl = host ? `https://${host}/login` : "https://softbridge.ae/login";
 
     try {
       await sendEmail(data.email, {

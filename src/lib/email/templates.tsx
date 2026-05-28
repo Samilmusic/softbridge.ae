@@ -6,24 +6,24 @@ import {
 const BRAND = "Soft Bridge FZE LLC";
 const REG_NO = "262524808888";
 const ADDRESS = "Amber Gem Tower, Ajman, UAE";
-const SUPPORT_EMAIL = "info@softbridgefze.com";
-const WEBSITE = "https://softbridgefze.com";
+const SUPPORT_EMAIL = "noreply@softbridge.ae";
+const WEBSITE = "https://softbridge.ae";
 const WA = "https://wa.me/971502429035";
 
-const main: React.CSSProperties = { backgroundColor: "#0b0f1a", fontFamily: "Inter, Arial, sans-serif", color: "#e9ecf3" };
-const container: React.CSSProperties = { maxWidth: 600, margin: "0 auto", padding: "32px 24px" };
-const card: React.CSSProperties = { background: "linear-gradient(180deg,#141a2b,#0f1422)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 16, padding: "28px 26px", marginTop: 20 };
-const logo: React.CSSProperties = { fontFamily: "Sora, Inter, Arial, sans-serif", fontSize: 13, letterSpacing: "0.22em", color: "#d6b46a", textTransform: "uppercase" };
-const h1: React.CSSProperties = { fontFamily: "Sora, Inter, Arial, sans-serif", fontSize: 26, fontWeight: 700, color: "#ffffff", margin: "10px 0 6px" };
-const h2: React.CSSProperties = { fontFamily: "Sora, Inter, Arial, sans-serif", fontSize: 16, fontWeight: 600, color: "#f0e3c2", margin: "18px 0 8px" };
-const sub: React.CSSProperties = { fontSize: 14, color: "#9aa3b6", margin: 0 };
-const p: React.CSSProperties = { fontSize: 14, lineHeight: "22px", color: "#cdd3e0", margin: "12px 0" };
-const btn: React.CSSProperties = { background: "linear-gradient(180deg,#e6c47a,#caa14a)", color: "#15181f", padding: "12px 20px", borderRadius: 999, fontSize: 13, fontWeight: 700, textDecoration: "none", display: "inline-block" };
-const btnGhost: React.CSSProperties = { background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.12)", color: "#e9ecf3", padding: "10px 18px", borderRadius: 999, fontSize: 13, fontWeight: 600, textDecoration: "none", display: "inline-block" };
-const meta: React.CSSProperties = { fontSize: 12, color: "#7c8499", marginTop: 24, textAlign: "center" };
-const stat: React.CSSProperties = { display: "block", background: "rgba(214,180,106,0.07)", border: "1px solid rgba(214,180,106,0.22)", borderRadius: 12, padding: "12px 14px", margin: "8px 0", fontSize: 13, color: "#f0e3c2" };
-const lineItem: React.CSSProperties = { fontSize: 13, lineHeight: "22px", color: "#cdd3e0", margin: "2px 0" };
-const totalBox: React.CSSProperties = { background: "linear-gradient(135deg,rgba(214,180,106,0.22),rgba(214,180,106,0.05))", border: "1px solid rgba(214,180,106,0.45)", borderRadius: 14, padding: "16px 18px", margin: "14px 0" };
+const main: React.CSSProperties = { backgroundColor: "#f6f7fb", fontFamily: "Inter, Helvetica, Arial, sans-serif", color: "#0f172a", margin: 0, padding: 0 };
+const container: React.CSSProperties = { maxWidth: 600, margin: "0 auto", padding: "32px 20px" };
+const card: React.CSSProperties = { background: "#ffffff", border: "1px solid #eceef5", borderRadius: 18, padding: "32px 28px", marginTop: 16, boxShadow: "0 8px 30px rgba(15,23,42,0.06)" };
+const logo: React.CSSProperties = { fontFamily: "Inter, Arial, sans-serif", fontSize: 12, letterSpacing: "0.28em", color: "#6d28d9", textTransform: "uppercase", fontWeight: 700 };
+const h1: React.CSSProperties = { fontFamily: "Inter, Arial, sans-serif", fontSize: 24, fontWeight: 700, color: "#0f172a", margin: "8px 0 4px", lineHeight: "30px" };
+const h2: React.CSSProperties = { fontFamily: "Inter, Arial, sans-serif", fontSize: 15, fontWeight: 600, color: "#6d28d9", margin: "20px 0 8px" };
+const sub: React.CSSProperties = { fontSize: 14, color: "#64748b", margin: "0 0 8px", lineHeight: "22px" };
+const p: React.CSSProperties = { fontSize: 14, lineHeight: "22px", color: "#334155", margin: "12px 0" };
+const btn: React.CSSProperties = { background: "linear-gradient(180deg,#7c3aed,#5b21b6)", color: "#ffffff", padding: "12px 22px", borderRadius: 10, fontSize: 13, fontWeight: 600, textDecoration: "none", display: "inline-block", letterSpacing: "0.01em" };
+const btnGhost: React.CSSProperties = { background: "#f5f3ff", border: "1px solid #ddd6fe", color: "#5b21b6", padding: "10px 18px", borderRadius: 10, fontSize: 13, fontWeight: 600, textDecoration: "none", display: "inline-block" };
+const meta: React.CSSProperties = { fontSize: 12, color: "#94a3b8", marginTop: 28, textAlign: "center", lineHeight: "20px" };
+const stat: React.CSSProperties = { display: "block", background: "#faf7ff", border: "1px solid #ede9fe", borderRadius: 10, padding: "12px 14px", margin: "8px 0", fontSize: 13, color: "#3b1f80" };
+const lineItem: React.CSSProperties = { fontSize: 13, lineHeight: "22px", color: "#334155", margin: "2px 0" };
+const totalBox: React.CSSProperties = { background: "linear-gradient(135deg,#ede9fe,#f5f3ff)", border: "1px solid #c4b5fd", borderRadius: 12, padding: "16px 18px", margin: "14px 0", color: "#3b1f80" };
 
 function Shell({ preview, children }: { preview: string; children: React.ReactNode }) {
   return (
@@ -35,10 +35,10 @@ function Shell({ preview, children }: { preview: string; children: React.ReactNo
           <Text style={logo}>{BRAND}</Text>
           <Section style={card}>{children}</Section>
           <Text style={meta}>
-            <strong style={{ color: "#cdd3e0" }}>{BRAND}</strong><br />
+            <strong style={{ color: "#334155" }}>{BRAND}</strong><br />
             Registration No: {REG_NO}<br />
-            {ADDRESS} · <Link href={`mailto:${SUPPORT_EMAIL}`} style={{ color: "#d6b46a" }}>{SUPPORT_EMAIL}</Link> · <Link href={WEBSITE} style={{ color: "#d6b46a" }}>softbridgefze.com</Link><br />
-            <Link href={WA} style={{ color: "#d6b46a" }}>WhatsApp +971 50 242 9035</Link>
+            {ADDRESS} · <Link href={`mailto:${SUPPORT_EMAIL}`} style={{ color: "#6d28d9" }}>{SUPPORT_EMAIL}</Link> · <Link href={WEBSITE} style={{ color: "#6d28d9" }}>softbridge.ae</Link><br />
+            <Link href={WA} style={{ color: "#6d28d9" }}>WhatsApp +971 50 242 9035</Link>
           </Text>
         </Container>
       </Body>

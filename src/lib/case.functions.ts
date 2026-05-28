@@ -91,7 +91,7 @@ export const updateStage = createServerFn({ method: "POST" })
         const meta = STAGE_META[data.stageKey as StageKey];
         let host = "";
         try { host = getRequestHost(); } catch { /* noop */ }
-        const portalUrl = host ? `https://${host}/portal` : "https://softbridgefze.com/portal";
+        const portalUrl = host ? `https://${host}/portal` : "https://softbridge.ae/portal";
 
         // Find next non-completed stage label
         const { data: nextStage } = await supabaseAdmin

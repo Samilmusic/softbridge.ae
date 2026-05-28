@@ -25,9 +25,9 @@ function generateCode() {
 function originFromRequest(): string {
   try {
     const host = getRequestHost();
-    return host ? `https://${host}` : "https://softbridgefze.com";
+    return host ? `https://${host}` : "https://softbridge.ae";
   } catch {
-    return "https://softbridgefze.com";
+    return "https://softbridge.ae";
   }
 }
 
@@ -38,7 +38,7 @@ const step1Schema = z.object({
   nationality: z.string().trim().min(1).max(100),
 });
 
-const internalEmail = "info@softbridgefze.com";
+const internalEmail = "noreply@softbridge.ae";
 
 async function issueOtp(email: string, name: string) {
   const since = new Date(Date.now() - 60 * 60 * 1000).toISOString();

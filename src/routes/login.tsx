@@ -2,11 +2,14 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import * as React from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
+import { useServerFn } from "@tanstack/react-start";
+import { startLogin, verifyLoginOtp } from "@/lib/login.functions";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { toast } from "sonner";
-import { Loader2, Mail, Sparkles } from "lucide-react";
+import { Loader2, Mail, Sparkles, ShieldCheck } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 
 export const Route = createFileRoute("/login")({ component: LoginPage });
@@ -15,25 +18,46 @@ function LoginPage() {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const [email, setEmail] = React.useState("");
+  const [code, setCode] = React.useState("");
+  const [step, setStep] = React.useState<1 | 2>(1);
   const [loading, setLoading] = React.useState(false);
-  const [sent, setSent] = React.useState(false);
+  const startFn = useServerFn(startLogin);
+  const verifyFn = useServerFn(verifyLoginOtp);
 
   React.useEffect(() => {
     if (isAuthenticated) navigate({ to: "/portal", replace: true });
   }, [isAuthenticated, navigate]);
 
-  const sendMagic = async (e: React.FormEvent) => {
+  const send = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signInWithOtp({
+      await startFn({ data: { email } });
+      setStep(2);
+      toast.success("If an account exists, a code was just sent.");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not send code");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const verify = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const res = await verifyFn({ data: { email, code } });
+      if (!res.tokenHash) throw new Error("Invalid session token.");
+      const { error } = await supabase.auth.verifyOtp({
+        type: "magiclink",
         email,
-        options: { emailRedirectTo: `${window.location.origin}/portal` },
+        token_hash: res.tokenHash,
       });
       if (error) throw error;
-      setSent(true);
+      toast.success("Welcome back.");
+      navigate({ to: "/portal", replace: true });
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Could not send link");
+      toast.error(err instanceof Error ? err.message : "Verification failed");
     } finally {
       setLoading(false);
     }
@@ -52,22 +76,20 @@ function LoginPage() {
       <div className="w-full max-w-md glass-strong rounded-3xl p-8 border border-white/10">
         <Link to="/" className="text-[11px] uppercase tracking-[0.25em] text-gold">Soft Bridge</Link>
         <h1 className="font-display text-2xl text-foreground mt-3">Client portal access</h1>
-        <p className="text-sm text-muted-foreground mt-2">Secure passwordless sign-in. We'll send a magic link to your inbox.</p>
+        <p className="text-sm text-muted-foreground mt-2">
+          {step === 1
+            ? "Enter your email and we'll send a 6-digit secure login code."
+            : `We sent a 6-digit code to ${email}.`}
+        </p>
 
-        {sent ? (
-          <div className="mt-6 p-5 rounded-2xl border border-gold/30 bg-gold/5 text-center">
-            <Mail className="w-8 h-8 text-gold mx-auto mb-2" />
-            <p className="text-sm text-foreground">Magic link sent to <span className="font-medium">{email}</span>.</p>
-            <p className="text-xs text-muted-foreground mt-1">Open the link from this device to sign in.</p>
-          </div>
-        ) : (
-          <form onSubmit={sendMagic} className="mt-6 grid gap-3">
+        {step === 1 ? (
+          <form onSubmit={send} className="mt-6 grid gap-3">
             <div>
               <Label htmlFor="em">Email</Label>
               <Input id="em" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@company.com" />
             </div>
             <Button type="submit" disabled={loading} className="w-full">
-              {loading ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Sending…</> : <><Sparkles className="w-4 h-4 mr-2" />Send magic link</>}
+              {loading ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Sending…</> : <><Sparkles className="w-4 h-4 mr-2" />Send secure code</>}
             </Button>
             <div className="relative my-1">
               <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-white/10" /></div>
@@ -78,8 +100,32 @@ function LoginPage() {
               Continue with Google
             </Button>
           </form>
+        ) : (
+          <form onSubmit={verify} className="mt-6 grid gap-4">
+            <div className="flex justify-center">
+              <InputOTP maxLength={6} value={code} onChange={setCode}>
+                <InputOTPGroup>
+                  <InputOTPSlot index={0} />
+                  <InputOTPSlot index={1} />
+                  <InputOTPSlot index={2} />
+                  <InputOTPSlot index={3} />
+                  <InputOTPSlot index={4} />
+                  <InputOTPSlot index={5} />
+                </InputOTPGroup>
+              </InputOTP>
+            </div>
+            <Button type="submit" disabled={loading || code.length !== 6} className="w-full">
+              {loading ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Verifying…</> : <><ShieldCheck className="w-4 h-4 mr-2" />Verify & sign in</>}
+            </Button>
+            <button type="button" onClick={() => { setStep(1); setCode(""); }} className="text-xs text-muted-foreground hover:text-foreground transition">
+              ← Use a different email
+            </button>
+          </form>
         )}
-        <p className="text-[11px] text-muted-foreground text-center mt-6">By signing in you agree to Soft Bridge's terms. <Link to="/" className="text-foreground/70 hover:text-foreground">Back to site</Link></p>
+
+        <p className="text-[11px] text-muted-foreground text-center mt-6">
+          Emails are sent from <span className="text-foreground/70">noreply@softbridge.ae</span> · <Link to="/" className="text-foreground/70 hover:text-foreground">Back to site</Link>
+        </p>
       </div>
     </div>
   );

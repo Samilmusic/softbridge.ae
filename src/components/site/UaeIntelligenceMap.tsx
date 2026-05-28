@@ -624,18 +624,19 @@ function ScoreBar({ value, max = 5 }: { value: number; max?: number }) {
 
 function ZoneDetail({ z, onCompare, inCompare, aiScore }: { z: Zone; onCompare: () => void; inCompare: boolean; aiScore: number }) {
   return (
-    <div className="space-y-7">
+    <div className="space-y-8">
       {/* Header with logo */}
-      <div className="flex items-start gap-4">
-        <div className="h-14 w-14 rounded-2xl flex items-center justify-center font-display text-lg font-semibold text-white shadow-[0_10px_24px_-6px_var(--glow-primary)] shrink-0"
+      <div className="flex items-start gap-5">
+        <div className="h-16 w-16 rounded-2xl flex items-center justify-center font-display text-xl font-semibold text-white shadow-[0_14px_30px_-8px_var(--glow-primary)] shrink-0"
              style={{ background: "linear-gradient(135deg, var(--primary), var(--accent))" }}>
           {z.name.slice(0, 2).toUpperCase()}
         </div>
         <div className="flex-1 min-w-0">
-          <div className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">{z.emirate}</div>
-          <h3 className="font-display text-[28px] leading-[1.1] tracking-tight mt-0.5">{z.name}</h3>
+          <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{z.emirate}</div>
+          <h3 className="font-display text-[32px] leading-[1.05] tracking-tight mt-1">{z.name}</h3>
         </div>
       </div>
+
 
       {/* AI score band */}
       <div className="flex items-center justify-between rounded-2xl px-4 py-3 border"

@@ -14,6 +14,7 @@ import { Contact } from "@/components/site/Contact";
 import { Footer } from "@/components/site/Footer";
 import { FloatingActions } from "@/components/site/FloatingActions";
 import { AiAdvisorTeaser } from "@/components/site/AiAdvisorTeaser";
+import { AiCommandCenter } from "@/components/site/AiCommandCenter";
 
 import { useReveal } from "@/hooks/use-reveal";
 
@@ -36,6 +37,8 @@ function Index() {
         <Hero />
         <WhatWeDo />
         <AiAdvisorTeaser />
+        <AiCommandCenter />
+
 
         <RemoteSetupTeaser />
         <Process />

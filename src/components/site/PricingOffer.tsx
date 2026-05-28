@@ -1,6 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import { Check, ArrowRight, Sparkles, Globe } from "lucide-react";
 
+interface PricingOfferProps {
+  id?: string;
+  onStartSetup?: () => void;
+}
+
 const TIERS = [
   {
     title: "Starter UAE Setup",

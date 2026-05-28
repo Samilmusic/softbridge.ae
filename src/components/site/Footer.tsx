@@ -71,7 +71,7 @@ export function Footer() {
           </div>
           <div className="flex items-center gap-5">
             <a href="/privacy-policy" className="hover:text-foreground transition">Privacy Policy</a>
-            <a href="#" className="hover:text-foreground transition">Terms &amp; Conditions</a>
+            <a href="/terms" className="hover:text-foreground transition">Terms & Conditions</a>
             <div className="flex items-center gap-2 pl-3 border-l border-white/10">
               <a href={WA_LINK} aria-label="WhatsApp" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full glass flex items-center justify-center hover:border-gold/40 transition"><MessageCircle className="w-3.5 h-3.5" /></a>
               <a href="#" aria-label="LinkedIn" className="w-8 h-8 rounded-full glass flex items-center justify-center hover:border-gold/40 transition"><Linkedin className="w-3.5 h-3.5" /></a>

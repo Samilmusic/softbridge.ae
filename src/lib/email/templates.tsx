@@ -204,3 +204,89 @@ export const InternalQuoteNotice = (q: InternalQuoteProps) => (
     <Text style={p}>Reach out within 1 business day to confirm scope and convert.</Text>
   </Shell>
 );
+
+// 8. OTP verification
+export interface OtpProps { name: string; code: string; expiresMinutes: number; }
+const otpBox: React.CSSProperties = {
+  fontFamily: "'JetBrains Mono', 'Courier New', monospace",
+  fontSize: 34,
+  letterSpacing: "0.5em",
+  fontWeight: 700,
+  color: "#ffffff",
+  textAlign: "center",
+  background: "linear-gradient(135deg, rgba(214,180,106,0.18), rgba(214,180,106,0.04))",
+  border: "1px solid rgba(214,180,106,0.45)",
+  borderRadius: 14,
+  padding: "22px 14px",
+  margin: "18px 0",
+};
+export const OtpEmail = ({ name, code, expiresMinutes }: OtpProps) => (
+  <Shell preview="Your Soft Bridge verification code">
+    <Heading style={h1}>Verify your email, {name}.</Heading>
+    <Text style={sub}>Use this verification code to continue setting up your Soft Bridge client portal.</Text>
+    <Text style={otpBox}>{code}</Text>
+    <Text style={{ ...p, color: "#9aa3b6", fontSize: 12, textAlign: "center" }}>
+      This code expires in {expiresMinutes} minutes and can be used only once.
+    </Text>
+    <Hr style={{ borderColor: "rgba(255,255,255,0.08)", margin: "18px 0" }} />
+    <Text style={{ ...p, color: "#7c8499", fontSize: 12 }}>
+      For your security, never share this code with anyone — not even a Soft Bridge representative.
+      If you didn't request this, you can safely ignore this email.
+    </Text>
+  </Shell>
+);
+
+// 9. Setup request received (post-onboarding)
+export interface SetupReceivedProps {
+  name: string;
+  jurisdiction?: string;
+  activity?: string;
+  visas?: number;
+  goals?: string[];
+  portalUrl: string;
+  bookingUrl: string;
+}
+export const SetupReceivedEmail = ({ name, jurisdiction, activity, visas, goals, portalUrl, bookingUrl }: SetupReceivedProps) => (
+  <Shell preview="We received your UAE business setup request">
+    <Heading style={h1}>Thank you, {name}.</Heading>
+    <Text style={sub}>Your UAE business setup request has been received. A dedicated consultant will review your profile and reach out within one business day.</Text>
+    {activity && <span style={stat}>🏢 <strong>Activity:</strong> {activity}</span>}
+    {jurisdiction && <span style={stat}>🏛 <strong>Preferred jurisdiction:</strong> {jurisdiction}</span>}
+    {typeof visas === "number" && visas > 0 && <span style={stat}>🛂 <strong>Visas:</strong> {visas}</span>}
+    {goals && goals.length > 0 && <span style={stat}>🎯 <strong>What matters most:</strong> {goals.join(" · ")}</span>}
+    <Section style={{ marginTop: 18 }}>
+      <Button href={portalUrl} style={btn}>Open my portal</Button>
+      &nbsp;&nbsp;
+      <Button href={bookingUrl} style={btnGhost}>Book consultation</Button>
+    </Section>
+  </Shell>
+);
+
+// 10. Internal — new setup submitted
+export interface InternalSetupProps {
+  name: string; email: string; whatsapp?: string; nationality?: string;
+  activity?: string; jurisdiction?: string; visas?: number;
+  residency?: string; bank?: string; tax?: string; office?: string;
+  website?: boolean; goals?: string[];
+}
+export const InternalSetupNotice = (s: InternalSetupProps) => (
+  <Shell preview={`New setup request from ${s.name}`}>
+    <Heading style={h1}>New setup request</Heading>
+    <span style={stat}><strong>{s.name}</strong> · {s.email}{s.whatsapp ? ` · ${s.whatsapp}` : ""}{s.nationality ? ` · ${s.nationality}` : ""}</span>
+    {s.activity && <span style={stat}>🏢 {s.activity}</span>}
+    {s.jurisdiction && <span style={stat}>🏛 {s.jurisdiction}{typeof s.visas === "number" ? ` · ${s.visas} visas` : ""}</span>}
+    {(s.residency || s.bank || s.tax) && (
+      <span style={stat}>
+        {s.residency ? `Residency: ${s.residency}` : ""}{s.bank ? ` · Bank: ${s.bank}` : ""}{s.tax ? ` · Tax: ${s.tax}` : ""}
+      </span>
+    )}
+    {(s.office || typeof s.website === "boolean") && (
+      <span style={stat}>
+        {s.office ? `Office: ${s.office}` : ""}{typeof s.website === "boolean" ? ` · Website: ${s.website ? "yes" : "no"}` : ""}
+      </span>
+    )}
+    {s.goals && s.goals.length > 0 && <span style={stat}>🎯 {s.goals.join(" · ")}</span>}
+    <Text style={p}>Reach out within 1 business day to confirm scope.</Text>
+  </Shell>
+);
+

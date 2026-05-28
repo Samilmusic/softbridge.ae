@@ -4,9 +4,10 @@ import * as React from "react";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import {
   BookingConfirmation, WelcomeMagicLink, DocumentRequest, StatusUpdate, Invoice,
-  QuoteEmail, InternalQuoteNotice,
+  QuoteEmail, InternalQuoteNotice, OtpEmail, SetupReceivedEmail, InternalSetupNotice,
   type BookingProps, type WelcomeProps, type DocRequestProps, type StatusUpdateProps,
   type InvoiceProps, type QuoteProps, type InternalQuoteProps,
+  type OtpProps, type SetupReceivedProps, type InternalSetupProps,
 } from "./templates";
 
 type Tpl =
@@ -16,7 +17,10 @@ type Tpl =
   | { name: "status_update"; subject: string; props: StatusUpdateProps }
   | { name: "invoice"; subject: string; props: InvoiceProps }
   | { name: "quote"; subject: string; props: QuoteProps }
-  | { name: "internal_quote_notice"; subject: string; props: InternalQuoteProps };
+  | { name: "internal_quote_notice"; subject: string; props: InternalQuoteProps }
+  | { name: "otp"; subject: string; props: OtpProps }
+  | { name: "setup_received"; subject: string; props: SetupReceivedProps }
+  | { name: "internal_setup_notice"; subject: string; props: InternalSetupProps };
 
 function renderTemplate(t: Tpl): React.ReactElement {
   switch (t.name) {
@@ -27,8 +31,12 @@ function renderTemplate(t: Tpl): React.ReactElement {
     case "invoice":              return React.createElement(Invoice, t.props);
     case "quote":                return React.createElement(QuoteEmail, t.props);
     case "internal_quote_notice":return React.createElement(InternalQuoteNotice, t.props);
+    case "otp":                  return React.createElement(OtpEmail, t.props);
+    case "setup_received":       return React.createElement(SetupReceivedEmail, t.props);
+    case "internal_setup_notice":return React.createElement(InternalSetupNotice, t.props);
   }
 }
+
 
 export interface SendOpts {
   caseId?: string | null;

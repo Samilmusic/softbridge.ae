@@ -1,11 +1,14 @@
+import { useState } from "react";
 import { ArrowRight, MessageCircle, Sparkles } from "lucide-react";
 import { WA_LINK } from "@/lib/site";
 import { Counter } from "./Counter";
 import { Skyline } from "./Skyline";
 import { Particles } from "./Particles";
 import { HeroMockup } from "./HeroMockup";
+import { OnboardingDialog } from "./OnboardingDialog";
 
 const TRUST = ["UAE-Based", "Long-Term Support", "Compliance Focused", "International Clients"];
+
 
 const STATS = [
   { value: 5, suffix: "+", label: "Years of Regional Experience" },
@@ -15,8 +18,12 @@ const STATS = [
 ];
 
 export function Hero() {
+  const [onboarding, setOnboarding] = useState(false);
   return (
+    <>
     <section id="home" className="relative min-h-[100svh] pt-28 md:pt-36 pb-16 overflow-hidden">
+
+
       {/* layered backgrounds */}
       <div aria-hidden className="absolute inset-0 grid-pattern opacity-[0.18] [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_75%)]" />
       <div aria-hidden className="absolute -top-40 left-1/2 -translate-x-1/2 w-[1100px] h-[1100px] rounded-full bg-gradient-to-br from-amber-500/10 via-indigo-500/5 to-transparent blur-3xl" />
@@ -44,15 +51,14 @@ export function Hero() {
           </p>
 
           <div className="mt-9 flex flex-wrap items-center gap-3">
-            <a
-              href={WA_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => setOnboarding(true)}
               className="group relative inline-flex items-center gap-2 rounded-full gold-gradient px-6 py-3.5 text-sm font-semibold text-[oklch(0.15_0.02_260)] hover:opacity-95 transition shadow-[0_20px_60px_-15px_oklch(0.84_0.10_82/0.5)]"
             >
               Start Your Setup
               <ArrowRight className="w-4 h-4 transition group-hover:translate-x-0.5" />
-            </a>
+            </button>
+
             <a
               href={WA_LINK}
               target="_blank"
@@ -96,5 +102,8 @@ export function Hero() {
         </div>
       </div>
     </section>
+    <OnboardingDialog open={onboarding} onOpenChange={setOnboarding} />
+    </>
   );
 }
+

@@ -363,6 +363,105 @@ export type Database = {
         }
         Relationships: []
       }
+      onboarding_submissions: {
+        Row: {
+          bank_account_required: string | null
+          business_activity: string | null
+          client_id: string | null
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          nationality: string | null
+          number_of_visas: number | null
+          office_requirement: string | null
+          preferred_jurisdiction: string | null
+          residency_required: string | null
+          setup_goals: string[] | null
+          status: string
+          tax_registration_required: string | null
+          updated_at: string
+          user_id: string | null
+          website_required: boolean | null
+          whatsapp: string | null
+        }
+        Insert: {
+          bank_account_required?: string | null
+          business_activity?: string | null
+          client_id?: string | null
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          nationality?: string | null
+          number_of_visas?: number | null
+          office_requirement?: string | null
+          preferred_jurisdiction?: string | null
+          residency_required?: string | null
+          setup_goals?: string[] | null
+          status?: string
+          tax_registration_required?: string | null
+          updated_at?: string
+          user_id?: string | null
+          website_required?: boolean | null
+          whatsapp?: string | null
+        }
+        Update: {
+          bank_account_required?: string | null
+          business_activity?: string | null
+          client_id?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          nationality?: string | null
+          number_of_visas?: number | null
+          office_requirement?: string | null
+          preferred_jurisdiction?: string | null
+          residency_required?: string | null
+          setup_goals?: string[] | null
+          status?: string
+          tax_registration_required?: string | null
+          updated_at?: string
+          user_id?: string | null
+          website_required?: boolean | null
+          whatsapp?: string | null
+        }
+        Relationships: []
+      }
+      otp_codes: {
+        Row: {
+          attempts: number
+          code_hash: string
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          purpose: string
+          used_at: string | null
+        }
+        Insert: {
+          attempts?: number
+          code_hash: string
+          created_at?: string
+          email: string
+          expires_at: string
+          id?: string
+          purpose?: string
+          used_at?: string | null
+        }
+        Update: {
+          attempts?: number
+          code_hash?: string
+          created_at?: string
+          email?: string
+          expires_at?: string
+          id?: string
+          purpose?: string
+          used_at?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string

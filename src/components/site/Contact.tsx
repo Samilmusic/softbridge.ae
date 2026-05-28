@@ -75,21 +75,28 @@ function FloatField({ id, label, value, onChange, type = "text", textarea, rows 
 export function Contact() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", activity: ACTIVITIES[0], message: "" });
   const [activityFocused, setActivityFocused] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (status !== "idle") return;
     if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
       toast.error("Please fill in name, email and message.");
       return;
     }
+    setStatus("sending");
     const text =
       `Hello Soft Bridge,%0A%0AName: ${encodeURIComponent(form.name)}` +
       `%0AEmail: ${encodeURIComponent(form.email)}` +
       `%0AWhatsApp: ${encodeURIComponent(form.phone)}` +
       `%0AActivity: ${encodeURIComponent(form.activity)}` +
       `%0A%0A${encodeURIComponent(form.message)}`;
+    // Small delay so the loading state is visible before WhatsApp opens
+    await new Promise((r) => setTimeout(r, 500));
     window.open(`https://wa.me/${SITE.phoneRaw}?text=${text}`, "_blank");
-    toast.success("Opening WhatsApp to send your inquiry…");
+    setStatus("sent");
+    toast.success("Opening WhatsApp — we'll respond within 1 business day.");
+    setTimeout(() => setStatus("idle"), 4000);
   };
 
   return (

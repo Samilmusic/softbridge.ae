@@ -11,6 +11,7 @@ const COLS = [
     { l: "Contact", h: "/#contact" },
   ]},
   { title: "Services", links: [
+    { l: "Remote UAE Setup", h: "/remote-company-setup" },
     { l: "Business Formation", h: "/services/business-formation" },
     { l: "Residency & Relocation", h: "/services/residency-relocation" },
     { l: "Banking Preparation", h: "/services/banking-preparation" },

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Menu, X, LayoutDashboard } from "lucide-react";
+import { Menu, X, LayoutDashboard, Calendar, FileText, Sparkles, ArrowRight } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { BookingDialog } from "@/components/site/BookingDialog";
 import { ThemeToggle } from "@/components/site/ThemeToggle";
@@ -29,6 +29,11 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
+
   return (
     <div className="fixed top-0 inset-x-0 z-50 px-3 md:px-5 pt-3 md:pt-5">
       <header
@@ -38,13 +43,13 @@ export function Header() {
             : "bg-white/[0.025] border border-white/5 backdrop-blur-md"
         }`}
       >
-        <div className="px-4 md:px-5 h-14 flex items-center justify-between">
-          <a href="#home" className="flex items-center gap-2.5 group">
-            <div className="relative w-8 h-8 rounded-lg gold-gradient flex items-center justify-center shadow-lg shadow-amber-500/10">
+        <div className="px-4 md:px-5 h-14 flex items-center justify-between gap-2">
+          <a href="#home" className="flex items-center gap-2.5 group min-w-0">
+            <div className="relative w-8 h-8 rounded-lg gold-gradient flex items-center justify-center shadow-lg shadow-amber-500/10 shrink-0">
               <span className="text-[13px] font-bold text-[oklch(0.15_0.02_260)]">SB</span>
             </div>
-            <div className="leading-tight hidden sm:block">
-              <div className="text-[13px] font-semibold tracking-tight text-foreground">Soft Bridge</div>
+            <div className="leading-tight hidden sm:block min-w-0">
+              <div className="text-[13px] font-semibold tracking-tight text-foreground truncate">Soft Bridge</div>
               <div className="text-[9px] uppercase tracking-[0.22em] text-muted-foreground">FZE LLC</div>
             </div>
           </a>
@@ -84,39 +89,123 @@ export function Header() {
 
             <ThemeToggle className="md:hidden" />
             <button
-              className="lg:hidden p-2 -mr-1 text-foreground"
-              onClick={() => setOpen((v) => !v)}
-              aria-label="Toggle menu"
+              className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/70 backdrop-blur ring-1 ring-violet-200 text-slate-900 hover:bg-white transition"
+              onClick={() => setOpen(true)}
+              aria-label="Open menu"
             >
-              {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              <Menu className="w-5 h-5" />
             </button>
           </div>
         </div>
-
-        {open && (
-          <div className="lg:hidden border-t border-white/10 rounded-b-3xl">
-            <nav className="px-5 py-5 flex flex-col gap-1">
-              {NAV.map((n) => (
-                <a
-                  key={n.href}
-                  href={n.href}
-                  onClick={() => setOpen(false)}
-                  className="text-sm py-2.5 px-3 rounded-lg text-muted-foreground hover:text-foreground hover:bg-white/[0.04]"
-                >
-                  {n.label}
-                </a>
-              ))}
-              <Link to={isAuthenticated ? "/portal" : "/login"} onClick={() => setOpen(false)} className="text-sm py-2.5 px-3 rounded-lg text-muted-foreground hover:text-foreground">{isAuthenticated ? "Client Portal" : "Sign in"}</Link>
-              <button
-                onClick={() => { setOpen(false); setBooking(true); }}
-                className="mt-2 inline-flex items-center justify-center rounded-full gold-gradient px-5 py-3 text-sm font-semibold text-[oklch(0.15_0.02_260)]"
-              >
-                Book Consultation
-              </button>
-            </nav>
-          </div>
-        )}
       </header>
+
+      {/* Mobile drawer */}
+      <div
+        className={`lg:hidden fixed inset-0 z-[60] transition-opacity duration-300 ${
+          open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+        aria-hidden={!open}
+      >
+        {/* Backdrop */}
+        <div
+          className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
+          onClick={() => setOpen(false)}
+        />
+
+        {/* Panel */}
+        <aside
+          className={`absolute right-0 top-0 bottom-0 w-[88%] max-w-[400px] bg-white/95 backdrop-blur-2xl shadow-[0_30px_100px_-20px_rgba(91,33,182,0.4)] ring-1 ring-violet-100 transition-transform duration-300 flex flex-col ${
+            open ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          {/* Ambient glow */}
+          <div aria-hidden className="pointer-events-none absolute -top-32 -right-20 w-80 h-80 rounded-full bg-violet-300/30 blur-3xl" />
+          <div aria-hidden className="pointer-events-none absolute -bottom-32 -left-20 w-80 h-80 rounded-full bg-fuchsia-300/25 blur-3xl" />
+
+          {/* Header */}
+          <div className="relative flex items-center justify-between px-5 py-4 border-b border-violet-100/70">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-violet-500/30">
+                <span className="text-[13px] font-bold text-white">SB</span>
+              </div>
+              <div className="leading-tight">
+                <div className="text-sm font-semibold text-slate-900">Soft Bridge</div>
+                <div className="text-[9px] uppercase tracking-[0.22em] text-violet-600">FZE LLC</div>
+              </div>
+            </div>
+            <button
+              onClick={() => setOpen(false)}
+              className="w-10 h-10 rounded-full bg-violet-50 hover:bg-violet-100 ring-1 ring-violet-200 flex items-center justify-center text-slate-700 transition"
+              aria-label="Close menu"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Nav */}
+          <nav className="relative flex-1 overflow-y-auto px-4 py-5">
+            <div className="text-[10px] uppercase tracking-[0.22em] text-violet-600 font-semibold px-2 mb-2">
+              Navigate
+            </div>
+            <ul className="space-y-1">
+              {NAV.map((n) => (
+                <li key={n.href}>
+                  <a
+                    href={n.href}
+                    onClick={() => setOpen(false)}
+                    className="group flex items-center justify-between px-4 py-3.5 rounded-2xl text-[15px] font-medium text-slate-800 hover:bg-violet-50 active:bg-violet-100 transition min-h-[48px]"
+                  >
+                    <span>{n.label}</span>
+                    <ArrowRight className="w-4 h-4 text-violet-400 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <div className="text-[10px] uppercase tracking-[0.22em] text-violet-600 font-semibold px-2 mt-6 mb-2">
+              Account
+            </div>
+            <ul className="space-y-1">
+              <li>
+                <Link
+                  to="/quote"
+                  onClick={() => setOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3.5 rounded-2xl text-[15px] font-medium text-slate-800 hover:bg-violet-50 transition min-h-[48px]"
+                >
+                  <FileText className="w-4 h-4 text-violet-600" />
+                  Get a Quote
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to={isAuthenticated ? "/portal" : "/login"}
+                  onClick={() => setOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3.5 rounded-2xl text-[15px] font-medium text-slate-800 hover:bg-violet-50 transition min-h-[48px]"
+                >
+                  <LayoutDashboard className="w-4 h-4 text-violet-600" />
+                  {isAuthenticated ? "Client Portal" : "Sign In"}
+                </Link>
+              </li>
+            </ul>
+          </nav>
+
+          {/* CTA footer */}
+          <div className="relative p-4 border-t border-violet-100/70 bg-white/50">
+            <button
+              onClick={() => { setOpen(false); setBooking(true); }}
+              className="w-full inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white text-[15px] font-semibold py-4 shadow-[0_15px_40px_-12px_rgba(124,58,237,0.6)] active:scale-[0.99] transition min-h-[52px]"
+            >
+              <Calendar className="w-4 h-4" />
+              Book Consultation
+            </button>
+            <div className="mt-3 flex items-center justify-center gap-1.5 text-[11px] text-slate-500">
+              <Sparkles className="w-3 h-3 text-violet-500" />
+              AI-powered UAE business setup
+            </div>
+          </div>
+        </aside>
+      </div>
+
       <BookingDialog open={booking} onOpenChange={setBooking} />
     </div>
   );

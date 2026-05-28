@@ -112,11 +112,11 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="glass-strong border-white/10 max-w-3xl p-0 overflow-hidden">
-        {/* Ambient gradient */}
+      <DialogContent className="bg-white/95 backdrop-blur-2xl border border-violet-100 max-w-3xl p-0 overflow-hidden shadow-[0_40px_120px_-30px_rgba(124,58,237,0.45)] rounded-3xl">
+        {/* Ambient lavender atmosphere */}
         <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute -top-32 -left-20 h-72 w-72 rounded-full bg-primary/25 blur-[120px]" />
-          <div className="absolute -bottom-24 -right-16 h-64 w-64 rounded-full bg-accent/20 blur-[120px]" />
+          <div className="absolute -top-32 -left-20 h-72 w-72 rounded-full bg-violet-300/30 blur-[120px]" />
+          <div className="absolute -bottom-24 -right-16 h-64 w-64 rounded-full bg-fuchsia-300/25 blur-[120px]" />
         </div>
 
         {done ? (

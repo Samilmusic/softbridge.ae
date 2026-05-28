@@ -976,9 +976,14 @@ export function UaeMap() {
               </svg>
               <div className="absolute top-1 left-2 text-[9px] tracking-[0.18em] uppercase text-muted-foreground">Mini-Map</div>
             </div>
+            )}
 
             {/* Legend */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-5 px-5 py-2.5 rounded-full border border-white/10 bg-[oklch(0.10_0.025_280/0.85)] backdrop-blur-xl text-[11px]">
+            <div className={`absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-3 sm:gap-5 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border text-[10px] sm:text-[11px] backdrop-blur-xl ${
+              mode === "federation"
+                ? "border-border bg-background/80 text-foreground"
+                : "border-white/10 bg-[oklch(0.10_0.025_280/0.85)]"
+            }`}>
               {([
                 ["Dubai", "violet"],
                 ["Abu Dhabi", "gold"],

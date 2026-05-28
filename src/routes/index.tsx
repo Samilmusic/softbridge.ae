@@ -17,6 +17,7 @@ import { AiAdvisorTeaser } from "@/components/site/AiAdvisorTeaser";
 import { AiCommandCenter } from "@/components/site/AiCommandCenter";
 import { WhereWeSetUp } from "@/components/site/WhereWeSetUp";
 import { LatestInsights } from "@/components/site/LatestInsights";
+import { PricingOffer } from "@/components/site/PricingOffer";
 
 import { useReveal } from "@/hooks/use-reveal";
 

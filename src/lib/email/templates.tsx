@@ -6,7 +6,7 @@ import {
 const BRAND = "Soft Bridge FZE LLC";
 const REG_NO = "262524808888";
 const ADDRESS = "Amber Gem Tower, Ajman, UAE";
-const SUPPORT_EMAIL = "noreply@softbridge.ae";
+const SUPPORT_EMAIL = "info@softbridge.ae";
 const WEBSITE = "https://softbridge.ae";
 const LOGO_URL = "https://softbridge.ae/logo-sb.png";
 const WA = "https://wa.me/971502429035";

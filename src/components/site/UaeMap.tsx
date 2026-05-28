@@ -1051,7 +1051,7 @@ export function UaeMap() {
                 >
                   <button
                     onClick={() => { setActiveId(null); setMode("emirate"); }}
-                    className="absolute top-4 right-4 z-10 w-7 h-7 rounded-full border border-white/10 bg-white/[0.04] flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-white/[0.08]"
+                    className="absolute top-4 right-4 z-10 w-7 h-7 rounded-full border border-border bg-background/60 backdrop-blur flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-primary/10 hover:border-primary/30"
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>

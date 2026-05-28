@@ -421,10 +421,11 @@ export function UaeIntelligenceMap() {
 
           {/* RIGHT — info panel */}
           <aside className={cn(
-            "glass-panel rounded-2xl p-5",
-            "lg:block",
+            "glass-panel rounded-3xl p-7 lg:p-8 shadow-[0_20px_60px_-25px_var(--glow-primary)]",
+            "lg:block lg:sticky lg:top-24",
             mobilePanel ? "block" : "hidden",
-          )}>
+          )}
+          style={{ borderColor: "var(--surface-border-strong)" }}>
             {compareZones.length === 2 ? (
               <CompareView a={compareZones[0]} b={compareZones[1]} onClose={() => setCompare([])} />
             ) : selected ? (
@@ -435,44 +436,79 @@ export function UaeIntelligenceMap() {
                 aiScore={scoreZone(selected, filters)}
               />
             ) : (
-              <div className="text-sm text-muted-foreground py-12 text-center">
+              <div className="text-sm text-muted-foreground py-16 text-center">
                 Tap any glowing node on the map to open its intelligence card.
               </div>
             )}
           </aside>
         </div>
 
-        {/* Ranked strip */}
-        <div className="mt-8 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
-          {ranked.slice(0, 6).map(({ z, s }) => (
-            <button
-              key={z.id}
-              onClick={() => selectZone(z.id)}
-              className={cn(
-                "text-left rounded-xl p-3 border transition-all hover:-translate-y-0.5 hover:shadow-lg",
-                selectedId === z.id ? "ring-2" : "",
-              )}
-              style={{
-                borderColor: "var(--surface-border)",
-                background: "var(--surface-tint-strong)",
-              }}
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] uppercase tracking-wider text-muted-foreground">{z.emirate}</span>
-                <span className="text-[10px] font-semibold" style={{ color: "var(--primary)" }}>{Math.min(99, Math.round(s))}</span>
-              </div>
-              <div className="font-display text-base mt-0.5">{z.name}</div>
-              <div className="text-[11px] text-muted-foreground mt-1">from AED {z.fromAED.toLocaleString()}</div>
-            </button>
-          ))}
+        {/* Premium horizontal card rail */}
+        <div className="mt-16 md:mt-20">
+          <div className="flex items-end justify-between mb-5">
+            <div>
+              <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Top matches</div>
+              <h3 className="font-display text-2xl md:text-3xl mt-1 tracking-tight">Ranked for your profile</h3>
+            </div>
+            <div className="hidden md:flex items-center gap-1.5 text-xs text-muted-foreground">
+              <span>scroll</span>
+              <ChevronRight className="size-3.5" />
+            </div>
+          </div>
+          <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4 uae-rail">
+            {ranked.map(({ z, s }) => (
+              <button
+                key={z.id}
+                onClick={() => selectZone(z.id)}
+                className={cn(
+                  "group snap-start shrink-0 w-[260px] text-left rounded-2xl p-5 border transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_-20px_var(--glow-primary)]",
+                  selectedId === z.id ? "ring-2 ring-[color:var(--primary)]" : "",
+                )}
+                style={{
+                  borderColor: "var(--surface-border-strong)",
+                  background: "linear-gradient(160deg, var(--surface-highlight), var(--surface-tint-soft))",
+                  backdropFilter: "blur(14px)",
+                }}
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <div className="h-11 w-11 rounded-xl flex items-center justify-center font-display text-base font-semibold text-white shadow-[0_8px_20px_-6px_var(--glow-primary)]"
+                       style={{ background: "linear-gradient(135deg, var(--primary), var(--accent))" }}>
+                    {z.name.slice(0, 2).toUpperCase()}
+                  </div>
+                  <div className="text-right">
+                    <div className="text-[9px] uppercase tracking-wider text-muted-foreground">AI</div>
+                    <div className="font-display text-lg leading-none" style={{ color: "var(--primary)" }}>{Math.min(99, Math.round(s))}</div>
+                  </div>
+                </div>
+                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{z.emirate}</div>
+                <div className="font-display text-xl mt-0.5 tracking-tight">{z.name}</div>
+                <div className="text-xs text-muted-foreground mt-1 line-clamp-2 min-h-[2.5rem]">{z.tagline}</div>
+                <div className="flex flex-wrap gap-1 mt-3">
+                  {z.bestFor.slice(0, 2).map((b) => (
+                    <span key={b} className="text-[10px] px-2 py-0.5 rounded-full border"
+                          style={{ borderColor: "var(--surface-border)", background: "white" }}>{b}</span>
+                  ))}
+                </div>
+                <div className="flex items-center justify-between mt-4 pt-3 border-t" style={{ borderColor: "var(--surface-border)" }}>
+                  <div>
+                    <div className="text-[10px] uppercase tracking-wider text-muted-foreground">From</div>
+                    <div className="font-display text-sm">AED {z.fromAED.toLocaleString()}</div>
+                  </div>
+                  <div className="text-xs font-medium inline-flex items-center gap-1 group-hover:gap-2 transition-all" style={{ color: "var(--primary)" }}>
+                    Open <ChevronRight className="size-3.5" />
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
       <style>{`
         .glass-panel {
           background: var(--surface-tint-strong);
-          backdrop-filter: blur(18px) saturate(140%);
-          -webkit-backdrop-filter: blur(18px) saturate(140%);
+          backdrop-filter: blur(20px) saturate(150%);
+          -webkit-backdrop-filter: blur(20px) saturate(150%);
           border: 1px solid var(--surface-border);
           box-shadow: 0 10px 40px -20px var(--surface-shadow);
         }
@@ -484,6 +520,23 @@ export function UaeIntelligenceMap() {
         .uae-pulse-strong{ transform-origin: center; transform-box: fill-box; animation: uae-pulse 2.2s ease-in-out infinite; }
         @keyframes uae-dash { to { stroke-dashoffset: -120; } }
         .uae-line { animation: uae-dash 14s linear infinite; }
+        .uae-rail::-webkit-scrollbar { height: 6px; }
+        .uae-rail::-webkit-scrollbar-thumb { background: color-mix(in oklab, var(--primary) 30%, transparent); border-radius: 999px; }
+        .uae-dust {
+          background-image:
+            radial-gradient(1.5px 1.5px at 12% 18%, color-mix(in oklab, var(--primary) 50%, transparent) 50%, transparent 60%),
+            radial-gradient(1px 1px at 78% 26%, color-mix(in oklab, var(--accent) 60%, transparent) 50%, transparent 60%),
+            radial-gradient(1.5px 1.5px at 32% 72%, color-mix(in oklab, var(--primary) 40%, transparent) 50%, transparent 60%),
+            radial-gradient(1px 1px at 64% 58%, color-mix(in oklab, var(--accent) 50%, transparent) 50%, transparent 60%),
+            radial-gradient(1.2px 1.2px at 88% 80%, color-mix(in oklab, var(--primary) 40%, transparent) 50%, transparent 60%),
+            radial-gradient(1px 1px at 8% 88%, color-mix(in oklab, var(--accent) 50%, transparent) 50%, transparent 60%);
+          opacity: 0.55;
+          animation: uae-drift 28s linear infinite;
+        }
+        @keyframes uae-drift {
+          from { background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0; }
+          to   { background-position: 40px -60px, -50px 40px, 60px 30px, -30px -50px, 50px -30px, -40px 60px; }
+        }
         @media (max-width: 1023px) {
           .uae-pulse, .uae-pulse-strong { animation-duration: 5s; }
         }
@@ -491,6 +544,7 @@ export function UaeIntelligenceMap() {
     </section>
   );
 }
+
 
 /* ------------------------------------------------------------------ */
 /*  Sub-views                                                          */

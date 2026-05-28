@@ -468,18 +468,34 @@ export function UaeIntelligenceMap() {
             </div>
           </div>
 
-          {/* RIGHT — info panel */}
+          {/* RIGHT — info panel (aligned with map height) */}
           <aside className={cn(
-            "glass-panel rounded-[28px] shadow-[0_20px_60px_-25px_var(--glow-primary)]",
-            "lg:block lg:sticky lg:top-24 lg:shrink-0",
-            mobilePanel ? "block" : "hidden",
+            "glass-panel rounded-[28px] shadow-[0_30px_80px_-30px_var(--glow-primary)]",
+            "lg:flex lg:flex-col lg:self-stretch lg:shrink-0",
+            mobilePanel ? "flex flex-col" : "hidden",
           )}
           style={{
             borderColor: "var(--surface-border-strong)",
             minWidth: "340px",
-            maxHeight: "calc(100vh - 8rem)",
           }}>
-            <div className="overflow-y-auto p-7 lg:p-9 uae-panel-scroll" style={{ maxHeight: "calc(100vh - 8rem)" }}>
+            <div className="overflow-y-auto p-8 lg:p-10 uae-panel-scroll flex-1">
+              {compareZones.length === 2 ? (
+                <CompareView a={compareZones[0]} b={compareZones[1]} onClose={() => setCompare([])} />
+              ) : selected ? (
+                <ZoneDetail
+                  z={selected}
+                  onCompare={() => toggleCompare(selected.id)}
+                  inCompare={compare.includes(selected.id)}
+                  aiScore={scoreZone(selected, filters)}
+                />
+              ) : (
+                <div className="text-sm text-muted-foreground py-16 text-center">
+                  Tap any glowing node on the map to open its intelligence card.
+                </div>
+              )}
+            </div>
+          </aside>
+
               {compareZones.length === 2 ? (
                 <CompareView a={compareZones[0]} b={compareZones[1]} onClose={() => setCompare([])} />
               ) : selected ? (

@@ -121,55 +121,53 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
 
         {done ? (
           <div className="p-10 text-center">
-            <div className="mx-auto w-16 h-16 rounded-full bg-primary/15 border border-primary/30 flex items-center justify-center mb-5 animate-in zoom-in-50 duration-500">
-              <CheckCircle2 className="w-8 h-8 text-primary" />
+            <div className="mx-auto w-16 h-16 rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center mb-5 animate-in zoom-in-50 duration-500 shadow-lg shadow-violet-500/40">
+              <CheckCircle2 className="w-8 h-8 text-white" />
             </div>
-            <h3 className="font-display text-2xl text-foreground">Your consultation has been scheduled.</h3>
-            <p className="text-sm text-muted-foreground mt-2">A confirmation has been sent to <span className="text-foreground">{form.email}</span>.</p>
+            <h3 className="font-display text-2xl text-slate-900">Your consultation has been scheduled.</h3>
+            <p className="text-sm text-slate-600 mt-2">A confirmation has been sent to <span className="text-slate-900 font-medium">{form.email}</span>.</p>
 
             <div className="mt-6 grid sm:grid-cols-3 gap-3 max-w-xl mx-auto">
-              <div className="glass rounded-xl p-4 text-left">
-                <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Date</div>
-                <div className="text-sm text-foreground mt-1">{date && format(date, "EEE, d MMM")}</div>
-              </div>
-              <div className="glass rounded-xl p-4 text-left">
-                <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Time</div>
-                <div className="text-sm text-foreground mt-1">{time && formatSlot(time)} GST</div>
-              </div>
-              <div className="glass rounded-xl p-4 text-left">
-                <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Method</div>
-                <div className="text-sm text-foreground mt-1">{methodLabel}</div>
-              </div>
+              {[
+                { label: "Date", value: date && format(date, "EEE, d MMM") },
+                { label: "Time", value: time ? `${formatSlot(time)} GST` : "" },
+                { label: "Method", value: methodLabel },
+              ].map((it) => (
+                <div key={it.label} className="rounded-xl bg-white ring-1 ring-violet-100 p-4 text-left shadow-sm">
+                  <div className="text-[10px] uppercase tracking-[0.2em] text-violet-600 font-semibold">{it.label}</div>
+                  <div className="text-sm text-slate-900 mt-1">{it.value}</div>
+                </div>
+              ))}
             </div>
 
             <div className="mt-6 flex flex-wrap gap-3 justify-center">
               {date && time && (
-                <Button asChild variant="outline" className="border-white/15">
+                <Button asChild variant="outline" className="border-violet-200 bg-white hover:bg-violet-50 text-slate-800">
                   <a href={buildCalendarUrl({ date, time, method: methodLabel, name: form.name })} target="_blank" rel="noreferrer">
                     <CalendarPlus className="w-4 h-4" /> Add to Calendar
                   </a>
                 </Button>
               )}
-              <Button asChild>
+              <Button asChild className="bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:opacity-95 text-white">
                 <a href="/portal"><ExternalLink className="w-4 h-4" /> Open Client Portal</a>
               </Button>
             </div>
           </div>
         ) : (
-          <div className="p-8 sm:p-10">
+          <div className="p-8 sm:p-10 max-h-[90vh] overflow-y-auto">
             {/* Header */}
             <div className="flex items-start justify-between gap-4 mb-6">
               <div>
-                <div className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.28em] text-primary/90 mb-2">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-50 ring-1 ring-violet-200 text-[10px] uppercase tracking-[0.22em] text-violet-700 font-semibold mb-3">
                   <Sparkles className="w-3 h-3" /> Premium scheduling
                 </div>
-                <h2 className="font-display text-2xl sm:text-3xl text-foreground leading-tight">Book a private consultation</h2>
-                <p className="text-sm text-muted-foreground mt-1.5">A 30–45 minute session with a senior UAE setup advisor.</p>
+                <h2 className="font-display text-2xl sm:text-3xl text-slate-900 leading-tight">Book a private consultation</h2>
+                <p className="text-sm text-slate-600 mt-1.5">A 30–45 minute session with a senior UAE setup advisor.</p>
               </div>
               {/* Stepper */}
-              <div className="hidden sm:flex items-center gap-2 text-xs text-muted-foreground">
-                <span className={cn("h-1.5 w-8 rounded-full transition-colors", step === 1 ? "bg-primary" : "bg-primary/40")} />
-                <span className={cn("h-1.5 w-8 rounded-full transition-colors", step === 2 ? "bg-primary" : "bg-white/10")} />
+              <div className="hidden sm:flex items-center gap-2">
+                <span className={cn("h-1.5 w-8 rounded-full transition-colors", step === 1 ? "bg-gradient-to-r from-violet-500 to-fuchsia-500" : "bg-violet-200")} />
+                <span className={cn("h-1.5 w-8 rounded-full transition-colors", step === 2 ? "bg-gradient-to-r from-violet-500 to-fuchsia-500" : "bg-violet-100")} />
               </div>
             </div>
 

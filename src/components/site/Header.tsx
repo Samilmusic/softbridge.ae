@@ -62,6 +62,12 @@ export function Header() {
 
           <div className="flex items-center gap-2">
             <Link
+              to="/quote"
+              className="hidden md:inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-[12px] text-gold hover:text-foreground transition"
+            >
+              Get a Quote
+            </Link>
+            <Link
               to={isAuthenticated ? "/portal" : "/login"}
               className="hidden md:inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-[12px] text-muted-foreground hover:text-foreground transition"
             >
@@ -73,6 +79,7 @@ export function Header() {
             >
               Book Consultation
             </button>
+
             <button
               className="lg:hidden p-2 -mr-1 text-foreground"
               onClick={() => setOpen((v) => !v)}

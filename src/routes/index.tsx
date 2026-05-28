@@ -36,6 +36,7 @@ function Index() {
         <Hero />
         <WhatWeDo />
         <AiAdvisorTeaser />
+        <UaeIntelligence />
 
         <RemoteSetupTeaser />
         <Process />

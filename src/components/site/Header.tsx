@@ -46,13 +46,13 @@ export function Header() {
       >
         <div className="px-5 lg:px-6 h-14 lg:h-16 flex items-center justify-between gap-4">
           {/* Logo — fixed footprint */}
-          <a href="#home" className="flex items-center gap-2.5 group shrink-0 lg:w-[170px]">
+          <Link to="/" className="flex items-center gap-2.5 group shrink-0 lg:w-[170px]">
             <Logo size={36} glow />
             <div className="leading-tight hidden sm:block min-w-0">
               <div className="text-[13px] font-semibold tracking-tight text-foreground whitespace-nowrap">Soft Bridge</div>
               <div className="text-[9px] uppercase tracking-[0.22em] text-muted-foreground whitespace-nowrap">FZE LLC</div>
             </div>
-          </a>
+          </Link>
 
           {/* Center nav — single row, no wrap */}
           <nav className="hidden lg:flex items-center justify-center gap-1 flex-1 min-w-0">

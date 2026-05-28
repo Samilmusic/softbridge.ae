@@ -74,7 +74,7 @@ const BASE_ARTICLES: Article[] = [
     author: { name: "Soft Bridge Editorial", role: "UAE Formation Desk" },
     publishedAt: "2026-04-12",
     readingMinutes: 8,
-    cover: img("photo-1512453979798-5ea266f8880c"),
+    cover: dubaiFreeZonesCover,
     featured: true,
     trending: true,
     seo: {

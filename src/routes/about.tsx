@@ -23,6 +23,10 @@ import { Particles } from "@/components/site/Particles";
 import { FloatingActions } from "@/components/site/FloatingActions";
 import { useReveal } from "@/hooks/use-reveal";
 import { SITE, WA_LINK } from "@/lib/site";
+import aliImg from "@/assets/team/ali.png";
+import samilImg from "@/assets/team/samil.png";
+import chaiImg from "@/assets/team/chai.png";
+import mahiImg from "@/assets/team/mahi.png";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -73,10 +77,10 @@ const PORTAL_FEATURES = [
 ];
 
 const TEAM = [
-  { initials: "CH", name: "CHAI", role: "CEO", text: "Leads company operations, business development, and strategic growth.", accent: "from-amber-400/80 to-amber-200/80" },
-  { initials: "SA", name: "SAMIL", role: "Manager", text: "Manages client experience, operational systems, platform development, and project coordination.", accent: "from-indigo-400/80 to-violet-300/80" },
-  { initials: "AL", name: "ALI", role: "Sales", text: "Helps clients identify the right business setup solutions and operational structures.", accent: "from-cyan-400/80 to-sky-300/80" },
-  { initials: "MA", name: "MAHI", role: "Documents Processing", text: "Manages documentation workflows, application coordination, and processing operations.", accent: "from-emerald-400/80 to-teal-300/80" },
+  { initials: "CH", photo: chaiImg, name: "CHAI", role: "CEO", text: "Leads company operations, business development, and strategic growth.", accent: "from-amber-400/80 to-amber-200/80" },
+  { initials: "SA", photo: samilImg, name: "SAMIL", role: "Manager", text: "Manages client experience, operational systems, platform development, and project coordination.", accent: "from-indigo-400/80 to-violet-300/80" },
+  { initials: "AL", photo: aliImg, name: "ALI", role: "Sales", text: "Helps clients identify the right business setup solutions and operational structures.", accent: "from-cyan-400/80 to-sky-300/80" },
+  { initials: "MA", photo: mahiImg, name: "MAHI", role: "Documents Processing", text: "Manages documentation workflows, application coordination, and processing operations.", accent: "from-emerald-400/80 to-teal-300/80" },
 ];
 
 const DIFFERENTIATORS = [
@@ -357,8 +361,8 @@ function AboutPage() {
                     style={{ background: "radial-gradient(420px circle at 50% 0%, oklch(0.84 0.10 82 / 0.12), transparent 60%)" }}
                   />
                   <div className="relative">
-                    <div className={`mx-auto w-24 h-24 rounded-2xl bg-gradient-to-br ${m.accent} flex items-center justify-center text-[oklch(0.15_0.02_260)] text-xl font-bold shadow-[0_20px_60px_-20px_oklch(0_0_0/0.6)] group-hover:scale-105 transition`}>
-                      {m.initials}
+                    <div className="mx-auto w-28 h-28 rounded-full overflow-hidden ring-1 ring-white/15 shadow-[0_20px_60px_-20px_oklch(0_0_0/0.6)] group-hover:scale-105 transition bg-gradient-to-br from-white/10 to-white/0">
+                      <img src={m.photo} alt={m.name} loading="lazy" className="w-full h-full object-cover" />
                     </div>
                     <div className="mt-5 text-center">
                       <div className="text-[15px] font-semibold">{m.name}</div>

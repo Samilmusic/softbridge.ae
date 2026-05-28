@@ -1,6 +1,6 @@
 import * as React from "react";
 import {
-  Body, Container, Head, Heading, Html, Preview, Section, Text, Button, Hr, Link,
+  Body, Container, Head, Heading, Html, Img, Preview, Section, Text, Button, Hr, Link,
 } from "@react-email/components";
 
 const BRAND = "Soft Bridge FZE LLC";
@@ -8,6 +8,7 @@ const REG_NO = "262524808888";
 const ADDRESS = "Amber Gem Tower, Ajman, UAE";
 const SUPPORT_EMAIL = "noreply@softbridge.ae";
 const WEBSITE = "https://softbridge.ae";
+const LOGO_URL = "https://softbridge.ae/logo-sb.png";
 const WA = "https://wa.me/971502429035";
 
 const main: React.CSSProperties = { backgroundColor: "#f6f7fb", fontFamily: "Inter, Helvetica, Arial, sans-serif", color: "#0f172a", margin: 0, padding: 0 };
@@ -32,7 +33,10 @@ function Shell({ preview, children }: { preview: string; children: React.ReactNo
       <Preview>{preview}</Preview>
       <Body style={main}>
         <Container style={container}>
-          <Text style={logo}>{BRAND}</Text>
+          <Section style={{ textAlign: "center", padding: "8px 0 4px" }}>
+            <Img src={LOGO_URL} alt="Soft Bridge" width="56" height="56" style={{ display: "inline-block", borderRadius: 999 }} />
+          </Section>
+          <Text style={{ ...logo, textAlign: "center" }}>{BRAND}</Text>
           <Section style={card}>{children}</Section>
           <Text style={meta}>
             <strong style={{ color: "#334155" }}>{BRAND}</strong><br />

@@ -126,11 +126,11 @@ function PriceTile({
         highlight ? "glass-strong" : "glass-card"
       }`}
     >
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2 flex-wrap">
         <span className="text-[10px] uppercase tracking-[0.22em] text-gold font-medium">
           {zone}
         </span>
-        <span className="text-[9px] uppercase tracking-[0.18em] text-muted-foreground glass rounded-full px-2 py-0.5">
+        <span className="text-[9px] uppercase tracking-[0.18em] text-muted-foreground glass rounded-full px-2 py-0.5 whitespace-nowrap">
           {badge}
         </span>
       </div>

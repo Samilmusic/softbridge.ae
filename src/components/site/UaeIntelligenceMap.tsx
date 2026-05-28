@@ -659,6 +659,8 @@ export function UaeIntelligenceMap() {
         .uae-pulse-strong{ transform-origin: center; transform-box: fill-box; animation: uae-pulse 2.2s ease-in-out infinite; }
         @keyframes uae-dash { to { stroke-dashoffset: -120; } }
         .uae-line { animation: uae-dash 14s linear infinite; }
+        @keyframes uae-flow { to { stroke-dashoffset: -260; } }
+        .uae-flow { animation: uae-flow 6s linear infinite; }
         .uae-rail::-webkit-scrollbar { height: 6px; }
         .uae-rail::-webkit-scrollbar-thumb { background: color-mix(in oklab, var(--primary) 30%, transparent); border-radius: 999px; }
         .uae-panel-scroll::-webkit-scrollbar { width: 6px; }

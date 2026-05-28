@@ -1637,7 +1637,7 @@ function AbuDhabiFocusOverlay({
                   border: `1px solid ${AD_HEX}55`,
                   boxShadow: `0 4px 18px -6px ${AD_HEX}66`,
                   backdropFilter: "blur(8px)",
-                } as React.CSSProperties}
+                }}
               >
                 <span className="block font-semibold leading-tight">{n.name}</span>
                 {n.subtitle && (

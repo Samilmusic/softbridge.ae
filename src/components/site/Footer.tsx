@@ -64,10 +64,10 @@ export function Footer() {
 
       <div className="border-t border-white/10">
         <div className="mx-auto max-w-7xl px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-wrap">
             <span>© 2025 Soft Bridge FZE LLC. All Rights Reserved.</span>
             <span className="hidden md:inline text-gold">•</span>
-            <span className="hidden md:inline italic">Bridge to Your Success</span>
+            <span className="hidden md:inline tabular-nums">Reg. No: {SITE.registrationNumber}</span>
           </div>
           <div className="flex items-center gap-5">
             <a href="/privacy-policy" className="hover:text-foreground transition">Privacy Policy</a>

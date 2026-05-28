@@ -4,6 +4,10 @@ import {
 } from "@react-email/components";
 
 const BRAND = "Soft Bridge FZE LLC";
+const REG_NO = "262524808888";
+const ADDRESS = "Amber Gem Tower, Ajman, UAE";
+const SUPPORT_EMAIL = "info@softbridgefze.com";
+const WEBSITE = "https://softbridgefze.com";
 const WA = "https://wa.me/971502429035";
 
 const main: React.CSSProperties = { backgroundColor: "#0b0f1a", fontFamily: "Inter, Arial, sans-serif", color: "#e9ecf3" };

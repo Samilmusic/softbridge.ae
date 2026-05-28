@@ -21,7 +21,7 @@ export function Hero() {
   const [onboarding, setOnboarding] = useState(false);
   return (
     <>
-    <section id="home" className="relative min-h-[100svh] pt-28 md:pt-36 pb-16 overflow-hidden">
+    <section id="home" className="relative min-h-[92svh] pt-28 md:pt-36 pb-8 md:pb-10 overflow-hidden">
 
 
       {/* layered backgrounds */}
@@ -30,7 +30,6 @@ export function Hero() {
       <div aria-hidden className="absolute top-32 -left-40 w-[420px] h-[420px] rounded-full bg-amber-400/10 blur-3xl animate-float-slow" />
       <div aria-hidden className="absolute top-60 -right-40 w-[460px] h-[460px] rounded-full bg-indigo-500/10 blur-3xl animate-float-slow" style={{ animationDelay: "3s" }} />
       <Particles count={26} />
-      <img src={dubaiSkyline} alt="Dubai skyline" aria-hidden className="pointer-events-none select-none absolute inset-x-0 bottom-0 w-full h-[55%] object-contain object-bottom opacity-95" />
 
       <div className="relative mx-auto max-w-7xl px-6 grid lg:grid-cols-12 gap-12 items-center">
         <div className="lg:col-span-7 reveal">

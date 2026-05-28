@@ -44,6 +44,10 @@ export function Footer() {
             <li className="flex items-start gap-2.5"><Phone className="w-4 h-4 mt-0.5 text-gold/80 flex-shrink-0" /><a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="hover:text-foreground">{SITE.phone}</a></li>
             <li className="flex items-start gap-2.5"><Mail className="w-4 h-4 mt-0.5 text-gold/80 flex-shrink-0" /><a href={`mailto:${SITE.email}`} className="hover:text-foreground">{SITE.email}</a></li>
           </ul>
+          <div className="mt-6 pt-4 border-t border-white/5 text-[11px] tracking-wide text-muted-foreground/80 leading-relaxed">
+            <div>{SITE.name}</div>
+            <div>Registration No: <span className="text-foreground/70 tabular-nums">{SITE.registrationNumber}</span></div>
+          </div>
         </div>
 
         {COLS.map((c) => (

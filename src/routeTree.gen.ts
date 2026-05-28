@@ -12,13 +12,16 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as UaqCompanyFormationRouteImport } from './routes/uaq-company-formation'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SharjahCompanyFormationRouteImport } from './routes/sharjah-company-formation'
+import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as RemoteCompanySetupRouteImport } from './routes/remote-company-setup'
 import { Route as RakCompanyFormationRouteImport } from './routes/rak-company-formation'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as FujairahCompanyFormationRouteImport } from './routes/fujairah-company-formation'
 import { Route as DubaiCompanyFormationRouteImport } from './routes/dubai-company-formation'
+import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AjmanCompanyFormationRouteImport } from './routes/ajman-company-formation'
 import { Route as AdvisorRouteImport } from './routes/advisor'
 import { Route as AbuDhabiCompanyFormationRouteImport } from './routes/abu-dhabi-company-formation'
@@ -32,6 +35,7 @@ import { Route as ServicesOperationalSupportRouteImport } from './routes/service
 import { Route as ServicesBusinessFormationRouteImport } from './routes/services.business-formation'
 import { Route as ServicesBankingPreparationRouteImport } from './routes/services.banking-preparation'
 import { Route as ServicesAmlComplianceRouteImport } from './routes/services.aml-compliance'
+import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
 import { Route as AuthenticatedPortalRouteImport } from './routes/_authenticated/portal'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ApiAdvisorChatRouteImport } from './routes/api/advisor.chat'
@@ -49,6 +53,11 @@ const TermsRoute = TermsRouteImport.update({
 const SharjahCompanyFormationRoute = SharjahCompanyFormationRouteImport.update({
   id: '/sharjah-company-formation',
   path: '/sharjah-company-formation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResourcesRoute = ResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RemoteCompanySetupRoute = RemoteCompanySetupRouteImport.update({
@@ -76,6 +85,11 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InsightsRoute = InsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FujairahCompanyFormationRoute =
   FujairahCompanyFormationRouteImport.update({
     id: '/fujairah-company-formation',
@@ -85,6 +99,11 @@ const FujairahCompanyFormationRoute =
 const DubaiCompanyFormationRoute = DubaiCompanyFormationRouteImport.update({
   id: '/dubai-company-formation',
   path: '/dubai-company-formation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AjmanCompanyFormationRoute = AjmanCompanyFormationRouteImport.update({
@@ -157,6 +176,11 @@ const ServicesAmlComplianceRoute = ServicesAmlComplianceRouteImport.update({
   path: '/services/aml-compliance',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InsightsSlugRoute = InsightsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => InsightsRoute,
+} as any)
 const AuthenticatedPortalRoute = AuthenticatedPortalRouteImport.update({
   id: '/portal',
   path: '/portal',
@@ -179,18 +203,22 @@ export interface FileRoutesByFullPath {
   '/abu-dhabi-company-formation': typeof AbuDhabiCompanyFormationRoute
   '/advisor': typeof AdvisorRoute
   '/ajman-company-formation': typeof AjmanCompanyFormationRoute
+  '/blog': typeof BlogRoute
   '/dubai-company-formation': typeof DubaiCompanyFormationRoute
   '/fujairah-company-formation': typeof FujairahCompanyFormationRoute
+  '/insights': typeof InsightsRouteWithChildren
   '/login': typeof LoginRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/quote': typeof QuoteRoute
   '/rak-company-formation': typeof RakCompanyFormationRoute
   '/remote-company-setup': typeof RemoteCompanySetupRoute
+  '/resources': typeof ResourcesRoute
   '/sharjah-company-formation': typeof SharjahCompanyFormationRoute
   '/terms': typeof TermsRoute
   '/uaq-company-formation': typeof UaqCompanyFormationRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/portal': typeof AuthenticatedPortalRoute
+  '/insights/$slug': typeof InsightsSlugRoute
   '/services/aml-compliance': typeof ServicesAmlComplianceRoute
   '/services/banking-preparation': typeof ServicesBankingPreparationRoute
   '/services/business-formation': typeof ServicesBusinessFormationRoute
@@ -206,18 +234,22 @@ export interface FileRoutesByTo {
   '/abu-dhabi-company-formation': typeof AbuDhabiCompanyFormationRoute
   '/advisor': typeof AdvisorRoute
   '/ajman-company-formation': typeof AjmanCompanyFormationRoute
+  '/blog': typeof BlogRoute
   '/dubai-company-formation': typeof DubaiCompanyFormationRoute
   '/fujairah-company-formation': typeof FujairahCompanyFormationRoute
+  '/insights': typeof InsightsRouteWithChildren
   '/login': typeof LoginRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/quote': typeof QuoteRoute
   '/rak-company-formation': typeof RakCompanyFormationRoute
   '/remote-company-setup': typeof RemoteCompanySetupRoute
+  '/resources': typeof ResourcesRoute
   '/sharjah-company-formation': typeof SharjahCompanyFormationRoute
   '/terms': typeof TermsRoute
   '/uaq-company-formation': typeof UaqCompanyFormationRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/portal': typeof AuthenticatedPortalRoute
+  '/insights/$slug': typeof InsightsSlugRoute
   '/services/aml-compliance': typeof ServicesAmlComplianceRoute
   '/services/banking-preparation': typeof ServicesBankingPreparationRoute
   '/services/business-formation': typeof ServicesBusinessFormationRoute
@@ -235,18 +267,22 @@ export interface FileRoutesById {
   '/abu-dhabi-company-formation': typeof AbuDhabiCompanyFormationRoute
   '/advisor': typeof AdvisorRoute
   '/ajman-company-formation': typeof AjmanCompanyFormationRoute
+  '/blog': typeof BlogRoute
   '/dubai-company-formation': typeof DubaiCompanyFormationRoute
   '/fujairah-company-formation': typeof FujairahCompanyFormationRoute
+  '/insights': typeof InsightsRouteWithChildren
   '/login': typeof LoginRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/quote': typeof QuoteRoute
   '/rak-company-formation': typeof RakCompanyFormationRoute
   '/remote-company-setup': typeof RemoteCompanySetupRoute
+  '/resources': typeof ResourcesRoute
   '/sharjah-company-formation': typeof SharjahCompanyFormationRoute
   '/terms': typeof TermsRoute
   '/uaq-company-formation': typeof UaqCompanyFormationRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/portal': typeof AuthenticatedPortalRoute
+  '/insights/$slug': typeof InsightsSlugRoute
   '/services/aml-compliance': typeof ServicesAmlComplianceRoute
   '/services/banking-preparation': typeof ServicesBankingPreparationRoute
   '/services/business-formation': typeof ServicesBusinessFormationRoute
@@ -264,18 +300,22 @@ export interface FileRouteTypes {
     | '/abu-dhabi-company-formation'
     | '/advisor'
     | '/ajman-company-formation'
+    | '/blog'
     | '/dubai-company-formation'
     | '/fujairah-company-formation'
+    | '/insights'
     | '/login'
     | '/privacy-policy'
     | '/quote'
     | '/rak-company-formation'
     | '/remote-company-setup'
+    | '/resources'
     | '/sharjah-company-formation'
     | '/terms'
     | '/uaq-company-formation'
     | '/admin'
     | '/portal'
+    | '/insights/$slug'
     | '/services/aml-compliance'
     | '/services/banking-preparation'
     | '/services/business-formation'
@@ -291,18 +331,22 @@ export interface FileRouteTypes {
     | '/abu-dhabi-company-formation'
     | '/advisor'
     | '/ajman-company-formation'
+    | '/blog'
     | '/dubai-company-formation'
     | '/fujairah-company-formation'
+    | '/insights'
     | '/login'
     | '/privacy-policy'
     | '/quote'
     | '/rak-company-formation'
     | '/remote-company-setup'
+    | '/resources'
     | '/sharjah-company-formation'
     | '/terms'
     | '/uaq-company-formation'
     | '/admin'
     | '/portal'
+    | '/insights/$slug'
     | '/services/aml-compliance'
     | '/services/banking-preparation'
     | '/services/business-formation'
@@ -319,18 +363,22 @@ export interface FileRouteTypes {
     | '/abu-dhabi-company-formation'
     | '/advisor'
     | '/ajman-company-formation'
+    | '/blog'
     | '/dubai-company-formation'
     | '/fujairah-company-formation'
+    | '/insights'
     | '/login'
     | '/privacy-policy'
     | '/quote'
     | '/rak-company-formation'
     | '/remote-company-setup'
+    | '/resources'
     | '/sharjah-company-formation'
     | '/terms'
     | '/uaq-company-formation'
     | '/_authenticated/admin'
     | '/_authenticated/portal'
+    | '/insights/$slug'
     | '/services/aml-compliance'
     | '/services/banking-preparation'
     | '/services/business-formation'
@@ -348,13 +396,16 @@ export interface RootRouteChildren {
   AbuDhabiCompanyFormationRoute: typeof AbuDhabiCompanyFormationRoute
   AdvisorRoute: typeof AdvisorRoute
   AjmanCompanyFormationRoute: typeof AjmanCompanyFormationRoute
+  BlogRoute: typeof BlogRoute
   DubaiCompanyFormationRoute: typeof DubaiCompanyFormationRoute
   FujairahCompanyFormationRoute: typeof FujairahCompanyFormationRoute
+  InsightsRoute: typeof InsightsRouteWithChildren
   LoginRoute: typeof LoginRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   QuoteRoute: typeof QuoteRoute
   RakCompanyFormationRoute: typeof RakCompanyFormationRoute
   RemoteCompanySetupRoute: typeof RemoteCompanySetupRoute
+  ResourcesRoute: typeof ResourcesRoute
   SharjahCompanyFormationRoute: typeof SharjahCompanyFormationRoute
   TermsRoute: typeof TermsRoute
   UaqCompanyFormationRoute: typeof UaqCompanyFormationRoute
@@ -389,6 +440,13 @@ declare module '@tanstack/react-router' {
       path: '/sharjah-company-formation'
       fullPath: '/sharjah-company-formation'
       preLoaderRoute: typeof SharjahCompanyFormationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources': {
+      id: '/resources'
+      path: '/resources'
+      fullPath: '/resources'
+      preLoaderRoute: typeof ResourcesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/remote-company-setup': {
@@ -426,6 +484,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/insights': {
+      id: '/insights'
+      path: '/insights'
+      fullPath: '/insights'
+      preLoaderRoute: typeof InsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/fujairah-company-formation': {
       id: '/fujairah-company-formation'
       path: '/fujairah-company-formation'
@@ -438,6 +503,13 @@ declare module '@tanstack/react-router' {
       path: '/dubai-company-formation'
       fullPath: '/dubai-company-formation'
       preLoaderRoute: typeof DubaiCompanyFormationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ajman-company-formation': {
@@ -531,6 +603,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesAmlComplianceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/insights/$slug': {
+      id: '/insights/$slug'
+      path: '/$slug'
+      fullPath: '/insights/$slug'
+      preLoaderRoute: typeof InsightsSlugRouteImport
+      parentRoute: typeof InsightsRoute
+    }
     '/_authenticated/portal': {
       id: '/_authenticated/portal'
       path: '/portal'
@@ -569,6 +648,18 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
   AuthenticatedRouteChildren,
 )
 
+interface InsightsRouteChildren {
+  InsightsSlugRoute: typeof InsightsSlugRoute
+}
+
+const InsightsRouteChildren: InsightsRouteChildren = {
+  InsightsSlugRoute: InsightsSlugRoute,
+}
+
+const InsightsRouteWithChildren = InsightsRoute._addFileChildren(
+  InsightsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
@@ -576,13 +667,16 @@ const rootRouteChildren: RootRouteChildren = {
   AbuDhabiCompanyFormationRoute: AbuDhabiCompanyFormationRoute,
   AdvisorRoute: AdvisorRoute,
   AjmanCompanyFormationRoute: AjmanCompanyFormationRoute,
+  BlogRoute: BlogRoute,
   DubaiCompanyFormationRoute: DubaiCompanyFormationRoute,
   FujairahCompanyFormationRoute: FujairahCompanyFormationRoute,
+  InsightsRoute: InsightsRouteWithChildren,
   LoginRoute: LoginRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   QuoteRoute: QuoteRoute,
   RakCompanyFormationRoute: RakCompanyFormationRoute,
   RemoteCompanySetupRoute: RemoteCompanySetupRoute,
+  ResourcesRoute: ResourcesRoute,
   SharjahCompanyFormationRoute: SharjahCompanyFormationRoute,
   TermsRoute: TermsRoute,
   UaqCompanyFormationRoute: UaqCompanyFormationRoute,

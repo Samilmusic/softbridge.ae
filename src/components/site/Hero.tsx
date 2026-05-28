@@ -100,5 +100,8 @@ export function Hero() {
         </div>
       </div>
     </section>
+    <OnboardingDialog open={onboarding} onOpenChange={setOnboarding} />
+    </>
   );
 }
+

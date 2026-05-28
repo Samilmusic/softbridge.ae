@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { Header } from "@/components/site/Header";
 import { Hero } from "@/components/site/Hero";
 import { WhatWeDo } from "@/components/site/WhatWeDo";
@@ -18,6 +19,7 @@ import { AiCommandCenter } from "@/components/site/AiCommandCenter";
 import { WhereWeSetUp } from "@/components/site/WhereWeSetUp";
 import { LatestInsights } from "@/components/site/LatestInsights";
 import { PricingOffer } from "@/components/site/PricingOffer";
+import { OnboardingDialog } from "@/components/site/OnboardingDialog";
 
 import { useReveal } from "@/hooks/use-reveal";
 

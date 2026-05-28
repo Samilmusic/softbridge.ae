@@ -896,7 +896,7 @@ export function UaeMap() {
                   initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
                   className="p-5 flex flex-col h-full"
                 >
-                  <EmirateHero em={focusEmirate} count={grouped[focusEmirate].length} />
+                  <EmiratePreviewCard em={focusEmirate} count={grouped[focusEmirate].length} />
                   <div className="overflow-y-auto custom-scroll pr-1 mt-4 space-y-2">
                     <div className="text-[10px] tracking-[0.22em] uppercase text-muted-foreground mb-2">
                       Jurisdictions in {focusEmirate}

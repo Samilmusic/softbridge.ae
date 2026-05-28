@@ -1336,7 +1336,7 @@ function StatCard({ value, label, tone }: { value: string; label: string; tone: 
   const c = TONE_HEX[tone];
   return (
     <div
-      className="group relative rounded-2xl border border-white/10 bg-[oklch(0.13_0.025_280/0.65)] backdrop-blur-xl p-5 overflow-hidden hover-lift"
+      className="group relative glass-card rounded-2xl p-5 overflow-hidden hover-lift"
       style={{ transition: "all .4s cubic-bezier(.22,1,.36,1)" }}
     >
       <div
@@ -1344,10 +1344,10 @@ function StatCard({ value, label, tone }: { value: string; label: string; tone: 
         style={{ background: `radial-gradient(circle, ${c}55, transparent 70%)` }}
       />
       <div className="relative">
-        <div className="text-3xl md:text-4xl font-display font-semibold" style={{ color: "#fff" }}>
+        <div className="text-3xl md:text-4xl font-display font-semibold text-foreground">
           {value}
         </div>
-        <div className="mt-1 text-[12px] tracking-[0.14em] uppercase text-muted-foreground">{label}</div>
+        <div className="mt-1 text-[12px] tracking-[0.14em] uppercase text-muted-foreground font-medium">{label}</div>
       </div>
       <div className="absolute bottom-0 left-0 right-0 h-px" style={{ background: `linear-gradient(90deg, transparent, ${c}80, transparent)` }} />
     </div>
@@ -1359,20 +1359,20 @@ function FeatureCard({
 }: { tone: Tone; Icon: typeof MapIcon; title: string; text: string }) {
   const c = TONE_HEX[tone];
   return (
-    <div className="group relative rounded-2xl border border-white/10 bg-[oklch(0.13_0.025_280/0.55)] backdrop-blur-xl p-5 overflow-hidden hover-lift">
+    <div className="group relative glass-card rounded-2xl p-5 overflow-hidden hover-lift">
       <div
-        className="absolute -top-10 -right-10 w-32 h-32 rounded-full opacity-40 group-hover:opacity-80 transition-opacity duration-500 blur-2xl"
+        className="absolute -top-10 -right-10 w-32 h-32 rounded-full opacity-30 group-hover:opacity-70 transition-opacity duration-500 blur-2xl"
         style={{ background: `radial-gradient(circle, ${c}55, transparent 70%)` }}
       />
       <div className="relative flex items-start gap-4">
         <div
-          className="w-12 h-12 rounded-2xl flex items-center justify-center border border-white/10 shrink-0"
+          className="w-12 h-12 rounded-2xl flex items-center justify-center border border-border shrink-0 bg-background/40"
           style={{ background: `radial-gradient(circle, ${c}33, transparent 70%)` }}
         >
           <Icon className="w-5 h-5" style={{ color: c }} />
         </div>
         <div>
-          <div className="font-display font-semibold text-base">{title}</div>
+          <div className="font-display font-semibold text-base text-foreground">{title}</div>
           <div className="text-[13px] text-muted-foreground mt-1 leading-relaxed">{text}</div>
         </div>
       </div>

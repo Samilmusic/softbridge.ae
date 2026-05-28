@@ -35,16 +35,16 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   useReveal();
+  const [onboarding, setOnboarding] = useState(false);
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
       <main>
         <Hero />
-        <PricingOffer id="offer" />
+        <PricingOffer id="offer" onStartSetup={() => setOnboarding(true)} />
         <WhatWeDo />
         <AiAdvisorTeaser />
-        <AiCommandCenter />
-
+        <AiCommandCenter onStartSetup={() => setOnboarding(true)} />
 
         <RemoteSetupTeaser />
         <WhereWeSetUp />
@@ -53,7 +53,7 @@ function Index() {
         <DigitalInfrastructure />
         <Recognition />
         <Packages />
-        <PricingOffer id="offer-repeat" />
+        <PricingOffer id="offer-repeat" onStartSetup={() => setOnboarding(true)} />
         <Testimonials />
         <LatestInsights />
         <FAQ />
@@ -61,6 +61,7 @@ function Index() {
       </main>
       <Footer />
       <FloatingActions />
+      <OnboardingDialog open={onboarding} onOpenChange={setOnboarding} />
     </div>
   );
 }

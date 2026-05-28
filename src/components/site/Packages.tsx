@@ -4,39 +4,46 @@ import { WA_LINK } from "@/lib/site";
 const TIERS = [
   {
     name: "Foundation",
-    tag: "For solo founders & freelancers",
+    bestFor: "Freelancers, consultants, remote businesses, solo founders.",
     features: [
-      "Business formation & licensing",
-      "Residency setup (1 person)",
-      "Banking preparation",
-      "AML readiness essentials",
-      "Starter website",
+      "UAE company setup",
+      "Basic documentation support",
+      "Establishment card",
+      "Residency support guidance",
+      "Basic compliance guidance",
     ],
+    price: "Starting From AED 12,900",
+    cta: "Explore Foundation",
   },
   {
     name: "Growth",
-    tag: "For online businesses & agencies",
+    bestFor: "Agencies, e-commerce companies, startups, digital businesses.",
     highlight: true,
     features: [
-      "Everything in Foundation",
-      "Multi-user residency",
-      "CRM & automation setup",
-      "Conversion-focused website",
-      "Google + Meta advertising launch",
-      "Quarterly compliance review",
+      "Business setup & structuring",
+      "Residency support",
+      "Banking preparation guidance",
+      "Tax registration support",
+      "Website & digital consultation",
+      "Operational assistance",
     ],
+    price: "Estimated AED 16,000 – 24,000",
+    badge: "Most Popular",
+    cta: "Explore Growth",
   },
   {
     name: "Expansion",
-    tag: "For international operations",
+    bestFor: "International companies, scaling businesses, multi-market operations.",
     features: [
-      "Everything in Growth",
-      "Multi-jurisdiction strategy",
-      "Advanced AML/CFT & UBO support",
-      "Dedicated account partner",
-      "Always-on ad management",
-      "Operational consulting retainer",
+      "Advanced business structuring",
+      "Multi-service coordination",
+      "Compliance support",
+      "Banking readiness planning",
+      "Operational consulting",
+      "Long-term infrastructure support",
     ],
+    price: "Custom Structured Pricing",
+    cta: "Schedule Strategy Call",
   },
 ];
 
@@ -46,15 +53,14 @@ export function Packages() {
       <div className="relative mx-auto max-w-7xl px-6">
         <div className="max-w-3xl reveal">
           <div className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-gold mb-5">
-            <span className="w-8 h-px bg-gold" /> Engagement Models
+            <span className="w-8 h-px bg-gold" /> Structured Business Setup Packages
           </div>
           <h2 className="text-3xl md:text-5xl font-semibold leading-[1.05]">
-            Structured Engagements,{" "}
-            <span className="gradient-text">Tailored to You</span>
+            Transparent Paths,{" "}
+            <span className="gradient-text">Designed for Growth</span>
           </h2>
           <p className="mt-5 text-muted-foreground max-w-2xl">
-            Three premium tiers designed to match your stage. Every engagement is scoped after a
-            consultation — no rigid packages, no hidden line items.
+            Transparent business setup paths designed around different operational needs, growth stages, and business goals.
           </p>
         </div>
 
@@ -76,12 +82,15 @@ export function Packages() {
                 <h3 className="text-xl font-semibold">{t.name}</h3>
                 <div className="text-[11px] uppercase tracking-[0.18em] text-gold">0{i + 1}</div>
               </div>
-              <div className="mt-1 text-sm text-muted-foreground">{t.tag}</div>
+
+              <div className="mt-5">
+                <div className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground mb-1.5">Best For</div>
+                <p className="text-sm text-foreground/80 leading-relaxed">{t.bestFor}</p>
+              </div>
 
               <div className="mt-6">
                 <div className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">Investment</div>
-                <div className="mt-1 text-2xl font-semibold gold-text-gradient">By Consultation</div>
-                <div className="mt-1 text-xs text-muted-foreground">Scoped after a 30-min discovery call.</div>
+                <div className="mt-1.5 text-2xl font-semibold gold-text-gradient">{t.price}</div>
               </div>
 
               <ul className="mt-6 space-y-2.5">
@@ -105,7 +114,7 @@ export function Packages() {
                     : "glass-strong text-foreground hover:border-gold/40"
                 }`}
               >
-                Schedule Consultation
+                {t.cta}
               </a>
             </div>
           ))}

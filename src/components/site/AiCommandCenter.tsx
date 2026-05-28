@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { OnboardingDialog } from "./OnboardingDialog";
 import {
   CheckCircle2,
   Circle,
@@ -95,6 +96,8 @@ function toneClasses(tone: string) {
 export function AiCommandCenter() {
   const [feedIdx, setFeedIdx] = useState(0);
   const [bankScore, setBankScore] = useState(0);
+  const [onboarding, setOnboarding] = useState(false);
+
 
   useEffect(() => {
     const id = setInterval(() => setFeedIdx((i) => (i + 1) % FEED.length), 2800);
@@ -115,6 +118,7 @@ export function AiCommandCenter() {
   const orderedFeed = [...FEED.slice(feedIdx), ...FEED.slice(0, feedIdx)];
 
   return (
+    <>
     <section
       id="command-center"
       className="relative overflow-hidden py-24 md:py-32"
@@ -152,17 +156,16 @@ export function AiCommandCenter() {
             From company formation to residency, banking, tax registration, website setup, and long-term support — Soft Bridge turns your UAE business journey into a transparent AI-powered command center.
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <Link
-              to="/"
-              hash="contact"
+            <button
+              type="button"
+              onClick={() => setOnboarding(true)}
               className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-slate-900 text-white font-medium shadow-[0_10px_40px_-10px_rgba(124,58,237,0.6)] hover:shadow-[0_15px_50px_-10px_rgba(124,58,237,0.8)] hover:-translate-y-0.5 transition-all"
             >
               Start Your Setup
               <ArrowRight className="w-4 h-4" />
-            </Link>
+            </button>
             <Link
-              to="/"
-              hash="contact"
+              to="/portal"
               className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-white/80 backdrop-blur ring-1 ring-slate-200 text-slate-900 font-medium hover:bg-white hover:ring-violet-300 transition-all"
             >
               View Client Portal
@@ -469,14 +472,14 @@ export function AiCommandCenter() {
             <div className="text-2xl md:text-3xl font-semibold max-w-xl">
               Ready to launch your UAE business with a real operating system?
             </div>
-            <Link
-              to="/"
-              hash="contact"
+            <button
+              type="button"
+              onClick={() => setOnboarding(true)}
               className="mt-2 inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-white text-slate-900 font-semibold hover:bg-violet-50 transition-all"
             >
               Start Your Setup
               <ArrowRight className="w-4 h-4" />
-            </Link>
+            </button>
           </div>
         </div>
       </div>
@@ -491,6 +494,8 @@ export function AiCommandCenter() {
         }
       `}</style>
     </section>
+    <OnboardingDialog open={onboarding} onOpenChange={setOnboarding} />
+    </>
   );
 }
 

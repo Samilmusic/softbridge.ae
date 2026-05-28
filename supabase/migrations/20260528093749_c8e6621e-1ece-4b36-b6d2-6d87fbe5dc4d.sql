@@ -1,0 +1,5 @@
+
+REVOKE EXECUTE ON FUNCTION public.seed_case_stages() FROM PUBLIC, anon, authenticated;
+REVOKE EXECUTE ON FUNCTION public.on_stage_change() FROM PUBLIC, anon, authenticated;
+REVOKE EXECUTE ON FUNCTION public.handle_new_user() FROM PUBLIC, anon, authenticated;
+REVOKE EXECUTE ON FUNCTION public.update_updated_at_column() FROM PUBLIC, anon, authenticated;

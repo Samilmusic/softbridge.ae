@@ -471,14 +471,14 @@ export function AiCommandCenter() {
             <div className="text-2xl md:text-3xl font-semibold max-w-xl">
               Ready to launch your UAE business with a real operating system?
             </div>
-            <Link
-              to="/"
-              hash="contact"
+            <button
+              type="button"
+              onClick={() => setOnboarding(true)}
               className="mt-2 inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-white text-slate-900 font-semibold hover:bg-violet-50 transition-all"
             >
               Start Your Setup
               <ArrowRight className="w-4 h-4" />
-            </Link>
+            </button>
           </div>
         </div>
       </div>

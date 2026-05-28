@@ -346,7 +346,7 @@ export function UaeMap() {
     const pxW = pxMaxX - pxMinX;
     const pxH = pxMaxY - pxMinY;
 
-    const reservePanel = mode === "emirate" ? 340 : 80;
+    const reservePanel = 80;
     const padX = 160;
     const padY = 170;
     const availW = Math.max(280, VW - reservePanel - padX * 2);

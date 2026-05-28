@@ -19,6 +19,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesWebAdvertisingRouteImport } from './routes/services.web-advertising'
+import { Route as ServicesUaeCompanyFormationLocationsRouteImport } from './routes/services.uae-company-formation-locations'
 import { Route as ServicesResidencyRelocationRouteImport } from './routes/services.residency-relocation'
 import { Route as ServicesOperationalSupportRouteImport } from './routes/services.operational-support'
 import { Route as ServicesBusinessFormationRouteImport } from './routes/services.business-formation'
@@ -77,6 +78,12 @@ const ServicesWebAdvertisingRoute = ServicesWebAdvertisingRouteImport.update({
   path: '/services/web-advertising',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicesUaeCompanyFormationLocationsRoute =
+  ServicesUaeCompanyFormationLocationsRouteImport.update({
+    id: '/services/uae-company-formation-locations',
+    path: '/services/uae-company-formation-locations',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ServicesResidencyRelocationRoute =
   ServicesResidencyRelocationRouteImport.update({
     id: '/services/residency-relocation',
@@ -138,6 +145,7 @@ export interface FileRoutesByFullPath {
   '/services/business-formation': typeof ServicesBusinessFormationRoute
   '/services/operational-support': typeof ServicesOperationalSupportRoute
   '/services/residency-relocation': typeof ServicesResidencyRelocationRoute
+  '/services/uae-company-formation-locations': typeof ServicesUaeCompanyFormationLocationsRoute
   '/services/web-advertising': typeof ServicesWebAdvertisingRoute
   '/api/advisor/chat': typeof ApiAdvisorChatRoute
 }
@@ -157,6 +165,7 @@ export interface FileRoutesByTo {
   '/services/business-formation': typeof ServicesBusinessFormationRoute
   '/services/operational-support': typeof ServicesOperationalSupportRoute
   '/services/residency-relocation': typeof ServicesResidencyRelocationRoute
+  '/services/uae-company-formation-locations': typeof ServicesUaeCompanyFormationLocationsRoute
   '/services/web-advertising': typeof ServicesWebAdvertisingRoute
   '/api/advisor/chat': typeof ApiAdvisorChatRoute
 }
@@ -178,6 +187,7 @@ export interface FileRoutesById {
   '/services/business-formation': typeof ServicesBusinessFormationRoute
   '/services/operational-support': typeof ServicesOperationalSupportRoute
   '/services/residency-relocation': typeof ServicesResidencyRelocationRoute
+  '/services/uae-company-formation-locations': typeof ServicesUaeCompanyFormationLocationsRoute
   '/services/web-advertising': typeof ServicesWebAdvertisingRoute
   '/api/advisor/chat': typeof ApiAdvisorChatRoute
 }
@@ -199,6 +209,7 @@ export interface FileRouteTypes {
     | '/services/business-formation'
     | '/services/operational-support'
     | '/services/residency-relocation'
+    | '/services/uae-company-formation-locations'
     | '/services/web-advertising'
     | '/api/advisor/chat'
   fileRoutesByTo: FileRoutesByTo
@@ -218,6 +229,7 @@ export interface FileRouteTypes {
     | '/services/business-formation'
     | '/services/operational-support'
     | '/services/residency-relocation'
+    | '/services/uae-company-formation-locations'
     | '/services/web-advertising'
     | '/api/advisor/chat'
   id:
@@ -238,6 +250,7 @@ export interface FileRouteTypes {
     | '/services/business-formation'
     | '/services/operational-support'
     | '/services/residency-relocation'
+    | '/services/uae-company-formation-locations'
     | '/services/web-advertising'
     | '/api/advisor/chat'
   fileRoutesById: FileRoutesById
@@ -257,6 +270,7 @@ export interface RootRouteChildren {
   ServicesBusinessFormationRoute: typeof ServicesBusinessFormationRoute
   ServicesOperationalSupportRoute: typeof ServicesOperationalSupportRoute
   ServicesResidencyRelocationRoute: typeof ServicesResidencyRelocationRoute
+  ServicesUaeCompanyFormationLocationsRoute: typeof ServicesUaeCompanyFormationLocationsRoute
   ServicesWebAdvertisingRoute: typeof ServicesWebAdvertisingRoute
   ApiAdvisorChatRoute: typeof ApiAdvisorChatRoute
 }
@@ -331,6 +345,13 @@ declare module '@tanstack/react-router' {
       path: '/services/web-advertising'
       fullPath: '/services/web-advertising'
       preLoaderRoute: typeof ServicesWebAdvertisingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/uae-company-formation-locations': {
+      id: '/services/uae-company-formation-locations'
+      path: '/services/uae-company-formation-locations'
+      fullPath: '/services/uae-company-formation-locations'
+      preLoaderRoute: typeof ServicesUaeCompanyFormationLocationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services/residency-relocation': {
@@ -421,6 +442,8 @@ const rootRouteChildren: RootRouteChildren = {
   ServicesBusinessFormationRoute: ServicesBusinessFormationRoute,
   ServicesOperationalSupportRoute: ServicesOperationalSupportRoute,
   ServicesResidencyRelocationRoute: ServicesResidencyRelocationRoute,
+  ServicesUaeCompanyFormationLocationsRoute:
+    ServicesUaeCompanyFormationLocationsRoute,
   ServicesWebAdvertisingRoute: ServicesWebAdvertisingRoute,
   ApiAdvisorChatRoute: ApiAdvisorChatRoute,
 }

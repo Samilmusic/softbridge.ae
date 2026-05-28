@@ -209,6 +209,10 @@ const EMIRATE_ORDER: EmirateKey[] = [
 ];
 
 const MAP_TRANSFORM = "translate(40 -30) scale(0.92 1.12)";
+const MAP_SX = 0.92;
+const MAP_SY = 1.12;
+const MAP_TX = 40;
+const MAP_TY = -30;
 const VW = 1000;
 const VH = 760;
 
@@ -223,6 +227,73 @@ function markerPos(j: Jurisdiction): [number, number] {
 function emCenter(em: EmirateKey): [number, number] {
   return UAE_CITIES[EMIRATE_ANCHOR[em]] as unknown as [number, number];
 }
+
+type EmirateMeta = {
+  image: string;
+  description: string;
+  strengths: string[];
+  stats: { label: string; value: string }[];
+};
+
+const EMIRATE_META: Record<EmirateKey, EmirateMeta> = {
+  "Dubai": {
+    image: dubaiImg,
+    description: "Global business hub with advanced infrastructure, international connectivity and world-class free zones.",
+    strengths: ["Global Brand", "World-Class Banking", "Tech & Trade Hub"],
+    stats: [
+      { label: "Jurisdictions", value: "10" }, { label: "GDP Rank", value: "#1" }, { label: "Free Zones", value: "30+" },
+    ],
+  },
+  "Abu Dhabi": {
+    image: abuDhabiImg,
+    description: "The federal capital — home to sovereign wealth, energy, finance and government-scale projects.",
+    strengths: ["Capital City", "Government Tenders", "ADGM Financial Centre"],
+    stats: [
+      { label: "Jurisdictions", value: "5" }, { label: "AUM", value: "$1.5T+" }, { label: "GDP Share", value: "55%" },
+    ],
+  },
+  "Sharjah": {
+    image: sharjahImg,
+    description: "Cost-effective industrial and cultural emirate — strong manufacturing, education and creative sectors.",
+    strengths: ["Cost Efficient", "Industrial Strength", "Cultural Capital"],
+    stats: [
+      { label: "Jurisdictions", value: "5" }, { label: "Ports", value: "3" }, { label: "Universities", value: "16+" },
+    ],
+  },
+  "Ajman": {
+    image: ajmanImg,
+    description: "Compact, affordable and fast-moving — ideal for startups and SMEs seeking quick licensing.",
+    strengths: ["Lowest Setup Cost", "Quick Licensing", "SME Friendly"],
+    stats: [
+      { label: "Jurisdictions", value: "2" }, { label: "Setup", value: "2–5 days" }, { label: "From", value: "AED 8.5k" },
+    ],
+  },
+  "Ras Al Khaimah": {
+    image: rakImg,
+    description: "Industry and tourism powerhouse — mountains, manufacturing and the multi-sector RAKEZ ecosystem.",
+    strengths: ["Industrial Land", "Tourism Growth", "Multi-Sector RAKEZ"],
+    stats: [
+      { label: "Jurisdictions", value: "2" }, { label: "From", value: "AED 11.5k" }, { label: "Visitors", value: "1.1M+" },
+    ],
+  },
+  "Fujairah": {
+    image: fujairahImg,
+    description: "Strategic east-coast emirate — the only UAE port outside the Strait of Hormuz, ideal for shipping.",
+    strengths: ["Indian Ocean Port", "Bunkering Hub", "Trade Resilience"],
+    stats: [
+      { label: "Jurisdictions", value: "2" }, { label: "Port Rank", value: "#3 bunker" }, { label: "Coastline", value: "90 km" },
+    ],
+  },
+  "Umm Al Quwain": {
+    image: uaqImg,
+    description: "Quiet coastal emirate with simple licensing — popular with SMEs and lifestyle businesses.",
+    strengths: ["Affordable", "Quiet Coast", "Simple Licensing"],
+    stats: [
+      { label: "Jurisdictions", value: "1" }, { label: "From", value: "AED 9k" }, { label: "Setup", value: "3–7 days" },
+    ],
+  },
+};
+
 
 /* ───────────────────── Component ───────────────────── */
 

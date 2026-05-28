@@ -541,7 +541,7 @@ function PricingCard({
 
   return (
     <div
-      className={`relative reveal rounded-3xl p-8 md:p-9 ${
+      className={`relative reveal rounded-3xl p-6 sm:p-8 md:p-9 w-full max-w-full box-border ${
         highlighted ? "glass-strong grad-border" : "glass-card"
       } hover-lift overflow-hidden`}
     >
@@ -552,8 +552,8 @@ function PricingCard({
           background: `radial-gradient(circle, ${accentColor} 0%, transparent 70%)`,
         }}
       />
-      <div className="relative">
-        <div className="flex items-center justify-between">
+      <div className="relative min-w-0">
+        <div className="flex items-center justify-between gap-2 flex-wrap">
           <span
             className="text-[10px] uppercase tracking-[0.22em] font-medium"
             style={{ color: accentColor }}
@@ -568,11 +568,14 @@ function PricingCard({
           </span>
         </div>
 
-        <h3 className="mt-5 text-2xl md:text-3xl font-semibold">{title}</h3>
+        <h3 className="mt-5 text-2xl md:text-3xl font-semibold break-words">{title}</h3>
 
-        <div className="mt-6 flex items-baseline gap-2">
+        <div className="mt-6 flex items-baseline gap-2 flex-wrap">
           <span className="text-[12px] text-muted-foreground">AED</span>
-          <span className="text-5xl md:text-6xl font-semibold tracking-tight tabular-nums">
+          <span
+            className="font-semibold tracking-tight tabular-nums leading-none"
+            style={{ fontSize: "clamp(32px, 10vw, 56px)" }}
+          >
             {price}
           </span>
         </div>
@@ -587,14 +590,14 @@ function PricingCard({
                 className="w-4 h-4 flex-shrink-0 mt-0.5"
                 style={{ color: accentColor }}
               />
-              <span className="text-foreground/90">{it}</span>
+              <span className="text-foreground/90 min-w-0 break-words">{it}</span>
             </li>
           ))}
         </ul>
 
         <button
           onClick={onStart}
-          className={`mt-9 w-full inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold transition ${
+          className={`mt-9 w-full inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 min-h-[48px] text-sm font-semibold transition ${
             highlighted
               ? "gold-gradient hover:scale-[1.01]"
               : "glass-strong hover:border-gold/40"
@@ -607,6 +610,7 @@ function PricingCard({
     </div>
   );
 }
+
 
 /* ---------------------------- Website Mockup ---------------------------- */
 

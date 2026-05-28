@@ -34,7 +34,7 @@ function Index() {
       <main>
         <Hero />
         <WhatWeDo />
-        <About />
+        
         <UaeMap />
         <Process />
         <LongTermSupport />

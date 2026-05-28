@@ -89,7 +89,7 @@ export const startOnboarding = createServerFn({ method: "POST" })
         {
           email: data.email,
           full_name: data.fullName,
-          whatsapp: data.whatsapp,
+          whatsapp: data.whatsapp || null,
           nationality: data.nationality,
           status: "draft",
         },

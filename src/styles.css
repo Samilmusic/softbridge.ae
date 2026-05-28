@@ -266,3 +266,43 @@
   70%  { transform: translate(-50%, -50%) scale(2.4); opacity: 0; }
   100% { transform: translate(-50%, -50%) scale(2.4); opacity: 0; }
 }
+
+/* ============================================================
+   Performance pass — adaptive effects + motion reduction
+   ============================================================ */
+
+/* Respect user preference: kill expensive infinite animations */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-float-slow,
+  .animate-float-soft,
+  .animate-pulse-soft,
+  .animate-scan,
+  .animate-drift-x { animation: none !important; }
+}
+
+/* Mobile/tablet downgrade: cut blur, particles, large halos */
+@media (max-width: 768px) {
+  .glass        { backdrop-filter: blur(8px)  saturate(130%); -webkit-backdrop-filter: blur(8px)  saturate(130%); }
+  .glass-strong { backdrop-filter: blur(10px) saturate(140%); -webkit-backdrop-filter: blur(10px) saturate(140%); }
+  .glass-card   { backdrop-filter: blur(9px)  saturate(135%); -webkit-backdrop-filter: blur(9px)  saturate(135%); }
+  .glass-light  { backdrop-filter: blur(10px) saturate(140%); -webkit-backdrop-filter: blur(10px) saturate(140%); }
+
+  /* Drop the heaviest infinite animations on mobile to save battery */
+  .animate-float-slow,
+  .animate-drift-x,
+  .animate-scan { animation: none !important; }
+
+  /* Particles container is purely decorative */
+  .particles-layer { display: none !important; }
+}
+
+/* Hint the compositor: keep animated halos on their own GPU layer */
+.animate-float-slow,
+.animate-float-soft,
+.animate-drift-x { will-change: transform; transform: translateZ(0); }

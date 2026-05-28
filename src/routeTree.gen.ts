@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as RemoteCompanySetupRouteImport } from './routes/remote-company-setup'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as LoginRouteImport } from './routes/login'
@@ -29,6 +30,11 @@ import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RemoteCompanySetupRoute = RemoteCompanySetupRouteImport.update({
+  id: '/remote-company-setup',
+  path: '/remote-company-setup',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QuoteRoute = QuoteRouteImport.update({
@@ -117,6 +123,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/quote': typeof QuoteRoute
+  '/remote-company-setup': typeof RemoteCompanySetupRoute
   '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/portal': typeof AuthenticatedPortalRoute
@@ -134,6 +141,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/quote': typeof QuoteRoute
+  '/remote-company-setup': typeof RemoteCompanySetupRoute
   '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/portal': typeof AuthenticatedPortalRoute
@@ -153,6 +161,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/quote': typeof QuoteRoute
+  '/remote-company-setup': typeof RemoteCompanySetupRoute
   '/terms': typeof TermsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/portal': typeof AuthenticatedPortalRoute
@@ -172,6 +181,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/privacy-policy'
     | '/quote'
+    | '/remote-company-setup'
     | '/terms'
     | '/admin'
     | '/portal'
@@ -189,6 +199,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/privacy-policy'
     | '/quote'
+    | '/remote-company-setup'
     | '/terms'
     | '/admin'
     | '/portal'
@@ -207,6 +218,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/privacy-policy'
     | '/quote'
+    | '/remote-company-setup'
     | '/terms'
     | '/_authenticated/admin'
     | '/_authenticated/portal'
@@ -226,6 +238,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   QuoteRoute: typeof QuoteRoute
+  RemoteCompanySetupRoute: typeof RemoteCompanySetupRoute
   TermsRoute: typeof TermsRoute
   ServicesAmlComplianceRoute: typeof ServicesAmlComplianceRoute
   ServicesBankingPreparationRoute: typeof ServicesBankingPreparationRoute
@@ -242,6 +255,13 @@ declare module '@tanstack/react-router' {
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/remote-company-setup': {
+      id: '/remote-company-setup'
+      path: '/remote-company-setup'
+      fullPath: '/remote-company-setup'
+      preLoaderRoute: typeof RemoteCompanySetupRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/quote': {
@@ -374,6 +394,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   QuoteRoute: QuoteRoute,
+  RemoteCompanySetupRoute: RemoteCompanySetupRoute,
   TermsRoute: TermsRoute,
   ServicesAmlComplianceRoute: ServicesAmlComplianceRoute,
   ServicesBankingPreparationRoute: ServicesBankingPreparationRoute,

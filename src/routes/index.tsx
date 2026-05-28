@@ -4,6 +4,7 @@ import { Hero } from "@/components/site/Hero";
 import { WhatWeDo } from "@/components/site/WhatWeDo";
 
 import { UaeMap } from "@/components/site/UaeMap";
+import { RemoteSetupTeaser } from "@/components/site/RemoteSetupTeaser";
 import { Process } from "@/components/site/Process";
 import { LongTermSupport } from "@/components/site/LongTermSupport";
 import { DigitalInfrastructure } from "@/components/site/DigitalInfrastructure";
@@ -36,6 +37,7 @@ function Index() {
         <WhatWeDo />
         
         <UaeMap />
+        <RemoteSetupTeaser />
         <Process />
         <LongTermSupport />
         <DigitalInfrastructure />

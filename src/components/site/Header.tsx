@@ -8,6 +8,7 @@ const NAV = [
   { label: "Home", href: "/#home" },
   { label: "About", href: "/about" },
   { label: "Services", href: "/#services" },
+  { label: "Remote Setup", href: "/remote-company-setup" },
   { label: "Process", href: "/#process" },
   { label: "AI Advisor", href: "/advisor" },
   { label: "FAQ", href: "/#faq" },

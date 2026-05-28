@@ -1202,7 +1202,7 @@ export function UaeMap() {
                     </a>
                     <button
                       onClick={stepBack}
-                      className="w-full inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-medium border border-white/10 bg-white/[0.02] text-foreground/90 hover:bg-white/[0.05] transition-all"
+                      className="w-full inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-medium border border-border bg-background/40 text-foreground/90 hover:bg-primary/5 hover:border-primary/30 transition-all"
                     >
                       <ArrowLeft className="w-4 h-4" /> Back to {active.emirate}
                     </button>

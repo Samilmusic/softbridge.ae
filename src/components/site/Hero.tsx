@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ArrowRight, MessageCircle, Sparkles } from "lucide-react";
 import { WA_LINK } from "@/lib/site";
 import { Counter } from "./Counter";
-import dubaiSkyline from "@/assets/dubai-skyline.png";
+
 import { Particles } from "./Particles";
 import { HeroMockup } from "./HeroMockup";
 import { OnboardingDialog } from "./OnboardingDialog";

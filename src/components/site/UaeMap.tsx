@@ -1170,7 +1170,7 @@ export function UaeMap() {
                       </ul>
                     </div>
 
-                    <div className="flex items-center justify-between text-[12px] py-3 border-t border-b border-white/[0.06]">
+                    <div className="flex items-center justify-between text-[12px] py-3 border-t border-b border-border">
                       <span className="text-muted-foreground tracking-[0.12em] uppercase text-[10px]">Business Activities</span>
                       <span className="font-semibold" style={{ color: activeHex }}>{active.activities}</span>
                     </div>

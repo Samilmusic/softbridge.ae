@@ -13,6 +13,7 @@ import rakImg from "@/assets/emirates/ras-al-khaimah.jpg";
 import fujairahImg from "@/assets/emirates/fujairah.jpg";
 import uaqImg from "@/assets/emirates/umm-al-quwain.jpg";
 import dubaiDetailMap from "@/assets/emirates/dubai-detailed-map.png";
+import abuDhabiDetailMap from "@/assets/emirates/abu-dhabi-detailed-map.png";
 
 /* ───────────────────── Types & Data ───────────────────── */
 

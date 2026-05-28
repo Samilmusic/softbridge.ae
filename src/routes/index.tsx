@@ -42,6 +42,7 @@ function Index() {
 
 
         <RemoteSetupTeaser />
+        <WhereWeSetUp />
         <Process />
         <LongTermSupport />
         <DigitalInfrastructure />

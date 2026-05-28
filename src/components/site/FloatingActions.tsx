@@ -27,7 +27,7 @@ export function FloatingActions() {
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           aria-label="Back to top"
-          className="fixed bottom-24 right-5 z-40 w-11 h-11 rounded-full glass-strong text-foreground flex items-center justify-center hover:border-gold/40 transition"
+          className="fixed bottom-40 md:bottom-24 right-5 z-40 w-11 h-11 rounded-full glass-strong text-foreground flex items-center justify-center hover:border-gold/40 transition"
         >
           <ArrowUp className="w-4 h-4" />
         </button>

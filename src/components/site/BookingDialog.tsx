@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { CheckCircle2, Loader2, MessageCircle, Video, Phone, MonitorPlay, Sparkles, CalendarDays, Clock, ArrowRight, ArrowLeft, CalendarPlus, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { format, addDays, isBefore, startOfDay } from "date-fns";
+import { PhoneField } from "@/components/ui/phone-field";
 
 type Method = "whatsapp" | "google_meet" | "zoom" | "phone";
 

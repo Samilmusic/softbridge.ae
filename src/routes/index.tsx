@@ -1,11 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Hero } from "@/components/site/Hero";
-import { Intro } from "@/components/site/Intro";
+import { WhatWeDo } from "@/components/site/WhatWeDo";
 import { About } from "@/components/site/About";
-import { Services } from "@/components/site/Services";
-import { Strengths } from "@/components/site/Strengths";
+import { UaeMap } from "@/components/site/UaeMap";
 import { Process } from "@/components/site/Process";
+import { LongTermSupport } from "@/components/site/LongTermSupport";
+import { DigitalInfrastructure } from "@/components/site/DigitalInfrastructure";
+import { Packages } from "@/components/site/Packages";
 import { Testimonials } from "@/components/site/Testimonials";
 import { FAQ } from "@/components/site/FAQ";
 import { Contact } from "@/components/site/Contact";
@@ -16,8 +18,8 @@ import { useReveal } from "@/hooks/use-reveal";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Soft Bridge FZE LLC — Bridge to Your Success | UAE Business Consulting" },
-      { name: "description", content: "Build your business in the UAE the right way — company setup, residency, banking, AML compliance, and digital growth, with long-term partnership." },
+      { title: "Soft Bridge FZE LLC — Business Infrastructure in the UAE" },
+      { name: "description", content: "Soft Bridge builds business infrastructure in the UAE — company formation, banking, compliance, and digital growth, with long-term operational support." },
     ],
   }),
   component: Index,
@@ -30,11 +32,13 @@ function Index() {
       <Header />
       <main>
         <Hero />
-        <Intro />
+        <WhatWeDo />
         <About />
-        <Services />
-        <Strengths />
+        <UaeMap />
         <Process />
+        <LongTermSupport />
+        <DigitalInfrastructure />
+        <Packages />
         <Testimonials />
         <FAQ />
         <Contact />

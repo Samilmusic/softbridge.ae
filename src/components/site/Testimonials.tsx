@@ -9,41 +9,42 @@ const ITEMS = [
   {
     name: "Daniel K.",
     role: "Director, Tech Consultancy",
-    text: "Professional, calm, and consistent. They didn't push us into anything — they explained the path and supported us all the way through residency and compliance.",
+    text: "Professional, calm, and consistent. They explained the path and supported us through residency, compliance, and launching our digital presence.",
   },
   {
     name: "Yusuf R.",
     role: "Managing Partner, Trading Co.",
-    text: "What stood out was the continuity. After setup they kept guiding us on compliance and helped launch our digital presence with measurable results.",
+    text: "What stood out was the continuity. After setup they kept guiding us on compliance and growth — they feel like an extension of our team.",
   },
 ];
 
 export function Testimonials() {
   return (
-    <section className="relative py-20 md:py-28 border-t border-white/5">
+    <section className="relative py-24 md:py-32 border-t border-white/5">
       <div className="mx-auto max-w-7xl px-6">
         <div className="max-w-3xl reveal">
-          <div className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-gold mb-5">
+          <div className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-gold mb-5">
             <span className="w-8 h-px bg-gold" /> Client Voices
           </div>
-          <h2 className="text-3xl md:text-5xl font-semibold leading-[1.08]">
+          <h2 className="text-3xl md:text-5xl font-semibold leading-[1.05]">
             Trusted by Founders Who Value{" "}
             <span className="gradient-text">Clarity & Continuity</span>
           </h2>
         </div>
 
-        <div className="mt-12 grid md:grid-cols-3 gap-5">
+        <div className="mt-14 grid md:grid-cols-3 gap-5">
           {ITEMS.map((t, i) => (
             <figure
               key={t.name}
-              className="glass rounded-2xl p-7 hover:border-gold/30 transition reveal flex flex-col"
+              className="glass-card grad-border rounded-2xl p-7 hover-lift reveal flex flex-col relative overflow-hidden"
               style={{ transitionDelay: `${i * 80}ms` }}
             >
-              <Quote className="w-7 h-7 text-gold/70" />
-              <blockquote className="mt-5 text-[15px] leading-relaxed text-foreground/90 flex-1">
+              <div aria-hidden className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-amber-400/10 blur-2xl" />
+              <Quote className="w-7 h-7 text-gold/70 relative" />
+              <blockquote className="mt-5 text-[15px] leading-relaxed text-foreground/90 flex-1 relative">
                 "{t.text}"
               </blockquote>
-              <figcaption className="mt-6 pt-5 border-t border-white/10">
+              <figcaption className="mt-6 pt-5 border-t border-white/10 relative">
                 <div className="text-sm font-semibold">{t.name}</div>
                 <div className="text-xs text-muted-foreground mt-0.5">{t.role}</div>
               </figcaption>

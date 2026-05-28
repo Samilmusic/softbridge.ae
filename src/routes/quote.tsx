@@ -242,7 +242,7 @@ function Toggle({ label, value, onChange }: { label: string; value: boolean; onC
 
 function Row({ k, v }: { k: string; v: string }) {
   return (
-    <div className="flex justify-between border-b border-white/5 py-1.5">
+    <div className="flex justify-between border-b border-border/60 py-1.5">
       <span className="text-muted-foreground text-xs uppercase tracking-wider">{k}</span>
       <span className="text-foreground">{v || "—"}</span>
     </div>
@@ -263,7 +263,7 @@ function SuccessCard({ result, name, email }: { result: { quoteNumber: string; q
       <p className="text-sm text-muted-foreground mt-3">{name ? `${name}, ` : ""}your branded quotation is on its way. Here's the summary:</p>
 
       <div className="grid md:grid-cols-2 gap-4 mt-6">
-        <div className="rounded-2xl border border-white/8 bg-white/[0.02] p-5">
+        <div className="rounded-2xl border border-border bg-background/40 p-5">
           <div className="text-[10px] uppercase tracking-wider text-gold">Recommended structure</div>
           <div className="font-display text-lg text-foreground mt-1">{q.recommendedStructure}</div>
           <div className="text-xs text-muted-foreground mt-1">{q.selectedJurisdiction} · {q.timelineDays.min}–{q.timelineDays.max} working days</div>
@@ -296,7 +296,7 @@ function SuccessCard({ result, name, email }: { result: { quoteNumber: string; q
 
       <div className="flex flex-wrap gap-3 mt-6">
         <Link to="/login" className="rounded-full gold-gradient px-5 py-2.5 text-sm font-semibold text-[oklch(0.15_0.02_260)] inline-flex items-center gap-2"><CalendarCheck className="w-4 h-4" />Create account &amp; track</Link>
-        <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/15 bg-white/[0.04] px-5 py-2.5 text-sm inline-flex items-center gap-2 text-foreground"><MessageCircle className="w-4 h-4 text-gold" />Talk on WhatsApp</a>
+        <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="rounded-full border border-border bg-background/40 px-5 py-2.5 text-sm inline-flex items-center gap-2 text-foreground"><MessageCircle className="w-4 h-4 text-gold" />Talk on WhatsApp</a>
       </div>
     </div>
   );

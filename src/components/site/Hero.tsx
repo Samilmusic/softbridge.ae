@@ -80,7 +80,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="lg:col-span-5 reveal" style={{ transitionDelay: "120ms" }}>
+        <div className="hidden lg:block lg:col-span-5 reveal" style={{ transitionDelay: "120ms" }}>
           <HeroMockup />
         </div>
       </div>

@@ -8,6 +8,7 @@ import { Process } from "@/components/site/Process";
 import { LongTermSupport } from "@/components/site/LongTermSupport";
 import { DigitalInfrastructure } from "@/components/site/DigitalInfrastructure";
 import { Packages } from "@/components/site/Packages";
+import { Recognition } from "@/components/site/Recognition";
 import { Testimonials } from "@/components/site/Testimonials";
 import { FAQ } from "@/components/site/FAQ";
 import { Contact } from "@/components/site/Contact";
@@ -38,6 +39,7 @@ function Index() {
         <Process />
         <LongTermSupport />
         <DigitalInfrastructure />
+        <Recognition />
         <Packages />
         <Testimonials />
         <FAQ />

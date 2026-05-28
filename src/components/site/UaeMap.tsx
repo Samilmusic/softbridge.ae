@@ -14,7 +14,7 @@ import fujairahImg from "@/assets/emirates/fujairah.jpg";
 import uaqImg from "@/assets/emirates/umm-al-quwain.jpg";
 import dubaiDetailMap from "@/assets/emirates/dubai-detailed-map.png";
 import abuDhabiDetailMap from "@/assets/emirates/abu-dhabi-detailed-map.png";
-import federationMap from "@/assets/emirates/uae-federation-map.png";
+import federationMap from "@/assets/uae-federation-light.png";
 
 /* ───────────────────── Types & Data ───────────────────── */
 
@@ -537,100 +537,123 @@ export function UaeMap() {
             </div>
           </aside>
 
-          {/* CENTER — cinematic map (kept dark inner canvas for contrast) */}
-          <div className="relative rounded-3xl border border-border shadow-[0_30px_80px_-40px_color-mix(in_oklab,var(--primary)_50%,transparent)] bg-[oklch(0.10_0.025_280/0.95)] overflow-hidden min-h-[420px] sm:min-h-[520px] lg:min-h-[680px] order-1 lg:order-2">
-            {/* subtle violet halo around the dark canvas to bridge with light theme */}
+          {/* CENTER — cinematic map; light canvas for federation overview, deeper canvas for emirate zoom */}
+          <div
+            className={`relative rounded-3xl border border-border shadow-[0_30px_80px_-40px_color-mix(in_oklab,var(--primary)_45%,transparent)] overflow-hidden min-h-[420px] sm:min-h-[520px] lg:min-h-[680px] order-1 lg:order-2 transition-colors duration-700 ${
+              mode === "federation"
+                ? "bg-[radial-gradient(ellipse_at_center,oklch(0.985_0.012_280)_0%,oklch(0.96_0.02_280)_60%,oklch(0.93_0.03_285)_100%)]"
+                : "bg-[oklch(0.10_0.025_280/0.95)]"
+            }`}
+          >
+            {/* violet inner hairline */}
             <div className="pointer-events-none absolute -inset-px rounded-3xl" style={{ boxShadow: "inset 0 0 0 1px color-mix(in oklab, var(--primary) 22%, transparent)" }} />
-            {/* atmosphere */}
-            <div className="absolute inset-0 grid-pattern opacity-[0.12]" />
-            <motion.div
-              className="absolute -top-1/3 -left-1/4 w-[60%] aspect-square rounded-full blur-3xl"
-              style={{ background: "radial-gradient(circle, oklch(0.55 0.22 290 / 0.20), transparent 70%)" }}
-              animate={{ x: [0, 30, -10, 0], y: [0, -20, 10, 0] }}
-              transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.div
-              className="absolute -bottom-1/3 -right-1/4 w-[55%] aspect-square rounded-full blur-3xl"
-              style={{ background: "radial-gradient(circle, oklch(0.70 0.14 220 / 0.16), transparent 70%)" }}
-              animate={{ x: [0, -25, 15, 0], y: [0, 18, -12, 0] }}
-              transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+            {/* atmosphere — only over dark canvas */}
+            {mode !== "federation" && (
+              <>
+                <div className="absolute inset-0 grid-pattern opacity-[0.12]" />
+                <motion.div
+                  className="absolute -top-1/3 -left-1/4 w-[60%] aspect-square rounded-full blur-3xl"
+                  style={{ background: "radial-gradient(circle, oklch(0.55 0.22 290 / 0.20), transparent 70%)" }}
+                  animate={{ x: [0, 30, -10, 0], y: [0, -20, 10, 0] }}
+                  transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <motion.div
+                  className="absolute -bottom-1/3 -right-1/4 w-[55%] aspect-square rounded-full blur-3xl"
+                  style={{ background: "radial-gradient(circle, oklch(0.70 0.14 220 / 0.16), transparent 70%)" }}
+                  animate={{ x: [0, -25, 15, 0], y: [0, 18, -12, 0] }}
+                  transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+                {/* scanning beam */}
+                <div className="pointer-events-none absolute inset-0 overflow-hidden opacity-40">
+                  <div className="absolute inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-violet-400/60 to-transparent animate-scan" />
+                </div>
+                <Particles />
+              </>
+            )}
 
-            {/* scanning beam */}
-            <div className="pointer-events-none absolute inset-0 overflow-hidden opacity-40">
-              <div className="absolute inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-violet-400/60 to-transparent animate-scan" />
-            </div>
-
-            <Particles />
-
-            {/* FEDERATION HERO — cinematic uploaded UAE map */}
+            {/* FEDERATION HERO — uploaded light-mode UAE map */}
             <AnimatePresence>
               {mode === "federation" && (
                 <motion.div
                   key="federation-hero"
-                  className="absolute inset-0 z-10"
+                  className="absolute inset-0 z-10 flex items-center justify-center p-4 sm:p-6 md:p-8"
                   initial={{ opacity: 0, scale: 1.04 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 1.06, filter: "blur(8px)" }}
                   transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  {/* image */}
-                  <motion.img
-                    src={federationMap}
-                    alt="UAE federation intelligence map"
-                    className="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none"
-                    draggable={false}
-                    animate={{ scale: [1, 1.015, 1] }}
-                    transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-                  />
-                  {/* ambient breathing glow */}
-                  <motion.div
-                    className="absolute inset-0 pointer-events-none mix-blend-screen"
-                    style={{ background: "radial-gradient(60% 50% at 70% 40%, oklch(0.65 0.22 290 / 0.18), transparent 70%)" }}
-                    animate={{ opacity: [0.5, 0.85, 0.5] }}
-                    transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-                  />
-                  <motion.div
-                    className="absolute inset-0 pointer-events-none mix-blend-screen"
-                    style={{ background: "radial-gradient(50% 45% at 35% 70%, oklch(0.78 0.16 75 / 0.14), transparent 70%)" }}
-                    animate={{ opacity: [0.45, 0.75, 0.45] }}
-                    transition={{ duration: 9, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
-                  />
-                  {/* interactive hotspots aligned to uploaded image */}
-                  {([
-                    { key: "Ras Al Khaimah", x: 76,  y: 19.5, tone: "violet" as Tone },
-                    { key: "Umm Al Quwain",  x: 70,  y: 27,   tone: "cyan"   as Tone },
-                    { key: "Ajman",          x: 67,  y: 32,   tone: "blue"   as Tone },
-                    { key: "Fujairah",       x: 82,  y: 35,   tone: "gold"   as Tone },
-                    { key: "Sharjah",        x: 73,  y: 43,   tone: "blue"   as Tone },
-                    { key: "Dubai",          x: 63.5,y: 49.5, tone: "violet" as Tone },
-                    { key: "Abu Dhabi",      x: 44,  y: 62,   tone: "gold"   as Tone },
-                  ] as { key: EmirateKey; x: number; y: number; tone: Tone }[]).map((h, i) => {
-                    const c = TONE_HEX[h.tone];
-                    return (
-                      <button
-                        key={h.key}
-                        onClick={() => { setFocusEmirate(h.key); setMode("emirate"); setActiveId(null); }}
-                        className="group absolute -translate-x-1/2 -translate-y-1/2 outline-none"
-                        style={{ left: `${h.x}%`, top: `${h.y}%` }}
-                        aria-label={`Open ${h.key}`}
-                      >
-                        <span className="relative flex items-center justify-center w-3 h-3">
-                          <motion.span
-                            className="absolute inset-0 rounded-full"
-                            style={{ background: c, boxShadow: `0 0 22px ${c}, 0 0 6px ${c}` }}
-                            animate={{ scale: [1, 1.8, 1], opacity: [0.85, 0.15, 0.85] }}
-                            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut", delay: i * 0.18 }}
-                          />
-                          <span className="relative w-2 h-2 rounded-full bg-white" style={{ boxShadow: `0 0 10px ${c}` }} />
-                        </span>
-                      </button>
-                    );
-                  })}
+                  {/* image-aspect wrapper keeps coastline uncropped and anchors hotspots */}
+                  <div className="relative w-full max-w-full" style={{ aspectRatio: "1693 / 929" }}>
+                    {/* soft floating ambient halos behind the image */}
+                    <motion.div
+                      className="absolute -inset-10 rounded-[40px] pointer-events-none blur-3xl opacity-70"
+                      style={{ background: "radial-gradient(60% 50% at 70% 40%, color-mix(in oklab, var(--primary) 28%, transparent), transparent 70%)" }}
+                      animate={{ opacity: [0.5, 0.8, 0.5] }}
+                      transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                    />
+                    <motion.div
+                      className="absolute -inset-10 rounded-[40px] pointer-events-none blur-3xl opacity-60"
+                      style={{ background: "radial-gradient(50% 45% at 30% 70%, color-mix(in oklab, var(--accent) 22%, transparent), transparent 70%)" }}
+                      animate={{ opacity: [0.4, 0.7, 0.4] }}
+                      transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1.4 }}
+                    />
+
+                    <motion.img
+                      src={federationMap}
+                      alt="UAE federation intelligence map"
+                      className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none drop-shadow-[0_20px_40px_color-mix(in_oklab,var(--primary)_30%,transparent)]"
+                      draggable={false}
+                      animate={{ scale: [1, 1.012, 1], y: [0, -3, 0] }}
+                      transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+                    />
+
+                    {/* interactive hotspots aligned to uploaded light-mode image */}
+                    {([
+                      { key: "Ras Al Khaimah", x: 87,   y: 18, tone: "violet" as Tone },
+                      { key: "Umm Al Quwain",  x: 80,   y: 30, tone: "cyan"   as Tone },
+                      { key: "Ajman",          x: 78,   y: 36, tone: "blue"   as Tone },
+                      { key: "Fujairah",       x: 92,   y: 40, tone: "gold"   as Tone },
+                      { key: "Sharjah",        x: 75.5, y: 43, tone: "blue"   as Tone },
+                      { key: "Dubai",          x: 70,   y: 50, tone: "violet" as Tone },
+                      { key: "Abu Dhabi",      x: 55,   y: 72, tone: "gold"   as Tone },
+                    ] as { key: EmirateKey; x: number; y: number; tone: Tone }[]).map((h, i) => {
+                      const c = TONE_HEX[h.tone];
+                      return (
+                        <button
+                          key={h.key}
+                          onClick={() => { setFocusEmirate(h.key); setMode("emirate"); setActiveId(null); }}
+                          className="group absolute -translate-x-1/2 -translate-y-1/2 outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-full"
+                          style={{ left: `${h.x}%`, top: `${h.y}%` }}
+                          aria-label={`Open ${h.key}`}
+                        >
+                          {/* hover/tap label */}
+                          <span
+                            className="absolute left-1/2 -translate-x-1/2 -top-7 whitespace-nowrap text-[10px] tracking-[0.18em] uppercase font-medium px-2 py-0.5 rounded-full border border-border bg-background/85 backdrop-blur text-foreground opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity"
+                          >
+                            {h.key}
+                          </span>
+                          <span className="relative flex items-center justify-center w-3.5 h-3.5">
+                            <motion.span
+                              className="absolute inset-0 rounded-full"
+                              style={{ background: c, boxShadow: `0 0 22px ${c}, 0 0 6px ${c}` }}
+                              animate={{ scale: [1, 1.9, 1], opacity: [0.9, 0.15, 0.9] }}
+                              transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut", delay: i * 0.18 }}
+                            />
+                            <span
+                              className="relative w-2 h-2 rounded-full bg-white border border-white"
+                              style={{ boxShadow: `0 0 10px ${c}, 0 1px 4px rgba(0,0,0,0.25)` }}
+                            />
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
+
+
 
 
             {/* breadcrumb / top hud */}
@@ -685,7 +708,11 @@ export function UaeMap() {
             <motion.svg
               viewBox={`0 0 ${VW} ${VH}`}
               className="w-full h-full block relative"
-              animate={{ opacity: isDetailOverlay ? 0.18 : 1, filter: isDetailOverlay ? "blur(2px)" : "blur(0px)" }}
+              animate={{
+                opacity: mode === "federation" ? 0 : (isDetailOverlay ? 0.18 : 1),
+                filter: isDetailOverlay ? "blur(2px)" : "blur(0px)",
+              }}
+              style={{ pointerEvents: mode === "federation" ? "none" : "auto" }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             >
               <defs>
@@ -918,7 +945,8 @@ export function UaeMap() {
 
 
 
-            {/* Mini-map */}
+            {/* Mini-map (hidden in federation overview) */}
+            {mode !== "federation" && (
             <div className="absolute bottom-4 right-4 z-10 w-[140px] h-[110px] rounded-xl border border-white/10 bg-[oklch(0.08_0.025_280/0.9)] backdrop-blur-md overflow-hidden">
               <svg viewBox={`0 0 ${VW} ${VH}`} className="w-full h-full">
                 <g transform={MAP_TRANSFORM}>
@@ -927,7 +955,7 @@ export function UaeMap() {
                   ))}
                 </g>
                 {/* viewport rect */}
-                {mode !== "federation" && focusEmirate && (() => {
+                {focusEmirate && (() => {
                   const { scale, tx, ty } = camera;
                   // visible source rect in svg-coords
                   const w = VW / scale;
@@ -948,9 +976,14 @@ export function UaeMap() {
               </svg>
               <div className="absolute top-1 left-2 text-[9px] tracking-[0.18em] uppercase text-muted-foreground">Mini-Map</div>
             </div>
+            )}
 
             {/* Legend */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-5 px-5 py-2.5 rounded-full border border-white/10 bg-[oklch(0.10_0.025_280/0.85)] backdrop-blur-xl text-[11px]">
+            <div className={`absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-3 sm:gap-5 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border text-[10px] sm:text-[11px] backdrop-blur-xl ${
+              mode === "federation"
+                ? "border-border bg-background/80 text-foreground"
+                : "border-white/10 bg-[oklch(0.10_0.025_280/0.85)]"
+            }`}>
               {([
                 ["Dubai", "violet"],
                 ["Abu Dhabi", "gold"],

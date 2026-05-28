@@ -68,31 +68,34 @@ export function Header() {
             ))}
           </nav>
 
-          {/* Right actions */}
-          <div className="flex items-center gap-1.5 lg:gap-2 shrink-0">
+          {/* Right actions — Desktop */}
+          <div className="hidden lg:flex items-center gap-2 shrink-0">
             <Link
               to="/quote"
-              className="hidden lg:inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-[12px] text-gold hover:text-foreground transition whitespace-nowrap"
+              className="inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-[12px] text-gold hover:text-foreground transition whitespace-nowrap"
             >
               Get a Quote
             </Link>
             <Link
               to={isAuthenticated ? "/portal" : "/login"}
-              className="hidden lg:inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-[12px] text-muted-foreground hover:text-foreground transition whitespace-nowrap"
+              className="inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-[12px] text-muted-foreground hover:text-foreground transition whitespace-nowrap"
             >
               <LayoutDashboard className="w-3.5 h-3.5" />{isAuthenticated ? "Portal" : "Sign in"}
             </Link>
-            <ThemeToggle className="hidden lg:inline-flex" />
+            <ThemeToggle />
             <button
               onClick={() => setBooking(true)}
-              className="hidden lg:inline-flex items-center justify-center rounded-full glass-strong px-4 py-2 text-[13px] font-medium text-foreground hover:border-gold/40 transition whitespace-nowrap"
+              className="inline-flex items-center justify-center rounded-full glass-strong px-4 py-2 text-[13px] font-medium text-foreground hover:border-gold/40 transition whitespace-nowrap"
             >
               Book Consultation
             </button>
+          </div>
 
-            <ThemeToggle className="lg:hidden" />
+          {/* Right actions — Mobile */}
+          <div className="flex lg:hidden items-center gap-2 shrink-0">
+            <ThemeToggle />
             <button
-              className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/70 backdrop-blur ring-1 ring-violet-200 text-slate-900 hover:bg-white transition"
+              className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/70 backdrop-blur ring-1 ring-violet-200 text-slate-900 hover:bg-white transition"
               onClick={() => setOpen(true)}
               aria-label="Open menu"
             >

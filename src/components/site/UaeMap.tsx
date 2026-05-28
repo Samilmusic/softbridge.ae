@@ -316,27 +316,48 @@ export function UaeMap() {
     return out;
   }, []);
 
-  // compute camera transform
+  // Smart camera — accounts for MAP_TRANSFORM and reserves space for the floating preview panel.
   const camera = useMemo(() => {
     if (mode === "federation" || !focusEmirate) {
       return { scale: 1, tx: 0, ty: 0 };
     }
     const list = grouped[focusEmirate];
     const pts = list.map(markerPos);
+    // expand cluster with the emirate hub itself so the connection lines stay in frame
+    const [hx, hy] = emCenter(focusEmirate);
+    pts.push([hx, hy]);
     const xs = pts.map(p => p[0]);
     const ys = pts.map(p => p[1]);
     const minX = Math.min(...xs), maxX = Math.max(...xs);
     const minY = Math.min(...ys), maxY = Math.max(...ys);
-    const pad = 110;
-    const w = (maxX - minX) + pad * 2;
-    const h = (maxY - minY) + pad * 2;
-    const cx = (minX + maxX) / 2;
-    const cy = (minY + maxY) / 2;
-    const s = Math.min(VW / w, VH / h, 2.6);
-    const tx = VW / 2 - s * cx;
-    const ty = VH / 2 - s * cy;
+
+    // Convert cluster bbox into post-MAP_TRANSFORM (screen-pre-camera) units
+    const pxMinX = MAP_TX + MAP_SX * minX;
+    const pxMaxX = MAP_TX + MAP_SX * maxX;
+    const pxMinY = MAP_TY + MAP_SY * minY;
+    const pxMaxY = MAP_TY + MAP_SY * maxY;
+    const pxCx = (pxMinX + pxMaxX) / 2;
+    const pxCy = (pxMinY + pxMaxY) / 2;
+    const pxW = pxMaxX - pxMinX;
+    const pxH = pxMaxY - pxMinY;
+
+    // Reserve room for floating preview panel on desktop (right side) + top breadcrumb
+    const reservePanel = mode === "emirate" ? 340 : 80; // svg-units (matches viewBox)
+    const padX = 140;
+    const padY = 150;
+    const availW = Math.max(280, VW - reservePanel - padX * 2);
+    const availH = Math.max(280, VH - padY * 2);
+
+    const s = Math.min(availW / Math.max(pxW, 1), availH / Math.max(pxH, 1), 2.1);
+
+    // Center cluster into the available area (shifted left to leave room for panel)
+    const centerX = padX + availW / 2;
+    const centerY = VH / 2;
+    const tx = centerX - s * pxCx;
+    const ty = centerY - s * pxCy;
     return { scale: s, tx, ty };
   }, [mode, focusEmirate, grouped]);
+
 
   const openEmirateView = (em: EmirateKey) => {
     setFocusEmirate(em);

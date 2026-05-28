@@ -59,6 +59,47 @@ const TONE_HEX: Record<Tone, string> = {
   cyan: "#67E8F9",
 };
 
+/* Per-jurisdiction brand accents & monogram (premium typographic marks).
+   `accent` overrides the emirate tone; `mono` is the short brand letters. */
+const BRAND: Record<string, { mono: string; accent: string; accent2: string; full: string }> = {
+  "ifza":            { mono: "IFZA",  accent: "#E6B663", accent2: "#A78BFA", full: "IFZA" },
+  "dmcc":            { mono: "DMCC",  accent: "#5BA8FF", accent2: "#C9D3DE", full: "DMCC" },
+  "meydan":          { mono: "MFZ",   accent: "#C49A4B", accent2: "#1E2A4A", full: "Meydan FZ" },
+  "dafza":           { mono: "DAFZA", accent: "#4FB6FF", accent2: "#0E2A55", full: "DAFZA" },
+  "dubai-south":     { mono: "DS",    accent: "#9CB3FF", accent2: "#5BA8FF", full: "Dubai South" },
+  "dubai-mainland":  { mono: "DED",   accent: "#A78BFA", accent2: "#5BA8FF", full: "Dubai Economy" },
+  "dic":             { mono: "DIC",   accent: "#67E8F9", accent2: "#A78BFA", full: "Dubai Internet City" },
+  "dmc":             { mono: "DMC",   accent: "#F472B6", accent2: "#A78BFA", full: "Dubai Media City" },
+  "dso":             { mono: "DSO",   accent: "#67E8F9", accent2: "#5BA8FF", full: "Dubai Silicon Oasis" },
+  "jafza":           { mono: "JAFZA", accent: "#5BA8FF", accent2: "#0E2A55", full: "JAFZA" },
+  "ad-mainland":     { mono: "ADDED", accent: "#E6B663", accent2: "#1E2A4A", full: "Abu Dhabi Economy" },
+  "adgm":            { mono: "ADGM",  accent: "#E6B663", accent2: "#FFFFFF", full: "ADGM" },
+  "masdar":          { mono: "MC",    accent: "#86EFAC", accent2: "#67E8F9", full: "Masdar City" },
+  "kizad":           { mono: "KZ",    accent: "#E6B663", accent2: "#5BA8FF", full: "KEZAD" },
+  "twofour54":       { mono: "247",   accent: "#F472B6", accent2: "#A78BFA", full: "twofour54" },
+  "sharjah-mainland":{ mono: "SHJ",   accent: "#5BA8FF", accent2: "#E6B663", full: "Sharjah Economy" },
+  "shams":           { mono: "SHAMS", accent: "#67E8F9", accent2: "#A78BFA", full: "SHAMS" },
+  "smc":             { mono: "SMC",   accent: "#F472B6", accent2: "#67E8F9", full: "Sharjah Media City" },
+  "hamriyah":        { mono: "HFZA",  accent: "#5BA8FF", accent2: "#E6B663", full: "Hamriyah FZ" },
+  "saif":            { mono: "SAIF",  accent: "#E6B663", accent2: "#5BA8FF", full: "SAIF Zone" },
+  "ajman-fz":        { mono: "AFZ",   accent: "#67E8F9", accent2: "#5BA8FF", full: "Ajman Free Zone" },
+  "ajman-mainland":  { mono: "AJM",   accent: "#67E8F9", accent2: "#A78BFA", full: "Ajman DED" },
+  "rakez":           { mono: "RAKEZ", accent: "#2DD4BF", accent2: "#67E8F9", full: "RAKEZ" },
+  "rak-mainland":    { mono: "RAK",   accent: "#2DD4BF", accent2: "#A78BFA", full: "RAK DED" },
+  "fcc":             { mono: "FCC",   accent: "#67E8F9", accent2: "#F472B6", full: "Fujairah Creative City" },
+  "fujairah-fz":     { mono: "FFZ",   accent: "#5BA8FF", accent2: "#67E8F9", full: "Fujairah FZ" },
+  "uaq":             { mono: "UAQ",   accent: "#67E8F9", accent2: "#A78BFA", full: "UAQ FTZ" },
+};
+
+function brandFor(id: string, fallbackAccent: string) {
+  return BRAND[id] ?? {
+    mono: id.slice(0, 3).toUpperCase(),
+    accent: fallbackAccent,
+    accent2: fallbackAccent,
+    full: "",
+  };
+}
+
 const EMIRATE_ANCHOR: Record<EmirateKey, keyof typeof UAE_CITIES> = {
   "Dubai": "Dubai",
   "Abu Dhabi": "Abu Dhabi",
@@ -1010,28 +1051,83 @@ export function UaeMap() {
                     <X className="w-3.5 h-3.5" />
                   </button>
 
-                  <div
-                    className="relative h-28 rounded-2xl overflow-hidden border border-white/10 shrink-0"
-                    style={{
-                      background:
-                        `linear-gradient(135deg, ${activeHex}26, transparent 60%),` +
-                        `linear-gradient(180deg, oklch(0.18 0.04 280), oklch(0.10 0.02 280))`,
-                    }}
-                  >
-                    <div className="absolute inset-0 grid-pattern opacity-30" />
-                    <div className="absolute -inset-10 opacity-50"
-                         style={{ background: `radial-gradient(circle at 70% 30%, ${activeHex}55, transparent 60%)` }} />
-                    <div className="absolute bottom-3 left-4 right-4 flex items-end justify-between">
-                      <div>
-                        <h3 className="text-xl font-display font-semibold leading-tight">{active.name}</h3>
-                        <div className="flex items-center gap-1.5 mt-1 text-[11px] text-muted-foreground">
-                          <MapPin className="w-3 h-3" style={{ color: activeHex }} />
-                          {active.emirate}, UAE
+                  {(() => {
+                    const b = brandFor(active.id, activeHex);
+                    const a1 = b.accent;
+                    const a2 = b.accent2;
+                    return (
+                      <div
+                        className="relative h-36 rounded-2xl overflow-hidden border border-white/10 shrink-0"
+                        style={{
+                          background:
+                            `radial-gradient(120% 80% at 80% 0%, ${a1}26, transparent 55%),` +
+                            `radial-gradient(120% 80% at 0% 100%, ${a2}1f, transparent 55%),` +
+                            `linear-gradient(180deg, oklch(0.16 0.03 280), oklch(0.09 0.02 280))`,
+                        }}
+                      >
+                        <div className="absolute inset-0 grid-pattern opacity-25" />
+                        {/* shimmer sweep */}
+                        <motion.div
+                          key={`shim-${active.id}`}
+                          initial={{ x: "-120%" }}
+                          animate={{ x: "220%" }}
+                          transition={{ duration: 2.2, ease: "easeInOut", repeat: Infinity, repeatDelay: 3.5 }}
+                          className="absolute inset-y-0 w-1/3 pointer-events-none"
+                          style={{
+                            background: `linear-gradient(115deg, transparent 0%, ${a1}22 45%, #ffffff22 50%, ${a1}22 55%, transparent 100%)`,
+                            mixBlendMode: "screen",
+                            filter: "blur(2px)",
+                          }}
+                        />
+
+                        {/* Logo / monogram chip */}
+                        <div className="absolute top-3 left-3">
+                          <AnimatePresence mode="wait">
+                            <motion.div
+                              key={`logo-${active.id}`}
+                              initial={{ opacity: 0, scale: 0.92, y: 4 }}
+                              animate={{ opacity: 1, scale: 1, y: 0 }}
+                              exit={{ opacity: 0, scale: 0.96 }}
+                              transition={{ duration: 0.35, ease: "easeOut" }}
+                              className="relative h-[68px] min-w-[68px] px-3 rounded-xl flex items-center justify-center border backdrop-blur-md overflow-hidden"
+                              style={{
+                                background: `linear-gradient(140deg, ${a1}1f, ${a2}14 60%, rgba(255,255,255,0.04))`,
+                                borderColor: `${a1}55`,
+                                boxShadow: `0 8px 30px -10px ${a1}66, inset 0 1px 0 rgba(255,255,255,0.08)`,
+                              }}
+                            >
+                              <div
+                                className="absolute -inset-6 opacity-60"
+                                style={{ background: `radial-gradient(circle at 30% 20%, ${a1}55, transparent 60%)` }}
+                              />
+                              <span
+                                className="relative font-display font-semibold tracking-[0.14em] text-[18px] leading-none"
+                                style={{
+                                  color: "#fff",
+                                  textShadow: `0 0 14px ${a1}aa, 0 1px 0 rgba(0,0,0,0.4)`,
+                                  backgroundImage: `linear-gradient(135deg, #ffffff, ${a1})`,
+                                  WebkitBackgroundClip: "text",
+                                  WebkitTextFillColor: "transparent",
+                                }}
+                              >
+                                {b.mono}
+                              </span>
+                            </motion.div>
+                          </AnimatePresence>
+                        </div>
+
+                        <Building2 className="absolute top-4 right-4 w-6 h-6 opacity-40" style={{ color: a1 }} />
+
+                        <div className="absolute bottom-3 left-4 right-4">
+                          <h3 className="text-xl font-display font-semibold leading-tight">{active.name}</h3>
+                          <div className="flex items-center gap-1.5 mt-1 text-[11px] text-muted-foreground">
+                            <MapPin className="w-3 h-3" style={{ color: a1 }} />
+                            {active.emirate}, UAE
+                          </div>
                         </div>
                       </div>
-                      <Building2 className="w-7 h-7 opacity-50" style={{ color: activeHex }} />
-                    </div>
-                  </div>
+                    );
+                  })()}
 
                   <div className="overflow-y-auto custom-scroll pr-1 mt-4 space-y-5">
                     {active.popular && (

@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { MapPin, ArrowRight, Sparkles } from "lucide-react";
 import { UAE_LOCATIONS } from "@/lib/uae-locations";
+import { EMIRATE_BY_KEY } from "@/lib/emirates";
 
 export function WhereWeSetUp() {
   return (
@@ -33,39 +34,71 @@ export function WhereWeSetUp() {
         </div>
 
         <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {UAE_LOCATIONS.map((group, i) => (
-            <div
-              key={group.emirate}
-              className="group glass-card grad-border rounded-2xl p-6 hover-lift reveal relative overflow-hidden"
-              style={{ transitionDelay: `${i * 40}ms` }}
-            >
-              <div className="relative w-11 h-11 rounded-xl glass flex items-center justify-center mb-5 group-hover:border-gold/40 transition">
-                <MapPin className="w-5 h-5 text-gold" />
-              </div>
-              <h3 className="relative text-[15px] font-semibold">
-                {group.emirate}
-              </h3>
-              <p className="relative mt-1 text-[12px] text-muted-foreground">
-                {group.tagline}
-              </p>
-              <ul className="relative mt-4 space-y-1.5">
-                {group.jurisdictions.slice(0, 5).map((j) => (
-                  <li
-                    key={j.name}
-                    className="text-[12.5px] text-foreground/80 flex items-center gap-2"
-                  >
-                    <span className="w-1 h-1 rounded-full bg-gold/70" />
-                    {j.name}
-                  </li>
-                ))}
-                {group.jurisdictions.length > 5 && (
-                  <li className="text-[11.5px] text-muted-foreground pl-3">
-                    +{group.jurisdictions.length - 5} more
-                  </li>
+          {UAE_LOCATIONS.map((group, i) => {
+            const page = EMIRATE_BY_KEY[group.emirate];
+            const CardInner = (
+              <>
+                <div
+                  aria-hidden
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition pointer-events-none"
+                  style={{
+                    background:
+                      "radial-gradient(400px circle at 50% 0%, oklch(0.66 0.22 285 / 0.18), transparent 60%)",
+                  }}
+                />
+                <div className="relative w-11 h-11 rounded-xl glass flex items-center justify-center mb-5 group-hover:border-gold/40 transition">
+                  <MapPin className="w-5 h-5 text-gold" />
+                </div>
+                <h3 className="relative text-[15px] font-semibold">
+                  {group.emirate}
+                </h3>
+                <p className="relative mt-1 text-[12px] text-muted-foreground">
+                  {group.tagline}
+                </p>
+                <ul className="relative mt-4 space-y-1.5">
+                  {group.jurisdictions.slice(0, 5).map((j) => (
+                    <li
+                      key={j.name}
+                      className="text-[12.5px] text-foreground/80 flex items-center gap-2"
+                    >
+                      <span className="w-1 h-1 rounded-full bg-gold/70" />
+                      {j.name}
+                    </li>
+                  ))}
+                  {group.jurisdictions.length > 5 && (
+                    <li className="text-[11.5px] text-muted-foreground pl-3">
+                      +{group.jurisdictions.length - 5} more
+                    </li>
+                  )}
+                </ul>
+                {page && (
+                  <div className="relative mt-5 inline-flex items-center gap-1 text-[12px] font-medium text-gold opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition">
+                    Explore emirate <ArrowRight className="w-3.5 h-3.5" />
+                  </div>
                 )}
-              </ul>
-            </div>
-          ))}
+              </>
+            );
+            const className =
+              "group glass-card grad-border rounded-2xl p-6 hover-lift reveal relative overflow-hidden block cursor-pointer hover:shadow-[0_0_30px_-8px_rgba(140,120,255,0.45)] transition";
+            return page ? (
+              <Link
+                key={group.emirate}
+                to={page.path}
+                className={className}
+                style={{ transitionDelay: `${i * 40}ms` }}
+              >
+                {CardInner}
+              </Link>
+            ) : (
+              <div
+                key={group.emirate}
+                className={className}
+                style={{ transitionDelay: `${i * 40}ms` }}
+              >
+                {CardInner}
+              </div>
+            );
+          })}
         </div>
 
         <div className="mt-12 flex flex-wrap items-center justify-between gap-6 reveal">

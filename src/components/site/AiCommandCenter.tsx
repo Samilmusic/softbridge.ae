@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { OnboardingDialog } from "./OnboardingDialog";
 import {
   CheckCircle2,
   Circle,
@@ -17,6 +16,10 @@ import {
   Zap,
   ArrowRight,
 } from "lucide-react";
+
+interface AiCommandCenterProps {
+  onStartSetup?: () => void;
+}
 
 type StageStatus = "completed" | "in_progress" | "pending" | "review";
 

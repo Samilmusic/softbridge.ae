@@ -3,7 +3,9 @@ import { getRequestHost } from "@tanstack/react-start/server";
 import { z } from "zod";
 import crypto from "crypto";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { sendEmail } from "./email/send.server";
+
 
 const OTP_TTL_MIN = 10;
 const OTP_MAX_ATTEMPTS = 5;

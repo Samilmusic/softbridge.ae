@@ -18,8 +18,10 @@ const STATS = [
 ];
 
 export function Hero() {
+  const [onboarding, setOnboarding] = useState(false);
   return (
     <section id="home" className="relative min-h-[100svh] pt-28 md:pt-36 pb-16 overflow-hidden">
+
       {/* layered backgrounds */}
       <div aria-hidden className="absolute inset-0 grid-pattern opacity-[0.18] [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_75%)]" />
       <div aria-hidden className="absolute -top-40 left-1/2 -translate-x-1/2 w-[1100px] h-[1100px] rounded-full bg-gradient-to-br from-amber-500/10 via-indigo-500/5 to-transparent blur-3xl" />

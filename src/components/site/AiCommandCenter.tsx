@@ -493,6 +493,8 @@ export function AiCommandCenter() {
         }
       `}</style>
     </section>
+    <OnboardingDialog open={onboarding} onOpenChange={setOnboarding} />
+    </>
   );
 }
 

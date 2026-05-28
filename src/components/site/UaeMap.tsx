@@ -826,6 +826,7 @@ export function UaeMap() {
                         onMouseLeave={() => setHoverId(prev => prev === j.id ? null : prev)}
                         onClick={() => openJurisdiction(j)}
                         className="cursor-pointer"
+                        initial={{ opacity: dim }}
                         animate={{ opacity: dim }}
                         transition={{ duration: 0.5 }}
                       >

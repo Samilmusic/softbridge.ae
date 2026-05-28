@@ -566,7 +566,12 @@ export function UaeMap() {
               </div>
             </div>
 
-            <svg viewBox={`0 0 ${VW} ${VH}`} className="w-full h-full block relative">
+            <motion.svg
+              viewBox={`0 0 ${VW} ${VH}`}
+              className="w-full h-full block relative"
+              animate={{ opacity: isDubaiFocus ? 0.18 : 1, filter: isDubaiFocus ? "blur(2px)" : "blur(0px)" }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            >
               <defs>
                 <linearGradient id="uae-fill-v3" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="oklch(0.30 0.06 280)" stopOpacity="0.65" />

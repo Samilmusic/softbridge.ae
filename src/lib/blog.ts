@@ -24,6 +24,7 @@ export const BLOG_CATEGORIES: BlogCategory[] = [
 ];
 
 export type ArticleBlock =
+  | { type: "h3"; text: string }
   | { type: "p"; text: string }
   | { type: "ul"; items: string[] }
   | { type: "quote"; text: string };
@@ -53,7 +54,7 @@ export type Article = {
 const img = (id: string) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=2000&q=80`;
 
-export const ARTICLES: Article[] = [
+const BASE_ARTICLES: Article[] = [
   {
     slug: "best-free-zones-in-dubai-for-startups",
     title: "Best Free Zones in Dubai for Startups in 2026",

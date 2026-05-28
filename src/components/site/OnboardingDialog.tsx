@@ -194,12 +194,12 @@ export function OnboardingDialog({ open, onOpenChange }: { open: boolean; onOpen
                     <div className={`flex items-center gap-2 ${active ? "text-foreground" : done ? "text-gold" : "text-muted-foreground"}`}>
                       <div className={`w-6 h-6 rounded-full grid place-items-center text-[11px] font-semibold border transition ${
                         active ? "bg-gold/15 border-gold/50 text-gold shadow-[0_0_24px_oklch(0.84_0.10_82/0.35)]"
-                        : done ? "bg-gold/10 border-gold/40" : "border-white/15"
+                        : done ? "bg-gold/10 border-gold/40" : "border-border"
                       }`}>{done ? "✓" : n}</div>
                       <span className="hidden sm:inline text-[11px] uppercase tracking-[0.18em]">{label}</span>
                     </div>
                     {i < STEP_LABELS.length - 1 && (
-                      <div className={`h-px flex-1 ${done ? "bg-gold/40" : "bg-white/10"}`} />
+                      <div className={`h-px flex-1 ${done ? "bg-gold/40" : "bg-border"}`} />
                     )}
                   </div>
                 );

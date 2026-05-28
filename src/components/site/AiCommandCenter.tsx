@@ -496,7 +496,6 @@ export function AiCommandCenter({ onStartSetup }: AiCommandCenterProps) {
       `}</style>
     </section>
   );
-  );
 }
 
 function FloatCard({

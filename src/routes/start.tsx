@@ -1,6 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { BookingDialog } from "@/components/site/BookingDialog";
+import { submitLead } from "@/lib/lead.functions";
+import { toast } from "sonner";
 
 const BookingCtx = createContext<() => void>(() => {});
 const useOpenBooking = () => useContext(BookingCtx);
@@ -26,6 +29,8 @@ import {
   Users,
   Zap,
   Lock,
+  X,
+  Loader2,
 } from "lucide-react";
 import { SITE, WA_LINK } from "@/lib/site";
 import skyline from "@/assets/dubai-skyline.webp";

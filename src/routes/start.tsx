@@ -847,6 +847,7 @@ function LandingFooter() {
 /* ============================================================ */
 
 function StickyMobileCTA() {
+  const openBooking = useOpenBooking();
   return (
     <div className="fixed bottom-0 inset-x-0 z-40 sm:hidden border-t border-slate-200 bg-white/95 backdrop-blur p-3 flex gap-2 shadow-[0_-8px_24px_-12px_rgba(15,23,42,0.15)]">
       <a
@@ -857,13 +858,14 @@ function StickyMobileCTA() {
       >
         <MessageCircle className="w-4 h-4 text-emerald-500" /> WhatsApp
       </a>
-      <Link
-        to="/quote"
+      <button
+        type="button"
+        onClick={openBooking}
         className="flex-1 inline-flex items-center justify-center gap-2 rounded-full px-4 py-3 text-[13px] font-semibold text-white"
         style={{ background: `linear-gradient(135deg, ${VIOLET} 0%, #5B21B6 100%)` }}
       >
-        Free Consultation <ArrowRight className="w-4 h-4" />
-      </Link>
+        Book Consultation <ArrowRight className="w-4 h-4" />
+      </button>
     </div>
   );
 }

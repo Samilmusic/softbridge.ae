@@ -833,13 +833,13 @@ function StickyMobileCTA() {
       >
         <MessageCircle className="w-4 h-4 text-emerald-500" /> WhatsApp
       </a>
-      <a
+      <Link
         to="/quote"
         className="flex-1 inline-flex items-center justify-center gap-2 rounded-full px-4 py-3 text-[13px] font-semibold text-white"
         style={{ background: `linear-gradient(135deg, ${VIOLET} 0%, #5B21B6 100%)` }}
       >
         Free Consultation <ArrowRight className="w-4 h-4" />
-      </a>
+      </Link>
     </div>
   );
 }

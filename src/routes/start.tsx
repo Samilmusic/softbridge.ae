@@ -439,6 +439,7 @@ const PACKAGES = [
 ];
 
 function Pricing() {
+  const openBooking = useOpenBooking();
   return (
     <section
       id="pricing"

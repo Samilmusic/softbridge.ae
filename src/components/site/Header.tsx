@@ -20,7 +20,7 @@ const NAV = [
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [booking, setBooking] = useState(false);
+  const { openBooking } = useBooking();
   const { isAuthenticated } = useAuth();
 
   useEffect(() => {

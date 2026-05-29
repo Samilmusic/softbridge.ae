@@ -243,7 +243,7 @@ function Hero() {
           </ul>
 
           <div className="mt-9 flex flex-wrap items-center gap-3">
-            <PrimaryCTA to="/quote">Get Free Consultation</PrimaryCTA>
+            <PrimaryCTA onClick={openBooking}>Book Free Consultation</PrimaryCTA>
             <SecondaryCTA href={WA_LINK}>Talk on WhatsApp</SecondaryCTA>
           </div>
 

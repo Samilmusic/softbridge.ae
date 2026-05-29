@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
-import { ArrowRight, ChevronDown, Sparkles, Star } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ArrowRight, ChevronDown, Sparkles } from "lucide-react";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { FloatingActions } from "@/components/site/FloatingActions";
@@ -102,9 +102,26 @@ const COMPARISON = [
   { emirate: "RAKEZ", price: "AED 7,500", speed: "3–5 days", bestFor: "Industrial", banking: 3 },
 ];
 
+// Deterministic pseudo-random so SSR + client match (no hydration mismatch)
+function seeded(i: number, salt: number) {
+  const x = Math.sin(i * 9301 + salt * 49297) * 233280;
+  return x - Math.floor(x);
+}
+
 function ExplorePage() {
   const [activeId, setActiveId] = useState<string>(EMIRATES[0].id);
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
+
+  const stars = useMemo(
+    () =>
+      Array.from({ length: 80 }).map((_, i) => ({
+        top: seeded(i, 1) * 100,
+        left: seeded(i, 2) * 100,
+        delay: seeded(i, 3) * 8,
+        duration: 3 + seeded(i, 4) * 5,
+      })),
+    []
+  );
 
   useEffect(() => {
     const io = new IntersectionObserver(
@@ -117,7 +134,7 @@ function ExplorePage() {
           }
         });
       },
-      { threshold: 0.35, rootMargin: "-20% 0px -40% 0px" }
+      { threshold: 0.3, rootMargin: "-15% 0px -40% 0px" }
     );
     document.querySelectorAll<HTMLElement>(".explore-reveal").forEach((el) => io.observe(el));
     return () => io.disconnect();
@@ -128,92 +145,72 @@ function ExplorePage() {
   };
 
   return (
-    <div className="min-h-screen text-[#f0f4ff] relative overflow-hidden" style={{ background: "linear-gradient(180deg, #0a0f1e 0%, #060810 100%)" }}>
+    <div className="min-h-screen text-white relative overflow-hidden" style={{ background: "linear-gradient(180deg, #060810 0%, #0a0f1e 50%, #060810 100%)" }}>
       <style>{`
-        @keyframes explore-float {
-          0% { transform: translateY(100vh) translateX(0); opacity: 0; }
-          10% { opacity: 1; }
-          90% { opacity: 1; }
-          100% { transform: translateY(-10vh) translateX(20px); opacity: 0; }
+        html { scroll-behavior: smooth; }
+        @keyframes explore-twinkle {
+          0%, 100% { opacity: 0.1; }
+          50% { opacity: 0.7; }
         }
         @keyframes explore-bounce {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(10px); }
         }
-        .explore-reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s ease, transform 0.9s ease; }
+        .explore-star {
+          position: absolute; width: 2px; height: 2px; border-radius: 50%;
+          background: #ffffff; opacity: 0.4;
+          animation: explore-twinkle ease-in-out infinite;
+        }
+        .explore-reveal { opacity: 0; transform: translateY(60px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .explore-reveal.explore-in { opacity: 1; transform: translateY(0); }
-        .explore-gradient-text {
-          background: linear-gradient(135deg, #c9a84c 0%, #f0d78c 35%, #3b82f6 100%);
-          -webkit-background-clip: text; background-clip: text; color: transparent;
+        .explore-grad {
+          background: linear-gradient(135deg, #c9a84c, #3b82f6);
+          -webkit-background-clip: text; background-clip: text;
+          -webkit-text-fill-color: transparent; color: transparent;
         }
-        .explore-glass {
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.08);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border-radius: 24px;
-        }
-        .explore-chip {
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.1);
-          border-radius: 12px;
-          padding: 12px 16px;
-          font-size: 14px;
-          color: #f0f4ff;
-          transition: all 0.3s ease;
-        }
-        .explore-particle {
-          position: absolute; bottom: -10vh; width: 2px; height: 2px;
-          border-radius: 50%; background: rgba(201,168,76,0.5);
-          animation: explore-float linear infinite;
-        }
-        .explore-watermark {
-          font-size: clamp(48px, 14vw, 200px);
-          font-weight: 800;
-          opacity: 0.06;
-          position: absolute;
-          letter-spacing: -0.04em;
-          line-height: 0.9;
-          pointer-events: none;
-          white-space: nowrap;
+        .explore-divider {
+          height: 1px; width: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
         }
       `}</style>
 
       <Header />
 
-      {/* Particle layer */}
-      <div aria-hidden className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        {Array.from({ length: 30 }).map((_, i) => (
+      {/* Starfield */}
+      <div aria-hidden className="fixed inset-0 pointer-events-none z-0">
+        {stars.map((s, i) => (
           <span
             key={i}
-            className="explore-particle"
+            className="explore-star"
             style={{
-              left: `${(i * 3.33) % 100}%`,
-              animationDuration: `${15 + (i % 7) * 3}s`,
-              animationDelay: `${-(i % 10) * 2}s`,
-              background: i % 3 === 0 ? "rgba(59,130,246,0.5)" : "rgba(201,168,76,0.4)",
+              top: `${s.top}%`,
+              left: `${s.left}%`,
+              animationDelay: `${s.delay}s`,
+              animationDuration: `${s.duration}s`,
             }}
           />
         ))}
       </div>
 
-      {/* Side dot nav */}
-      <nav aria-label="Emirate navigation" className="hidden lg:flex fixed right-6 top-1/2 -translate-y-1/2 z-40 flex-col gap-3">
+      {/* Sticky dot nav */}
+      <nav aria-label="Emirate navigation" className="hidden lg:flex fixed right-6 top-1/2 -translate-y-1/2 z-50 flex-col gap-4">
         {EMIRATES.map((e) => (
           <button
             key={e.id}
             onClick={() => scrollTo(e.id)}
             aria-label={`Go to ${e.name}`}
-            className="group flex items-center gap-3"
+            className="group relative flex items-center justify-end"
           >
-            <span className="text-[11px] uppercase tracking-widest text-white/40 opacity-0 group-hover:opacity-100 transition">{e.name}</span>
+            <span className="absolute right-6 whitespace-nowrap text-[11px] uppercase tracking-widest text-white/70 bg-white/5 border border-white/10 rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none">
+              {e.name}
+            </span>
             <span
-              className="w-3 h-3 rounded-full transition-all duration-300 border"
+              className="block rounded-full transition-all duration-300"
               style={{
-                background: activeId === e.id ? e.accent : "transparent",
-                borderColor: activeId === e.id ? e.accent : "rgba(255,255,255,0.3)",
-                boxShadow: activeId === e.id ? `0 0 12px ${e.accent}` : "none",
-                transform: activeId === e.id ? "scale(1.3)" : "scale(1)",
+                width: 8, height: 8,
+                background: activeId === e.id ? "#c9a84c" : "rgba(255,255,255,0.25)",
+                transform: activeId === e.id ? "scale(1.5)" : "scale(1)",
+                boxShadow: activeId === e.id ? "0 0 12px rgba(201,168,76,0.7)" : "none",
               }}
             />
           </button>
@@ -223,132 +220,181 @@ function ExplorePage() {
       <main className="relative z-10">
         {/* HERO */}
         <section className="min-h-screen flex flex-col items-center justify-center relative px-6 text-center">
-          <svg
-            aria-hidden
-            viewBox="0 0 1000 700"
-            className="absolute inset-0 w-full h-full opacity-[0.07] pointer-events-none"
-            preserveAspectRatio="xMidYMid meet"
-          >
-            <path
-              d="M 944 100 L 957 116 L 958 221 L 947 238 L 926 256 L 907 273 L 888 263 L 849 285 L 845 305 L 850 343 L 841 370 L 873 375 L 885 398 L 845 412 L 800 418 L 785 427 L 793 469 L 763 533 L 733 600 L 731 664 L 700 678 L 595 665 L 472 650 L 350 635 L 243 622 L 197 585 L 113 484 L 60 422 L 39 391 L 38 366 L 70 365 L 81 401 L 103 419 L 169 417 L 245 386 L 376 397 L 532 383 L 599 327 L 647 261 L 754 179 L 891 49 L 909 20 L 920 44 L 916 82 L 922 101 L 944 100 Z"
-              fill="none"
-              stroke="#c9a84c"
-              strokeWidth="2"
-            />
-          </svg>
-          <div className="relative explore-reveal">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 text-[11px] uppercase tracking-[0.25em] text-white/60 mb-8">
-              <Sparkles className="w-3 h-3" /> Interactive Journey
-            </div>
-            <h1 className="text-[clamp(52px,10vw,140px)] font-bold leading-[0.95] tracking-tight explore-gradient-text">
-              Explore the UAE
-            </h1>
-            <p className="mt-6 text-lg md:text-2xl text-white/70 max-w-2xl mx-auto">
-              7 emirates. 40+ free zones. One strategic partner.
-            </p>
+          <div className="flex flex-wrap gap-2 justify-center max-w-3xl mb-10">
+            {EMIRATES.map((e) => (
+              <span
+                key={e.id}
+                className="text-[13px] text-white"
+                style={{
+                  background: "rgba(255,255,255,0.05)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  borderRadius: 999,
+                  padding: "6px 16px",
+                }}
+              >
+                {e.name}
+              </span>
+            ))}
           </div>
-          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/40" style={{ animation: "explore-bounce 2s ease-in-out infinite" }}>
+
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 text-[11px] uppercase tracking-[0.25em] text-white/60 mb-6">
+            <Sparkles className="w-3 h-3" /> Interactive Journey
+          </div>
+
+          <h1 className="explore-grad font-black leading-[0.95] tracking-tight" style={{ fontSize: "clamp(56px, 10vw, 140px)" }}>
+            Explore the UAE
+          </h1>
+          <p className="mt-6 text-white/60" style={{ fontSize: 18 }}>
+            7 emirates. 40+ free zones. One strategic partner.
+          </p>
+
+          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/60" style={{ animation: "explore-bounce 2s ease-in-out infinite" }}>
             <span className="text-[10px] uppercase tracking-widest">Scroll</span>
             <ChevronDown className="w-5 h-5" />
           </div>
         </section>
 
         {/* EMIRATE SECTIONS */}
-        {EMIRATES.map((e) => (
-          <section
-            key={e.id}
-            ref={(el) => { sectionRefs.current[e.id] = el; }}
-            data-emirate={e.id}
-            className="explore-reveal min-h-screen flex items-center relative px-6 md:px-12 py-24 overflow-hidden"
-            style={{
-              background: `radial-gradient(circle at 80% 50%, ${e.accent}14, transparent 60%)`,
-            }}
-          >
-            <div className="explore-watermark top-1/2 left-4 -translate-y-1/2 hidden md:block" style={{ color: e.accent }}>
-              {e.name}
-            </div>
-
-            <div className="relative mx-auto max-w-7xl w-full grid lg:grid-cols-5 gap-10 items-center">
-              {/* Left 60% */}
-              <div className="lg:col-span-3">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] uppercase tracking-widest mb-6" style={{ background: `${e.accent}22`, color: e.accent, border: `1px solid ${e.accent}44` }}>
-                  Emirate
-                </div>
-                <h2 className="text-[clamp(40px,7vw,96px)] font-bold leading-[0.95] tracking-tight" style={{ color: e.accent }}>
-                  {e.name}
-                </h2>
-                <p className="mt-4 text-xl md:text-2xl text-white/80 max-w-xl">{e.tagline}</p>
-                <div className="mt-8 space-y-4">
-                  <div>
-                    <div className="text-[10px] uppercase tracking-[0.22em] text-white/40 mb-2">Mainland</div>
-                    <div className="text-white/90 text-base">{e.mainland}</div>
-                  </div>
-                  <div>
-                    <div className="text-[10px] uppercase tracking-[0.22em] text-white/40 mb-2">Best For</div>
-                    <div className="text-white/90 text-base italic">{e.bestFor}</div>
-                  </div>
-                </div>
+        {EMIRATES.map((e, idx) => (
+          <div key={e.id}>
+            {idx > 0 && (
+              <div className="max-w-[1200px] mx-auto px-6 md:px-6">
+                <div className="explore-divider" />
               </div>
+            )}
+            <section
+              ref={(el) => { sectionRefs.current[e.id] = el; }}
+              data-emirate={e.id}
+              className="explore-reveal min-h-screen flex items-center relative"
+              style={{ padding: "60px 16px" }}
+            >
+              <div className="mx-auto w-full grid lg:grid-cols-100 gap-10 items-center" style={{ maxWidth: 1200, gridTemplateColumns: undefined }}>
+                <div className="grid lg:grid-cols-[55fr_45fr] gap-10 items-center w-full">
+                  {/* LEFT */}
+                  <div>
+                    <div className="uppercase mb-5" style={{ color: e.accent, fontSize: 12, letterSpacing: "3px" }}>
+                      Emirate
+                    </div>
+                    <h2 className="text-white font-extrabold leading-[0.95] tracking-tight" style={{ fontSize: "clamp(36px, 6vw, 80px)", fontWeight: 800 }}>
+                      {e.name}
+                    </h2>
+                    <div className="mt-5" style={{ width: 60, height: 2, background: e.accent }} />
+                    <p className="mt-6 text-white/60" style={{ fontSize: 16 }}>
+                      {e.tagline}
+                    </p>
 
-              {/* Right 40% */}
-              <div className="lg:col-span-2">
-                <div className="explore-glass p-8" style={{ boxShadow: `0 30px 80px -30px ${e.accent}40` }}>
-                  <div className="text-[10px] uppercase tracking-[0.22em] text-white/50 mb-4">
-                    Free Zones · {e.freeZones.length}
-                  </div>
-                  <div className="flex lg:grid lg:grid-cols-1 gap-2.5 overflow-x-auto lg:overflow-visible -mx-2 px-2 lg:mx-0 lg:px-0 pb-2 lg:pb-0">
-                    {e.freeZones.map((fz) => (
-                      <div
-                        key={fz}
-                        className="explore-chip shrink-0 hover:shadow-[0_0_20px_var(--glow)]"
-                        style={{ ["--glow" as any]: `${e.accent}55` }}
-                        onMouseEnter={(ev) => { ev.currentTarget.style.borderColor = e.accent; }}
-                        onMouseLeave={(ev) => { ev.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"; }}
-                      >
-                        {fz}
+                    <div className="mt-8 space-y-4">
+                      <div className="flex items-center gap-3 flex-wrap">
+                        <span className="text-[10px] uppercase tracking-[0.22em] text-white/40">Mainland</span>
+                        <span
+                          className="text-white/90 text-sm"
+                          style={{
+                            background: "rgba(255,255,255,0.05)",
+                            border: `1px solid ${e.accent}55`,
+                            borderRadius: 999,
+                            padding: "4px 12px",
+                          }}
+                        >
+                          {e.mainland}
+                        </span>
                       </div>
-                    ))}
+                      <div className="flex items-baseline gap-3 flex-wrap">
+                        <span className="text-[10px] uppercase tracking-[0.22em] text-white/40">Best For</span>
+                        <span className="italic text-white/80 text-sm">{e.bestFor}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* RIGHT */}
+                  <div>
+                    <div
+                      style={{
+                        background: "rgba(255,255,255,0.03)",
+                        border: "1px solid rgba(255,255,255,0.07)",
+                        backdropFilter: "blur(20px)",
+                        WebkitBackdropFilter: "blur(20px)",
+                        borderRadius: 24,
+                        padding: 28,
+                        boxShadow: `0 30px 80px -30px ${e.accent}40`,
+                      }}
+                    >
+                      <div className="text-[10px] uppercase tracking-[0.22em] text-white/50 mb-5" style={{ color: e.accent }}>
+                        Free Zones · {e.freeZones.length}
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {e.freeZones.map((fz) => (
+                          <span
+                            key={fz}
+                            style={{
+                              background: "rgba(255,255,255,0.05)",
+                              border: "1px solid rgba(255,255,255,0.08)",
+                              borderRadius: 10,
+                              padding: "8px 14px",
+                              fontSize: 13,
+                              color: "#f0f4ff",
+                            }}
+                          >
+                            {fz}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </section>
+            </section>
+          </div>
         ))}
 
         {/* COMPARISON */}
-        <section className="explore-reveal relative px-6 md:px-12 py-32">
-          <div className="mx-auto max-w-6xl">
+        <section className="explore-reveal relative" style={{ padding: "100px 24px" }}>
+          <div className="max-w-[1200px] mx-auto">
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] uppercase tracking-widest mb-6 border border-white/10 text-white/60">
                 Side by side
               </div>
-              <h2 className="text-4xl md:text-6xl font-bold explore-gradient-text">Quick Comparison</h2>
+              <h2 className="text-4xl md:text-6xl font-bold explore-grad">Quick Comparison</h2>
               <p className="mt-4 text-white/60 max-w-2xl mx-auto">A snapshot of the most popular jurisdictions for international founders.</p>
             </div>
 
-            <div className="explore-glass overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
+            <div
+              style={{
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.07)",
+                borderRadius: 20,
+                overflow: "hidden",
+              }}
+            >
+              <div style={{ overflowX: "auto" }}>
+                <table className="w-full text-sm" style={{ borderCollapse: "collapse", minWidth: 640 }}>
                   <thead>
-                    <tr style={{ background: "linear-gradient(90deg, rgba(201,168,76,0.18), rgba(201,168,76,0.08))" }}>
-                      <th className="text-left px-5 py-4 text-[#c9a84c] font-semibold uppercase tracking-wider text-[11px]">Emirate</th>
-                      <th className="text-left px-5 py-4 text-[#c9a84c] font-semibold uppercase tracking-wider text-[11px]">Starting From</th>
-                      <th className="text-left px-5 py-4 text-[#c9a84c] font-semibold uppercase tracking-wider text-[11px]">Setup Speed</th>
-                      <th className="text-left px-5 py-4 text-[#c9a84c] font-semibold uppercase tracking-wider text-[11px]">Best For</th>
-                      <th className="text-left px-5 py-4 text-[#c9a84c] font-semibold uppercase tracking-wider text-[11px]">Banking</th>
+                    <tr style={{ background: "rgba(201,168,76,0.15)" }}>
+                      {["Emirate", "Starting From", "Setup Speed", "Best For", "Banking"].map((h) => (
+                        <th key={h} className="text-left px-5 py-4 font-semibold uppercase tracking-wider text-[11px]" style={{ color: "#c9a84c" }}>
+                          {h}
+                        </th>
+                      ))}
                     </tr>
                   </thead>
                   <tbody>
-                    {COMPARISON.map((row) => (
-                      <tr key={row.emirate} className="border-t border-white/5 transition-colors hover:bg-white/[0.03]">
+                    {COMPARISON.map((row, i) => (
+                      <tr
+                        key={row.emirate}
+                        className="transition-colors"
+                        style={{ background: i % 2 === 0 ? "rgba(255,255,255,0.02)" : "transparent" }}
+                        onMouseEnter={(ev) => (ev.currentTarget.style.background = "rgba(255,255,255,0.05)")}
+                        onMouseLeave={(ev) => (ev.currentTarget.style.background = i % 2 === 0 ? "rgba(255,255,255,0.02)" : "transparent")}
+                      >
                         <td className="px-5 py-4 text-white/90 font-medium whitespace-nowrap">{row.emirate}</td>
                         <td className="px-5 py-4 text-white/80 whitespace-nowrap">{row.price}</td>
                         <td className="px-5 py-4 text-white/70 whitespace-nowrap">{row.speed}</td>
                         <td className="px-5 py-4 text-white/70">{row.bestFor}</td>
                         <td className="px-5 py-4 whitespace-nowrap">
-                          <span className="inline-flex items-center gap-0.5">
-                            {Array.from({ length: 5 }).map((_, i) => (
-                              <Star key={i} className="w-3.5 h-3.5" style={{ color: i < row.banking ? "#c9a84c" : "rgba(255,255,255,0.15)", fill: i < row.banking ? "#c9a84c" : "transparent" }} />
+                          <span aria-label={`${row.banking} out of 5`}>
+                            {Array.from({ length: 5 }).map((_, j) => (
+                              <span key={j} style={{ color: j < row.banking ? "#c9a84c" : "rgba(255,255,255,0.15)", marginRight: 2 }}>
+                                ★
+                              </span>
                             ))}
                           </span>
                         </td>
@@ -362,28 +408,42 @@ function ExplorePage() {
         </section>
 
         {/* FINAL CTA */}
-        <section className="explore-reveal relative px-6 py-32 overflow-hidden">
-          <div aria-hidden className="absolute inset-0 pointer-events-none">
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full" style={{ background: "radial-gradient(circle, rgba(201,168,76,0.18) 0%, transparent 65%)" }} />
-          </div>
-          <div className="relative mx-auto max-w-3xl text-center">
-            <h2 className="text-4xl md:text-6xl font-bold leading-tight">
-              Not sure which emirate <span className="explore-gradient-text">fits your business?</span>
+        <section className="explore-reveal relative overflow-hidden" style={{ padding: "100px 24px" }}>
+          <div
+            aria-hidden
+            className="absolute inset-0 pointer-events-none"
+            style={{ background: "radial-gradient(ellipse at center, rgba(201,168,76,0.12) 0%, transparent 70%)" }}
+          />
+          <div className="relative max-w-[900px] mx-auto text-center">
+            <h2 className="font-bold leading-tight explore-grad" style={{ fontSize: "clamp(36px, 6vw, 72px)" }}>
+              Not sure which emirate fits your business?
             </h2>
             <p className="mt-6 text-lg text-white/70">
               Our AI advisor analyzes your model and recommends the right structure in minutes.
             </p>
-            <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-stretch sm:items-center">
               <Link
                 to="/advisor"
-                className="inline-flex items-center justify-center gap-2 rounded-full px-7 py-4 text-sm font-semibold text-[#0a0f1e]"
-                style={{ background: "linear-gradient(135deg, #c9a84c, #f0d78c)", boxShadow: "0 20px 50px -15px rgba(201,168,76,0.6)" }}
+                className="inline-flex items-center justify-center gap-2 font-semibold"
+                style={{
+                  background: "#c9a84c",
+                  color: "#0a0f1e",
+                  borderRadius: 12,
+                  padding: "14px 32px",
+                  boxShadow: "0 20px 50px -15px rgba(201,168,76,0.6)",
+                }}
               >
                 Try AI Advisor <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
                 to="/quote"
-                className="inline-flex items-center justify-center gap-2 rounded-full px-7 py-4 text-sm font-semibold text-white border border-white/15 hover:border-white/40 hover:bg-white/5 transition"
+                className="inline-flex items-center justify-center gap-2 font-semibold text-white"
+                style={{
+                  background: "transparent",
+                  border: "1px solid #c9a84c",
+                  borderRadius: 12,
+                  padding: "14px 32px",
+                }}
               >
                 Get a Quote <ArrowRight className="w-4 h-4" />
               </Link>

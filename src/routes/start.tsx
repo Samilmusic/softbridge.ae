@@ -548,7 +548,7 @@ function WhySoftBridge() {
             partner — from formation through compliance, banking, and digital growth.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <PrimaryCTA to="/quote">Get Free Consultation</PrimaryCTA>
+            <PrimaryCTA onClick={openBooking}>Book Free Consultation</PrimaryCTA>
             <SecondaryCTA href={WA_LINK}>Talk on WhatsApp</SecondaryCTA>
           </div>
         </div>

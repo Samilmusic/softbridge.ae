@@ -986,7 +986,7 @@ function InlineLeadForm({ className = "", source }: { className?: string; source
           className="h-11 rounded-xl border border-slate-200 bg-white px-3.5 text-[14px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition"
         />
         <CompactPhoneField value={phone} onChange={setPhone} placeholder="WhatsApp number" />
-        <CountrySelect value={country} onChange={(name) => setCountry(name)} placeholder="Country of residence" />
+        <CountrySelect value={country} onChange={(name: string) => setCountry(name)} placeholder="Country of residence" />
       </div>
       <button
         type="submit"

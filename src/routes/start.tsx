@@ -134,8 +134,11 @@ function LandingPage() {
         <LandingHeader />
         <main>
           <Hero />
+          <TrustBar />
           <WhatsIncluded />
+          <Stats />
           <Pricing />
+          <Testimonials />
           <WhySoftBridge />
           <Process />
           <FreeWebsite />
@@ -145,6 +148,7 @@ function LandingPage() {
         </main>
         <LandingFooter />
         <StickyMobileCTA />
+        <ScrollPopup />
         <BookingDialog open={bookingOpen} onOpenChange={setBookingOpen} />
       </div>
     </BookingCtx.Provider>

@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { WA_LINK } from "@/lib/site";
+import { useBooking } from "@/lib/booking-context";
 import {
   Check,
   ArrowRight,

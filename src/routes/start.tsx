@@ -611,7 +611,7 @@ function FreeWebsite() {
   return (
     <section className="py-20 md:py-28 bg-white">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <a
+        <Link
           to="/quote"
           className="block relative overflow-hidden rounded-[32px] shadow-2xl ring-1 ring-violet-900/10 group"
         >
@@ -622,7 +622,7 @@ function FreeWebsite() {
             loading="lazy"
             decoding="async"
           />
-        </a>
+        </Link>
       </div>
     </section>
   );

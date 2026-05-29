@@ -526,6 +526,7 @@ function Pricing() {
 /* ============================================================ */
 
 function WhySoftBridge() {
+  const openBooking = useOpenBooking();
   const items = [
     { title: "Renewals", text: "Stay compliant — we handle annual license renewals." },
     { title: "Compliance", text: "Tax filings, ESR, UBO — we keep your entity in good standing." },

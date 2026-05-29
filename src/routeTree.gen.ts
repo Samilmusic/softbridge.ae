@@ -20,6 +20,7 @@ import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as FujairahCompanyFormationRouteImport } from './routes/fujairah-company-formation'
+import { Route as ExploreRouteImport } from './routes/explore'
 import { Route as DubaiCompanyFormationRouteImport } from './routes/dubai-company-formation'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AjmanCompanyFormationRouteImport } from './routes/ajman-company-formation'
@@ -97,6 +98,11 @@ const FujairahCompanyFormationRoute =
     path: '/fujairah-company-formation',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ExploreRoute = ExploreRouteImport.update({
+  id: '/explore',
+  path: '/explore',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DubaiCompanyFormationRoute = DubaiCompanyFormationRouteImport.update({
   id: '/dubai-company-formation',
   path: '/dubai-company-formation',
@@ -211,6 +217,7 @@ export interface FileRoutesByFullPath {
   '/ajman-company-formation': typeof AjmanCompanyFormationRoute
   '/blog': typeof BlogRoute
   '/dubai-company-formation': typeof DubaiCompanyFormationRoute
+  '/explore': typeof ExploreRoute
   '/fujairah-company-formation': typeof FujairahCompanyFormationRoute
   '/insights': typeof InsightsRouteWithChildren
   '/login': typeof LoginRoute
@@ -243,6 +250,7 @@ export interface FileRoutesByTo {
   '/ajman-company-formation': typeof AjmanCompanyFormationRoute
   '/blog': typeof BlogRoute
   '/dubai-company-formation': typeof DubaiCompanyFormationRoute
+  '/explore': typeof ExploreRoute
   '/fujairah-company-formation': typeof FujairahCompanyFormationRoute
   '/login': typeof LoginRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
@@ -276,6 +284,7 @@ export interface FileRoutesById {
   '/ajman-company-formation': typeof AjmanCompanyFormationRoute
   '/blog': typeof BlogRoute
   '/dubai-company-formation': typeof DubaiCompanyFormationRoute
+  '/explore': typeof ExploreRoute
   '/fujairah-company-formation': typeof FujairahCompanyFormationRoute
   '/insights': typeof InsightsRouteWithChildren
   '/login': typeof LoginRoute
@@ -310,6 +319,7 @@ export interface FileRouteTypes {
     | '/ajman-company-formation'
     | '/blog'
     | '/dubai-company-formation'
+    | '/explore'
     | '/fujairah-company-formation'
     | '/insights'
     | '/login'
@@ -342,6 +352,7 @@ export interface FileRouteTypes {
     | '/ajman-company-formation'
     | '/blog'
     | '/dubai-company-formation'
+    | '/explore'
     | '/fujairah-company-formation'
     | '/login'
     | '/privacy-policy'
@@ -374,6 +385,7 @@ export interface FileRouteTypes {
     | '/ajman-company-formation'
     | '/blog'
     | '/dubai-company-formation'
+    | '/explore'
     | '/fujairah-company-formation'
     | '/insights'
     | '/login'
@@ -408,6 +420,7 @@ export interface RootRouteChildren {
   AjmanCompanyFormationRoute: typeof AjmanCompanyFormationRoute
   BlogRoute: typeof BlogRoute
   DubaiCompanyFormationRoute: typeof DubaiCompanyFormationRoute
+  ExploreRoute: typeof ExploreRoute
   FujairahCompanyFormationRoute: typeof FujairahCompanyFormationRoute
   InsightsRoute: typeof InsightsRouteWithChildren
   LoginRoute: typeof LoginRoute
@@ -506,6 +519,13 @@ declare module '@tanstack/react-router' {
       path: '/fujairah-company-formation'
       fullPath: '/fujairah-company-formation'
       preLoaderRoute: typeof FujairahCompanyFormationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/explore': {
+      id: '/explore'
+      path: '/explore'
+      fullPath: '/explore'
+      preLoaderRoute: typeof ExploreRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dubai-company-formation': {
@@ -688,6 +708,7 @@ const rootRouteChildren: RootRouteChildren = {
   AjmanCompanyFormationRoute: AjmanCompanyFormationRoute,
   BlogRoute: BlogRoute,
   DubaiCompanyFormationRoute: DubaiCompanyFormationRoute,
+  ExploreRoute: ExploreRoute,
   FujairahCompanyFormationRoute: FujairahCompanyFormationRoute,
   InsightsRoute: InsightsRouteWithChildren,
   LoginRoute: LoginRoute,

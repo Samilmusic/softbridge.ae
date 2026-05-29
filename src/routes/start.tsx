@@ -254,7 +254,9 @@ function Hero() {
             ))}
           </ul>
 
-          <div className="mt-9 flex flex-wrap items-center gap-3">
+          <InlineLeadForm className="mt-8 max-w-xl" source="hero /start" />
+
+          <div className="mt-6 flex flex-wrap items-center gap-3">
             <PrimaryCTA onClick={openBooking}>Book Free Consultation</PrimaryCTA>
             <SecondaryCTA href={WA_LINK}>Talk on WhatsApp</SecondaryCTA>
           </div>

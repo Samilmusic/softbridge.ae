@@ -213,8 +213,11 @@ function Hero() {
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8 pt-16 md:pt-24 pb-16 md:pb-24 grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
         {/* Copy */}
         <div className="lg:col-span-7">
-          <div className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white px-3.5 py-1.5 text-[12px] font-semibold text-violet-700 shadow-sm">
-            <Sparkles className="w-3.5 h-3.5" /> Limited offer — Setup from AED 4,999
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white px-3.5 py-1.5 text-[12px] font-semibold text-violet-700 shadow-sm">
+              <Sparkles className="w-3.5 h-3.5" /> Limited offer — Setup from AED 4,999
+            </div>
+            <CountdownBadge />
           </div>
 
           <h1 className="mt-6 text-[2.4rem] sm:text-5xl md:text-[3.75rem] lg:text-[4.25rem] leading-[1.02] font-semibold tracking-tight">

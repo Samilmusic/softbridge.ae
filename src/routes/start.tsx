@@ -64,17 +64,25 @@ function PrimaryCTA({
   children,
   href,
   to,
+  onClick,
   className = "",
 }: {
   children: React.ReactNode;
   href?: string;
   to?: string;
+  onClick?: () => void;
   className?: string;
 }) {
   const cls = `group inline-flex items-center justify-center gap-2 rounded-full px-7 py-4 text-[15px] font-semibold text-white shadow-[0_18px_40px_-12px_rgba(124,58,237,0.55)] transition hover:shadow-[0_22px_48px_-12px_rgba(124,58,237,0.7)] hover:-translate-y-0.5 ${className}`;
   const style = {
     background: `linear-gradient(135deg, ${VIOLET} 0%, #5B21B6 100%)`,
   };
+  if (onClick)
+    return (
+      <button type="button" onClick={onClick} className={cls} style={style}>
+        {children} <ArrowRight className="w-4 h-4 transition group-hover:translate-x-0.5" />
+      </button>
+    );
   if (to)
     return (
       <Link to={to} className={cls} style={style}>

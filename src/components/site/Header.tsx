@@ -10,6 +10,7 @@ const NAV = [
   { label: "Home", href: "/#home" },
   { label: "About", href: "/about" },
   { label: "Services", href: "/#services" },
+  { label: "Explore UAE", href: "/explore" },
   { label: "Remote Setup", href: "/remote-company-setup" },
   { label: "AI Advisor", href: "/advisor" },
   { label: "Insights", href: "/insights" },

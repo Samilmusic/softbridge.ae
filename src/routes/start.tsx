@@ -1,5 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { createContext, useContext, useState } from "react";
+import { BookingDialog } from "@/components/site/BookingDialog";
+
+const BookingCtx = createContext<() => void>(() => {});
+const useOpenBooking = () => useContext(BookingCtx);
 import {
   ArrowRight,
   Check,
@@ -60,17 +64,25 @@ function PrimaryCTA({
   children,
   href,
   to,
+  onClick,
   className = "",
 }: {
   children: React.ReactNode;
   href?: string;
   to?: string;
+  onClick?: () => void;
   className?: string;
 }) {
   const cls = `group inline-flex items-center justify-center gap-2 rounded-full px-7 py-4 text-[15px] font-semibold text-white shadow-[0_18px_40px_-12px_rgba(124,58,237,0.55)] transition hover:shadow-[0_22px_48px_-12px_rgba(124,58,237,0.7)] hover:-translate-y-0.5 ${className}`;
   const style = {
     background: `linear-gradient(135deg, ${VIOLET} 0%, #5B21B6 100%)`,
   };
+  if (onClick)
+    return (
+      <button type="button" onClick={onClick} className={cls} style={style}>
+        {children} <ArrowRight className="w-4 h-4 transition group-hover:translate-x-0.5" />
+      </button>
+    );
   if (to)
     return (
       <Link to={to} className={cls} style={style}>
@@ -110,23 +122,27 @@ function SectionEyebrow({ children }: { children: React.ReactNode }) {
 /* ============================================================ */
 
 function LandingPage() {
+  const [bookingOpen, setBookingOpen] = useState(false);
   return (
-    <div className="min-h-screen bg-white text-slate-900 antialiased" style={{ color: INK }}>
-      <LandingHeader />
-      <main>
-        <Hero />
-        <WhatsIncluded />
-        <Pricing />
-        <WhySoftBridge />
-        <Process />
-        <FreeWebsite />
-        <Trust />
-        <FAQ />
-        <FinalCTA />
-      </main>
-      <LandingFooter />
-      <StickyMobileCTA />
-    </div>
+    <BookingCtx.Provider value={() => setBookingOpen(true)}>
+      <div className="min-h-screen bg-white text-slate-900 antialiased" style={{ color: INK }}>
+        <LandingHeader />
+        <main>
+          <Hero />
+          <WhatsIncluded />
+          <Pricing />
+          <WhySoftBridge />
+          <Process />
+          <FreeWebsite />
+          <Trust />
+          <FAQ />
+          <FinalCTA />
+        </main>
+        <LandingFooter />
+        <StickyMobileCTA />
+        <BookingDialog open={bookingOpen} onOpenChange={setBookingOpen} />
+      </div>
+    </BookingCtx.Provider>
   );
 }
 
@@ -135,6 +151,7 @@ function LandingPage() {
 /* ============================================================ */
 
 function LandingHeader() {
+  const openBooking = useOpenBooking();
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-100 bg-white/85 backdrop-blur-md">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 h-16 flex items-center justify-between">
@@ -149,8 +166,8 @@ function LandingHeader() {
           >
             <Phone className="w-4 h-4" /> {SITE.phone}
           </a>
-          <PrimaryCTA to="/quote" className="!px-5 !py-2.5 !text-sm">
-            Get Free Consultation
+          <PrimaryCTA onClick={openBooking} className="!px-5 !py-2.5 !text-sm">
+            Book Free Consultation
           </PrimaryCTA>
         </div>
       </div>
@@ -163,6 +180,7 @@ function LandingHeader() {
 /* ============================================================ */
 
 function Hero() {
+  const openBooking = useOpenBooking();
   return (
     <section
       className="relative overflow-hidden"
@@ -225,7 +243,7 @@ function Hero() {
           </ul>
 
           <div className="mt-9 flex flex-wrap items-center gap-3">
-            <PrimaryCTA to="/quote">Get Free Consultation</PrimaryCTA>
+            <PrimaryCTA onClick={openBooking}>Book Free Consultation</PrimaryCTA>
             <SecondaryCTA href={WA_LINK}>Talk on WhatsApp</SecondaryCTA>
           </div>
 
@@ -421,6 +439,7 @@ const PACKAGES = [
 ];
 
 function Pricing() {
+  const openBooking = useOpenBooking();
   return (
     <section
       id="pricing"
@@ -479,17 +498,18 @@ function Pricing() {
 
                 <div className="mt-8 pt-2">
                   {featured ? (
-                    <PrimaryCTA to="/quote" className="w-full">
-                      Get Free Consultation
+                    <PrimaryCTA onClick={openBooking} className="w-full">
+                      Book Free Consultation
                     </PrimaryCTA>
                   ) : (
-                    <Link
-                      to="/quote"
+                    <button
+                      type="button"
+                      onClick={openBooking}
                       className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 text-white px-6 py-3.5 text-[14px] font-semibold hover:bg-slate-800 transition"
                     >
-                      Get Free Consultation
+                      Book Free Consultation
                       <ArrowRight className="w-4 h-4" />
-                    </Link>
+                    </button>
                   )}
                 </div>
               </div>
@@ -506,6 +526,7 @@ function Pricing() {
 /* ============================================================ */
 
 function WhySoftBridge() {
+  const openBooking = useOpenBooking();
   const items = [
     { title: "Renewals", text: "Stay compliant — we handle annual license renewals." },
     { title: "Compliance", text: "Tax filings, ESR, UBO — we keep your entity in good standing." },
@@ -527,7 +548,7 @@ function WhySoftBridge() {
             partner — from formation through compliance, banking, and digital growth.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <PrimaryCTA to="/quote">Get Free Consultation</PrimaryCTA>
+            <PrimaryCTA onClick={openBooking}>Book Free Consultation</PrimaryCTA>
             <SecondaryCTA href={WA_LINK}>Talk on WhatsApp</SecondaryCTA>
           </div>
         </div>
@@ -608,12 +629,14 @@ function Process() {
 /* ============================================================ */
 
 function FreeWebsite() {
+  const openBooking = useOpenBooking();
   return (
     <section className="py-20 md:py-28 bg-white">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <Link
-          to="/quote"
-          className="block relative overflow-hidden rounded-[32px] shadow-2xl ring-1 ring-violet-900/10 group"
+        <button
+          type="button"
+          onClick={openBooking}
+          className="block w-full text-left relative overflow-hidden rounded-[32px] shadow-2xl ring-1 ring-violet-900/10 group"
         >
           <img
             src={freeWebsiteShowcase}
@@ -622,7 +645,7 @@ function FreeWebsite() {
             loading="lazy"
             decoding="async"
           />
-        </Link>
+        </button>
       </div>
     </section>
   );
@@ -748,6 +771,7 @@ function FAQ() {
 /* ============================================================ */
 
 function FinalCTA() {
+  const openBooking = useOpenBooking();
   return (
     <section
       id="consult"
@@ -773,7 +797,7 @@ function FinalCTA() {
         </p>
 
         <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-          <PrimaryCTA to="/quote">Get Free Consultation</PrimaryCTA>
+          <PrimaryCTA onClick={openBooking}>Book Free Consultation</PrimaryCTA>
           <SecondaryCTA href={WA_LINK}>WhatsApp Us</SecondaryCTA>
         </div>
 
@@ -823,6 +847,7 @@ function LandingFooter() {
 /* ============================================================ */
 
 function StickyMobileCTA() {
+  const openBooking = useOpenBooking();
   return (
     <div className="fixed bottom-0 inset-x-0 z-40 sm:hidden border-t border-slate-200 bg-white/95 backdrop-blur p-3 flex gap-2 shadow-[0_-8px_24px_-12px_rgba(15,23,42,0.15)]">
       <a
@@ -833,13 +858,14 @@ function StickyMobileCTA() {
       >
         <MessageCircle className="w-4 h-4 text-emerald-500" /> WhatsApp
       </a>
-      <Link
-        to="/quote"
+      <button
+        type="button"
+        onClick={openBooking}
         className="flex-1 inline-flex items-center justify-center gap-2 rounded-full px-4 py-3 text-[13px] font-semibold text-white"
         style={{ background: `linear-gradient(135deg, ${VIOLET} 0%, #5B21B6 100%)` }}
       >
-        Free Consultation <ArrowRight className="w-4 h-4" />
-      </Link>
+        Book Consultation <ArrowRight className="w-4 h-4" />
+      </button>
     </div>
   );
 }

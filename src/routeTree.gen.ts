@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UaqCompanyFormationRouteImport } from './routes/uaq-company-formation'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as StartRouteImport } from './routes/start'
 import { Route as SharjahCompanyFormationRouteImport } from './routes/sharjah-company-formation'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as RemoteCompanySetupRouteImport } from './routes/remote-company-setup'
@@ -49,6 +50,11 @@ const UaqCompanyFormationRoute = UaqCompanyFormationRouteImport.update({
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StartRoute = StartRouteImport.update({
+  id: '/start',
+  path: '/start',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SharjahCompanyFormationRoute = SharjahCompanyFormationRouteImport.update({
@@ -220,6 +226,7 @@ export interface FileRoutesByFullPath {
   '/remote-company-setup': typeof RemoteCompanySetupRoute
   '/resources': typeof ResourcesRoute
   '/sharjah-company-formation': typeof SharjahCompanyFormationRoute
+  '/start': typeof StartRoute
   '/terms': typeof TermsRoute
   '/uaq-company-formation': typeof UaqCompanyFormationRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -251,6 +258,7 @@ export interface FileRoutesByTo {
   '/remote-company-setup': typeof RemoteCompanySetupRoute
   '/resources': typeof ResourcesRoute
   '/sharjah-company-formation': typeof SharjahCompanyFormationRoute
+  '/start': typeof StartRoute
   '/terms': typeof TermsRoute
   '/uaq-company-formation': typeof UaqCompanyFormationRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -285,6 +293,7 @@ export interface FileRoutesById {
   '/remote-company-setup': typeof RemoteCompanySetupRoute
   '/resources': typeof ResourcesRoute
   '/sharjah-company-formation': typeof SharjahCompanyFormationRoute
+  '/start': typeof StartRoute
   '/terms': typeof TermsRoute
   '/uaq-company-formation': typeof UaqCompanyFormationRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
@@ -319,6 +328,7 @@ export interface FileRouteTypes {
     | '/remote-company-setup'
     | '/resources'
     | '/sharjah-company-formation'
+    | '/start'
     | '/terms'
     | '/uaq-company-formation'
     | '/admin'
@@ -350,6 +360,7 @@ export interface FileRouteTypes {
     | '/remote-company-setup'
     | '/resources'
     | '/sharjah-company-formation'
+    | '/start'
     | '/terms'
     | '/uaq-company-formation'
     | '/admin'
@@ -383,6 +394,7 @@ export interface FileRouteTypes {
     | '/remote-company-setup'
     | '/resources'
     | '/sharjah-company-formation'
+    | '/start'
     | '/terms'
     | '/uaq-company-formation'
     | '/_authenticated/admin'
@@ -417,6 +429,7 @@ export interface RootRouteChildren {
   RemoteCompanySetupRoute: typeof RemoteCompanySetupRoute
   ResourcesRoute: typeof ResourcesRoute
   SharjahCompanyFormationRoute: typeof SharjahCompanyFormationRoute
+  StartRoute: typeof StartRoute
   TermsRoute: typeof TermsRoute
   UaqCompanyFormationRoute: typeof UaqCompanyFormationRoute
   ServicesAmlComplianceRoute: typeof ServicesAmlComplianceRoute
@@ -443,6 +456,13 @@ declare module '@tanstack/react-router' {
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/start': {
+      id: '/start'
+      path: '/start'
+      fullPath: '/start'
+      preLoaderRoute: typeof StartRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sharjah-company-formation': {
@@ -697,6 +717,7 @@ const rootRouteChildren: RootRouteChildren = {
   RemoteCompanySetupRoute: RemoteCompanySetupRoute,
   ResourcesRoute: ResourcesRoute,
   SharjahCompanyFormationRoute: SharjahCompanyFormationRoute,
+  StartRoute: StartRoute,
   TermsRoute: TermsRoute,
   UaqCompanyFormationRoute: UaqCompanyFormationRoute,
   ServicesAmlComplianceRoute: ServicesAmlComplianceRoute,

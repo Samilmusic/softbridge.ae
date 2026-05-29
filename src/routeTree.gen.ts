@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as UaqCompanyFormationRouteImport } from './routes/uaq-company-formation'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as StartRouteImport } from './routes/start'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SharjahCompanyFormationRouteImport } from './routes/sharjah-company-formation'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as RemoteCompanySetupRouteImport } from './routes/remote-company-setup'
@@ -55,6 +56,11 @@ const TermsRoute = TermsRouteImport.update({
 const StartRoute = StartRouteImport.update({
   id: '/start',
   path: '/start',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SharjahCompanyFormationRoute = SharjahCompanyFormationRouteImport.update({
@@ -226,6 +232,7 @@ export interface FileRoutesByFullPath {
   '/remote-company-setup': typeof RemoteCompanySetupRoute
   '/resources': typeof ResourcesRoute
   '/sharjah-company-formation': typeof SharjahCompanyFormationRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/start': typeof StartRoute
   '/terms': typeof TermsRoute
   '/uaq-company-formation': typeof UaqCompanyFormationRoute
@@ -258,6 +265,7 @@ export interface FileRoutesByTo {
   '/remote-company-setup': typeof RemoteCompanySetupRoute
   '/resources': typeof ResourcesRoute
   '/sharjah-company-formation': typeof SharjahCompanyFormationRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/start': typeof StartRoute
   '/terms': typeof TermsRoute
   '/uaq-company-formation': typeof UaqCompanyFormationRoute
@@ -293,6 +301,7 @@ export interface FileRoutesById {
   '/remote-company-setup': typeof RemoteCompanySetupRoute
   '/resources': typeof ResourcesRoute
   '/sharjah-company-formation': typeof SharjahCompanyFormationRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/start': typeof StartRoute
   '/terms': typeof TermsRoute
   '/uaq-company-formation': typeof UaqCompanyFormationRoute
@@ -328,6 +337,7 @@ export interface FileRouteTypes {
     | '/remote-company-setup'
     | '/resources'
     | '/sharjah-company-formation'
+    | '/sitemap.xml'
     | '/start'
     | '/terms'
     | '/uaq-company-formation'
@@ -360,6 +370,7 @@ export interface FileRouteTypes {
     | '/remote-company-setup'
     | '/resources'
     | '/sharjah-company-formation'
+    | '/sitemap.xml'
     | '/start'
     | '/terms'
     | '/uaq-company-formation'
@@ -394,6 +405,7 @@ export interface FileRouteTypes {
     | '/remote-company-setup'
     | '/resources'
     | '/sharjah-company-formation'
+    | '/sitemap.xml'
     | '/start'
     | '/terms'
     | '/uaq-company-formation'
@@ -429,6 +441,7 @@ export interface RootRouteChildren {
   RemoteCompanySetupRoute: typeof RemoteCompanySetupRoute
   ResourcesRoute: typeof ResourcesRoute
   SharjahCompanyFormationRoute: typeof SharjahCompanyFormationRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StartRoute: typeof StartRoute
   TermsRoute: typeof TermsRoute
   UaqCompanyFormationRoute: typeof UaqCompanyFormationRoute
@@ -463,6 +476,13 @@ declare module '@tanstack/react-router' {
       path: '/start'
       fullPath: '/start'
       preLoaderRoute: typeof StartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sharjah-company-formation': {
@@ -717,6 +737,7 @@ const rootRouteChildren: RootRouteChildren = {
   RemoteCompanySetupRoute: RemoteCompanySetupRoute,
   ResourcesRoute: ResourcesRoute,
   SharjahCompanyFormationRoute: SharjahCompanyFormationRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   StartRoute: StartRoute,
   TermsRoute: TermsRoute,
   UaqCompanyFormationRoute: UaqCompanyFormationRoute,

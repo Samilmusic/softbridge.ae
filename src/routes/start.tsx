@@ -26,6 +26,7 @@ import {
 import { SITE, WA_LINK } from "@/lib/site";
 import skyline from "@/assets/dubai-skyline.webp";
 import logo from "@/assets/logo-sb.webp";
+import freeWebsiteShowcase from "@/assets/free-website-showcase.png";
 
 export const Route = createFileRoute("/start")({
   head: () => ({

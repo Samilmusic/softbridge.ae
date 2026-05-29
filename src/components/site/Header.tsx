@@ -196,7 +196,7 @@ export function Header() {
           {/* CTA footer */}
           <div className="relative p-4 border-t border-violet-100/70 bg-white/50">
             <button
-              onClick={() => { setOpen(false); setBooking(true); }}
+              onClick={() => { setOpen(false); openBooking(); }}
               className="w-full inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white text-[15px] font-semibold py-4 shadow-[0_15px_40px_-12px_rgba(124,58,237,0.6)] active:scale-[0.99] transition min-h-[52px]"
             >
               <Calendar className="w-4 h-4" />

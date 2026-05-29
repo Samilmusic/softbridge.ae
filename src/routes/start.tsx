@@ -122,23 +122,27 @@ function SectionEyebrow({ children }: { children: React.ReactNode }) {
 /* ============================================================ */
 
 function LandingPage() {
+  const [bookingOpen, setBookingOpen] = useState(false);
   return (
-    <div className="min-h-screen bg-white text-slate-900 antialiased" style={{ color: INK }}>
-      <LandingHeader />
-      <main>
-        <Hero />
-        <WhatsIncluded />
-        <Pricing />
-        <WhySoftBridge />
-        <Process />
-        <FreeWebsite />
-        <Trust />
-        <FAQ />
-        <FinalCTA />
-      </main>
-      <LandingFooter />
-      <StickyMobileCTA />
-    </div>
+    <BookingCtx.Provider value={() => setBookingOpen(true)}>
+      <div className="min-h-screen bg-white text-slate-900 antialiased" style={{ color: INK }}>
+        <LandingHeader />
+        <main>
+          <Hero />
+          <WhatsIncluded />
+          <Pricing />
+          <WhySoftBridge />
+          <Process />
+          <FreeWebsite />
+          <Trust />
+          <FAQ />
+          <FinalCTA />
+        </main>
+        <LandingFooter />
+        <StickyMobileCTA />
+        <BookingDialog open={bookingOpen} onOpenChange={setBookingOpen} />
+      </div>
+    </BookingCtx.Provider>
   );
 }
 

@@ -96,6 +96,7 @@ const TRUST_CHECKS = [
 ] as const;
 
 export function PricingOffer({ id = "pricing-offer", onStartSetup }: PricingOfferProps) {
+  const { openBooking } = useBooking();
   return (
     <section
       id={id}

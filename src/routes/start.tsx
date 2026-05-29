@@ -629,12 +629,14 @@ function Process() {
 /* ============================================================ */
 
 function FreeWebsite() {
+  const openBooking = useOpenBooking();
   return (
     <section className="py-20 md:py-28 bg-white">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <Link
-          to="/quote"
-          className="block relative overflow-hidden rounded-[32px] shadow-2xl ring-1 ring-violet-900/10 group"
+        <button
+          type="button"
+          onClick={openBooking}
+          className="block w-full text-left relative overflow-hidden rounded-[32px] shadow-2xl ring-1 ring-violet-900/10 group"
         >
           <img
             src={freeWebsiteShowcase}
@@ -643,7 +645,7 @@ function FreeWebsite() {
             loading="lazy"
             decoding="async"
           />
-        </Link>
+        </button>
       </div>
     </section>
   );

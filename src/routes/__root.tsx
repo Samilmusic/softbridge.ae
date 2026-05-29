@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-router";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/lib/auth-context";
+import { BookingProvider } from "@/lib/booking-context";
 import { ThemeProvider, themeInitScript } from "@/lib/theme";
 
 import appCss from "../styles.css?url";
@@ -112,8 +113,10 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
         <AuthProvider>
-          <Outlet />
-          <Toaster />
+          <BookingProvider>
+            <Outlet />
+            <Toaster />
+          </BookingProvider>
         </AuthProvider>
       </ThemeProvider>
     </QueryClientProvider>

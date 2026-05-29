@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { WA_LINK } from "@/lib/site";
+import { useBooking } from "@/lib/booking-context";
 import {
   Check,
   ArrowRight,
@@ -95,6 +96,7 @@ const TRUST_CHECKS = [
 ] as const;
 
 export function PricingOffer({ id = "pricing-offer", onStartSetup }: PricingOfferProps) {
+  const { openBooking } = useBooking();
   return (
     <section
       id={id}
@@ -304,13 +306,14 @@ export function PricingOffer({ id = "pricing-offer", onStartSetup }: PricingOffe
                     <ArrowRight className="w-4 h-4" />
                   </Link>
                 )}
-                <Link
-                  to="/#contact"
+                <button
+                  type="button"
+                  onClick={() => openBooking()}
                   className="inline-flex items-center justify-center gap-2 w-full sm:w-auto rounded-full bg-white text-slate-900 px-7 py-3.5 text-sm font-semibold ring-1 ring-slate-200 hover:ring-violet-300 hover:bg-violet-50 transition-all"
                 >
                   <Calendar className="w-4 h-4" />
                   Book Consultation
-                </Link>
+                </button>
                 <a
                   href={WA_LINK}
                   target="_blank"

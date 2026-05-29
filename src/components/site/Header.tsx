@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Menu, X, LayoutDashboard, Calendar, FileText, Sparkles, ArrowRight } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import { BookingDialog } from "@/components/site/BookingDialog";
+import { useBooking } from "@/lib/booking-context";
 import { ThemeToggle } from "@/components/site/ThemeToggle";
 import { Logo } from "@/components/site/Logo";
 import { useAuth } from "@/lib/auth-context";
@@ -20,7 +20,7 @@ const NAV = [
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [booking, setBooking] = useState(false);
+  const { openBooking } = useBooking();
   const { isAuthenticated } = useAuth();
 
   useEffect(() => {
@@ -83,7 +83,7 @@ export function Header() {
             </Link>
             <ThemeToggle />
             <button
-              onClick={() => setBooking(true)}
+              onClick={() => openBooking()}
               className="inline-flex items-center justify-center rounded-full glass-strong px-4 py-2 text-[13px] font-medium text-foreground hover:border-gold/40 transition whitespace-nowrap"
             >
               Book Consultation
@@ -196,7 +196,7 @@ export function Header() {
           {/* CTA footer */}
           <div className="relative p-4 border-t border-violet-100/70 bg-white/50">
             <button
-              onClick={() => { setOpen(false); setBooking(true); }}
+              onClick={() => { setOpen(false); openBooking(); }}
               className="w-full inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white text-[15px] font-semibold py-4 shadow-[0_15px_40px_-12px_rgba(124,58,237,0.6)] active:scale-[0.99] transition min-h-[52px]"
             >
               <Calendar className="w-4 h-4" />
@@ -210,7 +210,7 @@ export function Header() {
         </aside>
       </div>
 
-      <BookingDialog open={booking} onOpenChange={setBooking} />
+      
     </div>
   );
 }

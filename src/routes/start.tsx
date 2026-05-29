@@ -1,6 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { BookingDialog } from "@/components/site/BookingDialog";
+import { submitLead } from "@/lib/lead.functions";
+import { toast } from "sonner";
 
 const BookingCtx = createContext<() => void>(() => {});
 const useOpenBooking = () => useContext(BookingCtx);
@@ -26,6 +29,8 @@ import {
   Users,
   Zap,
   Lock,
+  X,
+  Loader2,
 } from "lucide-react";
 import { SITE, WA_LINK } from "@/lib/site";
 import skyline from "@/assets/dubai-skyline.webp";
@@ -129,8 +134,11 @@ function LandingPage() {
         <LandingHeader />
         <main>
           <Hero />
+          <TrustBar />
           <WhatsIncluded />
+          <Stats />
           <Pricing />
+          <Testimonials />
           <WhySoftBridge />
           <Process />
           <FreeWebsite />
@@ -140,6 +148,7 @@ function LandingPage() {
         </main>
         <LandingFooter />
         <StickyMobileCTA />
+        <ScrollPopup />
         <BookingDialog open={bookingOpen} onOpenChange={setBookingOpen} />
       </div>
     </BookingCtx.Provider>
@@ -204,8 +213,11 @@ function Hero() {
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8 pt-16 md:pt-24 pb-16 md:pb-24 grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
         {/* Copy */}
         <div className="lg:col-span-7">
-          <div className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white px-3.5 py-1.5 text-[12px] font-semibold text-violet-700 shadow-sm">
-            <Sparkles className="w-3.5 h-3.5" /> Limited offer — Setup from AED 4,999
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white px-3.5 py-1.5 text-[12px] font-semibold text-violet-700 shadow-sm">
+              <Sparkles className="w-3.5 h-3.5" /> Limited offer — Setup from AED 4,999
+            </div>
+            <CountdownBadge />
           </div>
 
           <h1 className="mt-6 text-[2.4rem] sm:text-5xl md:text-[3.75rem] lg:text-[4.25rem] leading-[1.02] font-semibold tracking-tight">
@@ -242,7 +254,9 @@ function Hero() {
             ))}
           </ul>
 
-          <div className="mt-9 flex flex-wrap items-center gap-3">
+          <InlineLeadForm className="mt-8 max-w-xl" source="hero /start" />
+
+          <div className="mt-6 flex flex-wrap items-center gap-3">
             <PrimaryCTA onClick={openBooking}>Book Free Consultation</PrimaryCTA>
             <SecondaryCTA href={WA_LINK}>Talk on WhatsApp</SecondaryCTA>
           </div>
@@ -847,25 +861,415 @@ function LandingFooter() {
 /* ============================================================ */
 
 function StickyMobileCTA() {
-  const openBooking = useOpenBooking();
   return (
-    <div className="fixed bottom-0 inset-x-0 z-40 sm:hidden border-t border-slate-200 bg-white/95 backdrop-blur p-3 flex gap-2 shadow-[0_-8px_24px_-12px_rgba(15,23,42,0.15)]">
+    <div className="fixed bottom-0 inset-x-0 z-40 md:hidden border-t border-slate-200 bg-white/95 backdrop-blur p-3 flex gap-2 shadow-[0_-8px_24px_-12px_rgba(15,23,42,0.15)]">
+      <a
+        href={`tel:${SITE.phoneRaw}`}
+        className="flex-1 inline-flex items-center justify-center gap-2 rounded-full px-4 py-3 text-[13px] font-semibold text-white"
+        style={{ background: `linear-gradient(135deg, ${VIOLET} 0%, #5B21B6 100%)` }}
+      >
+        <Phone className="w-4 h-4" /> Free Consultation
+      </a>
       <a
         href={WA_LINK}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-white border border-slate-200 px-4 py-3 text-[13px] font-semibold text-slate-800"
+        className="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-emerald-500 text-white px-4 py-3 text-[13px] font-semibold shadow-[0_10px_24px_-10px_rgba(16,185,129,0.55)]"
       >
-        <MessageCircle className="w-4 h-4 text-emerald-500" /> WhatsApp
+        <MessageCircle className="w-4 h-4" /> WhatsApp
       </a>
+    </div>
+  );
+}
+
+/* ============================================================ */
+/*  Countdown badge — counts to end of month                    */
+/* ============================================================ */
+
+function useMonthCountdown() {
+  const [now, setNow] = useState<Date | null>(null);
+  useEffect(() => {
+    setNow(new Date());
+    const id = setInterval(() => setNow(new Date()), 60_000);
+    return () => clearInterval(id);
+  }, []);
+  if (!now) return null;
+  const end = new Date(now.getFullYear(), now.getMonth() + 1, 1, 0, 0, 0, 0);
+  const ms = end.getTime() - now.getTime();
+  const days = Math.floor(ms / 86_400_000);
+  const hours = Math.floor((ms % 86_400_000) / 3_600_000);
+  const minutes = Math.floor((ms % 3_600_000) / 60_000);
+  return { days, hours, minutes };
+}
+
+function CountdownBadge() {
+  const t = useMonthCountdown();
+  return (
+    <div className="inline-flex items-center gap-2 rounded-full bg-amber-50 border border-amber-200 px-3.5 py-1.5 text-[12px] font-semibold text-amber-800 shadow-sm">
+      <Clock className="w-3.5 h-3.5" />
+      <span className="text-amber-700/80">Offer ends in:</span>
+      {t ? (
+        <span className="tabular-nums text-amber-900">
+          {t.days}d {t.hours}h {t.minutes}m
+        </span>
+      ) : (
+        <span className="tabular-nums text-amber-900">—</span>
+      )}
+    </div>
+  );
+}
+
+/* ============================================================ */
+/*  Inline lead form                                            */
+/* ============================================================ */
+
+function InlineLeadForm({ className = "", source }: { className?: string; source: string }) {
+  const send = useServerFn(submitLead);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [country, setCountry] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [done, setDone] = useState(false);
+
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!name.trim() || !phone.trim() || !country.trim()) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+    setLoading(true);
+    try {
+      await send({ data: { name: name.trim(), phone: phone.trim(), country: country.trim(), source } });
+      setDone(true);
+      toast.success("Got it! We'll reach out within 1 business day.");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Couldn't send — please try again");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (done) {
+    return (
+      <div className={`rounded-2xl border border-emerald-200 bg-emerald-50/60 p-5 ${className}`}>
+        <div className="flex items-start gap-3">
+          <div className="w-9 h-9 rounded-full bg-emerald-500 text-white grid place-items-center flex-shrink-0">
+            <Check className="w-4 h-4" strokeWidth={3} />
+          </div>
+          <div>
+            <div className="font-semibold text-emerald-900">Thanks, {name.split(" ")[0]}!</div>
+            <p className="text-[13.5px] text-emerald-800/80 mt-0.5">
+              A Soft Bridge advisor will reach you on WhatsApp within 1 business day.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <form
+      onSubmit={onSubmit}
+      className={`rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-[0_18px_40px_-24px_rgba(15,23,42,0.15)] ${className}`}
+    >
+      <div className="grid sm:grid-cols-3 gap-2.5">
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Full name"
+          autoComplete="name"
+          maxLength={200}
+          required
+          className="h-11 rounded-xl border border-slate-200 bg-white px-3.5 text-[14px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition"
+        />
+        <input
+          type="tel"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          placeholder="WhatsApp number"
+          autoComplete="tel"
+          maxLength={40}
+          required
+          className="h-11 rounded-xl border border-slate-200 bg-white px-3.5 text-[14px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition"
+        />
+        <input
+          type="text"
+          value={country}
+          onChange={(e) => setCountry(e.target.value)}
+          placeholder="Country of residence"
+          autoComplete="country-name"
+          maxLength={120}
+          required
+          className="h-11 rounded-xl border border-slate-200 bg-white px-3.5 text-[14px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition"
+        />
+      </div>
       <button
-        type="button"
-        onClick={openBooking}
-        className="flex-1 inline-flex items-center justify-center gap-2 rounded-full px-4 py-3 text-[13px] font-semibold text-white"
-        style={{ background: `linear-gradient(135deg, ${VIOLET} 0%, #5B21B6 100%)` }}
+        type="submit"
+        disabled={loading}
+        className="mt-3 w-full inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3.5 text-[14.5px] font-semibold text-[oklch(0.18_0.02_260)] shadow-[0_18px_40px_-12px_rgba(245,158,11,0.5)] hover:-translate-y-0.5 transition disabled:opacity-60 disabled:cursor-not-allowed"
+        style={{ background: "linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%)" }}
       >
-        Book Consultation <ArrowRight className="w-4 h-4" />
+        {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+        {loading ? "Sending…" : "Get My Free Consultation"} {!loading && <ArrowRight className="w-4 h-4" />}
       </button>
+      <p className="mt-2.5 text-[12px] text-slate-500 flex items-center gap-1.5">
+        <Lock className="w-3 h-3" /> 100% confidential. No spam. Reply within 1 business day.
+      </p>
+    </form>
+  );
+}
+
+/* ============================================================ */
+/*  Trust bar — country flags strip                             */
+/* ============================================================ */
+
+const COUNTRIES = [
+  { flag: "🇮🇷", name: "Iran" },
+  { flag: "🇷🇺", name: "Russia" },
+  { flag: "🇬🇧", name: "UK" },
+  { flag: "🇩🇪", name: "Germany" },
+  { flag: "🇮🇳", name: "India" },
+  { flag: "🇵🇰", name: "Pakistan" },
+  { flag: "🇹🇷", name: "Turkey" },
+  { flag: "🇨🇳", name: "China" },
+];
+
+function TrustBar() {
+  return (
+    <section className="border-y border-slate-100 bg-white">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 py-7 flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
+        <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500 flex-shrink-0">
+          Trusted by founders from
+        </div>
+        <div className="-mx-5 sm:-mx-8 md:mx-0 md:flex-1 overflow-x-auto no-scrollbar">
+          <ul className="flex items-center gap-3 sm:gap-4 px-5 sm:px-8 md:px-0 whitespace-nowrap">
+            {COUNTRIES.map((c) => (
+              <li
+                key={c.name}
+                className="inline-flex items-center gap-2 rounded-full bg-slate-50 border border-slate-200 px-3.5 py-1.5 text-[13px] font-medium text-slate-700"
+              >
+                <span className="text-base leading-none" aria-hidden>{c.flag}</span>
+                {c.name}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================ */
+/*  Animated stats counters                                     */
+/* ============================================================ */
+
+function useCountUp(target: number, durationMs = 1400) {
+  const ref = useRef<HTMLSpanElement | null>(null);
+  const [val, setVal] = useState(0);
+  const started = useRef(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !started.current) {
+            started.current = true;
+            const start = performance.now();
+            const tick = (now: number) => {
+              const p = Math.min(1, (now - start) / durationMs);
+              const eased = 1 - Math.pow(1 - p, 3);
+              setVal(Math.round(target * eased));
+              if (p < 1) requestAnimationFrame(tick);
+            };
+            requestAnimationFrame(tick);
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [target, durationMs]);
+  return { ref, val };
+}
+
+function StatCounter({ value, suffix, label }: { value: number; suffix?: string; label: string }) {
+  const { ref, val } = useCountUp(value);
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white p-6 text-center">
+      <div className="text-4xl md:text-5xl font-semibold tracking-tight">
+        <span ref={ref} className="tabular-nums">
+          <span
+            className="bg-clip-text text-transparent"
+            style={{ backgroundImage: "linear-gradient(135deg, #7C3AED 0%, #4F46E5 100%)" }}
+          >
+            {val.toLocaleString()}
+            {suffix || ""}
+          </span>
+        </span>
+      </div>
+      <div className="mt-2 text-[12.5px] uppercase tracking-[0.16em] text-slate-500 font-semibold">
+        {label}
+      </div>
+    </div>
+  );
+}
+
+function Stats() {
+  return (
+    <section className="bg-white">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 pb-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <StatCounter value={250} suffix="+" label="Businesses Launched" />
+          <StatCounter value={10} suffix="+" label="Countries Served" />
+          <StatCounter value={7} label="UAE Jurisdictions" />
+          <StatCounter value={24} suffix="h" label="Avg. Response" />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================ */
+/*  Testimonials                                                */
+/* ============================================================ */
+
+const TESTIMONIALS = [
+  {
+    name: "Arman",
+    flag: "🇮🇷",
+    country: "Iran",
+    quote:
+      "Soft Bridge handled my entire UAE setup remotely. Banking guidance was the part I worried about most — they made it simple.",
+  },
+  {
+    name: "David",
+    flag: "🇬🇧",
+    country: "UK",
+    quote:
+      "Clear pricing, fast replies, and a free website that actually looks premium. The whole experience felt like a real partnership.",
+  },
+  {
+    name: "Lina",
+    flag: "🇷🇺",
+    country: "Russia",
+    quote:
+      "From consultation to Emirates ID in weeks. The team kept me updated at every step and made the paperwork painless.",
+  },
+];
+
+function Testimonials() {
+  return (
+    <section
+      className="py-20 md:py-28"
+      style={{ background: "linear-gradient(180deg, #ffffff 0%, #FAFAFE 100%)" }}
+    >
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <div className="max-w-2xl">
+          <SectionEyebrow>Client Stories</SectionEyebrow>
+          <h2 className="mt-5 text-3xl md:text-5xl font-semibold tracking-tight leading-[1.05]">
+            Founders Around The World Trust Soft Bridge
+          </h2>
+        </div>
+
+        <div className="mt-12 grid md:grid-cols-3 gap-5">
+          {TESTIMONIALS.map((t) => (
+            <figure
+              key={t.name}
+              className="rounded-2xl border border-slate-200 bg-white p-6 flex flex-col hover:border-violet-300 hover:shadow-[0_18px_40px_-20px_rgba(124,58,237,0.25)] transition"
+            >
+              <div className="flex items-center gap-1 mb-4">
+                {[0, 1, 2, 3, 4].map((i) => (
+                  <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                ))}
+              </div>
+              <blockquote className="text-[14.5px] text-slate-700 leading-relaxed">
+                "{t.quote}"
+              </blockquote>
+              <figcaption className="mt-5 pt-4 border-t border-slate-100 flex items-center gap-2 text-[13.5px] font-semibold text-slate-900">
+                {t.name} <span className="text-slate-400 font-normal">— {t.flag} {t.country}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================ */
+/*  Scroll-triggered popup (once per session)                   */
+/* ============================================================ */
+
+function ScrollPopup() {
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      if (sessionStorage.getItem("sb_scroll_popup") === "1") return;
+    } catch { /* noop */ }
+    const onScroll = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      if (max <= 0) return;
+      const ratio = window.scrollY / max;
+      if (ratio >= 0.6) {
+        try { sessionStorage.setItem("sb_scroll_popup", "1"); } catch { /* noop */ }
+        setOpen(true);
+        window.removeEventListener("scroll", onScroll);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    window.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  if (!open) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-[70] flex items-end sm:items-center justify-center p-3 sm:p-6 bg-slate-900/55 backdrop-blur-sm animate-fade-in"
+      onClick={() => setOpen(false)}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Get a free setup quote"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-lg rounded-3xl bg-white shadow-[0_30px_80px_-20px_rgba(15,23,42,0.45)] border border-slate-200 p-6 sm:p-8 animate-scale-in"
+      >
+        <button
+          type="button"
+          onClick={() => setOpen(false)}
+          aria-label="Close"
+          className="absolute top-3 right-3 w-9 h-9 rounded-full grid place-items-center text-slate-500 hover:bg-slate-100 transition"
+        >
+          <X className="w-4 h-4" />
+        </button>
+        <div className="inline-flex items-center gap-2 rounded-full bg-violet-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-violet-700">
+          <Sparkles className="w-3 h-3" /> Wait
+        </div>
+        <h3 className="mt-4 text-2xl sm:text-3xl font-semibold tracking-tight leading-tight">
+          Before You Go — Get a Free Setup Quote
+        </h3>
+        <p className="mt-2 text-[14px] text-slate-600 leading-relaxed">
+          Tell us where you're based — a Soft Bridge advisor will send a tailored UAE setup plan on WhatsApp.
+        </p>
+        <div className="mt-5">
+          <InlineLeadForm source="exit popup /start" />
+        </div>
+      </div>
     </div>
   );
 }

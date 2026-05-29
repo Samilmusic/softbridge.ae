@@ -149,7 +149,7 @@ function LandingHeader() {
           >
             <Phone className="w-4 h-4" /> {SITE.phone}
           </a>
-          <PrimaryCTA href="#consult" className="!px-5 !py-2.5 !text-sm">
+          <PrimaryCTA to="/quote" className="!px-5 !py-2.5 !text-sm">
             Get Free Consultation
           </PrimaryCTA>
         </div>
@@ -225,7 +225,7 @@ function Hero() {
           </ul>
 
           <div className="mt-9 flex flex-wrap items-center gap-3">
-            <PrimaryCTA href="#consult">Get Free Consultation</PrimaryCTA>
+            <PrimaryCTA to="/quote">Get Free Consultation</PrimaryCTA>
             <SecondaryCTA href={WA_LINK}>Talk on WhatsApp</SecondaryCTA>
           </div>
 
@@ -479,12 +479,12 @@ function Pricing() {
 
                 <div className="mt-8 pt-2">
                   {featured ? (
-                    <PrimaryCTA href="#consult" className="w-full">
+                    <PrimaryCTA to="/quote" className="w-full">
                       Get Free Consultation
                     </PrimaryCTA>
                   ) : (
                     <a
-                      href="#consult"
+                      to="/quote"
                       className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 text-white px-6 py-3.5 text-[14px] font-semibold hover:bg-slate-800 transition"
                     >
                       Get Free Consultation
@@ -527,7 +527,7 @@ function WhySoftBridge() {
             partner — from formation through compliance, banking, and digital growth.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <PrimaryCTA href="#consult">Get Free Consultation</PrimaryCTA>
+            <PrimaryCTA to="/quote">Get Free Consultation</PrimaryCTA>
             <SecondaryCTA href={WA_LINK}>Talk on WhatsApp</SecondaryCTA>
           </div>
         </div>
@@ -612,7 +612,7 @@ function FreeWebsite() {
     <section className="py-20 md:py-28 bg-white">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <a
-          href="#consult"
+          to="/quote"
           className="block relative overflow-hidden rounded-[32px] shadow-2xl ring-1 ring-violet-900/10 group"
         >
           <img
@@ -834,7 +834,7 @@ function StickyMobileCTA() {
         <MessageCircle className="w-4 h-4 text-emerald-500" /> WhatsApp
       </a>
       <a
-        href="#consult"
+        to="/quote"
         className="flex-1 inline-flex items-center justify-center gap-2 rounded-full px-4 py-3 text-[13px] font-semibold text-white"
         style={{ background: `linear-gradient(135deg, ${VIOLET} 0%, #5B21B6 100%)` }}
       >

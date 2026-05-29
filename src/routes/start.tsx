@@ -166,8 +166,8 @@ function LandingHeader() {
           >
             <Phone className="w-4 h-4" /> {SITE.phone}
           </a>
-          <PrimaryCTA to="/quote" className="!px-5 !py-2.5 !text-sm">
-            Get Free Consultation
+          <PrimaryCTA onClick={openBooking} className="!px-5 !py-2.5 !text-sm">
+            Book Free Consultation
           </PrimaryCTA>
         </div>
       </div>

@@ -180,6 +180,7 @@ function LandingHeader() {
 /* ============================================================ */
 
 function Hero() {
+  const openBooking = useOpenBooking();
   return (
     <section
       className="relative overflow-hidden"

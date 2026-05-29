@@ -83,7 +83,7 @@ export function Header() {
             </Link>
             <ThemeToggle />
             <button
-              onClick={() => setBooking(true)}
+              onClick={() => openBooking()}
               className="inline-flex items-center justify-center rounded-full glass-strong px-4 py-2 text-[13px] font-medium text-foreground hover:border-gold/40 transition whitespace-nowrap"
             >
               Book Consultation

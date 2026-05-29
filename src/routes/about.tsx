@@ -519,31 +519,28 @@ function AboutPage() {
             </div>
 
             <div className="lg:col-span-7 reveal">
-              <div className="relative aspect-[4/3] lg:aspect-auto lg:h-full rounded-3xl overflow-hidden glass-card grad-border">
-                {/* Premium dark stylized map */}
-                <div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_40%,oklch(0.25_0.06_260/0.6),transparent_60%),radial-gradient(ellipse_at_70%_70%,oklch(0.25_0.08_82/0.4),transparent_60%)]" />
-                <div aria-hidden className="absolute inset-0 grid-pattern opacity-30" />
-                <div aria-hidden className="absolute inset-0 dot-pattern opacity-30" />
+              <div className="relative aspect-[4/3] lg:aspect-auto lg:h-full min-h-[420px] rounded-3xl overflow-hidden glass-card grad-border">
+                <iframe
+                  title="Soft Bridge HQ — Ajman, UAE"
+                  src={`https://www.google.com/maps?q=${encodeURIComponent(SITE.address)}&output=embed`}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="absolute inset-0 w-full h-full border-0 grayscale-[15%] contrast-[1.05]"
+                  allowFullScreen
+                />
 
-                {/* Glow pin */}
-                <motion.div
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                  animate={{ scale: [1, 1.15, 1] }}
-                  transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  <div className="relative">
-                    <span className="absolute inset-0 -m-6 rounded-full bg-gold/30 blur-2xl" />
-                    <span className="relative w-4 h-4 rounded-full gold-gradient shadow-[0_0_24px_oklch(0.84_0.10_82/0.8)] block" />
-                  </div>
-                </motion.div>
-
-                <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between glass-strong rounded-xl px-4 py-3">
-                  <div>
+                <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between glass-strong rounded-xl px-4 py-3 backdrop-blur-md">
+                  <div className="min-w-0">
                     <div className="text-[10px] uppercase tracking-[0.22em] text-gold">United Arab Emirates</div>
-                    <div className="text-sm font-medium">Ajman — Soft Bridge HQ</div>
+                    <div className="text-sm font-medium truncate">Ajman — Soft Bridge HQ</div>
                   </div>
-                  <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full gold-gradient px-4 py-2 text-xs font-semibold text-[oklch(0.15_0.02_260)]">
-                    <MessageCircle className="w-3.5 h-3.5" /> Contact
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(SITE.address)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full gold-gradient px-4 py-2 text-xs font-semibold text-[oklch(0.15_0.02_260)] flex-shrink-0"
+                  >
+                    <MapPin className="w-3.5 h-3.5" /> Directions
                   </a>
                 </div>
               </div>

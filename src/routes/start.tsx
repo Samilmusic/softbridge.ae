@@ -483,13 +483,13 @@ function Pricing() {
                       Get Free Consultation
                     </PrimaryCTA>
                   ) : (
-                    <a
+                    <Link
                       to="/quote"
                       className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 text-white px-6 py-3.5 text-[14px] font-semibold hover:bg-slate-800 transition"
                     >
                       Get Free Consultation
                       <ArrowRight className="w-4 h-4" />
-                    </a>
+                    </Link>
                   )}
                 </div>
               </div>

@@ -1,5 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { createContext, useContext, useState } from "react";
+import { BookingDialog } from "@/components/site/BookingDialog";
+
+const BookingCtx = createContext<() => void>(() => {});
+const useOpenBooking = () => useContext(BookingCtx);
 import {
   ArrowRight,
   Check,

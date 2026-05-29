@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { BookingDialog } from "@/components/site/BookingDialog";
+import { CompactPhoneField } from "@/components/ui/compact-phone-field";
+import { CountrySelect } from "@/components/ui/country-select";
 import { submitLead } from "@/lib/lead.functions";
 import { toast } from "sonner";
 
@@ -983,26 +985,8 @@ function InlineLeadForm({ className = "", source }: { className?: string; source
           required
           className="h-11 rounded-xl border border-slate-200 bg-white px-3.5 text-[14px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition"
         />
-        <input
-          type="tel"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          placeholder="WhatsApp number"
-          autoComplete="tel"
-          maxLength={40}
-          required
-          className="h-11 rounded-xl border border-slate-200 bg-white px-3.5 text-[14px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition"
-        />
-        <input
-          type="text"
-          value={country}
-          onChange={(e) => setCountry(e.target.value)}
-          placeholder="Country of residence"
-          autoComplete="country-name"
-          maxLength={120}
-          required
-          className="h-11 rounded-xl border border-slate-200 bg-white px-3.5 text-[14px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition"
-        />
+        <CompactPhoneField value={phone} onChange={setPhone} placeholder="WhatsApp number" />
+        <CountrySelect value={country} onChange={(name: string) => setCountry(name)} placeholder="Country of residence" />
       </div>
       <button
         type="submit"

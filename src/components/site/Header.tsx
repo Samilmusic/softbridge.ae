@@ -210,7 +210,7 @@ export function Header() {
         </aside>
       </div>
 
-      <BookingDialog open={booking} onOpenChange={setBooking} />
+      
     </div>
   );
 }

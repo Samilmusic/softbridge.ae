@@ -610,89 +610,18 @@ function FreeWebsite() {
   return (
     <section className="py-20 md:py-28 bg-white">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <div
-          className="relative overflow-hidden rounded-[32px] p-8 sm:p-12 md:p-16 grid lg:grid-cols-12 gap-10 items-center"
-          style={{
-            background:
-              "radial-gradient(ellipse at top right, rgba(124,58,237,0.2), transparent 60%), linear-gradient(135deg, #1E1B4B 0%, #312E81 60%, #4C1D95 100%)",
-          }}
+        <a
+          href="#consult"
+          className="block relative overflow-hidden rounded-[32px] shadow-2xl ring-1 ring-violet-900/10 group"
         >
-          <div
-            aria-hidden
-            className="absolute inset-0 opacity-[0.08]"
-            style={{
-              backgroundImage:
-                "linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)",
-              backgroundSize: "44px 44px",
-            }}
+          <img
+            src={freeWebsiteShowcase}
+            alt="Every client receives a free professional website — modern, mobile-responsive design by Soft Bridge"
+            className="w-full h-auto block transition-transform duration-500 group-hover:scale-[1.01]"
+            loading="lazy"
+            decoding="async"
           />
-
-          <div className="relative lg:col-span-6 text-white">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-violet-200 border border-white/15">
-              <Sparkles className="w-3.5 h-3.5" /> Included Free
-            </div>
-            <h2 className="mt-5 text-3xl md:text-5xl font-semibold tracking-tight leading-[1.05]">
-              Every Client Receives A Free Professional Website
-            </h2>
-            <p className="mt-5 text-violet-100/85 text-[16px] leading-relaxed max-w-xl">
-              A modern mobile-responsive business website designed to help your company look credible from day one —
-              built and delivered by our in-house design team.
-            </p>
-            <ul className="mt-7 grid sm:grid-cols-2 gap-x-6 gap-y-3 text-[14px] text-violet-50/90 max-w-xl">
-              {["Custom design", "Mobile responsive", "Lead capture form", "SEO foundations"].map((b) => (
-                <li key={b} className="flex items-center gap-2.5">
-                  <Check className="w-4 h-4 text-emerald-300" /> {b}
-                </li>
-              ))}
-            </ul>
-            <div className="mt-8">
-              <PrimaryCTA href="#consult">Claim Your Free Website</PrimaryCTA>
-            </div>
-          </div>
-
-          {/* Devices mockup */}
-          <div className="relative lg:col-span-6">
-            <div className="relative mx-auto max-w-md">
-              {/* Laptop */}
-              <div className="relative rounded-t-xl bg-slate-900 border border-slate-700 p-2.5 shadow-2xl">
-                <div className="rounded-md overflow-hidden bg-white aspect-[16/10]">
-                  <div className="h-6 flex items-center gap-1.5 px-2.5 bg-slate-100 border-b border-slate-200">
-                    <span className="w-2 h-2 rounded-full bg-red-300" />
-                    <span className="w-2 h-2 rounded-full bg-amber-300" />
-                    <span className="w-2 h-2 rounded-full bg-emerald-300" />
-                  </div>
-                  <div className="p-3 grid grid-cols-3 gap-2">
-                    <div className="col-span-2 rounded-md h-20" style={{ background: "linear-gradient(135deg, #EDE9FE, #C4B5FD)" }} />
-                    <div className="rounded-md h-20 bg-slate-100" />
-                    <div className="rounded-md h-3 bg-slate-200" />
-                    <div className="rounded-md h-3 bg-slate-200" />
-                    <div className="rounded-md h-3 bg-slate-200" />
-                    <div className="col-span-3 rounded-md h-8" style={{ background: VIOLET }} />
-                  </div>
-                </div>
-              </div>
-              <div className="h-1.5 mx-auto w-[110%] rounded-b-xl bg-slate-700 -translate-x-[5%]" />
-
-              {/* Phone */}
-              <div className="absolute -right-4 sm:-right-6 -bottom-6 sm:-bottom-10 w-28 sm:w-36 rounded-[22px] bg-slate-900 border border-slate-700 p-1.5 shadow-2xl rotate-3">
-                <div className="rounded-[16px] overflow-hidden bg-white aspect-[9/19]">
-                  <div className="h-4 bg-slate-100" />
-                  <div className="p-2 space-y-1.5">
-                    <div className="rounded h-10" style={{ background: "linear-gradient(135deg, #EDE9FE, #C4B5FD)" }} />
-                    <div className="rounded h-2 bg-slate-200" />
-                    <div className="rounded h-2 bg-slate-200 w-4/5" />
-                    <div className="rounded h-2 bg-slate-200 w-3/5" />
-                    <div className="rounded h-6" style={{ background: VIOLET }} />
-                    <div className="grid grid-cols-2 gap-1.5">
-                      <div className="rounded h-8 bg-slate-100" />
-                      <div className="rounded h-8 bg-slate-100" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        </a>
       </div>
     </section>
   );

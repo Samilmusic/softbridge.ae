@@ -771,6 +771,7 @@ function FAQ() {
 /* ============================================================ */
 
 function FinalCTA() {
+  const openBooking = useOpenBooking();
   return (
     <section
       id="consult"

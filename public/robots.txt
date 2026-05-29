@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /portal
+Disallow: /admin
+Disallow: /login
+Disallow: /_authenticated
+
+Sitemap: https://softbridge.ae/sitemap.xml

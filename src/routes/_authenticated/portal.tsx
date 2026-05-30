@@ -51,13 +51,16 @@ function PortalPage() {
     let cancelled = false;
     (async () => {
       try {
-        const [pRes, cRes] = await Promise.all([
+        const [pRes, cRes, rRes] = await Promise.all([
           supabase.from("profiles").select("full_name,email").eq("id", user.id).maybeSingle(),
           fetchCase(),
+          supabase.from("user_roles").select("role").eq("user_id", user.id),
         ]);
         if (cancelled) return;
         setProfile((pRes.data as any) ?? { full_name: null, email: user.email ?? "" });
         setState(cRes);
+        const roles = (rRes.data ?? []).map((r: any) => r.role);
+        setIsAdmin(roles.includes("admin") || roles.includes("consultant"));
       } catch (e: any) {
         console.error("portal load failed", e);
         if (!cancelled) setLoadError(e?.message || "We could not prepare your portal. Please try again or contact support.");

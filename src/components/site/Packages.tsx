@@ -138,27 +138,26 @@ export function Packages() {
 
                 <div className="mt-auto pt-8">
                   {featured ? (
-                    <a
-                      href={WA_LINK}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button
+                      type="button"
+                      onClick={openBooking}
                       className="w-full inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-[14px] font-semibold text-white shadow-[0_15px_40px_-12px_rgba(124,58,237,0.6)] hover:shadow-[0_20px_50px_-10px_rgba(124,58,237,0.8)] transition"
                       style={{ background: `linear-gradient(135deg, ${VIOLET} 0%, #5B21B6 100%)` }}
                     >
                       Book Free Consultation
                       <ArrowRight className="w-4 h-4" />
-                    </a>
+                    </button>
                   ) : (
-                    <a
-                      href={WA_LINK}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button
+                      type="button"
+                      onClick={openBooking}
                       className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 text-white px-6 py-3.5 text-[14px] font-semibold hover:bg-slate-800 transition"
                     >
                       Book Free Consultation
                       <ArrowRight className="w-4 h-4" />
-                    </a>
+                    </button>
                   )}
+
                 </div>
               </div>
             );

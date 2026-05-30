@@ -6,7 +6,11 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
+// NOTE: `plugins: []` is intentionally present at the top level so Cloudflare's
+// Workers Build vite-config patcher can statically locate a plugins array.
+// The Lovable wrapper merges anything passed here with its own plugin chain.
 export default defineConfig({
+  plugins: [],
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this

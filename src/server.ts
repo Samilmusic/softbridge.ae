@@ -41,6 +41,14 @@ type GlobalWithRuntimeEnv = typeof globalThis & {
   __env__?: Record<string, unknown>;
 };
 
+const runtimeEnvKeys = [
+  "SUPABASE_URL",
+  "SUPABASE_SERVICE_ROLE_KEY",
+  "SUPABASE_PUBLISHABLE_KEY",
+  "RESEND_API_KEY",
+  "RESEND_FROM_EMAIL",
+] as const;
+
 // On Cloudflare Workers, environment variables and secrets are passed as runtime
 // bindings. Nitro exposes them on globalThis.__env__; direct Worker entries pass
 // them as the fetch `env` argument. Hydrate process.env before importing app code
@@ -55,6 +63,12 @@ function hydrateProcessEnvFromWorkerEnv(env: unknown) {
     const target = runtimeGlobal.process?.env;
     if (!target) return;
     for (const [key, value] of Object.entries(workerEnv as Record<string, unknown>)) {
+      if (typeof value === "string" && value && !target[key]) {
+        target[key] = value;
+      }
+    }
+    for (const key of runtimeEnvKeys) {
+      const value = (workerEnv as Record<string, unknown>)[key];
       if (typeof value === "string" && value && !target[key]) {
         target[key] = value;
       }

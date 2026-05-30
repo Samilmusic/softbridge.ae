@@ -590,7 +590,7 @@ function Pricing() {
           </p>
         </div>
 
-        <div className="mt-12 grid md:grid-cols-3 gap-5">
+        <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-5 items-stretch max-w-[480px] lg:max-w-none mx-auto">
           {PACKAGES.map((p) => {
             const featured = p.featured;
             return (

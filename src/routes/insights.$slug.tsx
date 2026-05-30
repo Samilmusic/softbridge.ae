@@ -32,18 +32,24 @@ export const Route = createFileRoute("/insights/$slug")({
     if (!article) throw notFound();
     return { article };
   },
-  head: ({ loaderData }) => {
+  head: ({ params, loaderData }) => {
     const a = loaderData?.article;
     if (!a) return { meta: [{ title: "Insight — Soft Bridge" }] };
+    const siteUrl = "https://softbridge.ae";
+    const pageUrl = `${siteUrl}/insights/${params.slug}`;
+    const coverAbs = a.cover.startsWith("http") ? a.cover : `${siteUrl}${a.cover}`;
     return {
       meta: [
         { title: a.seo.title },
         { name: "description", content: a.seo.description },
         { property: "og:title", content: a.seo.title },
         { property: "og:description", content: a.seo.description },
-        { property: "og:image", content: a.cover },
+        { property: "og:image", content: coverAbs },
+        { property: "og:url", content: pageUrl },
         { property: "og:type", content: "article" },
+        { name: "twitter:image", content: coverAbs },
       ],
+      links: [{ rel: "canonical", href: pageUrl }],
       scripts: [
         {
           type: "application/ld+json",
@@ -52,13 +58,18 @@ export const Route = createFileRoute("/insights/$slug")({
             "@type": "Article",
             headline: a.title,
             description: a.excerpt,
-            image: a.cover,
+            image: coverAbs,
             datePublished: a.publishedAt,
-            author: { "@type": "Organization", name: a.author.name },
+            author: { "@type": "Organization", name: "Soft Bridge Insights" },
             publisher: {
               "@type": "Organization",
-              name: "Soft Bridge",
+              name: "Soft Bridge FZE LLC",
+              logo: {
+                "@type": "ImageObject",
+                url: `${siteUrl}/logo-sb.png`,
+              },
             },
+            mainEntityOfPage: { "@type": "WebPage", "@id": pageUrl },
           }),
         },
       ],

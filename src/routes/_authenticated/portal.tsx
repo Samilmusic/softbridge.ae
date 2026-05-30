@@ -39,10 +39,12 @@ function PortalErrorFallback({ error, reset }: { error: Error; reset: () => void
 function PortalPage() {
   const { user } = useAuth();
   const fetchCase = useServerFn(getMyCase);
+  const { openBooking } = useBooking();
   const [state, setState] = useState<any>(null);
   const [profile, setProfile] = useState<{ full_name: string | null; email: string } | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     if (!user) return;

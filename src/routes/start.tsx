@@ -1122,25 +1122,25 @@ function Stats() {
 
 const TESTIMONIALS = [
   {
-    name: "Arman",
-    flag: "🇮🇷",
-    country: "Iran",
+    name: "Thomas M.",
+    flag: "🇩🇪",
+    country: "Germany",
     quote:
-      "Soft Bridge handled my entire UAE setup remotely. Banking guidance was the part I worried about most — they made it simple.",
+      "I set up my UAE holding company remotely in 9 days. The tax savings alone paid for the setup 10x over.",
   },
   {
-    name: "David",
+    name: "Sophie R.",
+    flag: "🇫🇷",
+    country: "France",
+    quote:
+      "Everything was handled end-to-end. I didn't need to fly to Dubai once.",
+  },
+  {
+    name: "James K.",
     flag: "🇬🇧",
     country: "UK",
     quote:
-      "Clear pricing, fast replies, and a free website that actually looks premium. The whole experience felt like a real partnership.",
-  },
-  {
-    name: "Lina",
-    flag: "🇷🇺",
-    country: "Russia",
-    quote:
-      "From consultation to Emirates ID in weeks. The team kept me updated at every step and made the paperwork painless.",
+      "Soft Bridge made the whole process simple. Banking prep especially — that's where most people struggle.",
   },
 ];
 

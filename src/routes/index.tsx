@@ -84,6 +84,9 @@ function Index() {
       <Header />
       <main>
         <Hero />
+        <Suspense fallback={<SectionFallback />}>
+          <Packages />
+        </Suspense>
         <PricingOffer id="offer" onStartSetup={() => setOnboarding(true)} />
         <WhatWeDo />
         <Suspense fallback={<SectionFallback />}>
@@ -95,13 +98,13 @@ function Index() {
           <LongTermSupport />
           <DigitalInfrastructure />
           <Recognition />
-          <Packages />
           <Testimonials />
           <LatestInsights />
           <FAQ />
           <Contact />
         </Suspense>
       </main>
+
       <Footer />
       <FloatingActions />
       {onboarding && (

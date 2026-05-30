@@ -68,5 +68,24 @@ export const submitBooking = createServerFn({ method: "POST" })
       console.error("booking email failed", e);
     }
 
+    try {
+      const { ADMIN_NOTIFY_EMAIL } = await import("./email/notify");
+      await sendEmail(ADMIN_NOTIFY_EMAIL, {
+        name: "internal_setup_notice",
+        subject: `[Booking] ${data.name} · ${methodLabels[data.method]}${when ? ` · ${when}` : ""}`,
+        props: {
+          name: data.name,
+          email: data.email,
+          whatsapp: data.phone || undefined,
+          nationality: data.nationality || undefined,
+          activity: data.activity || undefined,
+          jurisdiction: data.jurisdiction || undefined,
+          goals: data.tags && data.tags.length ? data.tags : undefined,
+        },
+      });
+    } catch (e) {
+      console.error("internal booking notice failed", e);
+    }
+
     return { ok: true };
   });

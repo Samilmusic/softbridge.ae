@@ -31,8 +31,8 @@ import mahiImg from "@/assets/team/mahi.webp";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About Soft Bridge — Building Business Infrastructure for the Future" },
-      { name: "description", content: "Soft Bridge FZE LLC is a UAE-based business setup and digital infrastructure company combining consultancy, AI, automation, and software into one premium ecosystem." },
+      { title: "About Soft Bridge — UAE Business Infrastructure" },
+      { name: "description", content: "Soft Bridge FZE LLC is a UAE-based business setup and digital infrastructure company combining consultancy, AI, automation, and software." },
       { property: "og:title", content: "About Soft Bridge FZE LLC" },
       { property: "og:description", content: "UAE business setup, AI systems, digital infrastructure, and long-term operational support." },
     ],

@@ -791,7 +791,7 @@ const ARTICLE_SLUGS: Record<string, string> = {
 const ARTICLE_COVERS: Record<string, string> = {
   "best-free-zones-dubai-startups-2026": dubaiFreeZonesCover,
   "ifza-vs-meydan-dubai-free-zone": ifzaRecognitionCover,
-  "open-uae-company-remotely-2026": dubaiSkylineCover,
+  "open-uae-company-remotely-2026": europeanFoundersCover,
   "uae-corporate-bank-account-guide": bankingDocumentsCover,
   "uae-mainland-vs-free-zone": abuDhabiCover,
   "best-uae-setup-ecommerce": dubaiCover,

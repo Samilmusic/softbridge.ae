@@ -171,7 +171,7 @@ export function Contact() {
               <div className="grid md:grid-cols-2 gap-5">
                 <FloatField id="name" label="Full Name" value={form.name} onChange={(v) => setForm({ ...form, name: v })} />
                 <FloatField id="email" label="Email Address" type="email" value={form.email} onChange={(v) => setForm({ ...form, email: v })} />
-                <PhoneField label="WhatsApp Number" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
+                <PhoneField label="WhatsApp Number" defaultCountry="ae" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
 
                 {/* Select with floating label */}
                 <div className="relative">

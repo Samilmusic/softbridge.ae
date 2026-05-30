@@ -1009,14 +1009,14 @@ function InlineLeadForm({ className = "", source }: { className?: string; source
 /* ============================================================ */
 
 const COUNTRIES = [
-  { flag: "🇮🇷", name: "Iran" },
-  { flag: "🇷🇺", name: "Russia" },
-  { flag: "🇬🇧", name: "UK" },
   { flag: "🇩🇪", name: "Germany" },
-  { flag: "🇮🇳", name: "India" },
-  { flag: "🇵🇰", name: "Pakistan" },
-  { flag: "🇹🇷", name: "Turkey" },
-  { flag: "🇨🇳", name: "China" },
+  { flag: "🇬🇧", name: "UK" },
+  { flag: "🇫🇷", name: "France" },
+  { flag: "🇳🇱", name: "Netherlands" },
+  { flag: "🇸🇪", name: "Sweden" },
+  { flag: "🇨🇭", name: "Switzerland" },
+  { flag: "🇦🇹", name: "Austria" },
+  { flag: "🇧🇪", name: "Belgium" },
 ];
 
 function TrustBar() {
@@ -1024,7 +1024,7 @@ function TrustBar() {
     <section className="border-y border-slate-100 bg-white">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 py-7 flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
         <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500 flex-shrink-0">
-          Trusted by founders from
+          Founders from across Europe trust Soft Bridge
         </div>
         <div className="-mx-5 sm:-mx-8 md:mx-0 md:flex-1 overflow-x-auto no-scrollbar">
           <ul className="flex items-center gap-3 sm:gap-4 px-5 sm:px-8 md:px-0 whitespace-nowrap">

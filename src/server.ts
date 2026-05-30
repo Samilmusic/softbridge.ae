@@ -37,23 +37,30 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
   });
 }
 
-// On Cloudflare Workers, environment variables and secrets are passed via the
-// `env` argument to fetch — they are NOT available on process.env by default.
-// Copy string-valued bindings onto process.env at request time so server-side
-// code that reads process.env.SUPABASE_URL etc. works without modification.
+type GlobalWithRuntimeEnv = typeof globalThis & {
+  __env__?: Record<string, unknown>;
+  process?: { env?: Record<string, string | undefined> };
+};
+
+// On Cloudflare Workers, environment variables and secrets are passed as runtime
+// bindings. Nitro exposes them on globalThis.__env__; direct Worker entries pass
+// them as the fetch `env` argument. Hydrate process.env before importing app code
+// so existing server-side clients can read SUPABASE_URL, RESEND_API_KEY, etc.
 function hydrateProcessEnvFromWorkerEnv(env: unknown) {
-  if (!env || typeof env !== "object") return;
+  const workerEnv = env && typeof env === "object" ? env : (globalThis as GlobalWithRuntimeEnv).__env__;
+  if (!workerEnv || typeof workerEnv !== "object") return;
   try {
-    const target = (globalThis as { process?: { env?: Record<string, string> } })
-      .process?.env;
-    if (!target) return;
-    for (const [key, value] of Object.entries(env as Record<string, unknown>)) {
-      if (typeof value === "string" && target[key] === undefined) {
+    const runtimeGlobal = globalThis as GlobalWithRuntimeEnv;
+    runtimeGlobal.process ??= { env: {} };
+    runtimeGlobal.process.env ??= {};
+    const target = runtimeGlobal.process.env;
+    for (const [key, value] of Object.entries(workerEnv as Record<string, unknown>)) {
+      if (typeof value === "string" && value && !target[key]) {
         target[key] = value;
       }
     }
   } catch {
-    // ignore — process may not exist in some runtimes
+    // ignore — process may be read-only in some runtimes
   }
 }
 

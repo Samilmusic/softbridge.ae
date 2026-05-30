@@ -553,10 +553,21 @@ const PACKAGES = [
   },
   {
     name: "Custom Business Structure",
-    price: "Custom Quote",
-    desc: "For groups, holdings, multi-shareholder setups, or regulated activities.",
-    features: ["Tailored corporate structure", "Multi-shareholder & holding setups", "Regulated activity guidance", "Dedicated relationship manager", "Long-term operational support"],
+    price: "From AED 18,900",
+    desc: "Everything done for you — company, visa, banking, and digital presence. One package, zero surprises.",
+    features: [
+      "Company Formation & Trade License",
+      "Establishment Card",
+      "Emirates ID (EID)",
+      "Residency Visa",
+      "Free Tax Registration Support",
+      "Free Professional Website",
+      "Free Bank Account Assistance",
+      "Dedicated Relationship Manager",
+      "Long-Term Operational Support",
+    ],
     featured: false,
+    badge: "All-Inclusive",
   },
 ];
 
@@ -598,6 +609,14 @@ function Pricing() {
                     style={{ background: VIOLET }}
                   >
                     <Sparkles className="w-3 h-3" /> Most Popular
+                  </div>
+                )}
+                {p.badge && !featured && (
+                  <div
+                    className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-semibold text-[#3d2c00] shadow-[0_8px_20px_-8px_rgba(217,164,6,0.6)]"
+                    style={{ background: "linear-gradient(135deg, #FCD34D 0%, #D97706 100%)" }}
+                  >
+                    <Sparkles className="w-3 h-3" /> {p.badge}
                   </div>
                 )}
                 <div className="text-[13px] font-semibold uppercase tracking-[0.15em] text-slate-500">{p.name}</div>

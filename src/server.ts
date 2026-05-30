@@ -18,8 +18,6 @@ async function getServerEntry(): Promise<ServerEntry> {
   return serverEntryPromise;
 }
 
-// h3 swallows in-handler throws into a normal 500 Response with body
-// {"unhandled":true,"message":"HTTPError"} — try/catch alone never fires for those.
 async function normalizeCatastrophicSsrResponse(response: Response): Promise<Response> {
   if (response.status < 500) return response;
   const contentType = response.headers.get("content-type") ?? "";
@@ -39,49 +37,74 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
 
 type GlobalWithRuntimeEnv = typeof globalThis & {
   __env__?: Record<string, unknown>;
+  env?: Record<string, unknown>;
+  process?: { env?: Record<string, string | undefined> };
 };
 
 const runtimeEnvKeys = [
   "SUPABASE_URL",
   "SUPABASE_SERVICE_ROLE_KEY",
   "SUPABASE_PUBLISHABLE_KEY",
+  "VITE_SUPABASE_URL",
+  "VITE_SUPABASE_PUBLISHABLE_KEY",
+  "VITE_SUPABASE_PROJECT_ID",
   "RESEND_API_KEY",
   "RESEND_FROM_EMAIL",
+  "LOVABLE_API_KEY",
 ] as const;
 
-// On Cloudflare Workers, environment variables and secrets are passed as runtime
-// bindings. Nitro exposes them on globalThis.__env__; direct Worker entries pass
-// them as the fetch `env` argument. Hydrate process.env before importing app code
-// so existing server-side clients can read SUPABASE_URL, RESEND_API_KEY, etc.
 function hydrateProcessEnvFromWorkerEnv(env: unknown) {
+  const runtimeGlobal = globalThis as GlobalWithRuntimeEnv;
+
   const workerEnv =
-    env && typeof env === "object" ? env : (globalThis as GlobalWithRuntimeEnv).__env__;
-  if (!workerEnv || typeof workerEnv !== "object") return;
-  try {
-    const runtimeGlobal = globalThis as GlobalWithRuntimeEnv & {
-      process?: { env?: Record<string, string | undefined> };
-    };
-    const target = runtimeGlobal.process?.env;
-    if (!target) return;
-    for (const [key, value] of Object.entries(workerEnv as Record<string, unknown>)) {
-      if (typeof value === "string" && value && !target[key]) {
-        target[key] = value;
-      }
+    env && typeof env === "object"
+      ? (env as Record<string, unknown>)
+      : runtimeGlobal.__env__ && typeof runtimeGlobal.__env__ === "object"
+        ? runtimeGlobal.__env__
+        : runtimeGlobal.env && typeof runtimeGlobal.env === "object"
+          ? runtimeGlobal.env
+          : undefined;
+
+  if (!workerEnv) return;
+
+  runtimeGlobal.__env__ = {
+    ...(runtimeGlobal.__env__ ?? {}),
+    ...workerEnv,
+  };
+
+  runtimeGlobal.env = {
+    ...(runtimeGlobal.env ?? {}),
+    ...workerEnv,
+  };
+
+  if (!runtimeGlobal.process) {
+    runtimeGlobal.process = { env: {} };
+  }
+
+  if (!runtimeGlobal.process.env) {
+    runtimeGlobal.process.env = {};
+  }
+
+  const target = runtimeGlobal.process.env;
+
+  for (const [key, value] of Object.entries(workerEnv)) {
+    if (typeof value === "string" && value && !target[key]) {
+      target[key] = value;
     }
-    for (const key of runtimeEnvKeys) {
-      const value = (workerEnv as Record<string, unknown>)[key];
-      if (typeof value === "string" && value && !target[key]) {
-        target[key] = value;
-      }
+  }
+
+  for (const key of runtimeEnvKeys) {
+    const value = workerEnv[key];
+    if (typeof value === "string" && value && !target[key]) {
+      target[key] = value;
     }
-  } catch {
-    // ignore — process may be read-only in some runtimes
   }
 }
 
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     hydrateProcessEnvFromWorkerEnv(env);
+
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);

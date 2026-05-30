@@ -57,6 +57,8 @@ const PACKAGES = [
 ];
 
 export function Packages() {
+  const { openBooking } = useBooking();
+
   return (
     <section
       id="packages"

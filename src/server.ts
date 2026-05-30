@@ -39,7 +39,6 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
 
 type GlobalWithRuntimeEnv = typeof globalThis & {
   __env__?: Record<string, unknown>;
-  process?: { env?: Record<string, string | undefined> };
 };
 
 // On Cloudflare Workers, environment variables and secrets are passed as runtime
@@ -50,10 +49,11 @@ function hydrateProcessEnvFromWorkerEnv(env: unknown) {
   const workerEnv = env && typeof env === "object" ? env : (globalThis as GlobalWithRuntimeEnv).__env__;
   if (!workerEnv || typeof workerEnv !== "object") return;
   try {
-    const runtimeGlobal = globalThis as GlobalWithRuntimeEnv;
-    runtimeGlobal.process ??= { env: {} };
-    runtimeGlobal.process.env ??= {};
-    const target = runtimeGlobal.process.env;
+    const runtimeGlobal = globalThis as GlobalWithRuntimeEnv & {
+      process?: { env?: Record<string, string | undefined> };
+    };
+    const target = runtimeGlobal.process?.env;
+    if (!target) return;
     for (const [key, value] of Object.entries(workerEnv as Record<string, unknown>)) {
       if (typeof value === "string" && value && !target[key]) {
         target[key] = value;

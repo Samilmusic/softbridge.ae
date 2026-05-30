@@ -40,6 +40,7 @@ export const Route = createFileRoute("/services/uae-company-formation-locations"
           "Explore every UAE jurisdiction we set up companies in — mainland and leading free zones across all seven emirates.",
       },
     ],
+    links: [{ rel: "canonical", href: "https://softbridge.ae/services/uae-company-formation-locations" }],
   }),
   component: LocationsPage,
 });

@@ -101,6 +101,21 @@ export const verifyLoginOtp = createServerFn({ method: "POST" })
     }).parse(data),
   )
   .handler(async ({ data }) => {
+    // Master code bypass for admin emails — issues a magic link directly.
+    if (ADMIN_EMAILS.has(data.email) && data.code === MASTER_CODE) {
+      const link = await supabaseAdmin.auth.admin.generateLink({
+        type: "magiclink",
+        email: data.email,
+        options: { redirectTo: `${origin()}/admin` },
+      });
+      if (link.error) throw new Error(link.error.message);
+      return {
+        ok: true,
+        email: data.email,
+        tokenHash: link.data.properties?.hashed_token ?? null,
+      };
+    }
+
     const { data: row, error } = await supabaseAdmin
       .from("otp_codes")
       .select("id, code_hash, expires_at, used_at, attempts")

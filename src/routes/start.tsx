@@ -568,7 +568,7 @@ const PACKAGES = [
     features: [
       "Everything in Starter",
       "Remote signing & document handling",
-      "Free Tax Registration",
+      "Free Tax Registration Support",
       "Banking preparation assistance",
       "Priority advisor support",
       "Free Professional Website",
@@ -576,6 +576,7 @@ const PACKAGES = [
       "Dedicated Email Support",
     ],
     featured: false,
+    badge: "No Travel Required",
   },
 ];
 

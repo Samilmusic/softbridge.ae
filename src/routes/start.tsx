@@ -620,14 +620,8 @@ function Pricing() {
                     <Sparkles className="w-3 h-3" /> Most Popular
                   </div>
                 )}
-                {p.badge && !featured && (
-                  <div
-                    className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-semibold text-[#3d2c00] shadow-[0_8px_20px_-8px_rgba(217,164,6,0.6)]"
-                    style={{ background: "linear-gradient(135deg, #FCD34D 0%, #D97706 100%)" }}
-                  >
-                    <Sparkles className="w-3 h-3" /> {p.badge}
-                  </div>
-                )}
+
+
                 <div className="text-[13px] font-semibold uppercase tracking-[0.15em] text-slate-500">{p.name}</div>
                 <div className="mt-3 text-3xl md:text-4xl font-semibold tracking-tight">{p.price}</div>
                 <p className="mt-3 text-[14px] text-slate-600 leading-relaxed">{p.desc}</p>

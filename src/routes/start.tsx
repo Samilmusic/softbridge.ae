@@ -596,7 +596,7 @@ function Pricing() {
             return (
               <div
                 key={p.name}
-                className={`relative rounded-3xl p-7 md:p-8 flex flex-col ${
+                className={`relative rounded-3xl p-7 md:p-8 flex flex-col h-full ${
                   featured
                     ? "border-2 shadow-[0_30px_60px_-20px_rgba(124,58,237,0.35)]"
                     : "border border-slate-200 shadow-[0_8px_24px_-12px_rgba(15,23,42,0.08)]"

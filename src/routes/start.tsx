@@ -545,7 +545,7 @@ const PACKAGES = [
     featured: false,
   },
   {
-    name: "Custom Business Structure",
+    name: "All inclusive Business Structure",
     price: "From AED 18,900",
     desc: "Everything done for you — company, visa, banking, and digital presence. One package, zero surprises.",
     features: [

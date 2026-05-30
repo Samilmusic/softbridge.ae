@@ -3,34 +3,57 @@ import type { Answers, Recommendation } from "./advisor";
 import { bankingLabel, complianceLabel, labels, visaLabel } from "./advisor";
 import { SITE } from "./site";
 
-const GOLD: [number, number, number] = [212, 168, 76];
-const INK: [number, number, number] = [22, 24, 38];
-const MUTED: [number, number, number] = [120, 124, 140];
-const LINE: [number, number, number] = [225, 225, 232];
+// ── Soft Bridge website palette (1:1 with src/styles.css light theme) ──
+// Primary violet ≈ oklch(0.58 0.22 285) → #7C3AED
+// Accent violet  ≈ oklch(0.74 0.18 290) → #A78BFA
+// Foreground/ink ≈ oklch(0.20 0.03 268) → #1B1B33
+// Muted          ≈ oklch(0.45 0.02 275) → #6B6880
+// Background     ≈ #FFFFFF / soft #FAF8FF
+// Border         ≈ #E7E2F2
+const PRIMARY: [number, number, number] = [124, 58, 237];
+const ACCENT: [number, number, number] = [167, 139, 250];
+const INK: [number, number, number] = [27, 27, 51];
+const MUTED: [number, number, number] = [107, 104, 128];
+const SOFT_BG: [number, number, number] = [250, 247, 255];
+const SURFACE: [number, number, number] = [255, 255, 255];
+const LINE: [number, number, number] = [231, 226, 242];
+const WHITE: [number, number, number] = [255, 255, 255];
 
 function header(doc: jsPDF) {
-  doc.setFillColor(...INK);
-  doc.rect(0, 0, 595, 70, "F");
+  // Soft white surface with a thin violet hairline + gradient bar accent
+  doc.setFillColor(...SURFACE);
+  doc.rect(0, 0, 595, 78, "F");
 
-  // Gold mark
-  doc.setFillColor(...GOLD);
-  doc.roundedRect(40, 22, 28, 28, 4, 4, "F");
-  doc.setTextColor(22, 24, 38);
+  // Gradient-style accent strip (approximated with 2 stops)
+  doc.setFillColor(...PRIMARY);
+  doc.rect(0, 0, 297, 3, "F");
+  doc.setFillColor(...ACCENT);
+  doc.rect(297, 0, 298, 3, "F");
+
+  // Violet logo mark
+  doc.setFillColor(...PRIMARY);
+  doc.roundedRect(40, 26, 32, 32, 8, 8, "F");
+  doc.setTextColor(...WHITE);
   doc.setFont("helvetica", "bold");
-  doc.setFontSize(11);
-  doc.text("SB", 54, 41, { align: "center" });
-
-  doc.setTextColor(255, 255, 255);
   doc.setFontSize(12);
-  doc.text("Soft Bridge FZE LLC", 80, 36);
+  doc.text("SB", 56, 47, { align: "center" });
+
+  doc.setTextColor(...INK);
+  doc.setFontSize(12);
+  doc.text("Soft Bridge FZE LLC", 84, 42);
   doc.setFont("helvetica", "normal");
   doc.setFontSize(8);
-  doc.setTextColor(212, 168, 76);
-  doc.text("BRIDGE TO YOUR SUCCESS", 80, 50);
+  doc.setTextColor(...PRIMARY);
+  doc.text("BRIDGE TO YOUR SUCCESS", 84, 55);
 
-  doc.setTextColor(200, 200, 210);
+  doc.setTextColor(...MUTED);
   doc.setFontSize(8);
-  doc.text("AI Structure Advisor — Personalized Setup Report", 555, 41, { align: "right" });
+  doc.text("AI Structure Advisor — Personalized Setup Report", 555, 47, { align: "right" });
+
+  // Bottom hairline
+  doc.setDrawColor(...LINE);
+  doc.setLineWidth(0.5);
+  doc.line(0, 78, 595, 78);
 }
 
 function footer(doc: jsPDF, page: number, total: number) {
@@ -44,11 +67,12 @@ function footer(doc: jsPDF, page: number, total: number) {
 }
 
 function sectionTitle(doc: jsPDF, y: number, text: string) {
-  doc.setTextColor(...GOLD);
+  doc.setTextColor(...PRIMARY);
   doc.setFont("helvetica", "bold");
   doc.setFontSize(9);
   doc.text(text.toUpperCase(), 40, y);
-  doc.setDrawColor(...GOLD);
+  doc.setDrawColor(...PRIMARY);
+  doc.setLineWidth(1.2);
   doc.line(40, y + 4, 70, y + 4);
 }
 
@@ -77,51 +101,58 @@ export function buildAdvisorPdf(answers: Answers, recs: Recommendation[]): jsPDF
   const top = recs[0];
   const alts = recs.slice(1, 3);
 
+  // Page background — soft white for premium feel
+  doc.setFillColor(...SOFT_BG);
+  doc.rect(0, 0, 595, 842, "F");
+
   header(doc);
 
   // Title block
   doc.setTextColor(...INK);
-  doc.setFont("helvetica", "bold"); doc.setFontSize(22);
-  doc.text("Your UAE Structure Report", 40, 115);
+  doc.setFont("helvetica", "bold"); doc.setFontSize(24);
+  doc.text("Your UAE Structure Report", 40, 122);
   doc.setFont("helvetica", "normal"); doc.setFontSize(10); doc.setTextColor(...MUTED);
   const date = new Date().toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric" });
-  doc.text(`Generated ${date}  ·  Confidential — prepared for the addressee.`, 40, 132);
+  doc.text(`Generated ${date}  ·  Confidential — prepared for the addressee.`, 40, 140);
 
-  // Recommendation card
-  doc.setFillColor(248, 246, 240);
-  doc.roundedRect(40, 150, 515, 140, 8, 8, "F");
-  doc.setDrawColor(...GOLD);
-  doc.setLineWidth(1.2);
-  doc.line(40, 150, 40, 290);
+  // Recommendation card — white surface with violet ring
+  doc.setFillColor(...SURFACE);
+  doc.roundedRect(40, 158, 515, 150, 12, 12, "F");
+  doc.setDrawColor(...LINE);
+  doc.setLineWidth(0.8);
+  doc.roundedRect(40, 158, 515, 150, 12, 12, "S");
+  // Violet left accent
+  doc.setFillColor(...PRIMARY);
+  doc.roundedRect(40, 158, 4, 150, 2, 2, "F");
 
-  doc.setTextColor(...GOLD); doc.setFont("helvetica", "bold"); doc.setFontSize(9);
-  doc.text("PRIMARY RECOMMENDATION", 60, 175);
+  doc.setTextColor(...PRIMARY); doc.setFont("helvetica", "bold"); doc.setFontSize(9);
+  doc.text("PRIMARY RECOMMENDATION", 60, 183);
 
-  doc.setTextColor(...INK); doc.setFontSize(20);
-  doc.text(top.jurisdiction.name, 60, 200);
+  doc.setTextColor(...INK); doc.setFontSize(22);
+  doc.text(top.jurisdiction.name, 60, 210);
   doc.setFont("helvetica", "normal"); doc.setFontSize(10); doc.setTextColor(...MUTED);
   const wrappedTag = doc.splitTextToSize(top.jurisdiction.tagline, 380);
-  doc.text(wrappedTag, 60, 218);
+  doc.text(wrappedTag, 60, 228);
 
-  // Confidence pill
-  doc.setFillColor(...GOLD);
-  doc.roundedRect(450, 165, 90, 24, 12, 12, "F");
-  doc.setTextColor(...INK); doc.setFont("helvetica", "bold"); doc.setFontSize(11);
-  doc.text(`${top.confidence}% match`, 495, 181, { align: "center" });
+  // Confidence pill — violet gradient feel
+  doc.setFillColor(...PRIMARY);
+  doc.roundedRect(450, 175, 90, 26, 13, 13, "F");
+  doc.setTextColor(...WHITE); doc.setFont("helvetica", "bold"); doc.setFontSize(11);
+  doc.text(`${top.confidence}% match`, 495, 192, { align: "center" });
 
   // Axis row
-  key(doc, 60,  260, "Setup cost", `AED ${top.axes.cost[0].toLocaleString()} – ${top.axes.cost[1].toLocaleString()}`);
-  key(doc, 210, 260, "Banking", bankingLabel(top.axes.banking));
-  key(doc, 310, 260, "Compliance", complianceLabel(top.axes.compliance));
-  key(doc, 420, 260, "Visa fit", visaLabel(top.axes.visa));
+  key(doc, 60,  278, "Setup cost", `AED ${top.axes.cost[0].toLocaleString()} – ${top.axes.cost[1].toLocaleString()}`);
+  key(doc, 210, 278, "Banking", bankingLabel(top.axes.banking));
+  key(doc, 310, 278, "Compliance", complianceLabel(top.axes.compliance));
+  key(doc, 420, 278, "Visa fit", visaLabel(top.axes.visa));
 
   // Why this fits
-  let y = 320;
+  let y = 340;
   sectionTitle(doc, y, "Why This Structure Fits");
   y += 22;
   doc.setFont("helvetica", "normal"); doc.setFontSize(10); doc.setTextColor(...INK);
   top.reasons.slice(0, 6).forEach((r) => {
-    doc.setFillColor(...GOLD);
+    doc.setFillColor(...PRIMARY);
     doc.circle(46, y - 3, 2, "F");
     const lines = doc.splitTextToSize(r, 480);
     doc.text(lines, 56, y);
@@ -133,8 +164,10 @@ export function buildAdvisorPdf(answers: Answers, recs: Recommendation[]): jsPDF
   y += 6;
   sectionTitle(doc, y, "Your Inputs");
   y += 18;
+  doc.setFillColor(...SURFACE);
+  doc.roundedRect(40, y, 515, 110, 8, 8, "F");
   doc.setDrawColor(...LINE);
-  doc.roundedRect(40, y, 515, 110, 6, 6);
+  doc.roundedRect(40, y, 515, 110, 8, 8, "S");
   doc.setFontSize(9); doc.setTextColor(...INK);
   const cols = answerSummary(answers);
   cols.forEach((line, i) => {
@@ -148,30 +181,35 @@ export function buildAdvisorPdf(answers: Answers, recs: Recommendation[]): jsPDF
   sectionTitle(doc, y, "Alternative Options");
   y += 18;
   alts.forEach((alt) => {
+    doc.setFillColor(...SURFACE);
+    doc.roundedRect(40, y, 515, 68, 8, 8, "F");
     doc.setDrawColor(...LINE);
-    doc.roundedRect(40, y, 515, 64, 6, 6);
+    doc.roundedRect(40, y, 515, 68, 8, 8, "S");
     doc.setFont("helvetica", "bold"); doc.setFontSize(12); doc.setTextColor(...INK);
     doc.text(alt.jurisdiction.name, 56, y + 22);
-    doc.setFont("helvetica", "normal"); doc.setFontSize(9); doc.setTextColor(...MUTED);
+    doc.setFont("helvetica", "normal"); doc.setFontSize(9); doc.setTextColor(...PRIMARY);
     doc.text(`${alt.confidence}% match`, 540, y + 22, { align: "right" });
+    doc.setTextColor(...MUTED);
     const t = doc.splitTextToSize(alt.jurisdiction.tagline, 480);
     doc.text(t, 56, y + 38);
     doc.setTextColor(...INK); doc.setFontSize(9);
     doc.text(`AED ${alt.axes.cost[0].toLocaleString()} – ${alt.axes.cost[1].toLocaleString()}  ·  Banking: ${bankingLabel(alt.axes.banking)}  ·  Visa: ${visaLabel(alt.axes.visa)}`,
-      56, y + 56);
-    y += 76;
+      56, y + 58);
+    y += 80;
   });
 
   footer(doc, 1, 2);
 
-  // Page 2 — Roadmap
+  // ── Page 2 — Roadmap ──────────────────────────────────────
   doc.addPage();
+  doc.setFillColor(...SOFT_BG);
+  doc.rect(0, 0, 595, 842, "F");
   header(doc);
 
-  doc.setTextColor(...INK); doc.setFont("helvetica", "bold"); doc.setFontSize(20);
-  doc.text("Setup Roadmap", 40, 115);
+  doc.setTextColor(...INK); doc.setFont("helvetica", "bold"); doc.setFontSize(22);
+  doc.text("Setup Roadmap", 40, 122);
   doc.setFont("helvetica", "normal"); doc.setFontSize(10); doc.setTextColor(...MUTED);
-  doc.text("A high-level path from discovery to operations. Final scope is confirmed after consultation.", 40, 132);
+  doc.text("A high-level path from discovery to operations. Final scope is confirmed after consultation.", 40, 140);
 
   const steps = [
     { t: "Discovery", d: "30-min consultation to confirm activities, ownership, and operational needs." },
@@ -181,19 +219,19 @@ export function buildAdvisorPdf(answers: Answers, recs: Recommendation[]): jsPDF
     { t: "Business Launch", d: "Website, CRM, and advertising prepared for go-to-market." },
     { t: "Long-Term Support", d: "Renewals, compliance updates, and growth advisory as part of an ongoing partnership." },
   ];
-  let sy = 160;
+  let sy = 168;
   steps.forEach((s, i) => {
     // step badge
-    doc.setFillColor(...GOLD);
-    doc.roundedRect(40, sy, 28, 28, 6, 6, "F");
-    doc.setTextColor(...INK); doc.setFont("helvetica", "bold"); doc.setFontSize(11);
-    doc.text(String(i + 1).padStart(2, "0"), 54, sy + 19, { align: "center" });
+    doc.setFillColor(...PRIMARY);
+    doc.roundedRect(40, sy, 30, 30, 8, 8, "F");
+    doc.setTextColor(...WHITE); doc.setFont("helvetica", "bold"); doc.setFontSize(11);
+    doc.text(String(i + 1).padStart(2, "0"), 55, sy + 20, { align: "center" });
 
     doc.setTextColor(...INK); doc.setFontSize(12);
-    doc.text(s.t, 80, sy + 14);
+    doc.text(s.t, 82, sy + 14);
     doc.setFont("helvetica", "normal"); doc.setFontSize(10); doc.setTextColor(...MUTED);
     const wrapped = doc.splitTextToSize(s.d, 460);
-    doc.text(wrapped, 80, sy + 30);
+    doc.text(wrapped, 82, sy + 30);
     sy += 56 + (wrapped.length - 1) * 10;
   });
 
@@ -201,12 +239,15 @@ export function buildAdvisorPdf(answers: Answers, recs: Recommendation[]): jsPDF
   sy += 4;
   sectionTitle(doc, sy, "Estimated Setup Cost");
   sy += 22;
-  doc.setDrawColor(...LINE); doc.roundedRect(40, sy, 515, 56, 6, 6);
-  doc.setFont("helvetica", "bold"); doc.setFontSize(16); doc.setTextColor(...INK);
-  doc.text(`AED ${top.axes.cost[0].toLocaleString()} – ${top.axes.cost[1].toLocaleString()}`, 56, sy + 26);
+  doc.setFillColor(...SURFACE);
+  doc.roundedRect(40, sy, 515, 60, 8, 8, "F");
+  doc.setDrawColor(...LINE);
+  doc.roundedRect(40, sy, 515, 60, 8, 8, "S");
+  doc.setFont("helvetica", "bold"); doc.setFontSize(17); doc.setTextColor(...PRIMARY);
+  doc.text(`AED ${top.axes.cost[0].toLocaleString()} – ${top.axes.cost[1].toLocaleString()}`, 56, sy + 28);
   doc.setFont("helvetica", "normal"); doc.setFontSize(9); doc.setTextColor(...MUTED);
-  doc.text("Indicative range for license, basic visa, and core setup costs. Excludes optional add-ons.", 56, sy + 44);
-  sy += 76;
+  doc.text("Indicative range for license, basic visa, and core setup costs. Excludes optional add-ons.", 56, sy + 46);
+  sy += 80;
 
   // Banking considerations
   sectionTitle(doc, sy, "Banking Considerations");
@@ -217,7 +258,14 @@ export function buildAdvisorPdf(answers: Answers, recs: Recommendation[]): jsPDF
     "Banking friendliness for this jurisdiction: " + bankingLabel(top.axes.banking) + ".",
     "We coordinate the application and prepare your business profile for the best bank match.",
   ];
-  b.forEach((l) => { const ww = doc.splitTextToSize(l, 480); doc.setFillColor(...GOLD); doc.circle(46, sy - 3, 2, "F"); doc.text(ww, 56, sy); sy += 14 + (ww.length-1)*12; });
+  b.forEach((l) => {
+    const ww = doc.splitTextToSize(l, 480);
+    doc.setFillColor(...PRIMARY);
+    doc.circle(46, sy - 3, 2, "F");
+    doc.setTextColor(...INK);
+    doc.text(ww, 56, sy);
+    sy += 14 + (ww.length - 1) * 12;
+  });
 
   // Next steps
   sy += 8;
@@ -229,13 +277,16 @@ export function buildAdvisorPdf(answers: Answers, recs: Recommendation[]): jsPDF
   doc.text("3. License, residency, and banking are coordinated end-to-end.", 40, sy); sy += 16;
   doc.text("4. Long-term support continues after launch.", 40, sy); sy += 28;
 
-  // CTA block
-  doc.setFillColor(...INK);
-  doc.roundedRect(40, sy, 515, 64, 8, 8, "F");
-  doc.setTextColor(255, 255, 255); doc.setFont("helvetica", "bold"); doc.setFontSize(13);
-  doc.text("Ready to move from plan to execution?", 56, sy + 26);
-  doc.setFont("helvetica", "normal"); doc.setFontSize(10); doc.setTextColor(212, 168, 76);
-  doc.text(`WhatsApp ${SITE.phone}  ·  ${SITE.email}`, 56, sy + 46);
+  // CTA block — violet gradient feel
+  doc.setFillColor(...PRIMARY);
+  doc.roundedRect(40, sy, 515, 68, 12, 12, "F");
+  // Lighter accent overlay (approximated)
+  doc.setFillColor(...ACCENT);
+  doc.roundedRect(380, sy, 175, 68, 12, 12, "F");
+  doc.setTextColor(...WHITE); doc.setFont("helvetica", "bold"); doc.setFontSize(13);
+  doc.text("Ready to move from plan to execution?", 56, sy + 28);
+  doc.setFont("helvetica", "normal"); doc.setFontSize(10);
+  doc.text(`WhatsApp ${SITE.phone}  ·  ${SITE.email}`, 56, sy + 48);
 
   footer(doc, 2, 2);
   return doc;

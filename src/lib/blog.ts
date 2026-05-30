@@ -1,6 +1,7 @@
 import dubaiFreeZonesCover from "@/assets/blog/dubai-free-zones.jpg";
 import bankingDocumentsCover from "@/assets/blog/banking-documents.jpg";
 import europeanFoundersCover from "@/assets/tax-comparison-2026.png";
+import uaeRemoteCompanyCover from "@/assets/uae-remote-company-2026.png";
 import ifzaRecognitionCover from "@/assets/ifza-recognition.jpg";
 import abuDhabiCover from "@/assets/emirates/abu-dhabi.jpg";
 import dubaiCover from "@/assets/emirates/dubai.jpg";
@@ -397,7 +398,7 @@ const BASE_ARTICLES: Article[] = [
     author: { name: "Soft Bridge Editorial", role: "UAE Formation Desk" },
     publishedAt: "2026-04-02",
     readingMinutes: 10,
-    cover: img("photo-1582672060674-bc2bd808a8ce"),
+    cover: uaeRemoteCompanyCover,
     seo: {
       title: "Open a UAE Company Remotely — 2026 Complete Guide",
       description:
@@ -985,7 +986,7 @@ const ARTICLE_SLUGS: Record<string, string> = {
 const ARTICLE_COVERS: Record<string, string> = {
   "best-free-zones-dubai-startups-2026": dubaiFreeZonesCover,
   "ifza-vs-meydan-dubai-free-zone": ifzaRecognitionCover,
-  "open-uae-company-remotely-2026": europeanFoundersCover,
+  "open-uae-company-remotely-2026": uaeRemoteCompanyCover,
   "uae-corporate-bank-account-guide": bankingDocumentsCover,
   "uae-mainland-vs-free-zone": abuDhabiCover,
   "best-uae-setup-ecommerce": dubaiCover,

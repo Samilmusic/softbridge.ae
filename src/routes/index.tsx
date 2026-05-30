@@ -87,7 +87,7 @@ function Index() {
         <Suspense fallback={<SectionFallback />}>
           <Packages />
         </Suspense>
-        <PricingOffer id="offer" onStartSetup={() => setOnboarding(true)} />
+        
         <WhatWeDo />
         <Suspense fallback={<SectionFallback />}>
           <AiAdvisorTeaser />

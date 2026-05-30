@@ -12,6 +12,7 @@ import { PortalAdvisorCard } from "@/components/advisor/PortalAdvisorCard";
 import { Button } from "@/components/ui/button";
 import { WA_LINK, SITE } from "@/lib/site";
 import { Logo } from "@/components/site/Logo";
+import { useBooking } from "@/lib/booking-context";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/portal")({
@@ -38,23 +39,28 @@ function PortalErrorFallback({ error, reset }: { error: Error; reset: () => void
 function PortalPage() {
   const { user } = useAuth();
   const fetchCase = useServerFn(getMyCase);
+  const { openBooking } = useBooking();
   const [state, setState] = useState<any>(null);
   const [profile, setProfile] = useState<{ full_name: string | null; email: string } | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     if (!user) return;
     let cancelled = false;
     (async () => {
       try {
-        const [pRes, cRes] = await Promise.all([
+        const [pRes, cRes, rRes] = await Promise.all([
           supabase.from("profiles").select("full_name,email").eq("id", user.id).maybeSingle(),
           fetchCase(),
+          supabase.from("user_roles").select("role").eq("user_id", user.id),
         ]);
         if (cancelled) return;
         setProfile((pRes.data as any) ?? { full_name: null, email: user.email ?? "" });
         setState(cRes);
+        const roles = (rRes.data ?? []).map((r: any) => r.role);
+        setIsAdmin(roles.includes("admin") || roles.includes("consultant"));
       } catch (e: any) {
         console.error("portal load failed", e);
         if (!cancelled) setLoadError(e?.message || "We could not prepare your portal. Please try again or contact support.");
@@ -105,6 +111,11 @@ function PortalPage() {
             </Link>
             <div className="flex items-center gap-3">
               <span className="hidden md:inline text-xs text-muted-foreground">{profile?.email}</span>
+              {isAdmin && (
+                <Link to="/admin" className="text-xs px-3 py-1.5 rounded-full border border-gold/40 text-gold hover:bg-gold/10 transition inline-flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5" />Admin
+                </Link>
+              )}
               <Button variant="outline" size="sm" onClick={signOut} className="border-white/15"><LogOut className="w-3.5 h-3.5 mr-1.5" />Sign out</Button>
             </div>
           </div>
@@ -126,10 +137,10 @@ function PortalPage() {
               <div className="flex items-center gap-3"><CreditCard className="w-5 h-5 text-gold" /><div className="font-medium">Request a quotation</div></div>
               <p className="text-xs text-muted-foreground mt-1.5">Get an instant cost & timeline estimate.</p>
             </Link>
-            <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="glass-strong rounded-2xl p-5 border border-white/8 hover:border-gold/40 transition">
+            <button type="button" onClick={openBooking} className="text-left glass-strong rounded-2xl p-5 border border-white/8 hover:border-gold/40 transition">
               <div className="flex items-center gap-3"><MessageCircle className="w-5 h-5 text-gold" /><div className="font-medium">Book a consultation</div></div>
-              <p className="text-xs text-muted-foreground mt-1.5">Talk to a senior advisor on WhatsApp.</p>
-            </a>
+              <p className="text-xs text-muted-foreground mt-1.5">Talk to a senior advisor — pick a time that works for you.</p>
+            </button>
             <div className="glass-strong rounded-2xl p-5 border border-white/8 opacity-80">
               <div className="flex items-center gap-3"><FileText className="w-5 h-5 text-gold" /><div className="font-medium">Upload documents later</div></div>
               <p className="text-xs text-muted-foreground mt-1.5">We'll request what we need as your case progresses.</p>
@@ -150,6 +161,11 @@ function PortalPage() {
           </Link>
           <div className="flex items-center gap-3">
             <span className="hidden md:inline text-xs text-muted-foreground">{profile?.email}</span>
+            {isAdmin && (
+              <Link to="/admin" className="text-xs px-3 py-1.5 rounded-full border border-gold/40 text-gold hover:bg-gold/10 transition inline-flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5" />Admin
+              </Link>
+            )}
             <Button variant="outline" size="sm" onClick={signOut} className="border-white/15"><LogOut className="w-3.5 h-3.5 mr-1.5" />Sign out</Button>
           </div>
         </div>

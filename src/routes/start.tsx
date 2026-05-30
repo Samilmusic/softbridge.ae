@@ -547,7 +547,7 @@ const PACKAGES = [
   {
     name: "Remote Business Setup",
     price: "From AED 13,900",
-    desc: "Set up your UAE company without flying in. Visa, banking prep, and Emirates ID coordinated.",
+    desc: "Set up your UAE company without flying in",
     features: ["Everything in Starter", "Remote signing & document handling", "Free Tax Registration", "Banking preparation assistance", "Priority advisor support"],
     featured: true,
   },

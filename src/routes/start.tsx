@@ -568,7 +568,7 @@ const PACKAGES = [
     features: [
       "Everything in Starter",
       "Remote signing & document handling",
-      "Free Tax Registration",
+      "Free Tax Registration Support",
       "Banking preparation assistance",
       "Priority advisor support",
       "Free Professional Website",
@@ -576,6 +576,7 @@ const PACKAGES = [
       "Dedicated Email Support",
     ],
     featured: false,
+    badge: "No Travel Required",
   },
 ];
 
@@ -618,6 +619,14 @@ function Pricing() {
                     style={{ background: VIOLET }}
                   >
                     <Sparkles className="w-3 h-3" /> Most Popular
+                  </div>
+                )}
+                {!featured && p.badge && (
+                  <div
+                    className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-semibold text-white shadow-sm"
+                    style={{ background: "linear-gradient(135deg, #FCD34D 0%, #D97706 100%)" }}
+                  >
+                    <Sparkles className="w-3 h-3" /> {p.badge}
                   </div>
                 )}
 

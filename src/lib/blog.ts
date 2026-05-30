@@ -1,6 +1,6 @@
 import dubaiFreeZonesCover from "@/assets/blog/dubai-free-zones.jpg";
 import bankingDocumentsCover from "@/assets/blog/banking-documents.jpg";
-import dubaiSkylineCover from "@/assets/dubai-skyline.webp";
+import europeanFoundersCover from "@/assets/european-founders-uae.png";
 import ifzaRecognitionCover from "@/assets/ifza-recognition.jpg";
 import abuDhabiCover from "@/assets/emirates/abu-dhabi.jpg";
 import dubaiCover from "@/assets/emirates/dubai.jpg";
@@ -74,7 +74,7 @@ const BASE_ARTICLES: Article[] = [
     author: { name: "Soft Bridge Editorial", role: "UAE Formation Desk" },
     publishedAt: "2026-05-30",
     readingMinutes: 9,
-    cover: dubaiSkylineCover,
+    cover: europeanFoundersCover,
     featured: true,
     trending: true,
     seo: {
@@ -791,7 +791,7 @@ const ARTICLE_SLUGS: Record<string, string> = {
 const ARTICLE_COVERS: Record<string, string> = {
   "best-free-zones-dubai-startups-2026": dubaiFreeZonesCover,
   "ifza-vs-meydan-dubai-free-zone": ifzaRecognitionCover,
-  "open-uae-company-remotely-2026": dubaiSkylineCover,
+  "open-uae-company-remotely-2026": europeanFoundersCover,
   "uae-corporate-bank-account-guide": bankingDocumentsCover,
   "uae-mainland-vs-free-zone": abuDhabiCover,
   "best-uae-setup-ecommerce": dubaiCover,

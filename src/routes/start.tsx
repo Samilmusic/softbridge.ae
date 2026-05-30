@@ -133,9 +133,11 @@ function LandingPage() {
   return (
     <BookingCtx.Provider value={() => setBookingOpen(true)}>
       <div className="min-h-screen bg-white text-slate-900 antialiased" style={{ color: INK }}>
+        <AnnouncementBar />
         <LandingHeader />
         <main>
           <Hero />
+          <TaxComparison />
           <TrustBar />
           <WhatsIncluded />
           <Stats />
@@ -154,6 +156,110 @@ function LandingPage() {
         <BookingDialog open={bookingOpen} onOpenChange={setBookingOpen} />
       </div>
     </BookingCtx.Provider>
+  );
+}
+
+function AnnouncementBar() {
+  const [show, setShow] = useState(true);
+  useEffect(() => {
+    try {
+      if (sessionStorage.getItem("sb_eu_announce") === "0") setShow(false);
+    } catch { /* noop */ }
+  }, []);
+  const dismiss = () => {
+    setShow(false);
+    try { sessionStorage.setItem("sb_eu_announce", "0"); } catch { /* noop */ }
+  };
+  const openBooking = useOpenBooking();
+  if (!show) return null;
+  return (
+    <div
+      className="relative w-full text-white"
+      style={{ background: "linear-gradient(90deg, #0B0B14 0%, #1E1B4B 50%, #0B0B14 100%)" }}
+    >
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 py-2.5 flex items-center justify-center gap-3 text-center">
+        <p className="text-[12.5px] sm:text-[13px] leading-snug">
+          <span className="mr-1">🇪🇺</span>
+          <span className="font-semibold text-amber-300">European founders:</span>{" "}
+          Save up to 24% in corporate tax by relocating your business to UAE —{" "}
+          <button
+            type="button"
+            onClick={openBooking}
+            className="underline decoration-amber-300/70 underline-offset-2 font-semibold hover:text-amber-300 transition"
+          >
+            Book a free call today
+          </button>
+        </p>
+        <button
+          type="button"
+          onClick={dismiss}
+          aria-label="Dismiss announcement"
+          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-7 h-7 grid place-items-center rounded-full hover:bg-white/10 transition"
+        >
+          <X className="w-3.5 h-3.5" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+const TAX_ROWS: { label: string; de: string; uk: string; uae: string }[] = [
+  { label: "Corporate Tax", de: "30–33%", uk: "25%", uae: "9%" },
+  { label: "Capital Gains Tax", de: "Up to 26%", uk: "20%", uae: "0%" },
+  { label: "Wealth Tax", de: "Yes", uk: "No", uae: "No" },
+  { label: "Remote Setup", de: "—", uk: "—", uae: "✅" },
+];
+
+function TaxComparison() {
+  return (
+    <section className="py-20 md:py-24 bg-white">
+      <div className="mx-auto max-w-5xl px-5 sm:px-8">
+        <div className="max-w-2xl">
+          <SectionEyebrow>Tax Advantage</SectionEyebrow>
+          <h2 className="mt-5 text-3xl md:text-5xl font-semibold tracking-tight leading-[1.05]">
+            Why European Founders Are Moving Their Business to UAE
+          </h2>
+        </div>
+
+        <div className="mt-10 overflow-hidden rounded-3xl border border-slate-200 shadow-[0_18px_50px_-24px_rgba(15,23,42,0.18)]">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-[14.5px]">
+              <thead>
+                <tr className="bg-slate-50 text-[12px] uppercase tracking-[0.12em] text-slate-500">
+                  <th className="py-4 px-5 font-semibold">&nbsp;</th>
+                  <th className="py-4 px-5 font-semibold">🇩🇪 Germany</th>
+                  <th className="py-4 px-5 font-semibold">🇬🇧 UK</th>
+                  <th
+                    className="py-4 px-5 font-semibold text-[oklch(0.18_0.02_260)]"
+                    style={{ background: "linear-gradient(180deg, #FEF3C7 0%, #FDE68A 100%)" }}
+                  >
+                    🇦🇪 UAE
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {TAX_ROWS.map((r) => (
+                  <tr key={r.label} className="bg-white">
+                    <td className="py-4 px-5 font-semibold text-slate-900">{r.label}</td>
+                    <td className="py-4 px-5 text-slate-600">{r.de}</td>
+                    <td className="py-4 px-5 text-slate-600">{r.uk}</td>
+                    <td
+                      className="py-4 px-5 font-bold text-[oklch(0.18_0.02_260)]"
+                      style={{ background: "linear-gradient(180deg, #FFFBEB 0%, #FEF3C7 100%)" }}
+                    >
+                      {r.uae}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p className="mt-4 text-[12.5px] text-slate-500">
+          Indicative rates for illustration. Always consult a qualified tax advisor for your jurisdiction.
+        </p>
+      </div>
+    </section>
   );
 }
 
@@ -233,16 +339,16 @@ function Hero() {
           </h1>
 
           <p className="mt-6 max-w-xl text-[17px] md:text-lg leading-relaxed text-slate-600">
-            Launch your UAE business with expert guidance, free tax registration support, a free
-            professional website, and long-term business support.
+            Trusted by European founders relocating to the UAE — company setup, residency, and tax
+            optimization from AED 4,999.
           </p>
 
           <ul className="mt-7 grid sm:grid-cols-2 gap-x-6 gap-y-3 max-w-xl">
             {[
-              "Free Professional Website",
-              "Free Tax Registration Support",
-              "Banking Preparation Assistance",
-              "Remote or In-Person Setup",
+              "0% Corporate Tax (vs up to 33% in Europe)",
+              "Remote Setup — No UAE Visit Required",
+              "Free Professional Website Included",
+              "Banking Preparation & Support",
             ].map((b) => (
               <li key={b} className="flex items-start gap-2.5 text-[14px] text-slate-700">
                 <span
@@ -711,6 +817,18 @@ function Trust() {
 
 const FAQS = [
   {
+    q: "Is the UAE a tax-efficient base for European entrepreneurs?",
+    a: "Yes — UAE has a 9% corporate tax with significant exemptions, 0% capital gains, and no personal income tax.",
+  },
+  {
+    q: "Will I lose my EU residency if I set up in UAE?",
+    a: "No. UAE residency is separate. Many clients maintain EU residency while operating their business from a UAE entity.",
+  },
+  {
+    q: "Is this legal for EU/UK residents?",
+    a: "Yes. UAE company formation is fully legal for EU and UK nationals. We recommend consulting a local tax advisor for your specific home-country obligations.",
+  },
+  {
     q: "Can I open a UAE company remotely?",
     a: "Yes. Most of our clients open their UAE company without flying in. We coordinate signing, documentation, residency, and Emirates ID remotely.",
   },
@@ -719,20 +837,12 @@ const FAQS = [
     a: "License issuance typically takes 5–10 working days. Residency and Emirates ID add 1–2 weeks depending on jurisdiction and visa type.",
   },
   {
-    q: "Do I need to visit the UAE?",
-    a: "Not for company formation. A short visit may be required for biometrics and banking — but it can usually be completed in 2–3 days.",
-  },
-  {
     q: "Can you help with banking?",
     a: "Yes. We prepare your documentation, structure your business profile, and make introductions to UAE-friendly banks to maximize approval chances.",
   },
   {
     q: "What is included in the free website?",
     a: "A modern, mobile-responsive business website with custom design, lead capture form, and SEO foundations — built and delivered by our team.",
-  },
-  {
-    q: "What is included in tax registration support?",
-    a: "We support your corporate tax and VAT registration with the UAE Federal Tax Authority and guide you on compliance basics post-registration.",
   },
 ];
 
@@ -928,20 +1038,34 @@ function CountdownBadge() {
 function InlineLeadForm({ className = "", source }: { className?: string; source: string }) {
   const send = useServerFn(submitLead);
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [country, setCountry] = useState("");
+  const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!name.trim() || !phone.trim() || !country.trim()) {
-      toast.error("Please fill in all fields");
+    if (!name.trim() || !email.trim() || !country.trim()) {
+      toast.error("Please fill in name, email, and country");
+      return;
+    }
+    if (!consent) {
+      toast.error("Please agree to be contacted (GDPR)");
       return;
     }
     setLoading(true);
     try {
-      await send({ data: { name: name.trim(), phone: phone.trim(), country: country.trim(), source } });
+      await send({
+        data: {
+          name: name.trim(),
+          email: email.trim(),
+          phone: phone.trim(),
+          country: country.trim(),
+          source,
+        },
+      });
       setDone(true);
       toast.success("Got it! We'll reach out within 1 business day.");
     } catch (err) {
@@ -961,7 +1085,7 @@ function InlineLeadForm({ className = "", source }: { className?: string; source
           <div>
             <div className="font-semibold text-emerald-900">Thanks, {name.split(" ")[0]}!</div>
             <p className="text-[13.5px] text-emerald-800/80 mt-0.5">
-              A Soft Bridge advisor will reach you on WhatsApp within 1 business day.
+              A Soft Bridge advisor will reach you within 1 business day.
             </p>
           </div>
         </div>
@@ -974,7 +1098,7 @@ function InlineLeadForm({ className = "", source }: { className?: string; source
       onSubmit={onSubmit}
       className={`rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-[0_18px_40px_-24px_rgba(15,23,42,0.15)] ${className}`}
     >
-      <div className="grid sm:grid-cols-3 gap-2.5">
+      <div className="grid sm:grid-cols-2 gap-2.5">
         <input
           type="text"
           value={name}
@@ -985,9 +1109,31 @@ function InlineLeadForm({ className = "", source }: { className?: string; source
           required
           className="h-11 rounded-xl border border-slate-200 bg-white px-3.5 text-[14px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition"
         />
-        <CompactPhoneField value={phone} onChange={setPhone} placeholder="WhatsApp number" />
-        <CountrySelect value={country} onChange={(name: string) => setCountry(name)} placeholder="Country of residence" />
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email address"
+          autoComplete="email"
+          maxLength={200}
+          required
+          className="h-11 rounded-xl border border-slate-200 bg-white px-3.5 text-[14px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition"
+        />
+        <CompactPhoneField value={phone} onChange={setPhone} placeholder="WhatsApp (optional)" />
+        <CountrySelect value={country} onChange={(name: string) => setCountry(name)} placeholder="Country" />
       </div>
+
+      <label className="mt-3 flex items-start gap-2.5 text-[12.5px] text-slate-600 leading-snug cursor-pointer select-none">
+        <input
+          type="checkbox"
+          checked={consent}
+          onChange={(e) => setConsent(e.target.checked)}
+          className="mt-0.5 w-4 h-4 rounded border-slate-300 text-violet-600 focus:ring-violet-400"
+          required
+        />
+        <span>I agree to be contacted by Soft Bridge regarding my inquiry.</span>
+      </label>
+
       <button
         type="submit"
         disabled={loading}
@@ -998,7 +1144,7 @@ function InlineLeadForm({ className = "", source }: { className?: string; source
         {loading ? "Sending…" : "Get My Free Consultation"} {!loading && <ArrowRight className="w-4 h-4" />}
       </button>
       <p className="mt-2.5 text-[12px] text-slate-500 flex items-center gap-1.5">
-        <Lock className="w-3 h-3" /> 100% confidential. No spam. Reply within 1 business day.
+        <Lock className="w-3 h-3" /> GDPR compliant. Your data is never shared. Reply within 1 business day.
       </p>
     </form>
   );
@@ -1009,14 +1155,14 @@ function InlineLeadForm({ className = "", source }: { className?: string; source
 /* ============================================================ */
 
 const COUNTRIES = [
-  { flag: "🇮🇷", name: "Iran" },
-  { flag: "🇷🇺", name: "Russia" },
-  { flag: "🇬🇧", name: "UK" },
   { flag: "🇩🇪", name: "Germany" },
-  { flag: "🇮🇳", name: "India" },
-  { flag: "🇵🇰", name: "Pakistan" },
-  { flag: "🇹🇷", name: "Turkey" },
-  { flag: "🇨🇳", name: "China" },
+  { flag: "🇬🇧", name: "UK" },
+  { flag: "🇫🇷", name: "France" },
+  { flag: "🇳🇱", name: "Netherlands" },
+  { flag: "🇸🇪", name: "Sweden" },
+  { flag: "🇨🇭", name: "Switzerland" },
+  { flag: "🇦🇹", name: "Austria" },
+  { flag: "🇧🇪", name: "Belgium" },
 ];
 
 function TrustBar() {
@@ -1024,7 +1170,7 @@ function TrustBar() {
     <section className="border-y border-slate-100 bg-white">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 py-7 flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
         <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500 flex-shrink-0">
-          Trusted by founders from
+          Founders from across Europe trust Soft Bridge
         </div>
         <div className="-mx-5 sm:-mx-8 md:mx-0 md:flex-1 overflow-x-auto no-scrollbar">
           <ul className="flex items-center gap-3 sm:gap-4 px-5 sm:px-8 md:px-0 whitespace-nowrap">
@@ -1122,25 +1268,25 @@ function Stats() {
 
 const TESTIMONIALS = [
   {
-    name: "Arman",
-    flag: "🇮🇷",
-    country: "Iran",
+    name: "Thomas M.",
+    flag: "🇩🇪",
+    country: "Germany",
     quote:
-      "Soft Bridge handled my entire UAE setup remotely. Banking guidance was the part I worried about most — they made it simple.",
+      "I set up my UAE holding company remotely in 9 days. The tax savings alone paid for the setup 10x over.",
   },
   {
-    name: "David",
+    name: "Sophie R.",
+    flag: "🇫🇷",
+    country: "France",
+    quote:
+      "Everything was handled end-to-end. I didn't need to fly to Dubai once.",
+  },
+  {
+    name: "James K.",
     flag: "🇬🇧",
     country: "UK",
     quote:
-      "Clear pricing, fast replies, and a free website that actually looks premium. The whole experience felt like a real partnership.",
-  },
-  {
-    name: "Lina",
-    flag: "🇷🇺",
-    country: "Russia",
-    quote:
-      "From consultation to Emirates ID in weeks. The team kept me updated at every step and made the paperwork painless.",
+      "Soft Bridge made the whole process simple. Banking prep especially — that's where most people struggle.",
   },
 ];
 

@@ -35,7 +35,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { SITE, WA_LINK } from "@/lib/site";
-import skyline from "@/assets/dubai-skyline.webp";
+import skyline from "@/assets/european-founders-uae.png";
 import logo from "@/assets/logo-sb.webp";
 import freeWebsiteShowcase from "@/assets/free-website-showcase.png";
 

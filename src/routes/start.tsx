@@ -711,6 +711,18 @@ function Trust() {
 
 const FAQS = [
   {
+    q: "Is the UAE a tax-efficient base for European entrepreneurs?",
+    a: "Yes — UAE has a 9% corporate tax with significant exemptions, 0% capital gains, and no personal income tax.",
+  },
+  {
+    q: "Will I lose my EU residency if I set up in UAE?",
+    a: "No. UAE residency is separate. Many clients maintain EU residency while operating their business from a UAE entity.",
+  },
+  {
+    q: "Is this legal for EU/UK residents?",
+    a: "Yes. UAE company formation is fully legal for EU and UK nationals. We recommend consulting a local tax advisor for your specific home-country obligations.",
+  },
+  {
     q: "Can I open a UAE company remotely?",
     a: "Yes. Most of our clients open their UAE company without flying in. We coordinate signing, documentation, residency, and Emirates ID remotely.",
   },
@@ -719,20 +731,12 @@ const FAQS = [
     a: "License issuance typically takes 5–10 working days. Residency and Emirates ID add 1–2 weeks depending on jurisdiction and visa type.",
   },
   {
-    q: "Do I need to visit the UAE?",
-    a: "Not for company formation. A short visit may be required for biometrics and banking — but it can usually be completed in 2–3 days.",
-  },
-  {
     q: "Can you help with banking?",
     a: "Yes. We prepare your documentation, structure your business profile, and make introductions to UAE-friendly banks to maximize approval chances.",
   },
   {
     q: "What is included in the free website?",
     a: "A modern, mobile-responsive business website with custom design, lead capture form, and SEO foundations — built and delivered by our team.",
-  },
-  {
-    q: "What is included in tax registration support?",
-    a: "We support your corporate tax and VAT registration with the UAE Federal Tax Authority and guide you on compliance basics post-registration.",
   },
 ];
 

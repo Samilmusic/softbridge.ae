@@ -637,7 +637,7 @@ function Pricing() {
                   ))}
                 </ul>
 
-                <div className="mt-8 pt-2">
+                <div className="mt-auto pt-8">
                   {featured ? (
                     <PrimaryCTA onClick={openBooking} className="w-full">
                       Book Free Consultation

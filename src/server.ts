@@ -54,7 +54,8 @@ const runtimeEnvKeys = [
 // them as the fetch `env` argument. Hydrate process.env before importing app code
 // so existing server-side clients can read SUPABASE_URL, RESEND_API_KEY, etc.
 function hydrateProcessEnvFromWorkerEnv(env: unknown) {
-  const workerEnv = env && typeof env === "object" ? env : (globalThis as GlobalWithRuntimeEnv).__env__;
+  const workerEnv =
+    env && typeof env === "object" ? env : (globalThis as GlobalWithRuntimeEnv).__env__;
   if (!workerEnv || typeof workerEnv !== "object") return;
   try {
     const runtimeGlobal = globalThis as GlobalWithRuntimeEnv & {

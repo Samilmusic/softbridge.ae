@@ -323,12 +323,12 @@ function ArticlePage() {
                 {[
                   {
                     icon: Linkedin,
-                    href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`,
+                    href: `https://www.linkedin.com/sharing/share-offsite/?url=https://softbridge.ae/insights/${article.slug}`,
                     label: "LinkedIn",
                   },
                   {
                     icon: Twitter,
-                    href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(article.title)}`,
+                    href: `https://twitter.com/intent/tweet?url=https://softbridge.ae/insights/${article.slug}&text=${encodeURIComponent(article.title)}`,
                     label: "X",
                   },
                 ].map((s) => (

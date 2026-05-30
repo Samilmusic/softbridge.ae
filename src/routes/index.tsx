@@ -25,11 +25,50 @@ const FAQ = lazy(() => import("@/components/site/FAQ").then(m => ({ default: m.F
 const Contact = lazy(() => import("@/components/site/Contact").then(m => ({ default: m.Contact })));
 const OnboardingDialog = lazy(() => import("@/components/site/OnboardingDialog").then(m => ({ default: m.OnboardingDialog })));
 
+import { FAQS } from "@/components/site/FAQ";
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Soft Bridge FZE LLC — Business Infrastructure in the UAE" },
       { name: "description", content: "Soft Bridge builds business infrastructure in the UAE — company formation, banking, compliance, and digital growth, with long-term operational support." },
+      { property: "og:url", content: "https://softbridge.ae" },
+    ],
+    links: [{ rel: "canonical", href: "https://softbridge.ae" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Soft Bridge FZE LLC",
+          url: "https://softbridge.ae",
+          logo: "https://softbridge.ae/assets/logo-sb-DRVC3-NY.webp",
+          contactPoint: {
+            "@type": "ContactPoint",
+            telephone: "+971502429035",
+            contactType: "customer service",
+          },
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "26, Amber Gem Tower",
+            addressLocality: "Ajman",
+            addressCountry: "AE",
+          },
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: FAQS.map((f) => ({
+            "@type": "Question",
+            name: f.q,
+            acceptedAnswer: { "@type": "Answer", text: f.a },
+          })),
+        }),
+      },
     ],
   }),
   component: Index,

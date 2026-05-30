@@ -5,7 +5,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-const FAQS = [
+export const FAQS = [
   { q: "Do I need a consultant in the UAE?", a: "You can technically attempt setup yourself, but the decisions around jurisdiction, licensing, residency, banking, and compliance are tightly interlinked. A wrong early choice is costly to unwind. A consultant ensures the structure fits your business model and operational reality." },
   { q: "How long does setup usually take?", a: "Most engagements move from discovery to license issuance in 1–3 weeks depending on jurisdiction and documentation. Residency, banking, and operational onboarding extend over the following weeks, all coordinated in parallel." },
   { q: "What happens after setup?", a: "We stay engaged. Renewals, compliance updates, banking changes, scaling decisions, and digital operations — all covered as part of an ongoing relationship rather than a one-off transaction." },

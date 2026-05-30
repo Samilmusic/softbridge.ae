@@ -137,10 +137,10 @@ function PortalPage() {
               <div className="flex items-center gap-3"><CreditCard className="w-5 h-5 text-gold" /><div className="font-medium">Request a quotation</div></div>
               <p className="text-xs text-muted-foreground mt-1.5">Get an instant cost & timeline estimate.</p>
             </Link>
-            <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="glass-strong rounded-2xl p-5 border border-white/8 hover:border-gold/40 transition">
+            <button type="button" onClick={openBooking} className="text-left glass-strong rounded-2xl p-5 border border-white/8 hover:border-gold/40 transition">
               <div className="flex items-center gap-3"><MessageCircle className="w-5 h-5 text-gold" /><div className="font-medium">Book a consultation</div></div>
-              <p className="text-xs text-muted-foreground mt-1.5">Talk to a senior advisor on WhatsApp.</p>
-            </a>
+              <p className="text-xs text-muted-foreground mt-1.5">Talk to a senior advisor — pick a time that works for you.</p>
+            </button>
             <div className="glass-strong rounded-2xl p-5 border border-white/8 opacity-80">
               <div className="flex items-center gap-3"><FileText className="w-5 h-5 text-gold" /><div className="font-medium">Upload documents later</div></div>
               <p className="text-xs text-muted-foreground mt-1.5">We'll request what we need as your case progresses.</p>

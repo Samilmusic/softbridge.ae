@@ -192,8 +192,7 @@ export const EMIRATES: EmiratePage[] = [
       },
     ],
     seo: {
-      title:
-        "Dubai Company Formation — Free Zones, Mainland & Setup | Soft Bridge",
+      title: "Dubai Company Formation — Free Zones & Mainland",
       description:
         "Premium Dubai company formation across IFZA, DMCC, Meydan, JAFZA, DAFZA and Mainland. Fast setup, banking access, and full visa support.",
     },

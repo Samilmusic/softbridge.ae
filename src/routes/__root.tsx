@@ -65,7 +65,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Soft Bridge FZE LLC — Bridge to Your Success | UAE Business Consulting" },
+      { title: "Soft Bridge FZE LLC — UAE Business Consulting" },
       { name: "description", content: "Soft Bridge FZE LLC helps founders establish compliant, scalable businesses in the UAE — company setup, residency, banking, AML compliance, and digital growth." },
       { name: "author", content: "Soft Bridge FZE LLC" },
       { property: "og:title", content: "Soft Bridge FZE LLC — Bridge to Your Success | UAE Business Consulting" },

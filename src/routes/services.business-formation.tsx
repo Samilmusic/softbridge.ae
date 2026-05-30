@@ -88,8 +88,8 @@ const config: ServicePageConfig = {
 export const Route = createFileRoute("/services/business-formation")({
   head: () => ({
     meta: [
-      { title: "UAE Business Formation — Mainland & Free Zone Setup | Soft Bridge" },
-      { name: "description", content: "Premium UAE company formation: Mainland and Free Zone setup, jurisdiction selection, trade license, Ejari, establishment card. Cinematic client portal with real-time tracking." },
+      { title: "UAE Business Formation — Mainland & Free Zone" },
+      { name: "description", content: "Premium UAE company formation: Mainland and Free Zone setup, jurisdiction selection, trade license, Ejari, and establishment card." },
       { property: "og:title", content: "UAE Business Formation — Soft Bridge FZE LLC" },
       { property: "og:description", content: "End-to-end UAE company setup engineered for banking, residency, and long-term operations." },
       { property: "og:url", content: "https://softbridge.ae/services/business-formation" },

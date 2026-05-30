@@ -1,0 +1,40 @@
+# Soft Bridge FZE LLC
+
+> UAE business infrastructure firm — company formation, banking preparation, residency, AML compliance, and digital growth for international founders.
+
+Soft Bridge helps founders establish compliant, scalable businesses in the UAE across Mainland and 40+ Free Zones, with long-term operational support and a cinematic client portal.
+
+## Pages
+
+- [Home](/): Overview of services, packages, and the UAE setup process.
+- [About](/about): Company background, team, and approach.
+- [AI Structure Advisor](/advisor): AI-driven recommendation for the right UAE business structure.
+- [Get a Quote](/quote): Personalized pricing for company formation.
+- [Start Setup](/start): Begin the guided UAE company setup flow.
+- [Remote Company Setup](/remote-company-setup): How to open a UAE company without visiting Dubai.
+- [Insights](/insights): Articles and guides on UAE company formation, tax, and banking.
+
+## Services
+
+- [Business Formation](/services/business-formation): Mainland & Free Zone company setup.
+- [Banking Preparation](/services/banking-preparation): UAE corporate bank account opening support.
+- [Residency & Relocation](/services/residency-relocation): Investor and employment visas.
+- [Operational Support](/services/operational-support): Ongoing back-office, accounting, and compliance.
+- [AML Compliance](/services/aml-compliance): Anti-money-laundering registration and reporting.
+- [Web & Advertising](/services/web-advertising): Websites, branding, and paid acquisition.
+- [UAE Formation Locations](/services/uae-company-formation-locations): All jurisdictions we operate in.
+
+## Jurisdictions
+
+- [Dubai](/dubai-company-formation): IFZA, DMCC, Meydan, JAFZA, DAFZA and Mainland.
+- [Abu Dhabi](/abu-dhabi-company-formation): ADGM, Masdar, KIZAD and Mainland.
+- [Sharjah](/sharjah-company-formation): SHAMS, SAIF Zone, Hamriyah and Mainland.
+- [Ajman](/ajman-company-formation): Ajman Free Zone and Mainland.
+- [Ras Al Khaimah](/rak-company-formation): RAKEZ and RAK ICC.
+- [Fujairah](/fujairah-company-formation): Fujairah Free Zone and Creative City.
+- [Umm Al Quwain](/uaq-company-formation): UAQ Free Trade Zone.
+
+## Optional
+
+- [Privacy Policy](/privacy-policy)
+- [Terms](/terms)

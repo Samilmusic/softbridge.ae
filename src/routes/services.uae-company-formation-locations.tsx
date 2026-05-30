@@ -21,18 +21,16 @@ export const Route = createFileRoute("/services/uae-company-formation-locations"
   head: () => ({
     meta: [
       {
-        title:
-          "UAE Company Formation Locations — Mainland & Free Zones | Soft Bridge",
+        title: "UAE Company Formation Locations — Mainland & Free Zones",
       },
       {
         name: "description",
         content:
-          "Soft Bridge assists with UAE company formation across selected mainland jurisdictions and leading free zones — Dubai, Abu Dhabi, Sharjah, Ajman, RAK, Fujairah, and UAQ.",
+          "UAE company formation across mainland and leading free zones — Dubai, Abu Dhabi, Sharjah, Ajman, RAK, Fujairah, and UAQ.",
       },
       {
         property: "og:title",
-        content:
-          "UAE Company Formation Locations — Mainland & Free Zones | Soft Bridge",
+        content: "UAE Company Formation Locations — Mainland & Free Zones",
       },
       {
         property: "og:description",

@@ -233,16 +233,16 @@ function Hero() {
           </h1>
 
           <p className="mt-6 max-w-xl text-[17px] md:text-lg leading-relaxed text-slate-600">
-            Launch your UAE business with expert guidance, free tax registration support, a free
-            professional website, and long-term business support.
+            Trusted by European founders relocating to the UAE — company setup, residency, and tax
+            optimization from AED 4,999.
           </p>
 
           <ul className="mt-7 grid sm:grid-cols-2 gap-x-6 gap-y-3 max-w-xl">
             {[
-              "Free Professional Website",
-              "Free Tax Registration Support",
-              "Banking Preparation Assistance",
-              "Remote or In-Person Setup",
+              "0% Corporate Tax (vs up to 33% in Europe)",
+              "Remote Setup — No UAE Visit Required",
+              "Free Professional Website Included",
+              "Banking Preparation & Support",
             ].map((b) => (
               <li key={b} className="flex items-start gap-2.5 text-[14px] text-slate-700">
                 <span

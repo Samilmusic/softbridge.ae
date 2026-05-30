@@ -110,10 +110,11 @@ export const submitQuoteRequest = createServerFn({ method: "POST" })
       });
     } catch (e) { console.error("quote email failed", e); }
 
-    const internalTo = process.env.SOFTBRIDGE_NOTIFY_EMAIL || process.env.RESEND_FROM_EMAIL;
+    const { ADMIN_NOTIFY_EMAIL } = await import("./email/notify");
+    const internalTo = ADMIN_NOTIFY_EMAIL;
     if (internalTo) {
       try {
-        await sendEmail(internalTo.replace(/^.*<|>$/g, "").trim() || internalTo, {
+        await sendEmail(internalTo, {
           name: "internal_quote_notice",
           subject: `[Lead] ${q.quote_number} · ${data.fullName} · ${result.selectedJurisdiction}`,
           props: {

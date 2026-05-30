@@ -31,5 +31,24 @@ export const submitLead = createServerFn({ method: "POST" })
       message,
     });
     if (error) throw new Error(error.message);
+
+    try {
+      const { ADMIN_NOTIFY_EMAIL } = await import("./email/notify");
+      const { sendEmail } = await import("./email/send.server");
+      await sendEmail(ADMIN_NOTIFY_EMAIL, {
+        name: "internal_setup_notice",
+        subject: `[Lead] ${data.name} · ${data.country}`,
+        props: {
+          name: data.name,
+          email,
+          whatsapp: phone || undefined,
+          nationality: data.country || undefined,
+          activity: source || undefined,
+        },
+      });
+    } catch (e) {
+      console.error("internal lead notice failed", e);
+    }
+
     return { ok: true };
   });

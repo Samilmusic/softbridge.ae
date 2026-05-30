@@ -38,7 +38,8 @@ const step1Schema = z.object({
   nationality: z.string().trim().min(1).max(100),
 });
 
-const internalEmail = "info@softbridge.ae";
+import { ADMIN_NOTIFY_EMAIL } from "./email/notify";
+const internalEmail = ADMIN_NOTIFY_EMAIL;
 
 async function issueOtp(email: string, name: string) {
   const since = new Date(Date.now() - 60 * 60 * 1000).toISOString();

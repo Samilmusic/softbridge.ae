@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { lazy, Suspense, useState } from "react";
 import { Header } from "@/components/site/Header";
 import { Hero } from "@/components/site/Hero";
-import { PricingOffer } from "@/components/site/PricingOffer";
+
 import { WhatWeDo } from "@/components/site/WhatWeDo";
 import { Footer } from "@/components/site/Footer";
 import { FloatingActions } from "@/components/site/FloatingActions";
@@ -87,7 +87,7 @@ function Index() {
         <Suspense fallback={<SectionFallback />}>
           <Packages />
         </Suspense>
-        <PricingOffer id="offer" onStartSetup={() => setOnboarding(true)} />
+        
         <WhatWeDo />
         <Suspense fallback={<SectionFallback />}>
           <AiAdvisorTeaser />

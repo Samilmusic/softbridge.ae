@@ -545,13 +545,6 @@ const PACKAGES = [
     featured: false,
   },
   {
-    name: "Remote Business Setup",
-    price: "From AED 13,900",
-    desc: "Set up your UAE company without flying in",
-    features: ["Everything in Starter", "Remote signing & document handling", "Free Tax Registration", "Banking preparation assistance", "Priority advisor support"],
-    featured: true,
-  },
-  {
     name: "Custom Business Structure",
     price: "From AED 18,900",
     desc: "Everything done for you — company, visa, banking, and digital presence. One package, zero surprises.",
@@ -566,10 +559,26 @@ const PACKAGES = [
       "Dedicated Relationship Manager",
       "Long-Term Operational Support",
     ],
+    featured: true,
+  },
+  {
+    name: "Remote Business Setup",
+    price: "From AED 13,900",
+    desc: "Set up your UAE company without flying in",
+    features: [
+      "Everything in Starter",
+      "Remote signing & document handling",
+      "Free Tax Registration",
+      "Banking preparation assistance",
+      "Priority advisor support",
+      "Free Professional Website",
+      "Dedicated Relationship Manager",
+      "Dedicated Email Support",
+    ],
     featured: false,
-    badge: "All-Inclusive",
   },
 ];
+
 
 function Pricing() {
   const openBooking = useOpenBooking();

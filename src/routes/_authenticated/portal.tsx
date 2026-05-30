@@ -161,6 +161,11 @@ function PortalPage() {
           </Link>
           <div className="flex items-center gap-3">
             <span className="hidden md:inline text-xs text-muted-foreground">{profile?.email}</span>
+            {isAdmin && (
+              <Link to="/admin" className="text-xs px-3 py-1.5 rounded-full border border-gold/40 text-gold hover:bg-gold/10 transition inline-flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5" />Admin
+              </Link>
+            )}
             <Button variant="outline" size="sm" onClick={signOut} className="border-white/15"><LogOut className="w-3.5 h-3.5 mr-1.5" />Sign out</Button>
           </div>
         </div>

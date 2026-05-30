@@ -1,6 +1,7 @@
 import { Check, Sparkles, ArrowRight } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import { WA_LINK } from "@/lib/site";
+import { useBooking } from "@/lib/booking-context";
+
 
 const VIOLET = "#7C3AED";
 const VIOLET_SOFT = "#EDE9FE";

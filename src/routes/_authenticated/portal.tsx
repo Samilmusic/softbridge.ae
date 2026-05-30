@@ -12,6 +12,7 @@ import { PortalAdvisorCard } from "@/components/advisor/PortalAdvisorCard";
 import { Button } from "@/components/ui/button";
 import { WA_LINK, SITE } from "@/lib/site";
 import { Logo } from "@/components/site/Logo";
+import { useBooking } from "@/lib/booking-context";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/portal")({

@@ -590,13 +590,13 @@ function Pricing() {
           </p>
         </div>
 
-        <div className="mt-12 grid md:grid-cols-3 gap-5">
+        <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-5 items-stretch max-w-[480px] lg:max-w-none mx-auto">
           {PACKAGES.map((p) => {
             const featured = p.featured;
             return (
               <div
                 key={p.name}
-                className={`relative rounded-3xl p-7 md:p-8 flex flex-col ${
+                className={`relative rounded-3xl p-7 md:p-8 flex flex-col h-full ${
                   featured
                     ? "border-2 shadow-[0_30px_60px_-20px_rgba(124,58,237,0.35)]"
                     : "border border-slate-200 shadow-[0_8px_24px_-12px_rgba(15,23,42,0.08)]"
@@ -637,7 +637,7 @@ function Pricing() {
                   ))}
                 </ul>
 
-                <div className="mt-8 pt-2">
+                <div className="mt-auto pt-8">
                   {featured ? (
                     <PrimaryCTA onClick={openBooking} className="w-full">
                       Book Free Consultation

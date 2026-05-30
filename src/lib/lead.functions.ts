@@ -27,7 +27,7 @@ export const submitLead = createServerFn({ method: "POST" })
       email,
       phone,
       preferred_date: null,
-      method: phone ? "whatsapp" : "email",
+      method: "whatsapp",
       message,
     });
     if (error) throw new Error(error.message);

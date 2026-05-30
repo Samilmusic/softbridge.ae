@@ -932,20 +932,34 @@ function CountdownBadge() {
 function InlineLeadForm({ className = "", source }: { className?: string; source: string }) {
   const send = useServerFn(submitLead);
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [country, setCountry] = useState("");
+  const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!name.trim() || !phone.trim() || !country.trim()) {
-      toast.error("Please fill in all fields");
+    if (!name.trim() || !email.trim() || !country.trim()) {
+      toast.error("Please fill in name, email, and country");
+      return;
+    }
+    if (!consent) {
+      toast.error("Please agree to be contacted (GDPR)");
       return;
     }
     setLoading(true);
     try {
-      await send({ data: { name: name.trim(), phone: phone.trim(), country: country.trim(), source } });
+      await send({
+        data: {
+          name: name.trim(),
+          email: email.trim(),
+          phone: phone.trim(),
+          country: country.trim(),
+          source,
+        },
+      });
       setDone(true);
       toast.success("Got it! We'll reach out within 1 business day.");
     } catch (err) {
@@ -965,7 +979,7 @@ function InlineLeadForm({ className = "", source }: { className?: string; source
           <div>
             <div className="font-semibold text-emerald-900">Thanks, {name.split(" ")[0]}!</div>
             <p className="text-[13.5px] text-emerald-800/80 mt-0.5">
-              A Soft Bridge advisor will reach you on WhatsApp within 1 business day.
+              A Soft Bridge advisor will reach you within 1 business day.
             </p>
           </div>
         </div>
@@ -978,7 +992,7 @@ function InlineLeadForm({ className = "", source }: { className?: string; source
       onSubmit={onSubmit}
       className={`rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-[0_18px_40px_-24px_rgba(15,23,42,0.15)] ${className}`}
     >
-      <div className="grid sm:grid-cols-3 gap-2.5">
+      <div className="grid sm:grid-cols-2 gap-2.5">
         <input
           type="text"
           value={name}
@@ -989,9 +1003,31 @@ function InlineLeadForm({ className = "", source }: { className?: string; source
           required
           className="h-11 rounded-xl border border-slate-200 bg-white px-3.5 text-[14px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition"
         />
-        <CompactPhoneField value={phone} onChange={setPhone} placeholder="WhatsApp number" />
-        <CountrySelect value={country} onChange={(name: string) => setCountry(name)} placeholder="Country of residence" />
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email address"
+          autoComplete="email"
+          maxLength={200}
+          required
+          className="h-11 rounded-xl border border-slate-200 bg-white px-3.5 text-[14px] text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition"
+        />
+        <CompactPhoneField value={phone} onChange={setPhone} placeholder="WhatsApp (optional)" />
+        <CountrySelect value={country} onChange={(name: string) => setCountry(name)} placeholder="Country" />
       </div>
+
+      <label className="mt-3 flex items-start gap-2.5 text-[12.5px] text-slate-600 leading-snug cursor-pointer select-none">
+        <input
+          type="checkbox"
+          checked={consent}
+          onChange={(e) => setConsent(e.target.checked)}
+          className="mt-0.5 w-4 h-4 rounded border-slate-300 text-violet-600 focus:ring-violet-400"
+          required
+        />
+        <span>I agree to be contacted by Soft Bridge regarding my inquiry.</span>
+      </label>
+
       <button
         type="submit"
         disabled={loading}
@@ -1002,7 +1038,7 @@ function InlineLeadForm({ className = "", source }: { className?: string; source
         {loading ? "Sending…" : "Get My Free Consultation"} {!loading && <ArrowRight className="w-4 h-4" />}
       </button>
       <p className="mt-2.5 text-[12px] text-slate-500 flex items-center gap-1.5">
-        <Lock className="w-3 h-3" /> 100% confidential. No spam. Reply within 1 business day.
+        <Lock className="w-3 h-3" /> GDPR compliant. Your data is never shared. Reply within 1 business day.
       </p>
     </form>
   );

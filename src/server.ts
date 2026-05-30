@@ -37,8 +37,29 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
   });
 }
 
+// On Cloudflare Workers, environment variables and secrets are passed via the
+// `env` argument to fetch — they are NOT available on process.env by default.
+// Copy string-valued bindings onto process.env at request time so server-side
+// code that reads process.env.SUPABASE_URL etc. works without modification.
+function hydrateProcessEnvFromWorkerEnv(env: unknown) {
+  if (!env || typeof env !== "object") return;
+  try {
+    const target = (globalThis as { process?: { env?: Record<string, string> } })
+      .process?.env;
+    if (!target) return;
+    for (const [key, value] of Object.entries(env as Record<string, unknown>)) {
+      if (typeof value === "string" && target[key] === undefined) {
+        target[key] = value;
+      }
+    }
+  } catch {
+    // ignore — process may not exist in some runtimes
+  }
+}
+
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
+    hydrateProcessEnvFromWorkerEnv(env);
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);

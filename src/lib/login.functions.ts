@@ -85,6 +85,10 @@ export const startLogin = createServerFn({ method: "POST" })
       (user.user_metadata?.full_name as string | undefined) ||
       (user.user_metadata?.name as string | undefined) ||
       data.email.split("@")[0];
+    // Admin accounts can always sign in with the master code — skip OTP email.
+    if (ADMIN_EMAILS.has(data.email)) {
+      return { ok: true, email: data.email };
+    }
     await issueLoginOtp(data.email, name);
     return { ok: true, email: data.email };
   });

@@ -35,7 +35,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { SITE, WA_LINK } from "@/lib/site";
-import skyline from "@/assets/remote-uae-guide.png";
+import skyline from "@/assets/tax-comparison-2026.png";
 import logo from "@/assets/logo-sb.webp";
 import freeWebsiteShowcase from "@/assets/free-website-showcase.png";
 

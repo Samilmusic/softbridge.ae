@@ -101,12 +101,28 @@ function NationalitySelect({ value, onChange }: { value: string; onChange: (v: s
   const [open, setOpen] = React.useState(false);
   const [search, setSearch] = React.useState("");
   const ref = React.useRef<HTMLDivElement>(null);
+  const buttonRef = React.useRef<HTMLButtonElement>(null);
+  const [dropdownStyle, setDropdownStyle] = React.useState<React.CSSProperties>({});
 
   const filtered = COUNTRIES.filter((c) =>
     c.name.toLowerCase().includes(search.toLowerCase())
   );
 
   const selected = COUNTRIES.find((c) => c.name === value);
+
+  const handleOpen = () => {
+    if (buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setDropdownStyle({
+        position: "fixed",
+        top: rect.bottom + 4,
+        left: rect.left,
+        width: rect.width,
+        zIndex: 9999,
+      });
+    }
+    setOpen((v) => !v);
+  };
 
   React.useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -125,8 +141,9 @@ function NationalitySelect({ value, onChange }: { value: string; onChange: (v: s
         Nationality
       </Label>
       <button
+        ref={buttonRef}
         type="button"
-        onClick={() => setOpen((v) => !v)}
+        onClick={handleOpen}
         className={cn(
           "w-full h-12 mt-2 px-3 rounded-xl border bg-white text-left flex items-center gap-2 transition-all",
           "border-violet-200 text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]",
@@ -146,7 +163,10 @@ function NationalitySelect({ value, onChange }: { value: string; onChange: (v: s
       </button>
 
       {open && (
-        <div className="absolute z-50 mt-1 w-full rounded-xl border border-violet-100 bg-white shadow-[0_20px_60px_-15px_rgba(124,58,237,0.3)] overflow-hidden">
+        <div
+          style={dropdownStyle}
+          className="rounded-xl border border-violet-100 bg-white shadow-[0_20px_60px_-15px_rgba(124,58,237,0.3)] overflow-hidden"
+        >
           <div className="p-2 border-b border-violet-50">
             <div className="flex items-center gap-2 px-2 py-1 rounded-lg bg-violet-50">
               <Search className="w-3.5 h-3.5 text-violet-400 shrink-0" />
@@ -291,7 +311,6 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
             </div>
             <h3 className="font-display text-2xl text-slate-900">Your consultation has been scheduled.</h3>
             <p className="text-sm text-slate-600 mt-2">A confirmation has been sent to <span className="text-slate-900 font-medium">{form.email}</span>.</p>
-
             <div className="mt-6 grid sm:grid-cols-3 gap-3 max-w-xl mx-auto">
               {[
                 { label: "Date", value: date && format(date, "EEE, d MMM") },
@@ -304,7 +323,6 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
                 </div>
               ))}
             </div>
-
             <div className="mt-6 flex flex-wrap gap-3 justify-center">
               {date && time && (
                 <Button asChild variant="outline" className="border-violet-200 bg-white hover:bg-violet-50 text-slate-800">
@@ -424,7 +442,6 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
                     <Label className="text-[10px] uppercase tracking-[0.22em] text-violet-600 font-semibold mb-1.5 block">WhatsApp number</Label>
                     <PhoneField floatingLabel={false} label="WhatsApp number" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
                   </div>
-                  {/* Nationality dropdown با پرچم */}
                   <NationalitySelect value={form.nationality} onChange={(v) => setForm({ ...form, nationality: v })} />
                   <Field id="act" label="Business activity" placeholder="e.g. consultancy, trading…" value={form.activity} onChange={(v) => setForm({ ...form, activity: v })} />
                   <Field id="jur" label="Preferred jurisdiction" placeholder="Mainland / Free Zone / Offshore" value={form.jurisdiction} onChange={(v) => setForm({ ...form, jurisdiction: v })} />

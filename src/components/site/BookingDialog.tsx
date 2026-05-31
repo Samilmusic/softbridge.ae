@@ -12,6 +12,7 @@ import { CheckCircle2, Loader2, MessageCircle, Video, Phone, MonitorPlay, Sparkl
 import { cn } from "@/lib/utils";
 import { format, addDays, isBefore, startOfDay } from "date-fns";
 import { PhoneField } from "@/components/ui/phone-field";
+import { CountrySelect } from "@/components/ui/country-select";
 
 type Method = "whatsapp" | "google_meet" | "zoom" | "phone";
 
@@ -112,7 +113,7 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="bg-white/95 backdrop-blur-2xl border border-violet-100 max-w-3xl p-0 overflow-hidden shadow-[0_40px_120px_-30px_rgba(124,58,237,0.45)] rounded-3xl">
+      <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="bg-white/95 backdrop-blur-2xl border border-violet-100 w-[calc(100vw-1rem)] max-w-3xl sm:w-full p-0 overflow-hidden shadow-[0_40px_120px_-30px_rgba(124,58,237,0.45)] rounded-2xl sm:rounded-3xl">
         {/* Ambient lavender atmosphere */}
         <div className="pointer-events-none absolute inset-0 -z-10">
           <div className="absolute -top-32 -left-20 h-72 w-72 rounded-full bg-violet-300/30 blur-[120px]" />
@@ -154,7 +155,7 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
             </div>
           </div>
         ) : (
-          <div className="p-8 sm:p-10 max-h-[90vh] overflow-y-auto">
+          <div className="p-5 sm:p-8 md:p-10 max-h-[90vh] overflow-y-auto">
             {/* Header */}
             <div className="flex items-start justify-between gap-4 mb-6">
               <div>
@@ -174,26 +175,29 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
             {step === 1 && (
               <div className="grid md:grid-cols-2 gap-6 animate-in fade-in-50 duration-300">
                 {/* Calendar */}
-                <div className="rounded-2xl bg-white ring-1 ring-violet-100 shadow-[0_10px_30px_-15px_rgba(124,58,237,0.2)] p-4">
+                <div className="rounded-2xl bg-white ring-1 ring-violet-100 shadow-[0_10px_30px_-15px_rgba(124,58,237,0.2)] p-3 sm:p-4 overflow-hidden">
                   <div className="flex items-center gap-2 px-2 pb-2 text-[10px] uppercase tracking-[0.22em] text-violet-600 font-semibold">
                     <CalendarDays className="w-3.5 h-3.5" /> Pick a date
                   </div>
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={setDate}
-                    disabled={(d) => isBefore(d, today) || d > maxDate || d.getDay() === 0 || d.getDay() === 6}
-                    initialFocus
-                    className="p-2 pointer-events-auto"
-                  />
+                  <div className="flex justify-center">
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      onSelect={setDate}
+                      disabled={(d) => isBefore(d, today) || d > maxDate || d.getDay() === 0 || d.getDay() === 6}
+                      initialFocus
+                      className="p-2 pointer-events-auto"
+                    />
+                  </div>
                 </div>
 
                 {/* Time slots */}
-                <div className="rounded-2xl bg-white ring-1 ring-violet-100 shadow-[0_10px_30px_-15px_rgba(124,58,237,0.2)] p-5 flex flex-col">
-                  <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-violet-600 font-semibold">
+                <div className="rounded-2xl bg-white ring-1 ring-violet-100 shadow-[0_10px_30px_-15px_rgba(124,58,237,0.2)] p-4 sm:p-5 flex flex-col">
+                  <div className="flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-violet-600 font-semibold">
                     <Clock className="w-3.5 h-3.5" /> Choose a time {date && <span className="normal-case tracking-normal text-slate-500 ml-1">· {format(date, "EEE, d MMM")} (GST)</span>}
                   </div>
-                  <div className="mt-4 grid grid-cols-3 gap-2 flex-1 content-start">
+                  <div className="mt-4 grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-3 gap-2 flex-1 content-start">
+
                     {SLOTS.map((s) => {
                       const active = time === s;
                       return (
@@ -265,7 +269,10 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
                     <Label className="text-[10px] uppercase tracking-[0.22em] text-violet-600 font-semibold mb-1.5 block">WhatsApp number</Label>
                     <PhoneField floatingLabel={false} label="WhatsApp number" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
                   </div>
-                  <Field id="nat" label="Nationality" value={form.nationality} onChange={(v) => setForm({ ...form, nationality: v })} />
+                  <div>
+                    <Label className="text-[10px] uppercase tracking-[0.22em] text-violet-600 font-semibold mb-1.5 block">Nationality</Label>
+                    <CountrySelect value={form.nationality} onChange={(name) => setForm({ ...form, nationality: name })} placeholder="Select nationality" className="mt-2" />
+                  </div>
                   <Field id="act" label="Business activity" placeholder="e.g. consultancy, trading…" value={form.activity} onChange={(v) => setForm({ ...form, activity: v })} />
                   <Field id="jur" label="Preferred jurisdiction" placeholder="Mainland / Free Zone / Offshore" value={form.jurisdiction} onChange={(v) => setForm({ ...form, jurisdiction: v })} />
                 </div>

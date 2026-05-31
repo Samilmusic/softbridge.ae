@@ -7,35 +7,42 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
 function getServerEnv(key: string): string | undefined {
-  return (
-    (globalThis as any).__env__?.[key] ||
-    (globalThis as any).env?.[key] ||
-    (globalThis as any).__cf_env__?.[key] ||
-    process.env?.[key]
-  );
+ const fromGlobalEnv = (globalThis as any).__env__?.[key];
+ const fromGlobalEnv2 = (globalThis as any).env?.[key];
+ const fromCfEnv = (globalThis as any).__cf_env__?.[key];
+ const fromProcess = process.env?.[key];
+
+ console.log(`[ENV DEBUG] ${key}:`, {
+   globalThis__env__: fromGlobalEnv ? "SET" : "undefined",
+   globalThis_env: fromGlobalEnv2 ? "SET" : "undefined",
+   __cf_env__: fromCfEnv ? "SET" : "undefined",
+   process_env: fromProcess ? "SET" : "undefined",
+ });
+
+ return fromGlobalEnv || fromGlobalEnv2 || fromCfEnv || fromProcess;
 }
 
 function createSupabaseAdminClient(): SupabaseClient<Database> {
-  const SUPABASE_URL = getServerEnv('SUPABASE_URL');
-  const SUPABASE_SERVICE_ROLE_KEY = getServerEnv('SUPABASE_SERVICE_ROLE_KEY');
+ const SUPABASE_URL = getServerEnv('SUPABASE_URL');
+ const SUPABASE_SERVICE_ROLE_KEY = getServerEnv('SUPABASE_SERVICE_ROLE_KEY');
 
-  if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
-    const missing = [
-      ...(!SUPABASE_URL ? ['SUPABASE_URL'] : []),
-      ...(!SUPABASE_SERVICE_ROLE_KEY ? ['SUPABASE_SERVICE_ROLE_KEY'] : []),
-    ];
-    const message = `Missing Supabase environment variable(s): ${missing.join(', ')}. Connect Supabase in Lovable Cloud.`;
-    console.error(`[Supabase] ${message}`);
-    throw new Error(message);
-  }
+ if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+   const missing = [
+     ...(!SUPABASE_URL ? ['SUPABASE_URL'] : []),
+     ...(!SUPABASE_SERVICE_ROLE_KEY ? ['SUPABASE_SERVICE_ROLE_KEY'] : []),
+   ];
+   const message = `Missing Supabase environment variable(s): ${missing.join(', ')}. Connect Supabase in Lovable Cloud.`;
+   console.error(`[Supabase] ${message}`);
+   throw new Error(message);
+ }
 
-  return createClient<Database>(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
-    auth: {
-      storage: undefined,
-      persistSession: false,
-      autoRefreshToken: false,
-    },
-  });
+ return createClient<Database>(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
+   auth: {
+     storage: undefined,
+     persistSession: false,
+     autoRefreshToken: false,
+   },
+ });
 }
 
 // No module-level singleton — a fresh client is created per access
@@ -44,10 +51,8 @@ function createSupabaseAdminClient(): SupabaseClient<Database> {
 // SECURITY: Only use this for trusted server-side operations, never expose to client code
 // Import like: import { supabaseAdmin } from "@/integrations/supabase/client.server";
 export const supabaseAdmin = new Proxy({} as SupabaseClient<Database>, {
-  get(_, prop, receiver) {
-    // Create a fresh client on every property access so we always read
-    // the latest globalThis.__env__ values set by hydrateProcessEnvFromWorkerEnv.
-    const client = createSupabaseAdminClient();
-    return Reflect.get(client, prop, receiver);
-  },
+ get(_, prop, receiver) {
+   const client = createSupabaseAdminClient();
+   return Reflect.get(client, prop, receiver);
+ },
 });

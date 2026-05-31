@@ -8,10 +8,10 @@ import type { Database } from './types';
 
 function getServerEnv(key: string): string | undefined {
   return (
-    process.env?.[key] ||
     (globalThis as any).__env__?.[key] ||
     (globalThis as any).env?.[key] ||
-    (globalThis as any).__cf_env__?.[key]
+    (globalThis as any).__cf_env__?.[key] ||
+    process.env?.[key]
   );
 }
 
@@ -46,7 +46,7 @@ function createSupabaseAdminClient(): SupabaseClient<Database> {
 export const supabaseAdmin = new Proxy({} as SupabaseClient<Database>, {
   get(_, prop, receiver) {
     // Create a fresh client on every property access so we always read
-    // the latest process.env values, regardless of when this module was loaded.
+    // the latest globalThis.__env__ values set by hydrateProcessEnvFromWorkerEnv.
     const client = createSupabaseAdminClient();
     return Reflect.get(client, prop, receiver);
   },

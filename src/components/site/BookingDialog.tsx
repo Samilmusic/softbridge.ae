@@ -269,7 +269,10 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
                     <Label className="text-[10px] uppercase tracking-[0.22em] text-violet-600 font-semibold mb-1.5 block">WhatsApp number</Label>
                     <PhoneField floatingLabel={false} label="WhatsApp number" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
                   </div>
-                  <Field id="nat" label="Nationality" value={form.nationality} onChange={(v) => setForm({ ...form, nationality: v })} />
+                  <div>
+                    <Label className="text-[10px] uppercase tracking-[0.22em] text-violet-600 font-semibold mb-1.5 block">Nationality</Label>
+                    <CountrySelect value={form.nationality} onChange={(name) => setForm({ ...form, nationality: name })} placeholder="Select nationality" className="mt-2" />
+                  </div>
                   <Field id="act" label="Business activity" placeholder="e.g. consultancy, trading…" value={form.activity} onChange={(v) => setForm({ ...form, activity: v })} />
                   <Field id="jur" label="Preferred jurisdiction" placeholder="Mainland / Free Zone / Offshore" value={form.jurisdiction} onChange={(v) => setForm({ ...form, jurisdiction: v })} />
                 </div>

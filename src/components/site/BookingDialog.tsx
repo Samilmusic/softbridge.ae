@@ -113,7 +113,7 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="bg-white/95 backdrop-blur-2xl border border-violet-100 max-w-3xl p-0 overflow-hidden shadow-[0_40px_120px_-30px_rgba(124,58,237,0.45)] rounded-3xl">
+      <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="bg-white/95 backdrop-blur-2xl border border-violet-100 w-[calc(100vw-1rem)] max-w-3xl sm:w-full p-0 overflow-hidden shadow-[0_40px_120px_-30px_rgba(124,58,237,0.45)] rounded-2xl sm:rounded-3xl">
         {/* Ambient lavender atmosphere */}
         <div className="pointer-events-none absolute inset-0 -z-10">
           <div className="absolute -top-32 -left-20 h-72 w-72 rounded-full bg-violet-300/30 blur-[120px]" />

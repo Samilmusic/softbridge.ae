@@ -175,26 +175,29 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
             {step === 1 && (
               <div className="grid md:grid-cols-2 gap-6 animate-in fade-in-50 duration-300">
                 {/* Calendar */}
-                <div className="rounded-2xl bg-white ring-1 ring-violet-100 shadow-[0_10px_30px_-15px_rgba(124,58,237,0.2)] p-4">
+                <div className="rounded-2xl bg-white ring-1 ring-violet-100 shadow-[0_10px_30px_-15px_rgba(124,58,237,0.2)] p-3 sm:p-4 overflow-hidden">
                   <div className="flex items-center gap-2 px-2 pb-2 text-[10px] uppercase tracking-[0.22em] text-violet-600 font-semibold">
                     <CalendarDays className="w-3.5 h-3.5" /> Pick a date
                   </div>
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={setDate}
-                    disabled={(d) => isBefore(d, today) || d > maxDate || d.getDay() === 0 || d.getDay() === 6}
-                    initialFocus
-                    className="p-2 pointer-events-auto"
-                  />
+                  <div className="flex justify-center">
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      onSelect={setDate}
+                      disabled={(d) => isBefore(d, today) || d > maxDate || d.getDay() === 0 || d.getDay() === 6}
+                      initialFocus
+                      className="p-2 pointer-events-auto"
+                    />
+                  </div>
                 </div>
 
                 {/* Time slots */}
-                <div className="rounded-2xl bg-white ring-1 ring-violet-100 shadow-[0_10px_30px_-15px_rgba(124,58,237,0.2)] p-5 flex flex-col">
-                  <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-violet-600 font-semibold">
+                <div className="rounded-2xl bg-white ring-1 ring-violet-100 shadow-[0_10px_30px_-15px_rgba(124,58,237,0.2)] p-4 sm:p-5 flex flex-col">
+                  <div className="flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-violet-600 font-semibold">
                     <Clock className="w-3.5 h-3.5" /> Choose a time {date && <span className="normal-case tracking-normal text-slate-500 ml-1">· {format(date, "EEE, d MMM")} (GST)</span>}
                   </div>
-                  <div className="mt-4 grid grid-cols-3 gap-2 flex-1 content-start">
+                  <div className="mt-4 grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-3 gap-2 flex-1 content-start">
+
                     {SLOTS.map((s) => {
                       const active = time === s;
                       return (

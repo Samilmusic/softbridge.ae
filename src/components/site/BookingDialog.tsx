@@ -101,28 +101,12 @@ function NationalitySelect({ value, onChange }: { value: string; onChange: (v: s
   const [open, setOpen] = React.useState(false);
   const [search, setSearch] = React.useState("");
   const ref = React.useRef<HTMLDivElement>(null);
-  const buttonRef = React.useRef<HTMLButtonElement>(null);
-  const [dropdownStyle, setDropdownStyle] = React.useState<React.CSSProperties>({});
 
   const filtered = COUNTRIES.filter((c) =>
     c.name.toLowerCase().includes(search.toLowerCase())
   );
 
   const selected = COUNTRIES.find((c) => c.name === value);
-
-  const handleOpen = () => {
-    if (buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect();
-      setDropdownStyle({
-        position: "fixed",
-        top: rect.bottom + 4,
-        left: rect.left,
-        width: rect.width,
-        zIndex: 9999,
-      });
-    }
-    setOpen((v) => !v);
-  };
 
   React.useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -141,9 +125,8 @@ function NationalitySelect({ value, onChange }: { value: string; onChange: (v: s
         Nationality
       </Label>
       <button
-        ref={buttonRef}
         type="button"
-        onClick={handleOpen}
+        onClick={() => setOpen((v) => !v)}
         className={cn(
           "w-full h-12 mt-2 px-3 rounded-xl border bg-white text-left flex items-center gap-2 transition-all",
           "border-violet-200 text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]",
@@ -163,10 +146,7 @@ function NationalitySelect({ value, onChange }: { value: string; onChange: (v: s
       </button>
 
       {open && (
-        <div
-          style={dropdownStyle}
-          className="rounded-xl border border-violet-100 bg-white shadow-[0_20px_60px_-15px_rgba(124,58,237,0.3)] overflow-hidden"
-        >
+        <div className="absolute z-[9999] mt-1 w-full rounded-xl border border-violet-100 bg-white shadow-[0_20px_60px_-15px_rgba(124,58,237,0.3)] overflow-hidden">
           <div className="p-2 border-b border-violet-50">
             <div className="flex items-center gap-2 px-2 py-1 rounded-lg bg-violet-50">
               <Search className="w-3.5 h-3.5 text-violet-400 shrink-0" />
@@ -298,8 +278,11 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="bg-white/95 backdrop-blur-2xl border border-violet-100 max-w-3xl p-0 overflow-hidden shadow-[0_40px_120px_-30px_rgba(124,58,237,0.45)] rounded-3xl">
-        <div className="pointer-events-none absolute inset-0 -z-10">
+      <DialogContent
+        onOpenAutoFocus={(e) => e.preventDefault()}
+        className="bg-white/95 backdrop-blur-2xl border border-violet-100 max-w-3xl p-0 shadow-[0_40px_120px_-30px_rgba(124,58,237,0.45)] rounded-3xl overflow-visible"
+      >
+        <div className="pointer-events-none absolute inset-0 -z-10 rounded-3xl overflow-hidden">
           <div className="absolute -top-32 -left-20 h-72 w-72 rounded-full bg-violet-300/30 blur-[120px]" />
           <div className="absolute -bottom-24 -right-16 h-64 w-64 rounded-full bg-fuchsia-300/25 blur-[120px]" />
         </div>
@@ -337,7 +320,7 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
             </div>
           </div>
         ) : (
-          <div className="p-8 sm:p-10 max-h-[90vh] overflow-y-auto">
+          <div className="p-8 sm:p-10 max-h-[90vh] overflow-y-auto rounded-3xl">
             <div className="flex items-start justify-between gap-4 mb-6">
               <div>
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-50 ring-1 ring-violet-200 text-[10px] uppercase tracking-[0.22em] text-violet-700 font-semibold mb-3">
@@ -367,7 +350,6 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
                     className="p-2 pointer-events-auto"
                   />
                 </div>
-
                 <div className="rounded-2xl bg-white ring-1 ring-violet-100 shadow-[0_10px_30px_-15px_rgba(124,58,237,0.2)] p-5 flex flex-col">
                   <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-violet-600 font-semibold">
                     <Clock className="w-3.5 h-3.5" /> Choose a time {date && <span className="normal-case tracking-normal text-slate-500 ml-1">· {format(date, "EEE, d MMM")} (GST)</span>}
@@ -396,7 +378,6 @@ export function BookingDialog({ open, onOpenChange }: { open: boolean; onOpenCha
                   </div>
                   <p className="text-[11px] text-slate-500 mt-4">Times shown in Gulf Standard Time (GMT+4). We confirm final slot within one business hour.</p>
                 </div>
-
                 <div className="md:col-span-2 flex items-center justify-between pt-2">
                   <p className="text-xs text-slate-500">Step 1 of 2 — Schedule</p>
                   <Button onClick={() => setStep(2)} disabled={!canContinue} className="bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:opacity-95 text-white shadow-[0_10px_30px_-10px_rgba(124,58,237,0.5)]">

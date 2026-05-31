@@ -3,18 +3,19 @@
 // Use this for admin operations in server functions and server routes only.
 // For user-authenticated queries (with RLS), use the auth middleware instead.
 
-import { createClient } from '@supabase/supabase-js';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
 function getServerEnv(key: string): string | undefined {
   return (
     process.env?.[key] ||
     (globalThis as any).__env__?.[key] ||
-    (globalThis as any).env?.[key]
+    (globalThis as any).env?.[key] ||
+    (globalThis as any).__cf_env__?.[key]
   );
 }
 
-function createSupabaseAdminClient() {
+function createSupabaseAdminClient(): SupabaseClient<Database> {
   const SUPABASE_URL = getServerEnv('SUPABASE_URL');
   const SUPABASE_SERVICE_ROLE_KEY = getServerEnv('SUPABASE_SERVICE_ROLE_KEY');
 
@@ -23,8 +24,7 @@ function createSupabaseAdminClient() {
       ...(!SUPABASE_URL ? ['SUPABASE_URL'] : []),
       ...(!SUPABASE_SERVICE_ROLE_KEY ? ['SUPABASE_SERVICE_ROLE_KEY'] : []),
     ];
-
-    const message = `Missing Supabase environment variable(s): ${missing.join(', ')}.`;
+    const message = `Missing Supabase environment variable(s): ${missing.join(', ')}. Connect Supabase in Lovable Cloud.`;
     console.error(`[Supabase] ${message}`);
     throw new Error(message);
   }
@@ -38,14 +38,16 @@ function createSupabaseAdminClient() {
   });
 }
 
-let _supabaseAdmin: ReturnType<typeof createSupabaseAdminClient> | undefined;
-
-// Server-side Supabase client with service role - bypasses RLS
+// No module-level singleton — a fresh client is created per access
+// so that Cloudflare env hydration (which happens at request time) is always picked up.
+//
 // SECURITY: Only use this for trusted server-side operations, never expose to client code
 // Import like: import { supabaseAdmin } from "@/integrations/supabase/client.server";
-export const supabaseAdmin = new Proxy({} as ReturnType<typeof createSupabaseAdminClient>, {
+export const supabaseAdmin = new Proxy({} as SupabaseClient<Database>, {
   get(_, prop, receiver) {
-    if (!_supabaseAdmin) _supabaseAdmin = createSupabaseAdminClient();
-    return Reflect.get(_supabaseAdmin, prop, receiver);
+    // Create a fresh client on every property access so we always read
+    // the latest process.env values, regardless of when this module was loaded.
+    const client = createSupabaseAdminClient();
+    return Reflect.get(client, prop, receiver);
   },
 });

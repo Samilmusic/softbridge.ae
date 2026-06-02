@@ -7,6 +7,7 @@ import abuDhabiCover from "@/assets/emirates/abu-dhabi.jpg";
 import dubaiCover from "@/assets/emirates/dubai.jpg";
 import rakCover from "@/assets/emirates/ras-al-khaimah.jpg";
 import sharjahCover from "@/assets/emirates/sharjah.jpg";
+import ifzaCover from "@/assets/blog/ifza complete.jpg";
 
 export type BlogCategory =
   | "UAE Company Formation"
@@ -76,7 +77,7 @@ const BASE_ARTICLES: Article[] = [
   author: { name: "Soft Bridge Insights", role: "UAE Formation Desk" },
   publishedAt: "2026-06-02",
   readingMinutes: 11,
-  cover: img("photo-1512453979798-5ea266f8880c"),
+  cover: ifzaCover,
   featured: true,
   trending: true,
   seo: {
@@ -1227,6 +1228,7 @@ const ARTICLE_SLUGS: Record<string, string> = {
 };
 
 const ARTICLE_COVERS: Record<string, string> = {
+  "ifza-dubai-complete-setup-guide-2026": ifzaCover,
   "best-free-zones-dubai-startups-2026": dubaiFreeZonesCover,
   "ifza-vs-meydan-dubai-free-zone": ifzaRecognitionCover,
   "open-uae-company-remotely-2026": uaeRemoteCompanyCover,

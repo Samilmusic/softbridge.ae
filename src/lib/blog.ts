@@ -7,7 +7,7 @@ import abuDhabiCover from "@/assets/emirates/abu-dhabi.jpg";
 import dubaiCover from "@/assets/emirates/dubai.jpg";
 import rakCover from "@/assets/emirates/ras-al-khaimah.jpg";
 import sharjahCover from "@/assets/emirates/sharjah.jpg";
-import ifzaCover from "@/assets/blog/ifza-complete.jpg";
+import ifzaCover from "@/assets/blog/ifza-complete.png";
 
 export type BlogCategory =
   | "UAE Company Formation"

@@ -9,6 +9,7 @@ import rakCover from "@/assets/emirates/ras-al-khaimah.jpg";
 import sharjahCover from "@/assets/emirates/sharjah.jpg";
 import ifzaCover from "@/assets/blog/ifza-complete.png";
 import ifzaOrRakezCover from "@/assets/blog/ifzaorrakez.png";
+import costuaeCover from "@/assets/blog/costuae.png";
 
 export type BlogCategory =
   | "UAE Company Formation"
@@ -67,6 +68,170 @@ const img = (id: string) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=2000&q=80`;
 
 const BASE_ARTICLES: Article[] = [
+  {
+  slug: "uae-company-setup-real-cost-2026",
+  title: "How Much Does UAE Company Setup Actually Cost in 2026? (All-In Numbers)",
+  excerpt: "License fees are just the beginning. Here's an honest, line-by-line breakdown of what a UAE free zone company actually costs — from first payment to operational account — with no numbers hidden.",
+  category: "Free Zones",
+  tags: ["UAE company formation", "cost breakdown", "free zone", "IFZA", "RAKEZ", "bank account", "2026"],
+  author: { name: "Soft Bridge Insights", role: "UAE Formation Desk" },
+  publishedAt: "2026-06-04",
+  readingMinutes: 9,
+  cover: costuaeCover, // finance/money/planning photo
+  featured: true,
+  trending: true,
+  seo: {
+    title: "UAE Company Setup Cost 2026: Full All-In Breakdown | Soft Bridge",
+    description: "The real cost of setting up a UAE free zone company in 2026 — license, visa, bank account, accounting, and hidden fees. Honest numbers for IFZA, RAKEZ, and SHAMS."
+  },
+  sections: [
+    {
+      id: "intro",
+      heading: "The Number You See Is Never the Number You Pay",
+      blocks: [
+        { type: "p", text: "Every UAE business setup website shows you a headline price. AED 12,900 for an IFZA license. AED 8,240 for RAKEZ. Clean, affordable, done. Then you start the process and discover the visa fee, the establishment card, the Emirates ID, the medical test, the bank's minimum balance requirement, the accountant you now need for corporate tax filing, and the renewal coming up in twelve months." },
+        { type: "p", text: "This article does not show you a headline number. It shows you all the numbers — line by line, free zone by free zone — so you can budget accurately before you commit to anything." },
+        { type: "quote", text: "The cheapest free zone package is rarely the cheapest company. Total cost depends on visas needed, banking choice, and compliance requirements." }
+      ]
+    },
+    {
+      id: "what-counts",
+      heading: "What Actually Goes Into the Total Cost",
+      blocks: [
+        { type: "p", text: "A complete UAE company setup has five cost layers, and most guides only talk about the first one. Here is how to think about all five:" },
+        { type: "ul", items: [
+          "License & registration fees — the free zone authority's charges to incorporate your company and issue a trade license",
+          "Visa costs — investor/founder visa, medical test, Emirates ID issuance, and entry permit",
+          "Office solution — flexi-desk, hot desk, or physical office depending on your license type",
+          "Banking setup — minimum balance requirement, monthly fees, and any consultant fees for account assistance",
+          "Annual compliance — accounting, financial statement submission (now mandatory for most free zones), and corporate tax registration"
+        ]},
+        { type: "p", text: "Only when you add all five do you know what your first year actually costs — and what year two looks like." }
+      ]
+    },
+    {
+      id: "ifza",
+      heading: "IFZA (Dubai): The Full Picture",
+      blocks: [
+        { type: "p", text: "IFZA is one of the most popular choices for European founders because it offers a Dubai address, a flexible activity list, and a relatively low entry point. The advertised starting price is AED 12,900 for a zero-visa package. Here is what a realistic first year looks like when you include one investor visa." },
+        { type: "ul", items: [
+          "Trade license (1 activity, zero visa package): AED 12,900",
+          "Establishment card: AED 2,000–2,500",
+          "Investor visa — government fees: AED 3,500–4,500",
+          "Medical test + Emirates ID: AED 600–800",
+          "Flexi-desk (included in most packages): AED 0",
+          "Financial statements (mandatory from Sept 2025 renewal): AED 500–1,500 depending on audit type",
+          "Corporate tax registration (one-time): no government fee, but advisor time applies"
+        ]},
+        { type: "p", text: "Realistic year-one total with one visa: AED 20,000–23,000. Year-two renewal with one visa runs approximately AED 17,000–19,000 because one-time setup fees drop out but financial statement submission is now a fixed annual requirement." },
+        { type: "h3", text: "What IFZA Is Best For" },
+        { type: "p", text: "Consultants, digital service providers, freelancers, and holding structures where the founder wants a Dubai address and a credible, well-known free zone. IFZA is accepted by most UAE banks and carries good name recognition with international clients." }
+      ]
+    },
+    {
+      id: "rakez",
+      heading: "RAKEZ (Ras Al Khaimah): The Lowest Entry Point",
+      blocks: [
+        { type: "p", text: "RAKEZ is consistently the most affordable option in the UAE for a zero-visa setup. The advertised price starts at AED 6,000 for a freelance permit and around AED 8,240 for a standard service license. When you add a visa, the picture shifts." },
+        { type: "ul", items: [
+          "Service license (no visa): AED 6,000–8,240",
+          "Trading or media license: AED 12,000–15,000",
+          "Investor visa — government fees: AED 4,000–4,500",
+          "Medical test + Emirates ID: AED 600–800",
+          "Flexi-desk: included in most packages",
+          "Renewal (zero visa package): AED 6,000"
+        ]},
+        { type: "p", text: "Realistic year-one total with one visa: AED 13,000–17,000 depending on license type. RAKEZ regularly runs promotions including waived registration fees and discounts for women entrepreneurs. Year-two renewal is genuinely cheap — often AED 6,000–12,000 — which makes it attractive for founders who want the lowest possible ongoing cost." },
+        { type: "h3", text: "What RAKEZ Is Best For" },
+        { type: "p", text: "Bootstrapped startups, solo consultants, e-commerce founders, and anyone who wants the cheapest legal UAE entity. The tradeoff is location — Ras Al Khaimah rather than Dubai — and some traditional banks apply slightly more scrutiny to RAK-licensed entities, though digital banks like Wio accept RAKEZ without issue." }
+      ]
+    },
+    {
+      id: "shams",
+      heading: "SHAMS (Sharjah): The Content and Media Option",
+      blocks: [
+        { type: "p", text: "Sharjah Media City, known as SHAMS, is designed for media, content, and creative businesses. Pricing sits between RAKEZ and IFZA, and the license structure makes it particularly suited to influencers, journalists, marketing agencies, and content studios." },
+        { type: "ul", items: [
+          "Standard license (no visa): AED 11,500–14,000",
+          "Investor visa — government fees: AED 3,500–4,500",
+          "Medical test + Emirates ID: AED 600–800",
+          "Flexi-desk or virtual office: often included",
+          "Annual renewal: similar to first-year license fee"
+        ]},
+        { type: "p", text: "Year-one total with one visa: AED 16,000–19,000. SHAMS is a good middle ground for founders in creative industries who want Sharjah's lower cost of living alongside a legitimate media-focused license." }
+      ]
+    },
+    {
+      id: "banking",
+      heading: "The Banking Cost Most People Underestimate",
+      blocks: [
+        { type: "p", text: "Opening a UAE corporate bank account is free in the sense that banks do not charge an account opening fee. But the real cost is the minimum average monthly balance you must maintain to avoid fall-below penalties — and for traditional banks, this starts at AED 25,000." },
+        { type: "ul", items: [
+          "Emirates NBD / FAB: AED 50,000 minimum monthly balance, AED 50–250/month fall-below fee",
+          "Mashreq NeoBiz: AED 25,000 minimum, AED 200/month fee waived if balance met",
+          "RAKBANK: AED 10,000–25,000 minimum, AED 99/month fee often waived first year",
+          "Wio Business: zero minimum balance, no monthly fee, fully digital — 1–5 day approval",
+          "Consultant fees for bank account assistance: AED 1,000–5,000 (optional but common)"
+        ]},
+        { type: "p", text: "For early-stage founders who cannot lock up AED 50,000 in a dormant account, Wio or Mashreq NeoBiz are the practical choice. Tier 1 banks (Emirates NBD, FAB, ADCB) are better suited to companies with consistent cash flow and international trade finance needs. The timeline also matters: digital banks approve in days, traditional banks take 4–8 weeks." },
+        { type: "quote", text: "Most banking delays come from missing documents, not from the bank being difficult. Have your trade license, MOA, lease agreement, and shareholder passports ready before you apply." }
+      ]
+    },
+    {
+      id: "ongoing",
+      heading: "Year Two and Beyond: What People Forget to Budget",
+      blocks: [
+        { type: "p", text: "The first year has one-time costs that disappear in renewal. But year two introduces its own requirements that many founders do not anticipate when they first set up." },
+        { type: "ul", items: [
+          "License renewal: same as first-year license fee (minus registration charges)",
+          "Visa renewal (every 2–3 years): AED 4,000–7,000 per visa",
+          "Financial statements: AED 500–1,500/year — mandatory for IFZA from September 2025, increasingly standard across free zones",
+          "Corporate tax filing: required for all UAE entities regardless of profit, penalty of AED 10,000 for non-registration",
+          "Bookkeeping/accounting: AED 3,000–8,000/year for a basic SME package",
+          "VAT (if applicable): registration required once revenue exceeds AED 375,000"
+        ]},
+        { type: "p", text: "A realistic annual run rate for a one-person free zone company — license, one visa, basic accounting, and corporate tax compliance — is AED 22,000–35,000 per year depending on the free zone chosen and the level of accounting support needed." }
+      ]
+    },
+    {
+      id: "comparison",
+      heading: "Side-by-Side: Year One With One Visa",
+      blocks: [
+        { type: "p", text: "Here is a direct comparison of realistic all-in year-one costs across the three most popular free zones for European founders, including one investor visa, flexi-desk, Emirates ID, and basic compliance." },
+        { type: "ul", items: [
+          "RAKEZ: AED 13,000–17,000 — lowest entry, good for solo founders and bootstrapped startups",
+          "SHAMS: AED 16,000–19,000 — mid-range, strong for content and media businesses",
+          "IFZA: AED 20,000–23,000 — premium free zone, Dubai address, broadest bank acceptance"
+        ]},
+        { type: "p", text: "These figures assume a single activity license, one investor visa, and digital banking (Wio or Mashreq NeoBiz). Add AED 3,000–8,000 if you want traditional bank account assistance, and AED 3,000–6,000 for annual accounting support." }
+      ]
+    },
+    {
+      id: "hidden",
+      heading: "The Costs Nobody Mentions",
+      blocks: [
+        { type: "p", text: "Beyond the obvious fees, several costs consistently catch founders off guard in their first year." },
+        { type: "ul", items: [
+          "Document attestation: if your home-country documents need notarisation and UAE consulate attestation, budget AED 500–2,000 per document",
+          "Health insurance: UAE law requires employers to provide health insurance for visa holders — a basic individual policy starts at AED 800–1,500/year",
+          "Multiple activities: adding activities beyond your license's included number costs AED 500–2,000 per activity at most free zones",
+          "General trading upgrade: if you need a general trading license rather than a specific activity license, expect to pay AED 3,000–8,000 more",
+          "Mainland branch: if you later want to operate on the UAE mainland, you need a separate license or branch registration costing AED 15,000–30,000+"
+        ]},
+        { type: "quote", text: "Health insurance and document attestation are the two costs that surprise European founders most consistently. Budget for both from day one." }
+      ]
+    },
+    {
+      id: "conclusion",
+      heading: "What This Means for Your Decision",
+      blocks: [
+        { type: "p", text: "If your budget is under AED 15,000 for year one and you only need one visa, RAKEZ is likely your best option. If you want a Dubai-address company that will open doors with traditional banks and international clients, IFZA is worth the AED 7,000–10,000 premium over RAKEZ. If your business is in media, content, or creative services, SHAMS offers the right license structure at a competitive price." },
+        { type: "p", text: "Whatever free zone you choose, the real decision is not just about the license fee — it is about the total cost of operating a compliant UAE company for three to five years. The free zones that look cheapest upfront do not always stay cheapest once renewals, compliance, and banking requirements are factored in." },
+        { type: "p", text: "At Soft Bridge, we give you a line-by-line cost projection before you commit to any package — including banking options, health insurance, and realistic year-two renewal numbers. The goal is no surprises." }
+      ]
+    }
+  ]
+}
   {
   slug: "ifza-vs-shams-vs-rakez-2026",
   title: "IFZA vs SHAMS vs RAKEZ: Which UAE Free Zone Is Right for You in 2026?",
@@ -1453,6 +1618,7 @@ const ARTICLE_COVERS: Record<string, string> = {
   "uae-visa-process-explained": sharjahCover,
   "uae-banking-compliance-guide": bankingDocumentsCover,
   "best-free-zones-for-ai-tech-startups": rakCover,
+  "uae-company-setup-real-cost-2026": costuaeCover,
 };
 
 export const ARTICLES: Article[] = BASE_ARTICLES.map((article) => {

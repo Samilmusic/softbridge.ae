@@ -86,12 +86,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" },
     ],
     scripts: [
-      { src: "https://www.googletagmanager.com/gtag/js?id=G-S2RFBC6LF0", async: true },
-      {
-        children:
-          "window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-S2RFBC6LF0');",
-      },
-    ],
+  { src: "https://www.googletagmanager.com/gtag/js?id=AW-17068071714", async: true },
+  {
+    children:
+      "window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-S2RFBC6LF0');gtag('config', 'AW-17068071714');",
+  },
+],
   }),
 
   shellComponent: RootShell,

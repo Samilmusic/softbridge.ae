@@ -231,7 +231,7 @@ const BASE_ARTICLES: Article[] = [
       ]
     }
   ]
-}
+},
   {
   slug: "ifza-vs-shams-vs-rakez-2026",
   title: "IFZA vs SHAMS vs RAKEZ: Which UAE Free Zone Is Right for You in 2026?",

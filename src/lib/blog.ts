@@ -9,7 +9,7 @@ import rakCover from "@/assets/emirates/ras-al-khaimah.jpg";
 import sharjahCover from "@/assets/emirates/sharjah.jpg";
 import ifzaCover from "@/assets/blog/ifza-complete.png";
 import ifzaOrRakezCover from "@/assets/blog/ifzaorrakez.png";
-import costuaeCover from "@/assets/blog/costuae.png";
+import costuaeCover from "@/assets/blog/costuae.webp";
 
 export type BlogCategory =
   | "UAE Company Formation"

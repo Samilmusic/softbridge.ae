@@ -22,40 +22,45 @@ const runtimeEnvKeys = [
 ] as const;
 
 function hydrateProcessEnvFromWorkerEnv(env: unknown) {
- const runtimeGlobal = globalThis as GlobalWithRuntimeEnv;
+  const runtimeGlobal = globalThis as GlobalWithRuntimeEnv;
 
- const workerEnv =
-   env && typeof env === "object"
-     ? (env as Record<string, unknown>)
-     : runtimeGlobal.__env__ && typeof runtimeGlobal.__env__ === "object"
-       ? runtimeGlobal.__env__
-       : runtimeGlobal.env && typeof runtimeGlobal.env === "object"
-         ? runtimeGlobal.env
-         : undefined;
+  const workerEnv =
+    env && typeof env === "object"
+      ? (env as Record<string, unknown>)
+      : runtimeGlobal.__env__ && typeof runtimeGlobal.__env__ === "object"
+        ? runtimeGlobal.__env__
+        : runtimeGlobal.env && typeof runtimeGlobal.env === "object"
+          ? runtimeGlobal.env
+          : undefined;
 
- if (!workerEnv) return;
+  if (!workerEnv) return;
 
- runtimeGlobal.__env__ = { ...(runtimeGlobal.__env__ ?? {}), ...workerEnv };
- runtimeGlobal.env = { ...(runtimeGlobal.env ?? {}), ...workerEnv };
+  runtimeGlobal.__env__ = { ...(runtimeGlobal.__env__ ?? {}), ...workerEnv };
+  runtimeGlobal.env = { ...(runtimeGlobal.env ?? {}), ...workerEnv };
 
- if (!runtimeGlobal.process) runtimeGlobal.process = { env: {} };
- if (!runtimeGlobal.process.env) runtimeGlobal.process.env = {};
+  // Build a single env record from the worker bindings
+  const envRecord: Record<string, string | undefined> = {};
+  for (const [key, value] of Object.entries(workerEnv)) {
+    if (typeof value === "string" && value) {
+      envRecord[key] = value;
+    }
+  }
+  for (const key of runtimeEnvKeys) {
+    const value = workerEnv[key];
+    if (typeof value === "string" && value) {
+      envRecord[key] = value;
+    }
+  }
 
- const target = runtimeGlobal.process.env;
-
- for (const [key, value] of Object.entries(workerEnv)) {
-   if (typeof value === "string" && value) {
-     target[key] = value;
-   }
- }
-
- for (const key of runtimeEnvKeys) {
-   const value = workerEnv[key];
-   if (typeof value === "string" && value) {
-     target[key] = value;
-   }
- }
+  // Merge into process.env if it exists; otherwise install a minimal stub.
+  const globalAny = globalThis as any;
+  if (globalAny.process && typeof globalAny.process === "object") {
+    globalAny.process.env = { ...(globalAny.process.env ?? {}), ...envRecord };
+  } else {
+    globalAny.process = { env: envRecord };
+  }
 }
+
 
 async function normalizeCatastrophicSsrResponse(response: Response): Promise<Response> {
  if (response.status < 500) return response;

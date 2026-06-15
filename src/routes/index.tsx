@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { lazy, Suspense, useState } from "react";
 import { Header } from "@/components/site/Header";
 import { Hero } from "@/components/site/Hero";
+import { DigitalPlatformPromo } from "@/components/site/DigitalPlatformPromo";
+
 
 import { WhatWeDo } from "@/components/site/WhatWeDo";
 import { Footer } from "@/components/site/Footer";
@@ -84,11 +86,13 @@ function Index() {
       <Header />
       <main>
         <Hero />
+        <DigitalPlatformPromo />
         <Suspense fallback={<SectionFallback />}>
           <Packages />
         </Suspense>
         
         <WhatWeDo />
+
         <Suspense fallback={<SectionFallback />}>
           <AiAdvisorTeaser />
           <AiCommandCenter onStartSetup={() => setOnboarding(true)} />

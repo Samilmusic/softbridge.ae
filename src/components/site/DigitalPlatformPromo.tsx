@@ -19,7 +19,7 @@ const HIGHLIGHTS = [
 
 export function DigitalPlatformPromo() {
   return (
-    <section id="digital-platform" className="dark relative py-24 md:py-32 overflow-hidden bg-gradient-to-b from-[oklch(0.13_0.03_268)] via-[oklch(0.155_0.035_268)] to-[oklch(0.13_0.03_268)]">
+    <section id="digital-platform" className="dark relative py-24 md:py-32 overflow-hidden bg-gradient-to-b from-[var(--body-grad-bottom)] via-[var(--background)] to-[var(--body-grad-bottom)]">
       {/* deep purple glows */}
       <div
         aria-hidden

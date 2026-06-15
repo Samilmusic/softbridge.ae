@@ -37,11 +37,11 @@ export function DigitalPlatformPromo() {
       </div>
 
       <div className="relative mx-auto max-w-7xl px-6">
-        <div className="glass-strong rounded-3xl md:rounded-[2rem] p-8 md:p-14 ring-glow overflow-hidden">
+        <div className="relative glass-strong rounded-3xl md:rounded-[2rem] p-8 md:p-14 ring-glow overflow-hidden">
           {/* scan line accent */}
           <div
             aria-hidden
-            className="absolute inset-x-0 -top-1 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent animate-scan"
+            className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent animate-scan"
           />
 
           <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
